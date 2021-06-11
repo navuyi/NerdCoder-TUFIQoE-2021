@@ -1,0 +1,29 @@
+{
+  "name": "javascript-boilerplate",
+  "version": "1.0.0",
+  "private": true,
+  "description": "This Chrome Extension boilerplate supports modern, modular JavaScript and automatic reloading during development.",
+  "license": "MIT",
+  "author": {
+    "name": "Jack Steam",
+    "email": "jacksteamdev@gmail.com"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "start": "rollup -w -c"
+  },
+  "dependencies": {
+    "@types/chrome": "0.0.122",
+    "package.json": "^2.0.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^15.1.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "cross-env": "^7.0.2",
+    "prettier": "^2.1.1",
+    "rollup": "^2.51.1",
+    "rollup-plugin-chrome-extension": "^3.5.7",
+    "rollup-plugin-empty-dir": "^1.0.4",
+    "rollup-plugin-zip": "^1.0.1"
+  }
+}
