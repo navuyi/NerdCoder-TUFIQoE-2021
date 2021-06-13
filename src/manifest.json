@@ -4,13 +4,20 @@
   "version": "1.0",
   "manifest_version": 2,
   "background": { "scripts": ["background.js"] },
-
   "permissions": [
     "storage",
     "activeTab",
     "tabs",
     "notifications",
-    "https://*/"
+    "https://*/",
+    "webNavigation",
+    "background"
   ],
-  "web_accessible_resources": ["content.js"]
+  "web_accessible_resources": ["init.js"],
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["disableRightclick.js"]
+    }
+  ]
 }
