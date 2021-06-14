@@ -20,7 +20,6 @@ export function run_monitor(simple, complex){
                 return true;
             }
         }
-
         data.push({[key]: val});
     }
     // Handle complex elements
@@ -40,9 +39,7 @@ function hand_over_data(data){
         msg: "data_handover",
         data: data
     }
-    chrome.runtime.sendMessage(message, (response)=>{
-        //
-    })
+    chrome.runtime.sendMessage(message);
 }
 
 
