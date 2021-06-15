@@ -1,8 +1,8 @@
 import {get_nerd_elements} from "./modules/get_nerd_elements";
 import {run_monitor} from "./modules/utils";
+import CONFIG from "./config";
 
-
-var INTERVAL = 500; // time interval for monitor in ms
+var INTERVAL = CONFIG.INTERVAL; // time interval for monitor in ms
 
 
 console.log("Init script executed")

@@ -6,6 +6,11 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+./BACKEND/venv_nerdcoder/*
+./BACKEND/venv_nerdcoder/
+./BACKEND/venv_nerdcoder
+./BACKEND/venv_nerdcoder
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
@@ -102,3 +107,7 @@ dist
 
 # TernJS port file
 .tern-port
+/BACKEND/venv_nerdcoder/
+/BACKEND/venv_nerdcoder/Include/
+/BACKEND/venv_nerdcoder/Scripts/
+/BACKEND/venv_nerdcoder/Lib/site-packages/

@@ -3,14 +3,15 @@ DROP TABLE IF EXISTS session_details;
 
 CREATE TABLE IF NOT EXISTS sessions(
     id INTEGER NOT NULL PRIMARY KEY,
-    video_id TEXT NOT NULL,
+    videoID TEXT NOT NULL,
     sCPN TEXT NOT NULL,
     url TEXT NOT NULL,
-    start_time TEXT NOT NULL
+    start_date TEXT NOT NULL,
+    start_time Text NOT NULL
 );
 
 
-CREATE TABLE IF NOT EXISTS session_details(
+CREATE TABLE IF NOT EXISTS session_data(
     id INTEGER NOT NULL PRIMARY KEY,
     session_id INTEGER NOT NULL,
 
@@ -27,6 +28,8 @@ CREATE TABLE IF NOT EXISTS session_details(
     buffer_health INTEGER NOT NULL,
     mystery_s TEXT NOT NULL,
     mystery_t INTEGER NOT NULL,
+
+    timestamp TEXT, /* only current time - date is provided in sessions */
 
     FOREIGN KEY(session_id) REFERENCES session(id)
 );
