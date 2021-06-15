@@ -53,6 +53,7 @@ export function get_nerd_elements(){
     const current_optimalRes = nerd_data.item(2);
     const volume_normalized = nerd_data.item(3);
     const codecs = nerd_data.item(4);
+    const color = nerd_data.item(6);
     const connectionSpeed = nerd_data.item(8);
     const networkActivity = nerd_data.item(9);
     const bufferHealth = nerd_data.item(10);
@@ -75,7 +76,8 @@ export function get_nerd_elements(){
         {viewport_frames: viewport_frames},
         {current_optimalRes: current_optimalRes},
         {volume_normalized: volume_normalized},
-        {codecs: codecs}
+        {codecs: codecs},
+        {color: color}
     ]
     const nerd_elements_complex = [
         {connectionSpeed: connectionSpeed},

@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS session_data(
     total_frames INTEGER NOT NULL,
     current_resolution TEXT NOT NULL,
     optimal_resolution TEXT NOT NULL,
+    current_framerate INTEGER NOT NULL,
+    optimal_framerate INTEGER NOT NULL,
     volume INTEGER NOT NULL,
     codecs TEXT NOT NULL,
     color TEXT NOT NULL,

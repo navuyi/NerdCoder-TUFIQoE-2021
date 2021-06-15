@@ -10,7 +10,7 @@ export function run_monitor(simple, complex){
         const value = val.querySelector("span").innerText;
 
         // Check if the video has ended
-        if(key === "Mystery Text"){
+        if(key === "mysteryText"){
             const mode = value.match(/s:([a-z A-Z 0-9]{2})/)[1];
             if(mode === "e "){
                 // Send onbeforeunload message with type vide_end
