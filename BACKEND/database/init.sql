@@ -1,13 +1,15 @@
 DROP TABLE IF EXISTS sessions;
-DROP TABLE IF EXISTS session_details;
+DROP TABLE IF EXISTS session_data;
 
 CREATE TABLE IF NOT EXISTS sessions(
     id INTEGER NOT NULL PRIMARY KEY,
-    videoID TEXT NOT NULL,
     sCPN TEXT NOT NULL,
+    videoID TEXT NOT NULL,
     url TEXT NOT NULL,
     start_date TEXT NOT NULL,
-    start_time Text NOT NULL
+    start_time TEXT NOT NULL,
+    end_time TEXT NOT NULL,
+    session_duration_ms INTEGER NOT NULL
 );
 
 
