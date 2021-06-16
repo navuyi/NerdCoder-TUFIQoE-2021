@@ -3,8 +3,8 @@ from flask import request, jsonify
 from flask import Blueprint
 import re
 from datetime import datetime, timedelta
-from .utils import get_frames, get_resolution, get_framerate, dict_factory
-from collections import OrderedDict
+from .utils import get_frames, get_resolution, get_framerate, dict_factory, get_volume, get_connection_speed, \
+    get_network_activity, get_buffer_health, get_mystery_t, get_mystery_s, get_viewport
 
 DATABASE_FILE = "./database/nerdcoder_data.db"
 
@@ -47,23 +47,24 @@ def post_session():
         session_id = cursor.lastrowid
         for record in data:
             timestamp_ms = record["timestamp"] + 2 * 3600 * 1000
-
             timestamp = re.search(",\s(.+$)", str(timedelta(milliseconds=timestamp_ms))).group(1)
-            viewport = re.search("^([0-9]+)x([0-9]+)", record["viewport_frames"]).group(0)
+
             [dropped_frames, total_frames] = get_frames(record)
             [current_resolution, optimal_resolution] = get_resolution(record)
             [current_framerate, optimal_framerate] = get_framerate(record)
 
-            volume = re.search("^([0-9]{1,3})%", record["volume_normalized"]).group(1)
+            # No formating for now
             codecs = record["codecs"]
             color = record["color"]
 
-            connection_speed = re.search("[0-9]+", record["connectionSpeed"]).group(0)
-            network_activity = re.search("[0-9]+", record["networkActivity"]).group(0)
-            buffer_health = re.search("[0-9]+\.[0-9]+", record["bufferHealth"]).group(0)
+            viewport = get_viewport(record)
+            volume = get_volume(record)
+            connection_speed = get_connection_speed(record)
+            network_activity = get_network_activity(record)
+            buffer_health = get_buffer_health(record)
 
-            mystery_s = re.search("s:([a-zA-Z0-9]+)", record["mysteryText"]).group(1)
-            mystery_t = re.search("t:([0-9]+\.[0-9]+)", record["mysteryText"]).group(1)
+            mystery_t = get_mystery_t(record)
+            mystery_s = get_mystery_s(record)
 
             data_marker = """ session_id, timestamp,
                 viewport, dropped_frames, total_frames,
@@ -96,7 +97,7 @@ def post_session():
             conn.close()
             print("The SQLite connection is closed")
 
-    return {"msg": "OK"}, 200
+    return {"msg": "OK"}, 201
 
 
 
