@@ -1,6 +1,7 @@
-
 export function create_acr_panel(){
+    // Remove any ACR panel if it exists
     remove_acr_panel();
+
     // Create semi-transparent container covering whole screen
     var container = document.createElement('div');
     container.style.position = "absolute";
@@ -74,7 +75,7 @@ export function create_acr_panel(){
     window.oncontextmenu = (e) => {
         e.preventDefault();
     }
-    // Disable scrolling in fullscreen
+    // Disable scrolling in fullscreen - executes when ACR scale shows up
     document.getElementsByTagName("ytd-app")[0].removeAttribute("scrolling_");
 
     // Pause the video player
