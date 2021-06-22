@@ -1,8 +1,7 @@
 import {get_nerd_elements} from "./modules/get_nerd_elements";
 import {run_monitor} from "./modules/utils";
 import CONFIG from "./config";
-import {show_acr_panel} from "./modules/video_assessment";
-import {hide_acr_panel} from "./modules/video_assessment";
+
 import {create_acr_panel} from "./modules/video_assessment";
 import {remove_acr_panel} from "./modules/video_assessment";
 
@@ -11,8 +10,8 @@ var INTERVAL = CONFIG.INTERVAL; // time interval for monitor in ms
 
 console.log("Init script executed")
 
-remove_acr_panel();
 
+remove_acr_panel();
 document.addEventListener('keydown', (e)=>{
     if(e.key === "o"){
         create_acr_panel();
