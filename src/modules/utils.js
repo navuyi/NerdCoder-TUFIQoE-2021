@@ -31,7 +31,6 @@ export function run_monitor(simple, complex){
         const value = val.querySelector("span").querySelectorAll("span")[1].innerText;
         Object.assign(data, {[key]: value})
     }
-    console.log(data);
     hand_over_data(data);
 }
 

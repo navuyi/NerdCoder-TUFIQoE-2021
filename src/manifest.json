@@ -13,11 +13,5 @@
     "webNavigation",
     "background"
   ],
-  "web_accessible_resources": ["init.js"],
-  "content_scripts": [
-    {
-      "matches": ["https://www.youtube.com/*"],
-      "js": ["disableRightclick.js"]
-    }
-  ]
+  "web_accessible_resources": ["init.js"]
 }

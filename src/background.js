@@ -34,7 +34,6 @@ function submit_captured_data(captured_data, tabId){
 // Listen for entering youtube page with video player
 // webNavigation.onHistoryStateUpdated is used instead of tabs.onUpdated due to multiple executions coused by iframes
 chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
-    console.log(details.transitionType);
     if(details.frameId === 0 && details.url.includes(yt_watch_string)) {
         chrome.tabs.get(details.tabId, (tab) => {
             if(tab.url === details.url) {
@@ -42,13 +41,13 @@ chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
                 // If there is any captured data from last session submit it and clear the array
                 if(captured_data.length > 0){
                     submit_captured_data(captured_data, details.tabId);
-
                 }
                 else{
                     console.log("No data captured yet");
                 }
                 // Inject content script into current page with video player
-                chrome.tabs.executeScript(tab.id, {file: "init.js"})
+                chrome.tabs.executeScript(tab.id, {file: "init.js"});
+
                 last_url = tab.url;
             }
         });
