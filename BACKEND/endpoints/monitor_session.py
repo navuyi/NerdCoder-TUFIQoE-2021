@@ -15,8 +15,10 @@ monitor_session = Blueprint("monitor_session", __name__)
 @monitor_session.route("/post_session", methods=["POST"])
 def post_session():
     data = request.json
-    f_record = data[0]
-    l_record = data[len(data)-1]
+    session_data = data["session_data"]
+
+    f_record = session_data[0]
+    l_record = session_data[len(session_data)-1]
 
     # Get the monitoring session general data
     videoID = re.search("^(.+)\s\/", f_record["videoId_sCPN"]).group(1)
@@ -29,8 +31,12 @@ def post_session():
     end_time = datetime.utcfromtimestamp(timestamp_end_s).strftime("%H:%M:%S")
     session_duration_ms = int(l_record["timestamp"]) - int(f_record["timestamp"])
 
-
-
+    # Get the assessment data
+    try:
+        assessment_data = data["assessment_data"]
+        print(assessment_data)
+    except:
+        print("No assessment data provided")
 
     # Database operations
     try:
@@ -45,7 +51,7 @@ def post_session():
 
         # Insert captured session data - details
         session_id = cursor.lastrowid
-        for record in data:
+        for record in session_data:
             timestamp_ms = record["timestamp"] + 2 * 3600 * 1000
             timestamp = re.search(",\s(.+$)", str(timedelta(milliseconds=timestamp_ms))).group(1)
 
@@ -82,10 +88,20 @@ def post_session():
                 volume, codecs, color, connection_speed,
                 network_activity, buffer_health, mystery_s, mystery_t
             )
-
             cursor.execute(insert_session_data, insert)
 
-            print(cursor.lastrowid)
+        # Insert captured assessments
+        try:
+            for record in assessment_data:
+                assessment = record["assessment"]
+                timestamp_ms = record["timestamp"]
+                time_in_video = record["time_in_video"]
+
+                statement = f"INSERT INTO assessments (session_id, assessment, timestamp_ms, time_in_video) VALUES (?,?,?,?)"
+                insert = (session_id, assessment, timestamp_ms, time_in_video)
+                cursor.execute(statement, insert)
+        except:
+            print("No assessment data provided")
 
         cursor.close()
     except sqlite3.Error as error:
@@ -116,17 +132,15 @@ def get_session():
         conn.row_factory = dict_factory
         cursor = conn.cursor()
 
-
         # If session id was not provided in the url return all sessions and their data
         if not id_arg:
             statement = "SELECT * FROM sessions"
-        else:
-            statement = f"SELECT * FROM sessions WHERE id={id_arg}"
+
         cursor.execute(statement)
         sessions = cursor.fetchall()
 
 
-        # For every session provide its captured data
+        # For every session provide its captured data and assessments
         for session in sessions:
 
             session_id = session["id"]
@@ -135,6 +149,14 @@ def get_session():
             data = cursor.fetchall()
 
             session["records"] = data
+
+            statement = f"SELECT * FROM assessments WHERE session_id={session_id}"
+            cursor.execute(statement)
+            data = cursor.fetchall()
+            if len(data) == 0:
+                session["assessments"] = None
+            else:
+                session["assessments"] = data
 
         cursor.close()
     except sqlite3.Error as error:

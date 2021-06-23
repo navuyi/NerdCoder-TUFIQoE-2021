@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS sessions;
 DROP TABLE IF EXISTS session_data;
+DROP TABLE IF EXISTS assessments;
 
 CREATE TABLE IF NOT EXISTS sessions(
     id INTEGER NOT NULL PRIMARY KEY,
@@ -12,6 +13,15 @@ CREATE TABLE IF NOT EXISTS sessions(
     session_duration_ms INTEGER NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS assessments(
+    id INTEGER NOT NULL PRIMARY KEY,
+    session_id INTEGER NOT NULL,
+    time_in_video TEXT,
+    timestamp_ms INTEGER,
+    assessment INTEGER,
+
+    FOREIGN KEY(session_id) REFERENCES sessions(id)
+);
 
 CREATE TABLE IF NOT EXISTS session_data(
     id INTEGER NOT NULL PRIMARY KEY,
