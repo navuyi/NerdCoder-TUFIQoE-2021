@@ -22,7 +22,7 @@ export default {
     // includes an automatic reloader in watch mode
     simpleReloader(),
     // resolves node modules
-    resolve(),
+    resolve({browser: true, preferBuiltins: false}),
     // converts libraries that use commonjs
     commonjs(),
     // empties the dist for each build
@@ -31,5 +31,5 @@ export default {
     json(),
     // creates a zip to upload to the Chrome Web Store :)
     p && zip({ dir: 'releases' }),
-  ],
+  ]
 }

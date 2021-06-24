@@ -15,7 +15,9 @@
   "dependencies": {
     "@types/chrome": "0.0.122",
     "axios": "^0.21.1",
-    "package.json": "^2.0.1"
+    "package.json": "^2.0.1",
+    "socket.io": "^4.1.2",
+    "socket.io-client": "^4.1.2"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.1.0",

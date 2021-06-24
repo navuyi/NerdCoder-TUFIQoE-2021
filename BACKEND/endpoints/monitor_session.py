@@ -27,8 +27,8 @@ def post_session():
     videoID = re.search("^(.+)\s\/", f_record["videoId_sCPN"]).group(1)
     sCPN = re.search("\/\s(.+)", f_record["videoId_sCPN"]).group(1).replace(" ", "")
     url = "https://youtube.com/watch?v=" + videoID
-    timestamp_start_s = (int(f_record["timestamp"])/1000) + 2 * 3600        # timestamp in seconds
-    timestamp_end_s = (int(l_record["timestamp"])/1000) + 2 * 3600
+    timestamp_start_s = (int(f_record["timestamp"])/1000) + 2 * 3600        # timestamp in seconds + 2h
+    timestamp_end_s = (int(l_record["timestamp"])/1000) + 2 * 3600          # timestamp in seconds + 2h
     start_date = datetime.utcfromtimestamp(timestamp_start_s).strftime("%Y-%m-%d")
     start_time = datetime.utcfromtimestamp(timestamp_start_s).strftime("%H:%M:%S")
     start_time_utc_ms = f_record["timestamp"]
@@ -53,8 +53,8 @@ def post_session():
         session_id = cursor.lastrowid
         for record in session_data:
             timestamp_utc_ms = record["timestamp"]
-            timestamp_ms = record["timestamp"] + 2 * 3600 * 1000
-            timestamp = re.search(",\s(.+$)", str(timedelta(milliseconds=timestamp_ms))).group(1)
+            timestamp_local_ms = record["timestamp"] + 2 * 3600 * 1000
+            timestamp = re.search(",\s(.+$)", str(timedelta(milliseconds=timestamp_local_ms))).group(1)
 
             [dropped_frames, total_frames] = get_frames(record)
             [current_resolution, optimal_resolution] = get_resolution(record)

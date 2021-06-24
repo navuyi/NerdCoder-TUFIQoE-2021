@@ -1,9 +1,14 @@
 import {get_nerd_elements} from "./get_nerd_elements";
 import CONFIG from '../config';
+import io from "socket.io-client";
 
-export function create_acr_panel(){
+
+
+
+
+export function create_assessment_panel(){
     // Remove any ACR panel if it exists
-    remove_acr_panel();
+    remove_assessment_panel();
 
     // Create semi-transparent container covering whole screen
     var container = document.createElement('div');
@@ -88,7 +93,7 @@ export function create_acr_panel(){
     }
 }
 
-export function remove_acr_panel(){
+export function remove_assessment_panel(){
     var panel = document.getElementById("acr-panel");
     if(panel){
         panel.remove();
@@ -125,8 +130,43 @@ function hand_over_assessment(e){
         }
     }
     chrome.runtime.sendMessage(message);
-    remove_acr_panel();
+    remove_assessment_panel();
 }
+
+export function assessment_control_mode(){
+    if(CONFIG.ASSESSMENT_MODE === "auto"){
+        // Assessment panel is created automatically
+        var assessment_controller = setInterval(create_assessment_panel, CONFIG.AUTO_ASSESSMENT_INTERVAL);
+    }
+    else if(CONFIG.ASSESSMENT_MODE === "remote"){
+        // Remote method of controlling assessment panel
+        var socket = io.connect("http://localhost:7070", {"forceNew": true});
+        console.log(socket.id);
+
+        socket.on("controls", (msg)=>{
+            console.log(msg);
+            if(msg.order === "create"){
+                create_assessment_panel();
+            }
+            else if(msg.order === "remove"){
+                remove_assessment_panel();
+            }
+        })
+    }
+    else if(CONFIG.ASSESSMENT_MODE === "manual"){
+        // Manual method of controling assessment panel
+        remove_assessment_panel();
+        document.addEventListener('keydown', (e)=>{
+            if(e.key === "o"){
+                create_assessment_panel();
+            }
+            else if(e.key === "p"){
+                remove_assessment_panel();
+            }
+        })
+    }
+}
+
 
 
 

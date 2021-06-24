@@ -1,25 +1,14 @@
 import {get_nerd_elements} from "./modules/get_nerd_elements";
 import {run_monitor} from "./modules/monitor";
-import {create_acr_panel} from "./modules/video_assessment";
-import {remove_acr_panel} from "./modules/video_assessment";
-
+import {create_assessment_panel} from "./modules/video_assessment";
+import {remove_assessment_panel} from "./modules/video_assessment";
+import {assessment_control_mode} from "./modules/video_assessment";
 import CONFIG from "./config";
 
-var INTERVAL = CONFIG.INTERVAL; // time interval for monitor in ms
+import {axios} from "axios";
+import io from "socket.io-client"
 
 
-
-
-// This code section is temporary
-remove_acr_panel();
-document.addEventListener('keydown', (e)=>{
-    if(e.key === "o"){
-        create_acr_panel();
-    }
-    else if(e.key === "p"){
-        remove_acr_panel();
-    }
-})
 
 
 // Clear running_monitor from last session - will not execute on first video playback
@@ -35,7 +24,11 @@ else{
 var [simple, complex] = get_nerd_elements();
 
 // Start capturing nerd statistics data
-var running_monitor = setInterval(run_monitor, INTERVAL, simple, complex);
+var running_monitor = setInterval(run_monitor, CONFIG.INTERVAL, simple, complex);
+
+
+// Turn on proper mode for controlling assessment panels
+assessment_control_mode();
 
 
 
@@ -59,5 +52,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // Clear interval in case of receiving "stop" message
     if(request.msg == "stop"){
         clearInterval(running_monitor);
+        clearInterval(assessment_controller);
     }
 })
