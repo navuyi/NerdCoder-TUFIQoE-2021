@@ -60,29 +60,29 @@ export function get_nerd_elements(){
     const mysteryText = nerd_data.item(14);
 
     // Hide the statistics popup by setting opacity to 0 and making unclickable
-    if(CONFIG.MODE === "development"){
-        nerd_stats.style.opacity = "55%";
+    if(CONFIG.NERD_STAT_VISIBILITY){
+        nerd_stats.style.opacity = "100%";
     }
-    else if(CONFIG.MODE === "production"){
+    else{
         nerd_stats.style.opacity = "0%";
         nerd_stats.style.pointerEvents = "none";
     }
 
 
     // TAKE NOTE THAT mysteryText is first element in the array
-    const nerd_elements_simple = [
-        {mysteryText: mysteryText},
-        {videoId_sCPN: videoId_sCPN},
-        {viewport_frames: viewport_frames},
-        {current_optimalRes: current_optimalRes},
-        {volume_normalized: volume_normalized},
-        {codecs: codecs},
-        {color: color}
-    ]
-    const nerd_elements_complex = [
-        {connectionSpeed: connectionSpeed},
-        {networkActivity: networkActivity},
-        {bufferHealth: bufferHealth}
-    ]
+    const nerd_elements_simple = {
+        mysteryText: mysteryText,
+        videoId_sCPN: videoId_sCPN,
+        viewport_frames: viewport_frames,
+        current_optimalRes: current_optimalRes,
+        volume_normalized: volume_normalized,
+        codecs: codecs,
+        color: color
+}
+    const nerd_elements_complex = {
+        connectionSpeed: connectionSpeed,
+        networkActivity: networkActivity,
+        bufferHealth: bufferHealth
+    }
     return [nerd_elements_simple, nerd_elements_complex];
 }

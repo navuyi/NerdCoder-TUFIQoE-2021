@@ -50,9 +50,7 @@ window.onbeforeunload = () => {
     const message = {
         msg: "onbeforeunload"
     }
-    chrome.runtime.sendMessage(message, (response)=>{
-        // nothing
-    })
+    chrome.runtime.sendMessage(message);
 }
 
 // Listen for messages from background script

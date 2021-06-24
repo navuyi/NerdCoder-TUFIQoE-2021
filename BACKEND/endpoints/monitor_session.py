@@ -12,13 +12,16 @@ monitor_session = Blueprint("monitor_session", __name__)
 
 
 
-@monitor_session.route("/post_session", methods=["POST"])
+@monitor_session.route("/new_session", methods=["POST"])
 def post_session():
-    data = request.json
-    session_data = data["session_data"]
+    try:
+        data = request.json
+        session_data = data["session_data"]
 
-    f_record = session_data[0]
-    l_record = session_data[len(session_data)-1]
+        f_record = session_data[0]
+        l_record = session_data[len(session_data)-1]
+    except Exception as err:
+        return err
 
     # Get the monitoring session general data
     videoID = re.search("^(.+)\s\/", f_record["videoId_sCPN"]).group(1)
@@ -31,12 +34,7 @@ def post_session():
     end_time = datetime.utcfromtimestamp(timestamp_end_s).strftime("%H:%M:%S")
     session_duration_ms = int(l_record["timestamp"]) - int(f_record["timestamp"])
 
-    # Get the assessment data
-    try:
-        assessment_data = data["assessment_data"]
-        print(assessment_data)
-    except:
-        print("No assessment data provided")
+
 
     # Database operations
     try:
@@ -72,14 +70,14 @@ def post_session():
             mystery_t = get_mystery_t(record)
             mystery_s = get_mystery_s(record)
 
-            data_marker = """ session_id, timestamp,
+            columns = """ session_id, timestamp,
                 viewport, dropped_frames, total_frames,
                 current_resolution, optimal_resolution,
                 current_framerate, optimal_framerate,
                 volume, codecs, color, connection_speed,
                 network_activity, buffer_health, mystery_s, mystery_t """
 
-            insert_session_data = f"INSERT INTO session_data ({data_marker}) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+            insert_session_data = f"INSERT INTO session_data ({columns}) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
             insert = (
                 session_id, timestamp,
                 viewport, dropped_frames, total_frames,
@@ -92,6 +90,8 @@ def post_session():
 
         # Insert captured assessments
         try:
+            assessment_data = data["assessment_data"]
+
             for record in assessment_data:
                 assessment = record["assessment"]
                 timestamp_ms = record["timestamp"]
@@ -101,12 +101,11 @@ def post_session():
                 insert = (session_id, assessment, timestamp_ms, time_in_video)
                 cursor.execute(statement, insert)
         except:
-            print("No assessment data provided")
+            print("No assessment data provided - nothing to be inserted")
 
         cursor.close()
     except sqlite3.Error as error:
         print("Error while connecting to sqlite", error)
-
     finally:
         if conn:
             conn.commit()
@@ -119,7 +118,7 @@ def post_session():
 
 
 
-@monitor_session.route("/get_session", methods=["GET"])
+@monitor_session.route("/sessions", methods=["GET"])
 def get_session():
     available_args = ["id", "limit"]
     id_arg = request.args.get("id")
@@ -144,15 +143,20 @@ def get_session():
         for session in sessions:
 
             session_id = session["id"]
+            # Get captured data for the session
             statement = f"SELECT * FROM session_data WHERE session_id={session_id}"
             cursor.execute(statement)
             data = cursor.fetchall()
 
+            # Assign captured data to the session
             session["records"] = data
 
+            # Get captured assessments for the session
             statement = f"SELECT * FROM assessments WHERE session_id={session_id}"
             cursor.execute(statement)
             data = cursor.fetchall()
+
+            # Assign captured assessments to the session - null in case there were no assessments captured
             if len(data) == 0:
                 session["assessments"] = None
             else:

@@ -1,3 +1,6 @@
+import {get_nerd_elements} from "./get_nerd_elements";
+import CONFIG from '../config';
+
 export function create_acr_panel(){
     // Remove any ACR panel if it exists
     remove_acr_panel();
@@ -49,7 +52,7 @@ export function create_acr_panel(){
     form.style.justifyContent = "center"
     form.style.alignItems = "center"
     form.style.flexDirection = "column"
-    form.onsubmit = (e) =>{e.preventDefault(); console.log("SUBMIT SUBMIT SUBMIT SUBMIT")}
+    form.onsubmit = (e) =>{e.preventDefault(); /* nothing else for now*/}
     panel.appendChild(form);
 
     // Create assessment buttons
@@ -66,6 +69,7 @@ export function create_acr_panel(){
         button.id = i.toString()
         button.addEventListener("mouseenter", (e)=>{e.target.style.backgroundColor = "#8ecccc"})
         button.addEventListener("mouseleave", (e)=>{e.target.style.backgroundColor = "whitesmoke"})
+        button.addEventListener("click", hand_over_assessment);
         form.appendChild(button);
     }
 
@@ -78,8 +82,10 @@ export function create_acr_panel(){
     // Disable scrolling in fullscreen - executes when ACR scale shows up
     document.getElementsByTagName("ytd-app")[0].removeAttribute("scrolling_");
 
-    // Pause the video player
-    document.getElementsByTagName('video')[0].pause();
+    if(CONFIG.ASSESSMENT_PAUSE){
+        // Pause the video player
+        document.getElementsByTagName('video')[0].pause();
+    }
 }
 
 export function remove_acr_panel(){
@@ -90,8 +96,36 @@ export function remove_acr_panel(){
             // default behaviour
         }
     }
-    // Resume video
-    document.getElementsByTagName('video')[0].play();
+    if(CONFIG.ASSESSMENT_PAUSE){
+        // Resume video
+        document.getElementsByTagName('video')[0].play();
+    }
+}
+
+function hand_over_assessment(e){
+    // Get the subject's assessment
+    const assessment = e.target.innerText;
+
+    // Get timestamp data
+    const timestamp = Date.now();
+
+    // Get other data from nerd statistics
+    [simple, complex] = get_nerd_elements();
+    const mysteryText = simple.mysteryText.querySelector("span").innerText;
+    const time_in_video =  mysteryText.match(/t\:([0-9]+\.[0-9]+)/)[1];
+
+
+    // Hand over the assessment to the background script
+    const message = {
+        msg: "assessment_handover",
+        data: {
+            assessment: assessment,
+            timestamp: timestamp,
+            time_in_video: time_in_video
+        }
+    }
+    chrome.runtime.sendMessage(message);
+    remove_acr_panel();
 }
 
 

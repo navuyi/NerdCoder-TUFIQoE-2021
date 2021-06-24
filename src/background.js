@@ -7,7 +7,7 @@ var captured_data = [];
 var last_url = "";
 
 function submit_captured_data(captured_data, tabId){
-    const my_url = " http://127.0.0.1:5000/post_session";
+    const my_url = " http://127.0.0.1:5000/new_session";
     const my_method = "POST";
     const my_headers = {
         'Accept': 'application/json',
@@ -17,11 +17,14 @@ function submit_captured_data(captured_data, tabId){
     const index = captured_data.findIndex(record => record.id === tabId);
     console.log(index);
     if(index !== -1){
-        let my_body = captured_data[index].data;
-        my_body = JSON.stringify(my_body);
-        console.log(my_body);
+        const session_data = captured_data[index].data;
+        const assessment_data = captured_data[index].assessments;
+        const my_body = JSON.stringify({session_data: session_data, assessment_data: assessment_data});
+
+        // Delete sent data from captured_data array
         captured_data.splice(index,1);
 
+        // Send data
         fetch(my_url, {method: my_method, headers: my_headers, body: my_body})
             .then(res => res.json())
             .then(re => console.log(re));
@@ -61,7 +64,6 @@ chrome.webNavigation.onCommitted.addListener((details) => {
         chrome.tabs.get(details.tabId, (tab) => {
             if(tab.url === details.url){
                 if (["reload", "typed", "link"].includes(details.transitionType) && details.url.includes(yt_watch_string)){
-                    console.log("RELOAD RELOAD RELOAD RELOAD");
                     // Inject content script into current page with video player
                     chrome.tabs.executeScript(details.tabId, {file: "init.js"})
                     last_url = details.url;
@@ -82,7 +84,6 @@ chrome.tabs.onUpdated.addListener((tab_id, changeInfo, tab)=>{
 
         // Submit captured data and clear array
         submit_captured_data(captured_data, tab.id);
-
     }
 })
 
@@ -95,8 +96,8 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
             const received_data = request.data;
             const tabId = sender.tab.id;
 
+            // Look if data from this monitor session already exists
             const record = captured_data.find(record => record.id === tabId);
-
             if(record !== undefined){
                 record.data.push(received_data);
             }
@@ -107,7 +108,29 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                 }
                 captured_data.push(record);
             }
-            console.log(captured_data);
+        }
+        // Listen for assessment handover
+        if(request.msg == "assessment_handover"){
+            const received_assessment = request.data;
+            const tabId = sender.tab.id;
+
+            const record = captured_data.find(record => record.id === tabId);
+            if(record !== undefined){
+                if(record.assessments !== undefined){
+                    record.assessments.push(received_assessment);
+                }
+                else{
+                    Object.assign(record, {assessments: [received_assessment]});
+                }
+            }
+            else{
+                // This else block is very unlikely to happen
+                const record = {
+                    id: tabId,
+                    assessments: [received_assessment]
+                }
+                captured_data.push(record);
+            }
         }
         // Listen for onbeforeunload message - tab close, refresh
         else if(request.msg == "onbeforeunload"){
