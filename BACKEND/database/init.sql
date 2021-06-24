@@ -9,7 +9,9 @@ CREATE TABLE IF NOT EXISTS sessions(
     url TEXT NOT NULL,
     start_date TEXT NOT NULL,
     start_time TEXT NOT NULL,
+    start_time_utc_ms INTEGER NOT NULL,
     end_time TEXT NOT NULL,
+    end_time_utc_ms INTEGER NOT NULL,
     session_duration_ms INTEGER NOT NULL
 );
 
@@ -17,7 +19,8 @@ CREATE TABLE IF NOT EXISTS assessments(
     id INTEGER NOT NULL PRIMARY KEY,
     session_id INTEGER NOT NULL,
     time_in_video TEXT,
-    timestamp_ms INTEGER,
+    timestamp TEXT,
+    timestamp_utc_ms INTEGER,
     assessment INTEGER,
 
     FOREIGN KEY(session_id) REFERENCES sessions(id)
@@ -44,6 +47,7 @@ CREATE TABLE IF NOT EXISTS session_data(
     mystery_t INTEGER,
 
     timestamp TEXT, /* only current time - date is provided in sessions */
+    timestamp_utc_ms INTEGER,
 
     FOREIGN KEY(session_id) REFERENCES session(id)
 );

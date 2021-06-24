@@ -31,7 +31,9 @@ def post_session():
     timestamp_end_s = (int(l_record["timestamp"])/1000) + 2 * 3600
     start_date = datetime.utcfromtimestamp(timestamp_start_s).strftime("%Y-%m-%d")
     start_time = datetime.utcfromtimestamp(timestamp_start_s).strftime("%H:%M:%S")
+    start_time_utc_ms = f_record["timestamp"]
     end_time = datetime.utcfromtimestamp(timestamp_end_s).strftime("%H:%M:%S")
+    end_time_utc_ms = l_record["timestamp"]
     session_duration_ms = int(l_record["timestamp"]) - int(f_record["timestamp"])
 
 
@@ -43,13 +45,14 @@ def post_session():
         cursor = conn.cursor()
 
         # Insert general data bout the monitor session
-        insert_general_data = "INSERT INTO sessions (videoID, sCPN, url, start_date, start_time, end_time, session_duration_ms) VALUES (?,?,?,?,?,?,?);"
-        insert = (videoID, sCPN, url, start_date, start_time, end_time, session_duration_ms)
+        insert_general_data = "INSERT INTO sessions (videoID, sCPN, url, start_date, start_time, start_time_utc_ms, end_time, end_time_utc_ms, session_duration_ms) VALUES (?,?,?,?,?,?,?,?,?);"
+        insert = (videoID, sCPN, url, start_date, start_time, start_time_utc_ms, end_time, end_time_utc_ms, session_duration_ms)
         cursor.execute(insert_general_data, insert)
 
         # Insert captured session data - details
         session_id = cursor.lastrowid
         for record in session_data:
+            timestamp_utc_ms = record["timestamp"]
             timestamp_ms = record["timestamp"] + 2 * 3600 * 1000
             timestamp = re.search(",\s(.+$)", str(timedelta(milliseconds=timestamp_ms))).group(1)
 
@@ -70,16 +73,16 @@ def post_session():
             mystery_t = get_mystery_t(record)
             mystery_s = get_mystery_s(record)
 
-            columns = """ session_id, timestamp,
+            columns = """ session_id, timestamp, timestamp_utc_ms,
                 viewport, dropped_frames, total_frames,
                 current_resolution, optimal_resolution,
                 current_framerate, optimal_framerate,
                 volume, codecs, color, connection_speed,
                 network_activity, buffer_health, mystery_s, mystery_t """
 
-            insert_session_data = f"INSERT INTO session_data ({columns}) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+            insert_session_data = f"INSERT INTO session_data ({columns}) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
             insert = (
-                session_id, timestamp,
+                session_id, timestamp, timestamp_utc_ms,
                 viewport, dropped_frames, total_frames,
                 current_resolution, optimal_resolution,
                 current_framerate, optimal_framerate,
@@ -94,11 +97,13 @@ def post_session():
 
             for record in assessment_data:
                 assessment = record["assessment"]
-                timestamp_ms = record["timestamp"]
+                timestamp_utc_ms = record["timestamp"]
+                timestamp_s = (int(timestamp_utc_ms)/1000) + 2 * 3600        # timestamp in seconds +2h
+                timestamp = datetime.utcfromtimestamp(timestamp_s).strftime("%H:%M:%S")
                 time_in_video = record["time_in_video"]
 
-                statement = f"INSERT INTO assessments (session_id, assessment, timestamp_ms, time_in_video) VALUES (?,?,?,?)"
-                insert = (session_id, assessment, timestamp_ms, time_in_video)
+                statement = f"INSERT INTO assessments (session_id, assessment, timestamp, timestamp_utc_ms, time_in_video) VALUES (?,?,?,?,?)"
+                insert = (session_id, assessment, timestamp, timestamp_utc_ms, time_in_video)
                 cursor.execute(statement, insert)
         except:
             print("No assessment data provided - nothing to be inserted")
