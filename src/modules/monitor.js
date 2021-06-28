@@ -31,6 +31,7 @@ export function run_monitor(simple, complex){
         Object.assign(data, {[key]: value})
     }
     // Send data to background script
+    console.log("INTERVAL")
     hand_over_data(data);
 }
 
@@ -43,10 +44,3 @@ function hand_over_data(data){
     }
     chrome.runtime.sendMessage(message);
 }
-
-
-
-
-
-
-

@@ -78,7 +78,7 @@ export function get_nerd_elements(){
         volume_normalized: volume_normalized,
         codecs: codecs,
         color: color
-}
+    }
     const nerd_elements_complex = {
         connectionSpeed: connectionSpeed,
         networkActivity: networkActivity,

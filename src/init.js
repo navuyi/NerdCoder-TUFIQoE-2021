@@ -1,18 +1,15 @@
 import {get_nerd_elements} from "./modules/get_nerd_elements";
 import {run_monitor} from "./modules/monitor";
-import {create_assessment_panel} from "./modules/video_assessment";
-import {remove_assessment_panel} from "./modules/video_assessment";
 import {assessment_control_mode} from "./modules/video_assessment";
 import CONFIG from "./config";
 
-import {axios} from "axios";
-import io from "socket.io-client"
+
 
 
 
 
 // Clear running_monitor from last session - will not execute on first video playback
-if(running_monitor){
+if(typeof running_monitor !== "undefined"){
     console.log("CLEARING");
     clearInterval(running_monitor);
 }
@@ -26,9 +23,8 @@ var [simple, complex] = get_nerd_elements();
 // Start capturing nerd statistics data
 var running_monitor = setInterval(run_monitor, CONFIG.INTERVAL, simple, complex);
 
-
 // Turn on proper mode for controlling assessment panels
-assessment_control_mode();
+var assessment_controller = assessment_control_mode();
 
 
 
@@ -51,7 +47,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     // Clear interval in case of receiving "stop" message
     if(request.msg == "stop"){
-        clearInterval(running_monitor);
-        clearInterval(assessment_controller);
+        if(typeof running_monitor !== 'undefined'){
+            clearInterval(running_monitor);
+        }
+        if(typeof assessment_controller !== 'undefined'){
+            clearInterval(assessment_controller)
+        }
     }
 })

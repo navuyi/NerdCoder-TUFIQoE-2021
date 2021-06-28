@@ -33,11 +33,9 @@ process.stdin.on('keypress', (str, key) => {
     }
     else{
         if(key.name === "o"){
-            console.log("Sending")
             create_assessment_panel()
         }
         else if(key.name === "p"){
-            console.log("Sending")
             remove_assessment_panel()
         }
     }
@@ -47,11 +45,13 @@ const create_assessment_panel = () => {
     const data = {
         order: "create"
     }
+    console.log("Create assessment panel")
     io.emit("controls", data)
 }
 const remove_assessment_panel = () => {
     const data = {
         order: "remove"
     }
+    console.log("Remove assessment panel")
     io.emit("controls", data)
 }

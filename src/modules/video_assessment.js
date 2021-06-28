@@ -1,6 +1,6 @@
 import {get_nerd_elements} from "./get_nerd_elements";
 import CONFIG from '../config';
-import io from "socket.io-client";
+import {io} from './socket-io-client';
 
 
 
@@ -166,9 +166,3 @@ export function assessment_control_mode(){
         })
     }
 }
-
-
-
-
-
-

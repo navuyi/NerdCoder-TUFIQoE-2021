@@ -17,6 +17,7 @@ def post_session():
     try:
         data = request.json
         session_data = data["session_data"]
+        #del session_data[0:4]
 
         f_record = session_data[0]
         l_record = session_data[len(session_data)-1]
