@@ -35,12 +35,6 @@ chrome.storage.local.get(["ASSESSMENT_MODE"], (result)=>{
 })
 
 
-
-
-
-
-
-
 // Listen for tab close, refresh, redirect to different page (different address)
 window.onbeforeunload = () => {
     const message = {
