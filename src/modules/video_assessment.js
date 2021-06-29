@@ -20,7 +20,10 @@ export function create_assessment_panel(){
     container.style.left = "0px";
     container.style.width = "100%";
     container.style.height = "100%";
-    container.style.backgroundColor = "rgba(34,34,34,0.8)";
+    container.style.backgroundColor = "rgba(34,34,34,1)";
+    chrome.storage.local.get(["ASSESSMENT_PANEL_OPACITY"], (result)=>{
+        container.style.opacity = result.ASSESSMENT_PANEL_OPACITY.toString() + "%";
+    })
 
     container.style.zIndex = "2077";
     container.id = "acr-panel";
@@ -30,7 +33,7 @@ export function create_assessment_panel(){
 
     // Create panel for ACR scale and header
     var panel = document.createElement('div');
-    panel.style.backgroundColor = "rgba(34,34,34,0.9)";
+    panel.style.backgroundColor = "rgba(34,34,34,1)";
     panel.style.position = "sticky";
     panel.style.top = "200px";
     panel.style.display = "flex"
@@ -144,7 +147,11 @@ function hand_over_assessment(e){
 export function assessment_control_mode(){
     if(CONFIG.ASSESSMENT_MODE === "auto"){
         // Assessment panel is created automatically
-        var assessment_controller = setInterval(create_assessment_panel, CONFIG.AUTO_ASSESSMENT_INTERVAL);
+        chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=>{
+            var assessment_controller = setInterval(create_assessment_panel, result.ASSESSMENT_INTERVAL_MS);
+            return assessment_controller
+        })
+
     }
     else if(CONFIG.ASSESSMENT_MODE === "remote"){
         // Remote method of controlling assessment panel

@@ -2,9 +2,23 @@
 // DO NOT TRY ANY IMPORTS IN THIS FILE - DOES NOT WORK ! ! ! //
 ///////////////////////////////////////////////////////////////
 
+
 const yt_watch_string = "https://www.youtube.com/watch?v="
 var captured_data = [];
 var last_url = "";
+var current_tab_id;
+
+// Initialize config values
+chrome.runtime.onInstalled.addListener( ()=>{
+    const config = {
+        ASSESSMENT_PANEL_OPACITY: 80,
+        ASSESSMENT_INTERVAL_MS: 5000
+    }
+    chrome.storage.local.set(config, ()=>{
+        console.log("Config has been saved: " + config);
+    });
+})
+
 
 function submit_captured_data(captured_data, tabId){
     const my_url = " http://127.0.0.1:5000/new_session";
@@ -108,6 +122,7 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                 }
                 captured_data.push(record);
             }
+            current_tab_id = sender.tab.id;
         }
         // Listen for assessment handover
         if(request.msg == "assessment_handover"){
