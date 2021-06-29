@@ -11,9 +11,10 @@ var current_tab_id;
 // Initialize config values
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
-        ASSESSMENT_PANEL_OPACITY: 80,
-        ASSESSMENT_INTERVAL_MS: 5000,
-        ASSESSMENT_MODE: "auto"             // Available modes are "remote", "auto" and "manual"
+        ASSESSMENT_PANEL_OPACITY: 80,           // Opacity of the assessment panel in %
+        ASSESSMENT_INTERVAL_MS: 5000,           // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_MODE: "auto",                // Available modes are "remote", "auto" and "manual"
+        ASSESSMENT_PAUSE: "disabled"     // Enable/disable playback pausing/resuming on video assessment
     }
     chrome.storage.local.set(config, ()=>{
         console.log("Config has been saved: " + config);

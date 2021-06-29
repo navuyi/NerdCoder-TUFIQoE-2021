@@ -1,16 +1,21 @@
 // Set the default configuration
+
+// Default for assessment panel opacity
 chrome.storage.local.get(["ASSESSMENT_PANEL_OPACITY"], (result)=> {
     document.getElementById("opacity-input").value = result.ASSESSMENT_PANEL_OPACITY
 })
+// Default for assessment interval
 chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=> {
     document.getElementById("interval-input").value = result.ASSESSMENT_INTERVAL_MS
 })
+// Default for assessment mode - auto/remote/manual
 chrome.storage.local.get(["ASSESSMENT_MODE"], (result)=>{
     const button_id = "mode-"+result.ASSESSMENT_MODE;
     document.getElementById(button_id).setAttribute("active", true)
 })
 
 
+// Assessment mode - buttons configuration
 const buttons = ["mode-remote", "mode-auto", "mode-manual"];
 const handle_mode_change = (e) => {
     // Get id of the clicked button
@@ -30,6 +35,7 @@ const handle_mode_change = (e) => {
 buttons.forEach((id, index)=>{
     document.getElementById(id).addEventListener("click", handle_mode_change);
 })
+
 
 
 
