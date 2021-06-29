@@ -12,7 +12,8 @@ var current_tab_id;
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
         ASSESSMENT_PANEL_OPACITY: 80,
-        ASSESSMENT_INTERVAL_MS: 5000
+        ASSESSMENT_INTERVAL_MS: 5000,
+        ASSESSMENT_MODE: "auto"             // Available modes are "remote", "auto" and "manual"
     }
     chrome.storage.local.set(config, ()=>{
         console.log("Config has been saved: " + config);

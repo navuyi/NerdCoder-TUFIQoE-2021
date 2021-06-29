@@ -24,7 +24,12 @@ var [simple, complex] = get_nerd_elements();
 var running_monitor = setInterval(run_monitor, CONFIG.INTERVAL, simple, complex);
 
 // Turn on proper mode for controlling assessment panels
-var assessment_controller = assessment_control_mode();
+chrome.storage.local.get(["ASSESSMENT_MODE"], (result)=>{
+    console.log(result)
+    var assessment_controller = assessment_control_mode(result.ASSESSMENT_MODE);
+    return assessment_controller;
+})
+
 
 
 

@@ -142,18 +142,16 @@ function hand_over_assessment(e){
     }
     chrome.runtime.sendMessage(message);
     remove_assessment_panel();
+    run_assessment_timeout();
 }
 
-export function assessment_control_mode(){
-    if(CONFIG.ASSESSMENT_MODE === "auto"){
+export function assessment_control_mode(mode){
+    console.log("THIS IS MODE "+mode);
+    if(mode == "auto"){
         // Assessment panel is created automatically
-        chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=>{
-            var assessment_controller = setInterval(create_assessment_panel, result.ASSESSMENT_INTERVAL_MS);
-            return assessment_controller
-        })
-
+        run_assessment_timeout();
     }
-    else if(CONFIG.ASSESSMENT_MODE === "remote"){
+    else if(mode == "remote"){
         // Remote method of controlling assessment panel
         var socket = io.connect("http://localhost:7070", {"forceNew": true});
         console.log(socket.id);
@@ -168,7 +166,7 @@ export function assessment_control_mode(){
             }
         })
     }
-    else if(CONFIG.ASSESSMENT_MODE === "manual"){
+    else if(mode == "manual"){
         // Manual method of controling assessment panel
         remove_assessment_panel();
         document.addEventListener('keydown', (e)=>{
@@ -180,4 +178,11 @@ export function assessment_control_mode(){
             }
         })
     }
+}
+
+function run_assessment_timeout(){
+    chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=>{
+        var assessment_controller = setTimeout(create_assessment_panel, result.ASSESSMENT_INTERVAL_MS);
+        return assessment_controller
+    })
 }
