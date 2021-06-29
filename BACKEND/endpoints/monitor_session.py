@@ -98,13 +98,14 @@ def post_session():
 
             for record in assessment_data:
                 assessment = record["assessment"]
+                duration_ms = record["duration"]
                 timestamp_utc_ms = record["timestamp"]
                 timestamp_s = (int(timestamp_utc_ms)/1000) + 2 * 3600        # timestamp in seconds +2h
                 timestamp = datetime.utcfromtimestamp(timestamp_s).strftime("%H:%M:%S")
                 time_in_video = record["time_in_video"]
 
-                statement = f"INSERT INTO assessments (session_id, assessment, timestamp, timestamp_utc_ms, time_in_video) VALUES (?,?,?,?,?)"
-                insert = (session_id, assessment, timestamp, timestamp_utc_ms, time_in_video)
+                statement = f"INSERT INTO assessments (session_id, assessment, timestamp, timestamp_utc_ms, time_in_video, duration_ms) VALUES (?,?,?,?,?,?)"
+                insert = (session_id, assessment, timestamp, timestamp_utc_ms, time_in_video, duration_ms)
                 cursor.execute(statement, insert)
         except:
             print("No assessment data provided - nothing to be inserted")

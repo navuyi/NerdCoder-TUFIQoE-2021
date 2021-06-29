@@ -1,8 +1,10 @@
 import {get_nerd_elements} from "./get_nerd_elements";
 import CONFIG from '../config';
+// The import below is important!!!
+// Importing {io} module directly from node_modules directory causes errors and problems with proper script execution
 import {io} from './socket-io-client';
 
-
+var enter_time = 0;
 
 
 
@@ -10,6 +12,7 @@ export function create_assessment_panel(){
     // Remove any ACR panel if it exists
     remove_assessment_panel();
 
+    enter_time = Date.now();
     // Create semi-transparent container covering whole screen
     var container = document.createElement('div');
     container.style.position = "absolute";
@@ -108,6 +111,10 @@ export function remove_assessment_panel(){
 }
 
 function hand_over_assessment(e){
+    // Calculate how long the assessment panel was visible
+    const assessment_duration = Date.now() - enter_time;
+
+
     // Get the subject's assessment
     const assessment = e.target.innerText;
 
@@ -125,6 +132,7 @@ function hand_over_assessment(e){
         msg: "assessment_handover",
         data: {
             assessment: assessment,
+            duration: assessment_duration,
             timestamp: timestamp,
             time_in_video: time_in_video
         }

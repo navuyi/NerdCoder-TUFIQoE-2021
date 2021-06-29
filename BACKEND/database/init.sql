@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS assessments(
     timestamp TEXT,
     timestamp_utc_ms INTEGER,
     assessment INTEGER,
+    duration_ms INTEGER,
 
     FOREIGN KEY(session_id) REFERENCES sessions(id)
 );
