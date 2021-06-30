@@ -1,5 +1,3 @@
-
-
 export function run_monitor(simple, complex){
     const data = {};
     const timestamp = Date.now();

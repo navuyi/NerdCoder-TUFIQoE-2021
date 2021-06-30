@@ -146,7 +146,9 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                     id: tabId,
                     assessments: [received_assessment]
                 }
-                captured_data.push(record);
+                // If there is no record found, don't append the data - causes error when data in submitted on video end
+                // and only assessments are submitted
+                //captured_data.push(record);
             }
         }
         // Listen for onbeforeunload message - tab close, refresh

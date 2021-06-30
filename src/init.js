@@ -1,6 +1,6 @@
 import {get_nerd_elements} from "./modules/get_nerd_elements";
 import {run_monitor} from "./modules/monitor";
-import {assessment_control_mode} from "./modules/video_assessment";
+import {init_assessment_controller} from "./modules/video_assessment";
 import CONFIG from "./config";
 
 
@@ -23,6 +23,7 @@ else{
 // Activate nerd statistics popup and get the HTML elements
 var [simple, complex] = get_nerd_elements();
 
+
 // Start capturing nerd statistics data
 var running_monitor = setInterval(run_monitor, CONFIG.INTERVAL, simple, complex);
 
@@ -30,9 +31,11 @@ var running_monitor = setInterval(run_monitor, CONFIG.INTERVAL, simple, complex)
 
 chrome.storage.local.get(["ASSESSMENT_MODE"], (result)=>{
     console.log(result)
-    var assessment_controller = assessment_control_mode(result.ASSESSMENT_MODE);
-    return assessment_controller;
+    init_assessment_controller(result.ASSESSMENT_MODE);
 })
+
+
+
 
 
 // Listen for tab close, refresh, redirect to different page (different address)
@@ -47,12 +50,9 @@ window.onbeforeunload = () => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     // Clear interval in case of receiving "stop" message
-    if(request.msg == "stop"){
+    if(request.msg === "stop"){
         if(typeof running_monitor !== 'undefined'){
             clearInterval(running_monitor);
-        }
-        if(typeof assessment_controller !== 'undefined'){
-            clearInterval(assessment_controller)
         }
     }
 })

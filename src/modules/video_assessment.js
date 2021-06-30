@@ -5,7 +5,7 @@ import CONFIG from '../config';
 import {io} from './socket-io-client';
 
 var enter_time = 0;
-
+var assessment_timeout;
 
 
 export function create_assessment_panel(){
@@ -117,7 +117,6 @@ function hand_over_assessment(e){
     // Calculate how long the assessment panel was visible
     const assessment_duration = Date.now() - enter_time;
 
-
     // Get the subject's assessment
     const assessment = e.target.innerText;
 
@@ -125,7 +124,7 @@ function hand_over_assessment(e){
     const timestamp = Date.now();
 
     // Get other data from nerd statistics
-    [simple, complex] = get_nerd_elements();
+    const [simple, complex] = get_nerd_elements();
     const mysteryText = simple.mysteryText.querySelector("span").innerText;
     const time_in_video =  mysteryText.match(/t\:([0-9]+\.[0-9]+)/)[1];
 
@@ -145,7 +144,7 @@ function hand_over_assessment(e){
     run_assessment_timeout();
 }
 
-export function assessment_control_mode(mode){
+export function init_assessment_controller(mode){
     console.log("THIS IS MODE "+mode);
     if(mode == "auto"){
         // Assessment panel is created automatically
@@ -182,7 +181,8 @@ export function assessment_control_mode(mode){
 
 function run_assessment_timeout(){
     chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=>{
-        var assessment_controller = setTimeout(create_assessment_panel, result.ASSESSMENT_INTERVAL_MS);
-        return assessment_controller
+        console.log("TIMEOUT")
+        clearTimeout(assessment_timeout);
+        assessment_timeout = setTimeout(create_assessment_panel, result.ASSESSMENT_INTERVAL_MS);
     })
 }
