@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="popup_style.css" />
+  </head>
+  <body>
+    <h1>NerdCoder Settings</h1>
+    <div class="option-container">
+      <label>Assessment panel opacity [%]</label>
+      <input id="opacity-input" />
+    </div>
+    <div class="option-container">
+      <label>Assessment time interval [ms]</label>
+      <input id="interval-input" />
+    </div>
+    <div class="option-container">
+      <label>Assessment mode</label>
+      <div class="mode-container">
+        <button id="mode-auto">Auto</button>
+        <button id="mode-manual">Manual</button>
+        <button id="mode-remote">Remote</button>
+      </div>
+    </div>
+
+    <button id="save-button">Save</button>
+
+    <script src="popup.js" type="module"></script>
+  </body>
+</html>

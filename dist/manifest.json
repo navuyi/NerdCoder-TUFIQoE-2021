@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "NerdCoder",
+  "version": "1.0",
+  "description": "Chrome extension for tracking YouTube activity and gathering nerd statistics",
+  "background": {
+    "scripts": [
+      "assets/background-f2be2f24.js"
+    ]
+  },
+  "permissions": [
+    "storage",
+    "webNavigation",
+    "activeTab",
+    "tabs",
+    "notifications",
+    "https://*/",
+    "background",
+    "declarativeContent"
+  ],
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "web_accessible_resources": [
+    "init.js"
+  ]
+}
