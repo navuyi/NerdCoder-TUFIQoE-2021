@@ -13,6 +13,10 @@ chrome.storage.local.get(["ASSESSMENT_MODE"], (result)=>{
     const button_id = "mode-"+result.ASSESSMENT_MODE;
     document.getElementById(button_id).setAttribute("active", true);
 });
+// Default for assessment panel layout
+chrome.storage.local.get(["ASSESSMENT_PANEL_LAYOUT"], (result)=>{
+    document.getElementById(result.ASSESSMENT_PANEL_LAYOUT).setAttribute("active", true);
+});
 
 
 // Assessment mode - buttons configuration
@@ -36,7 +40,26 @@ buttons.forEach((id, index)=>{
     document.getElementById(id).addEventListener("click", handle_mode_change);
 });
 
+// Assessment panel layout
+const layout_buttons = ["top", "middle", "bottom"];
+const handle_layout_change = (e) => {
+    // Get id of the clicked button
+    const clicked_button_id = e.target.id;
+    // Remove active attribute from all buttons
+    layout_buttons.forEach((id)=>{
+        document.getElementById(id).removeAttribute("active");
+    });
+    // Set active attribute to last clicked button
+    document.getElementById(clicked_button_id).setAttribute("active", true);
 
+    // Change the assessment mode in chrome storage
+    const panel_layout = clicked_button_id;
+    chrome.storage.local.set({ASSESSMENT_PANEL_LAYOUT: panel_layout});
+};
+// To every layout button attach event listener
+layout_buttons.forEach((id) => {
+    document.getElementById(id).addEventListener("click", handle_layout_change);
+});
 
 
 

@@ -1,4 +1,6 @@
-import default_panel from "../assessment_panels/default_panel";
+import middle_panel from "../assessment_panels/middle_panel";
+import top_panel from "../assessment_panels/top_panel";
+import bottom_panel from "../assessment_panels/bottom_panel";
 import {get_nerd_elements} from "../modules/get_nerd_elements";
 
 import {io} from "../modules/socket-io-client";
@@ -13,12 +15,25 @@ export function AssessmentController(mode){
     this.mode = mode;
 
     this.create_assessment_panel = function(){
-        this.remove_assessment_panel();
+        chrome.storage.local.get(["ASSESSMENT_PANEL_LAYOUT", "ASSESSMENT_PANEL_OPACITY"], (result) => {
+            this.remove_assessment_panel();
+            const layout = result.ASSESSMENT_PANEL_LAYOUT;
+            switch (layout){
+                case "middle":
+                    [this.panel, this.form] = middle_panel();
+                break;
+                case "bottom":
+                    [this.panel, this.form] = bottom_panel();
+                break;
+                case "top":
+                    [this.panel, this.form] = top_panel();
+                break;
+            }
+            console.log(result)
+            this.panel.style.opacity = result.ASSESSMENT_PANEL_OPACITY.toString() + "%";
 
-        [this.panel, this.form] = default_panel();
-        console.log(this.panel)
-        this.panel.style.opacity = "50%";   // change to the storage opacity
-        this.form.onsubmit = this.hand_over_data.bind(this);        // ! ! ! IMPORTANT BINDING ! ! !
+            this.form.onsubmit = this.hand_over_data.bind(this);                                                            // NOTICE THE BINDING IN THIS LINE //
+        })
     }
     this.remove_assessment_panel = function(){
         const panel = document.getElementById("acr-panel");
@@ -30,12 +45,14 @@ export function AssessmentController(mode){
     this.show_assessment_panel = function(){
         this.enter_time = Date.now();
         this.panel.style.visibility = "visible";
+        this.disable_rightclick();
+        this.disable_fullscreen_scrolling();
     }
 
     this.hide_assessment_panel = function(){
         // Hide panel
         this.panel.style.visibility = "hidden";
-
+        this.enable_rightclick();
         // Run another timeout if the mode is set to "auto"
         if(this.mode === "auto"){
             this.run_timeout();
@@ -108,6 +125,13 @@ export function AssessmentController(mode){
                 }
             })
         }
+        chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+            // Remove the assessment panel
+            if(request.msg === "stop"){
+                clearTimeout(this.timeout);
+                this.remove_assessment_panel();
+            }
+        })
     }
     this.run_timeout = function(){
         chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=>{
@@ -115,6 +139,21 @@ export function AssessmentController(mode){
             clearTimeout(this.timeout);
             this.timeout = setTimeout(this.show_assessment_panel.bind(this), result.ASSESSMENT_INTERVAL_MS);
         })
+    }
+
+    this.disable_rightclick = function(){
+        window.oncontextmenu = (e) => {
+            e.preventDefault();
+        }
+    }
+    this.enable_rightclick = function(){
+        window.oncontextmenu = (e) => {
+            // default behaviour
+        }
+    }
+    this.disable_fullscreen_scrolling = function(){
+        // Disable scrolling in fullscreen - executes when ACR scale shows up
+        document.getElementsByTagName("ytd-app")[0].removeAttribute("scrolling_");
     }
 }
 

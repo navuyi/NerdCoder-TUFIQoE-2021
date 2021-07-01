@@ -11,8 +11,9 @@ var captured_data = [];
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
         ASSESSMENT_PANEL_OPACITY: 80,                   // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 5000,                  // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_INTERVAL_MS: 5000,                    // Interval for assessment in auto mode in milliseconds
         ASSESSMENT_MODE: "auto",                        // Available modes are "remote", "auto" and "manual"
+        ASSESSMENT_PANEL_LAYOUT: "middle",              // Available for now are "middle", "top", "bottom"
         ASSESSMENT_PAUSE: "disabled"                    // Enable/disable playback pausing/resuming on video assessment
     }
     chrome.storage.local.set(config, ()=>{
