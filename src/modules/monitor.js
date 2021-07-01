@@ -2,6 +2,7 @@ export function run_monitor(simple, complex){
     const data = {};
     const timestamp = Date.now();
 
+    // Add timestamp to captured data
     Object.assign(data, {timestamp: timestamp});
 
     // Extract useful data from simple elements
@@ -29,10 +30,8 @@ export function run_monitor(simple, complex){
         Object.assign(data, {[key]: value})
     }
     // Send data to background script
-    console.log("INTERVAL")
     hand_over_data(data);
 }
-
 
 
 function hand_over_data(data){

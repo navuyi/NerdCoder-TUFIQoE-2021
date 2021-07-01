@@ -5,11 +5,12 @@ from flask_cors import CORS
 from endpoints.monitor_session import monitor_session
 
 app = Flask(__name__)
-app.config['JSON_SORT_KEYS'] = False # Prevents json() from sorting key in dictionaries
+app.config['JSON_SORT_KEYS'] = False  # Prevents json() from sorting key in dictionaries
 
 config = {
-    "ORIGINS":[
-       "*"
+    "ORIGINS": [
+        "*",
+        "chrome-extension://*"
     ]
 }
 cors = CORS(app, resources={r"/*": {"origins": config["ORIGINS"]}}, supports_credentials=True)

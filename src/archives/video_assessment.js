@@ -1,8 +1,8 @@
-import {get_nerd_elements} from "./get_nerd_elements";
+import {get_nerd_elements} from "../modules/get_nerd_elements";
 import CONFIG from '../config';
 // The import below is important!!!
 // Importing {io} module directly from node_modules directory causes errors and problems with proper script execution
-import {io} from './socket-io-client';
+import {io} from '../modules/socket-io-client';
 
 var enter_time = 0;
 var assessment_timeout;
@@ -12,7 +12,9 @@ export function create_assessment_panel(){
     // Remove any ACR panel if it exists
     remove_assessment_panel();
 
+    // Get current UTC time
     enter_time = Date.now();
+
     // Create semi-transparent container covering whole screen
     var container = document.createElement('div');
     container.style.position = "absolute";
@@ -24,7 +26,6 @@ export function create_assessment_panel(){
     chrome.storage.local.get(["ASSESSMENT_PANEL_OPACITY"], (result)=>{
         container.style.opacity = result.ASSESSMENT_PANEL_OPACITY.toString() + "%";
     })
-
     container.style.zIndex = "2077";
     container.id = "acr-panel";
     container.style.display = "flex";
@@ -43,7 +44,6 @@ export function create_assessment_panel(){
     panel.style.padding = "5em 5em";
     panel.style.borderRadius = "1em";
     panel.style.maxWidth = "300px";
-
     container.appendChild(panel);
 
     // Create panel header
@@ -100,7 +100,7 @@ export function create_assessment_panel(){
 }
 
 export function remove_assessment_panel(){
-    var panel = document.getElementById("acr-panel");
+    const panel = document.getElementById("acr-panel");
     if(panel){
         panel.remove();
         window.oncontextmenu = (e) => {

@@ -6,17 +6,19 @@
 const yt_watch_string = "https://www.youtube.com/watch?v=";
 var captured_data = [];
 
-// Initialize config values
+
+// Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
-        ASSESSMENT_PANEL_OPACITY: 80,           // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 60000,           // Interval for assessment in auto mode in milliseconds
-        ASSESSMENT_MODE: "auto",                // Available modes are "remote", "auto" and "manual"
-        ASSESSMENT_PAUSE: "disabled"     // Enable/disable playback pausing/resuming on video assessment
+        ASSESSMENT_PANEL_OPACITY: 80,                   // Opacity of the assessment panel in %
+        ASSESSMENT_INTERVAL_MS: 5000,                  // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_MODE: "auto",                        // Available modes are "remote", "auto" and "manual"
+        ASSESSMENT_PAUSE: "disabled"                    // Enable/disable playback pausing/resuming on video assessment
     };
     chrome.storage.local.set(config, ()=>{
         console.log("Config has been saved: " + config);
     });
+    window.localStorage.setItem('test_val', "Dwiescie dwadziescia");
 });
 
 
@@ -49,7 +51,7 @@ function submit_captured_data(captured_data, tabId){
 }
 
 // Listen for entering youtube page with video player
-// webNavigation.onHistoryStateUpdated is used instead of tabs.onUpdated due to multiple executions coused by iframes
+// webNavigation.onHistoryStateUpdated is used instead of tabs.onUpdated due to multiple executions caused by iframes
 chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
     if(details.frameId === 0 && details.url.includes(yt_watch_string)) {
         chrome.tabs.get(details.tabId, (tab) => {
@@ -69,7 +71,7 @@ chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
     }
 });
 
-// Listen for onCommittedd events and page reload in particular
+// Listen for onCommitted events and page reload in particular
 // onCommitted - part of the page content is loaded - inject content script
 chrome.webNavigation.onCommitted.addListener((details) => {
     if(details.frameId === 0 && details.url.includes(yt_watch_string)){
@@ -93,7 +95,7 @@ chrome.tabs.onUpdated.addListener((tab_id, changeInfo, tab)=>{
         // Send signal to stop capturing data
         chrome.tabs.sendMessage(tab_id, {msg: "stop"});
 
-        // Submit captured data and clear array
+        // Submit captured
         submit_captured_data(captured_data, tab.id);
     }
 });
@@ -119,7 +121,6 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                 };
                 captured_data.push(record);
             }
-            sender.tab.id;
         }
         // Listen for assessment handover
         if(request.msg == "assessment_handover"){

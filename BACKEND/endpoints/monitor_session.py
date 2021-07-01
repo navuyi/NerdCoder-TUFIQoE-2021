@@ -22,7 +22,9 @@ def post_session():
         f_record = session_data[0]
         l_record = session_data[len(session_data)-1]
     except Exception as err:
-        return err
+        print(err);
+        return {"msg": "Could not read the data"}, 422
+
 
     # Get the monitoring session general data
     videoID = re.search("^(.+)\s\/", f_record["videoId_sCPN"]).group(1)
@@ -118,8 +120,8 @@ def post_session():
             conn.commit()
             conn.close()
             print("The SQLite connection is closed")
+            return {"msg": "OK"}, 201
 
-    return {"msg": "OK"}, 201
 
 
 

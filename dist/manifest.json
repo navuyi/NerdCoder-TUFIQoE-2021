@@ -2,11 +2,13 @@
   "manifest_version": 2,
   "name": "NerdCoder",
   "version": "1.0",
-  "description": "Chrome extension for tracking YouTube activity and gathering nerd statistics",
+  "description": "DEVELOPMENT build with simple auto-reloader\n[2021-07-01 12:17:29] waiting for changes...",
   "background": {
     "scripts": [
+      "assets/background-page-reloader-e76fc72f.js",
       "assets/background-f2be2f24.js"
-    ]
+    ],
+    "persistent": true
   },
   "permissions": [
     "storage",

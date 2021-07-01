@@ -29,7 +29,7 @@ const handle_mode_change = (e) => {
 
     // Change the assessment mode in chrome storage
     const mode = clicked_button_id.match(/mode-([a-zA-Z]+)/)[1]
-    chrome.storage.local.set({ASSESSMENT_MODE: [mode]});
+    chrome.storage.local.set({ASSESSMENT_MODE: mode});
 }
 // To every mode button attach event listener
 buttons.forEach((id, index)=>{

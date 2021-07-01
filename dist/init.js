@@ -91,6 +91,7 @@ function run_monitor(simple, complex){
     const data = {};
     const timestamp = Date.now();
 
+    // Add timestamp to captured data
     Object.assign(data, {timestamp: timestamp});
 
     // Extract useful data from simple elements
@@ -118,10 +119,8 @@ function run_monitor(simple, complex){
         Object.assign(data, {[key]: value});
     }
     // Send data to background script
-    console.log("INTERVAL");
     hand_over_data(data);
 }
-
 
 
 function hand_over_data(data){
@@ -6183,15 +6182,7 @@ var socketIoClient = createCommonjsModule(function (module, exports) {
 
 });
 
-var enter_time = 0;
-var assessment_timeout;
-
-
-function create_assessment_panel(){
-    // Remove any ACR panel if it exists
-    remove_assessment_panel();
-
-    enter_time = Date.now();
+function default_panel(){
     // Create semi-transparent container covering whole screen
     var container = document.createElement('div');
     container.style.position = "absolute";
@@ -6200,15 +6191,12 @@ function create_assessment_panel(){
     container.style.width = "100%";
     container.style.height = "100%";
     container.style.backgroundColor = "rgba(34,34,34,1)";
-    chrome.storage.local.get(["ASSESSMENT_PANEL_OPACITY"], (result)=>{
-        container.style.opacity = result.ASSESSMENT_PANEL_OPACITY.toString() + "%";
-    });
-
     container.style.zIndex = "2077";
     container.id = "acr-panel";
     container.style.display = "flex";
     container.style.justifyContent = "center";
     container.style.alignItems = "flex-start";
+    container.style.visibility = "hidden";
 
     // Create panel for ACR scale and header
     var panel = document.createElement('div');
@@ -6222,7 +6210,6 @@ function create_assessment_panel(){
     panel.style.padding = "5em 5em";
     panel.style.borderRadius = "1em";
     panel.style.maxWidth = "300px";
-
     container.appendChild(panel);
 
     // Create panel header
@@ -6242,13 +6229,13 @@ function create_assessment_panel(){
     form.style.justifyContent = "center";
     form.style.alignItems = "center";
     form.style.flexDirection = "column";
-    form.onsubmit = (e) =>{e.preventDefault(); /* nothing else for now*/};
     panel.appendChild(form);
 
     // Create assessment buttons
     for(let i=5; i>=1; i--){
         var button = document.createElement('button');
         button.setAttribute("type", "submit");
+        button.setAttribute("assessment", i.toString());
         button.innerText = i.toString();
         button.style.width = "50%";
         button.style.padding = "1em 1em";
@@ -6256,105 +6243,135 @@ function create_assessment_panel(){
         button.style.fontWeight = "bold";
         button.style.border = "none";
         button.style.borderRadius = "0.5em";
-        button.id = i.toString();
+
         button.addEventListener("mouseenter", (e)=>{e.target.style.backgroundColor = "#8ecccc";});
         button.addEventListener("mouseleave", (e)=>{e.target.style.backgroundColor = "whitesmoke";});
-        button.addEventListener("click", hand_over_assessment);
+        button.addEventListener("click", (e)=>{
+            // Get the selected assessment value
+            const assessment = e.target.getAttribute("assessment");
+            // Assign the selected assessment value to form's ID
+            form.setAttribute("assessment", assessment.toString());
+        });
         form.appendChild(button);
     }
 
-
-    // Add semi-transparent panel to ytd-app element and disable rightclicking
+    // Add semi-transparent panel to ytd-app element
     document.getElementsByTagName("ytd-app")[0].appendChild(container);
-    window.oncontextmenu = (e) => {
-        e.preventDefault();
+    return [container, form];
+}
+
+function AssessmentController(mode){
+    this.timeout = undefined;
+    this.panel = undefined;
+    this.form = undefined;
+    this.enter_time = undefined;
+    this.timeout = undefined;
+    this.mode = mode;
+
+    this.create_assessment_panel = function(){
+        this.remove_assessment_panel();
+
+        [this.panel, this.form] = default_panel();
+        console.log(this.panel);
+        this.panel.style.opacity = "50%";   // change to the storage opacity
+        this.form.onsubmit = this.hand_over_data.bind(this);        // ! ! ! IMPORTANT BINDING ! ! !
     };
-    // Disable scrolling in fullscreen - executes when ACR scale shows up
-    document.getElementsByTagName("ytd-app")[0].removeAttribute("scrolling_");
-}
-
-function remove_assessment_panel(){
-    var panel = document.getElementById("acr-panel");
-    if(panel){
-        panel.remove();
-        window.oncontextmenu = (e) => {
-            // default behaviour
-        };
-    }
-}
-
-function hand_over_assessment(e){
-    // Calculate how long the assessment panel was visible
-    const assessment_duration = Date.now() - enter_time;
-
-    // Get the subject's assessment
-    const assessment = e.target.innerText;
-
-    // Get timestamp data
-    const timestamp = Date.now();
-
-    // Get other data from nerd statistics
-    const [simple, complex] = get_nerd_elements();
-    const mysteryText = simple.mysteryText.querySelector("span").innerText;
-    const time_in_video =  mysteryText.match(/t\:([0-9]+\.[0-9]+)/)[1];
-
-
-    // Hand over the assessment to the background script
-    const message = {
-        msg: "assessment_handover",
-        data: {
-            assessment: assessment,
-            duration: assessment_duration,
-            timestamp: timestamp,
-            time_in_video: time_in_video
+    this.remove_assessment_panel = function(){
+        const panel = document.getElementById("acr-panel");
+        if(panel){
+            panel.remove();
         }
     };
-    chrome.runtime.sendMessage(message);
-    remove_assessment_panel();
-    run_assessment_timeout();
-}
 
-function init_assessment_controller(mode){
-    console.log("THIS IS MODE "+mode);
-    if(mode == "auto"){
-        // Assessment panel is created automatically
-        run_assessment_timeout();
-    }
-    else if(mode == "remote"){
-        // Remote method of controlling assessment panel
-        var socket = socketIoClient.io.connect("http://localhost:7070", {"forceNew": true});
-        console.log(socket.id);
+    this.show_assessment_panel = function(){
+        this.enter_time = Date.now();
+        this.panel.style.visibility = "visible";
+    };
 
-        socket.on("controls", (msg)=>{
-            console.log(msg);
-            if(msg.order === "create"){
-                create_assessment_panel();
+    this.hide_assessment_panel = function(){
+        // Hide panel
+        this.panel.style.visibility = "hidden";
+
+        // Run another timeout if the mode is set to "auto"
+        if(this.mode === "auto"){
+            this.run_timeout();
+        }
+    };
+
+    this.hand_over_data = function(e){
+        // Prevent defoult
+        e.preventDefault();
+
+        // Calculate how long the assessment panel was visible
+        const assessment_duration = Date.now() - this.enter_time;
+
+        // Get the subject's assessment
+        const assessment = this.form.getAttribute("assessment");
+        console.log(assessment);
+        // Get timestamp data
+        const timestamp = Date.now();
+
+        // Get other data from nerd statistics
+        const [simple, complex] = get_nerd_elements();
+        const mysteryText = simple.mysteryText.querySelector("span").innerText;
+        const time_in_video =  mysteryText.match(/t\:([0-9]+\.[0-9]+)/)[1];
+
+
+        // Hand over the assessment to the background script
+        const message = {
+            msg: "assessment_handover",
+            data: {
+                assessment: assessment,
+                duration: assessment_duration,
+                timestamp: timestamp,
+                time_in_video: time_in_video
             }
-            else if(msg.order === "remove"){
-                remove_assessment_panel();
-            }
+        };
+        chrome.runtime.sendMessage(message);
+        this.hide_assessment_panel();
+    };
+
+
+
+    this.init = function(){
+        this.create_assessment_panel();
+        console.log(this.mode);
+        if(this.mode === "auto"){
+            // Assessment panel is created automatically
+            this.run_timeout();
+        }
+        else if(this.mode === "remote"){
+            // Remote method of controlling assessment panel
+            var socket = socketIoClient.io.connect("http://localhost:7070", {"forceNew": true});
+            socket.on("controls", (msg)=>{
+                console.log(msg);
+                if(msg.order === "create"){
+                    this.show_assessment_panel();
+                }
+                else if(msg.order === "remove"){
+                    this.hide_assessment_panel();
+                }
+            });
+        }
+        else if(this.mode === "manual"){
+            // Manual method of controling assessment panel
+            document.addEventListener('keydown', (e)=>{
+                if(e.key === "o"){
+                    this.show_assessment_panel();
+                }
+                else if(e.key === "p"){
+                    this.hide_assessment_panel();
+                }
+            });
+        }
+    };
+    this.run_timeout = function(){
+        chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=>{
+            console.log("TIMEOUT");
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(this.show_assessment_panel.bind(this), result.ASSESSMENT_INTERVAL_MS);
         });
-    }
-    else if(mode == "manual"){
-        // Manual method of controling assessment panel
-        remove_assessment_panel();
-        document.addEventListener('keydown', (e)=>{
-            if(e.key === "o"){
-                create_assessment_panel();
-            }
-            else if(e.key === "p"){
-                remove_assessment_panel();
-            }
-        });
-    }
-}
-
-function run_assessment_timeout(){
-    chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=>{
-        console.log("TIMEOUT");
-        clearTimeout(assessment_timeout);
-        assessment_timeout = setTimeout(create_assessment_panel, result.ASSESSMENT_INTERVAL_MS);
-    });
+    };
 }
 
 // Clear running_monitor from last session - will not execute on first video playback
@@ -6366,9 +6383,6 @@ else {
     console.log("No running monitor to clear");
 }
 
-
-
-
 // Activate nerd statistics popup and get the HTML elements
 var [simple, complex] = get_nerd_elements();
 
@@ -6376,14 +6390,12 @@ var [simple, complex] = get_nerd_elements();
 // Start capturing nerd statistics data
 var running_monitor = setInterval(run_monitor, CONFIG.INTERVAL, simple, complex);
 
-// Turn on proper mode for controlling assessment panels
 
+// Start the assessment controller
 chrome.storage.local.get(["ASSESSMENT_MODE"], (result)=>{
-    console.log(result);
-    init_assessment_controller(result.ASSESSMENT_MODE);
+    var controller = new AssessmentController(result.ASSESSMENT_MODE);
+    controller.init();
 });
-
-
 
 
 
