@@ -1,4 +1,5 @@
 # NerdCoder-TUFIQoE-2021
+<<<<<<< HEAD
 Chrome extension software for recording YouTube activity and gathering "nerd statistics" data
 
 ## Content
@@ -9,3 +10,6 @@ to work properly.
     - GET endpoint to get data in form of JSON
 - SQLite database
 - NodeJS script for remote control of video assessment panel
+=======
+Chrome extension software for recording YouTube activity and gathering "nerd statistics"
+
