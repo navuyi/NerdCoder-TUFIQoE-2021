@@ -19,7 +19,6 @@ chrome.runtime.onInstalled.addListener( ()=>{
     chrome.storage.local.set(config, ()=>{
         console.log("Config has been saved: " + config);
     });
-    window.localStorage.setItem('test_val', "Dwiescie dwadziescia");
 });
 
 
