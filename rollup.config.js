@@ -6,6 +6,8 @@ import zip from 'rollup-plugin-zip'
 import { emptyDir } from 'rollup-plugin-empty-dir'
 import json from "@rollup/plugin-json";
 
+import {uglify} from "rollup-plugin-uglify";
+
 import { chromeExtension, simpleReloader } from 'rollup-plugin-chrome-extension'
 
 const p = process.env.NODE_ENV === 'production'
@@ -29,6 +31,8 @@ export default {
     emptyDir(),
     // rollup json plugin
     json(),
+    // uglify plugin
+    uglify(),
     // creates a zip to upload to the Chrome Web Store :)
     p && zip({ dir: 'releases' }),
   ]
