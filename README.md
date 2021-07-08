@@ -13,5 +13,5 @@ to work properly.
 
 
 ## Installation
-The dist directory contains bundled files. Install the extension by loading
-the dist directory with the "load unpacked" option.
+The "dist" directory contains bundled files. Install the extension by loading
+the "dist" directory with the "load unpacked" option.
