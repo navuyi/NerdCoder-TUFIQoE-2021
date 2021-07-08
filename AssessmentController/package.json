@@ -10,6 +10,7 @@
   "author": "Rafał Figlus",
   "license": "ISC",
   "dependencies": {
+    "chrome-remote-interface": "^0.31.0",
     "express": "^4.17.1",
     "iohook": "^0.9.3",
     "key-events": "^0.1.1",

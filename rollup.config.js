@@ -7,6 +7,7 @@ import { emptyDir } from 'rollup-plugin-empty-dir'
 import json from "@rollup/plugin-json";
 
 import {uglify} from "rollup-plugin-uglify";
+import obfuscatorPlugin from "rollup-plugin-javascript-obfuscator";
 
 import { chromeExtension, simpleReloader } from 'rollup-plugin-chrome-extension'
 
@@ -31,8 +32,13 @@ export default {
     emptyDir(),
     // rollup json plugin
     json(),
-    // uglify plugin
+    // uglify
     uglify(),
+
+    // obfuscator plugin
+    /*obfuscatorPlugin({
+      compact: true
+    }),*/
     // creates a zip to upload to the Chrome Web Store :)
     p && zip({ dir: 'releases' }),
   ]
