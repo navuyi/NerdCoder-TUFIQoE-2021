@@ -137,7 +137,7 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
             const received_data = request.data;
             const tabId = sender.tab.id;
 
-            // Look if data from this monitor session already exists
+            // Check if data from this monitor session already exists
             const record = captured_data.find(record => record.id === tabId);
             if(record !== undefined){
                 record.data.push(received_data);
@@ -193,10 +193,6 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
             chrome.debugger.attach({tabId: sender.tab.id}, "1.2", ()=>{
                 chrome.debugger.sendCommand({tabId: sender.tab.id}, "Page.bringToFront");
             })
-
-
-
-
         }
     }
 );
