@@ -33,7 +33,7 @@ export default {
     // rollup json plugin
     json(),
     // uglify
-    uglify(),
+    //uglify(),
 
     // obfuscator plugin
     /*obfuscatorPlugin({

@@ -5,7 +5,7 @@ body{
     align-items: center;
     width: 300px;
     font-size: 14px;
-    padding: 1em 1em;
+    padding: 0.5em 1em;
 }
 h1{
     text-align: center;
@@ -14,13 +14,14 @@ h1{
 .option-container{
     display: flex;
     flex-direction: column;
-    margin: 1em 0;
+    margin: 0.3em 0;
     width: 100%;
     align-items: center;
 }
 label{
     text-align: center;
     font-size: 1.2rem;
+    font-weight: 500;
 }
 .option-container input{
     border-radius: 0.3em;
@@ -37,7 +38,7 @@ label{
     justify-content: space-between;
     margin-top: 5px;
 }
-.mode-container button{
+.option-container button{
     font-size: 1.1rem;
     padding: 0.5em 0;
     border: none;
@@ -45,11 +46,14 @@ label{
     outline: none;
     width: 30%;
 }
-.mode-container button:hover{
+.option-container button:hover{
     background-color: darkseagreen;
 }
-.mode-container button[active]{
+.option-container button[active="true"]{
     background-image: linear-gradient(15deg, green, #04cd04);
+}
+.option-container button[active="false"]{
+    background-image: linear-gradient(15deg, darkred, red);
 }
 #assessment-pause{
     font-size: 1.1rem;
@@ -59,13 +63,7 @@ label{
     outline: none;
     width: 30%;
 }
-#assessment-pause[mode_enabled]{
-    background-image: linear-gradient(15deg, green, #04cd04);
-}
-#assessment-pause[mode_disabled]{
-    background-image: linear-gradient(15deg, darkred, red);
-    color: black;
-}
+
 
 #save-button{
     font-size: 1.2rem;

@@ -1,1 +1,6638 @@
-var CONFIG={NERD_STAT_VISIBILITY:!0,INTERVAL:500,ASSESSMENT_PAUSE:!1};function get_nerd_elements(){document.getElementById("player"),document.getElementById("player-container-outer"),document.getElementById("player-container-inner"),document.getElementById("player-container"),document.getElementById("ytd-player");var e=document.getElementById("movie_player"),t=e.ownerDocument.createEvent("MouseEvents");t.initMouseEvent("contextmenu",!0,!0,e.ownerDocument.defaultView,1,0,0,0,0,!1,!1,!1,!1,2,null),e.dispatchEvent(t);const n=document.getElementsByClassName("ytp-popup ytp-contextmenu").item(0),r=n.children.item(0),i=r.children.item(0).children,o=i.item(i.length-1);o.click();const a=document.getElementsByClassName("html5-video-info-panel").item(0),s=document.getElementsByClassName("html5-video-info-panel-content").item(0).children;var c=s.item(0),p=s.item(1),d=s.item(2),u=s.item(3),l=s.item(4),m=s.item(6),f=s.item(8),h=s.item(9),e=s.item(10),t=s.item(14);return a.style.opacity="100%",[{mysteryText:t,videoId_sCPN:c,viewport_frames:p,current_optimalRes:d,volume_normalized:u,codecs:l,color:m},{connectionSpeed:f,networkActivity:h,bufferHealth:e}]}function run_monitor(e,t){var n,r,i,o,a={},s=Date.now();Object.assign(a,{timestamp:s});for([n,r]of Object.entries(e)){const d=r.querySelector("span").innerText;if("mysteryText"===n){var c=d.match(/s:([a-z A-Z 0-9]{2})/)[1];if("e "===c)return chrome.runtime.sendMessage({msg:"onbeforeunload",type:"video_end"}),!0}Object.assign(a,{[n]:d});}for([i,o]of Object.entries(t)){var p=o.querySelector("span").querySelectorAll("span")[1].innerText;Object.assign(a,{[i]:p});}hand_over_data(a);}function hand_over_data(e){chrome.runtime.sendMessage({msg:"data_handover",data:e});}function middle_panel(){var e=document.createElement("div");e.style.position="absolute",e.style.top="0px",e.style.left="0px",e.style.width="100%",e.style.height="100%",e.style.backgroundColor="rgba(34,34,34,1)",e.style.zIndex="2077",e.id="acr-panel",e.style.display="flex",e.style.justifyContent="center",e.style.alignItems="flex-start",e.style.visibility="hidden";var t=document.createElement("div");t.style.backgroundColor="rgba(34,34,34,1)",t.style.position="sticky",t.style.top="50vh",t.style.transform="translateY(-25vh)",t.style.display="flex",t.style.justifyContent="center",t.style.alignItems="center",t.style.flexDirection="column",t.style.padding="5em 5em",t.style.borderRadius="1em",t.style.maxWidth="300px",e.appendChild(t);var n=document.createElement("h1");n.innerText="Proszę ocenić dotychczasową jakość audio i video",n.style.fontSize="2rem",n.style.fontWeight="400",n.style.color="whitesmoke",n.style.textAlign="center",n.style.userSelect="none",t.appendChild(n);var r=document.createElement("form");r.style.marginTop="2em",r.style.width="100%",r.style.display="flex",r.style.justifyContent="center",r.style.alignItems="center",r.style.flexDirection="column",t.appendChild(r);for(let e=5;1<=e;e--){var i=document.createElement("button");i.setAttribute("type","submit"),i.setAttribute("assessment",e.toString()),i.innerText=e.toString(),i.style.width="50%",i.style.padding="1em 1em",i.style.margin="0.5em 0em",i.style.fontWeight="bold",i.style.border="none",i.style.borderRadius="0.5em",i.style.cursor="pointer",i.addEventListener("mouseenter",e=>{e.target.style.backgroundColor="#8ecccc";}),i.addEventListener("mouseleave",e=>{e.target.style.backgroundColor="whitesmoke";}),i.addEventListener("click",e=>{const t=e.target.getAttribute("assessment");r.setAttribute("assessment",t.toString());}),r.appendChild(i);}return document.getElementsByTagName("ytd-app")[0].appendChild(e),[e,r]}function top_panel(){var e=document.createElement("div");e.style.position="absolute",e.style.top="0px",e.style.left="0px",e.style.width="100%",e.style.height="100%",e.style.backgroundColor="rgba(34,34,34,1)",e.style.zIndex="2077",e.id="acr-panel",e.style.display="flex",e.style.justifyContent="center",e.style.alignItems="flex-start",e.style.visibility="hidden";var t=document.createElement("div");t.style.position="sticky",t.style.top="8%",t.style.display="flex",t.style.flexDirection="column",t.style.justifyContent="center",t.style.alignItems="center",t.style.padding="2em 5em",t.style.borderRadius="1em",e.appendChild(t);var n=document.createElement("h1");n.innerText="Proszę ocenić dotychczasową jakość audio i video",n.style.fontSize="3rem",n.style.fontWeight="400",n.style.color="whitesmoke",n.style.textAlign="center",n.style.userSelect="none",t.appendChild(n);var r=document.createElement("form");r.style.marginTop="2em",r.style.width="100%",r.style.display="flex",r.style.justifyContent="space-between",r.style.flexDirection="row",t.appendChild(r);for(let e=1;e<=5;e++){var i=document.createElement("button");i.setAttribute("type","submit"),i.setAttribute("assessment",e.toString()),i.innerText=e.toString(),i.style.width="50%",i.style.padding="1.2em 2em",i.style.margin="0.5em 0em",i.style.fontWeight="bold",i.style.border="none",i.style.borderRadius="0.5em",i.style.margin="0 2em",i.style.cursor="pointer",i.addEventListener("mouseenter",e=>{e.target.style.backgroundColor="#8ecccc";}),i.addEventListener("mouseleave",e=>{e.target.style.backgroundColor="whitesmoke";}),i.addEventListener("click",e=>{const t=e.target.getAttribute("assessment");r.setAttribute("assessment",t.toString());}),r.appendChild(i);}return document.getElementsByTagName("ytd-app")[0].appendChild(e),[e,r]}function bottom_panel(){var e=document.createElement("div");e.style.position="absolute",e.style.top="0px",e.style.left="0px",e.style.width="100%",e.style.height="100%",e.style.backgroundColor="rgba(34,34,34,1)",e.style.zIndex="2077",e.id="acr-panel",e.style.display="flex",e.style.justifyContent="center",e.style.alignItems="flex-start",e.style.visibility="hidden";var t=document.createElement("div");t.style.position="sticky",t.style.top="100vh",t.style.transform="translateY(-20vh)",t.style.display="flex",t.style.flexDirection="column",t.style.justifyContent="center",t.style.alignItems="center",t.style.padding="2em 5em",t.style.borderRadius="1em",e.appendChild(t);var n=document.createElement("h1");n.innerText="Proszę ocenić dotychczasową jakość audio i video",n.style.fontSize="3rem",n.style.fontWeight="400",n.style.color="whitesmoke",n.style.textAlign="center",n.style.userSelect="none",t.appendChild(n);var r=document.createElement("form");r.style.marginTop="2em",r.style.width="100%",r.style.display="flex",r.style.justifyContent="space-between",r.style.flexDirection="row",t.appendChild(r);for(let e=1;e<=5;e++){var i=document.createElement("button");i.setAttribute("type","submit"),i.setAttribute("assessment",e.toString()),i.innerText=e.toString(),i.style.width="50%",i.style.padding="1.2em 2em",i.style.margin="0.5em 0em",i.style.fontWeight="bold",i.style.border="none",i.style.borderRadius="0.5em",i.style.margin="0 2em",i.style.cursor="pointer",i.addEventListener("mouseenter",e=>{e.target.style.backgroundColor="#8ecccc";}),i.addEventListener("mouseleave",e=>{e.target.style.backgroundColor="whitesmoke";}),i.addEventListener("click",e=>{const t=e.target.getAttribute("assessment");r.setAttribute("assessment",t.toString());}),r.appendChild(i);}return document.getElementsByTagName("ytd-app")[0].appendChild(e),[e,r]}function createCommonjsModule(e,t,n){return e(n={path:t,exports:{},require:function(e,t){return commonjsRequire(e,null==t?n.path:t)}},n.exports),n.exports}function commonjsRequire(){throw new Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs")}var socketIoClient=createCommonjsModule(function(e,t){var n;n=function(){return n={"./build/index.js":function(e,t,n){function o(e){return (o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}Object.defineProperty(t,"__esModule",{value:!0}),t.io=t.Socket=t.Manager=t.protocol=void 0;var a=n("./build/url.js"),s=n("./build/manager.js"),c=n("./node_modules/debug/src/browser.js")("socket.io-client");e.exports=t=r;var p=t.managers={};function r(e,t){"object"===o(e)&&(t=e,e=void 0);var n=a.url(e,(t=t||{}).path||"/socket.io"),r=n.source,i=n.id,e=n.path,e=p[i]&&e in p[i].nsps,i=t.forceNew||t["force new connection"]||!1===t.multiplex||e?(c("ignoring socket cache for %s",r),new s.Manager(r,t)):(p[i]||(c("new io instance for %s",r),p[i]=new s.Manager(r,t)),p[i]);return n.query&&!t.query&&(t.query=n.queryKey),i.socket(n.path,t)}t.io=r;var i=n("./node_modules/socket.io-parser/dist/index.js");Object.defineProperty(t,"protocol",{enumerable:!0,get:function(){return i.protocol}}),t.connect=r;var d=n("./build/manager.js");Object.defineProperty(t,"Manager",{enumerable:!0,get:function(){return d.Manager}});var u=n("./build/socket.js");Object.defineProperty(t,"Socket",{enumerable:!0,get:function(){return u.Socket}}),t.default=r;},"./build/manager.js":function(e,t,n){function o(e){return (o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function a(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r);}}function s(e,t){return (s=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function c(n){var r=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return !1}}();return function(){var e,t=i(n);return e=r?(e=i(this).constructor,Reflect.construct(t,arguments,e)):t.apply(this,arguments),t=this,!(e=e)||"object"!==o(e)&&"function"!=typeof e?function(e){if(void 0!==e)return e;throw new ReferenceError("this hasn't been initialised - super() hasn't been called")}(t):e}}function i(e){return (i=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}Object.defineProperty(t,"__esModule",{value:!0}),t.Manager=void 0;var p=n("./node_modules/engine.io-client/lib/index.js"),d=n("./build/socket.js"),u=n("./node_modules/socket.io-parser/dist/index.js"),l=n("./build/on.js"),m=n("./node_modules/backo2/index.js"),f=n("./build/typed-events.js"),h=n("./node_modules/debug/src/browser.js")("socket.io-client:manager"),n=function(){!function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&s(e,t);}(i,f.StrictEventEmitter);var e,t,r=c(i);function i(e,t){var n;!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,i),(n=r.call(this)).nsps={},n.subs=[],e&&"object"===o(e)&&(t=e,e=void 0),(t=t||{}).path=t.path||"/socket.io",n.opts=t,n.reconnection(!1!==t.reconnection),n.reconnectionAttempts(t.reconnectionAttempts||1/0),n.reconnectionDelay(t.reconnectionDelay||1e3),n.reconnectionDelayMax(t.reconnectionDelayMax||5e3),n.randomizationFactor(t.randomizationFactor||.5),n.backoff=new m({min:n.reconnectionDelay(),max:n.reconnectionDelayMax(),jitter:n.randomizationFactor()}),n.timeout(null==t.timeout?2e4:t.timeout),n._readyState="closed",n.uri=e;e=t.parser||u;return n.encoder=new e.Encoder,n.decoder=new e.Decoder,n._autoConnect=!1!==t.autoConnect,n._autoConnect&&n.open(),n}return e=i,(t=[{key:"reconnection",value:function(e){return arguments.length?(this._reconnection=!!e,this):this._reconnection}},{key:"reconnectionAttempts",value:function(e){return void 0===e?this._reconnectionAttempts:(this._reconnectionAttempts=e,this)}},{key:"reconnectionDelay",value:function(e){var t;return void 0===e?this._reconnectionDelay:(this._reconnectionDelay=e,null!==(t=this.backoff)&&void 0!==t&&t.setMin(e),this)}},{key:"randomizationFactor",value:function(e){var t;return void 0===e?this._randomizationFactor:(this._randomizationFactor=e,null!==(t=this.backoff)&&void 0!==t&&t.setJitter(e),this)}},{key:"reconnectionDelayMax",value:function(e){var t;return void 0===e?this._reconnectionDelayMax:(this._reconnectionDelayMax=e,null!==(t=this.backoff)&&void 0!==t&&t.setMax(e),this)}},{key:"timeout",value:function(e){return arguments.length?(this._timeout=e,this):this._timeout}},{key:"maybeReconnectOnOpen",value:function(){!this._reconnecting&&this._reconnection&&0===this.backoff.attempts&&this.reconnect();}},{key:"open",value:function(t){var n=this;if(h("readyState %s",this._readyState),~this._readyState.indexOf("open"))return this;h("opening %s",this.uri),this.engine=p(this.uri,this.opts);var e=this.engine,r=this;this._readyState="opening",this.skipReconnect=!1;var i,o,a=l.on(e,"open",function(){r.onopen(),t&&t();}),s=l.on(e,"error",function(e){h("error"),r.cleanup(),r._readyState="closed",n.emitReserved("error",e),t?t(e):r.maybeReconnectOnOpen();});return !1!==this._timeout&&(i=this._timeout,h("connect attempt will timeout after %d",i),0===i&&a(),o=setTimeout(function(){h("connect attempt timed out after %d",i),a(),e.close(),e.emit("error",new Error("timeout"));},i),this.opts.autoUnref&&o.unref(),this.subs.push(function(){clearTimeout(o);})),this.subs.push(a),this.subs.push(s),this}},{key:"connect",value:function(e){return this.open(e)}},{key:"onopen",value:function(){h("open"),this.cleanup(),this._readyState="open",this.emitReserved("open");var e=this.engine;this.subs.push(l.on(e,"ping",this.onping.bind(this)),l.on(e,"data",this.ondata.bind(this)),l.on(e,"error",this.onerror.bind(this)),l.on(e,"close",this.onclose.bind(this)),l.on(this.decoder,"decoded",this.ondecoded.bind(this)));}},{key:"onping",value:function(){this.emitReserved("ping");}},{key:"ondata",value:function(e){this.decoder.add(e);}},{key:"ondecoded",value:function(e){this.emitReserved("packet",e);}},{key:"onerror",value:function(e){h("error",e),this.emitReserved("error",e);}},{key:"socket",value:function(e,t){var n;return (n=this.nsps[e])||(n=new d.Socket(this,e,t),this.nsps[e]=n),n}},{key:"_destroy",value:function(e){for(var t=0,n=Object.keys(this.nsps);t<n.length;t++){var r=n[t];if(this.nsps[r].active)return void h("socket %s is still active, skipping close",r)}this._close();}},{key:"_packet",value:function(e){h("writing packet %j",e);for(var t=this.encoder.encode(e),n=0;n<t.length;n++)this.engine.write(t[n],e.options);}},{key:"cleanup",value:function(){h("cleanup"),this.subs.forEach(function(e){return e()}),this.subs.length=0,this.decoder.destroy();}},{key:"_close",value:function(){h("disconnect"),this.skipReconnect=!0,this._reconnecting=!1,"opening"===this._readyState&&this.cleanup(),this.backoff.reset(),this._readyState="closed",this.engine&&this.engine.close();}},{key:"disconnect",value:function(){return this._close()}},{key:"onclose",value:function(e){h("onclose"),this.cleanup(),this.backoff.reset(),this._readyState="closed",this.emitReserved("close",e),this._reconnection&&!this.skipReconnect&&this.reconnect();}},{key:"reconnect",value:function(){var t=this;if(this._reconnecting||this.skipReconnect)return this;var e,n,r=this;this.backoff.attempts>=this._reconnectionAttempts?(h("reconnect failed"),this.backoff.reset(),this.emitReserved("reconnect_failed"),this._reconnecting=!1):(e=this.backoff.duration(),h("will wait %dms before reconnect attempt",e),this._reconnecting=!0,n=setTimeout(function(){r.skipReconnect||(h("attempting reconnect"),t.emitReserved("reconnect_attempt",r.backoff.attempts),r.skipReconnect||r.open(function(e){e?(h("reconnect attempt error"),r._reconnecting=!1,r.reconnect(),t.emitReserved("reconnect_error",e)):(h("reconnect success"),r.onreconnect());}));},e),this.opts.autoUnref&&n.unref(),this.subs.push(function(){clearTimeout(n);}));}},{key:"onreconnect",value:function(){var e=this.backoff.attempts;this._reconnecting=!1,this.backoff.reset(),this.emitReserved("reconnect",e);}}])&&a(e.prototype,t),i}();t.Manager=n;},"./build/on.js":function(e,t,n){Object.defineProperty(t,"__esModule",{value:!0}),t.on=void 0,t.on=function(e,t,n){return e.on(t,n),function(){e.off(t,n);}};},"./build/socket.js":function(e,t,n){function i(e){return (i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function r(e,t){var n;if("undefined"==typeof Symbol||null==e[Symbol.iterator]){if(Array.isArray(e)||(n=function(e,t){if(e){if("string"==typeof e)return s(e,t);var n=Object.prototype.toString.call(e).slice(8,-1);return "Map"===(n="Object"===n&&e.constructor?e.constructor.name:n)||"Set"===n?Array.from(e):"Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?s(e,t):void 0}}(e))||t&&e&&"number"==typeof e.length){n&&(e=n);var r=0,t=function(){};return {s:t,n:function(){return r>=e.length?{done:!0}:{done:!1,value:e[r++]}},e:function(e){throw e},f:t}}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}var i,o=!0,a=!1;return {s:function(){n=e[Symbol.iterator]();},n:function(){var e=n.next();return o=e.done,e},e:function(e){a=!0,i=e;},f:function(){try{o||null==n.return||n.return();}finally{if(a)throw i}}}}function s(e,t){(null==t||t>e.length)&&(t=e.length);for(var n=0,r=new Array(t);n<t;n++)r[n]=e[n];return r}function a(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r);}}function c(e,t,n){return (c="undefined"!=typeof Reflect&&Reflect.get?Reflect.get:function(e,t,n){e=function(e,t){for(;!Object.prototype.hasOwnProperty.call(e,t)&&null!==(e=u(e)););return e}(e,t);if(e){t=Object.getOwnPropertyDescriptor(e,t);return t.get?t.get.call(n):t.value}})(e,t,n||e)}function p(e,t){return (p=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function d(n){var r=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return !1}}();return function(){var e,t=u(n);return e=r?(e=u(this).constructor,Reflect.construct(t,arguments,e)):t.apply(this,arguments),t=this,!(e=e)||"object"!==i(e)&&"function"!=typeof e?function(e){if(void 0!==e)return e;throw new ReferenceError("this hasn't been initialised - super() hasn't been called")}(t):e}}function u(e){return (u=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}Object.defineProperty(t,"__esModule",{value:!0}),t.Socket=void 0;var l=n("./node_modules/socket.io-parser/dist/index.js"),m=n("./build/on.js"),f=n("./build/typed-events.js"),h=n("./node_modules/debug/src/browser.js")("socket.io-client:socket"),y=Object.freeze({connect:1,connect_error:1,disconnect:1,disconnecting:1,newListener:1,removeListener:1}),n=function(){!function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&p(e,t);}(o,f.StrictEventEmitter);var e,t,i=d(o);function o(e,t,n){var r;return function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,o),(r=i.call(this)).receiveBuffer=[],r.sendBuffer=[],r.ids=0,r.acks={},r.flags={},r.io=e,r.nsp=t,r.ids=0,r.acks={},r.receiveBuffer=[],r.sendBuffer=[],r.connected=!1,r.disconnected=!0,r.flags={},n&&n.auth&&(r.auth=n.auth),r.io._autoConnect&&r.open(),r}return e=o,(t=[{key:"subEvents",value:function(){var e;this.subs||(e=this.io,this.subs=[m.on(e,"open",this.onopen.bind(this)),m.on(e,"packet",this.onpacket.bind(this)),m.on(e,"error",this.onerror.bind(this)),m.on(e,"close",this.onclose.bind(this))]);}},{key:"connect",value:function(){return this.connected||(this.subEvents(),this.io._reconnecting||this.io.open(),"open"===this.io._readyState&&this.onopen()),this}},{key:"open",value:function(){return this.connect()}},{key:"send",value:function(){for(var e=arguments.length,t=new Array(e),n=0;n<e;n++)t[n]=arguments[n];return t.unshift("message"),this.emit.apply(this,t),this}},{key:"emit",value:function(e){if(y.hasOwnProperty(e))throw new Error('"'+e+'" is a reserved event name');for(var t=arguments.length,n=new Array(1<t?t-1:0),r=1;r<t;r++)n[r-1]=arguments[r];n.unshift(e);var i={type:l.PacketType.EVENT,data:n,options:{}};i.options.compress=!1!==this.flags.compress,"function"==typeof n[n.length-1]&&(h("emitting packet with ack id %d",this.ids),this.acks[this.ids]=n.pop(),i.id=this.ids++);var o=this.io.engine&&this.io.engine.transport&&this.io.engine.transport.writable;return this.flags.volatile&&(!o||!this.connected)?h("discard packet as the transport is not currently writable"):this.connected?this.packet(i):this.sendBuffer.push(i),this.flags={},this}},{key:"packet",value:function(e){e.nsp=this.nsp,this.io._packet(e);}},{key:"onopen",value:function(){var t=this;h("transport is open - connecting"),"function"==typeof this.auth?this.auth(function(e){t.packet({type:l.PacketType.CONNECT,data:e});}):this.packet({type:l.PacketType.CONNECT,data:this.auth});}},{key:"onerror",value:function(e){this.connected||this.emitReserved("connect_error",e);}},{key:"onclose",value:function(e){h("close (%s)",e),this.connected=!1,this.disconnected=!0,delete this.id,this.emitReserved("disconnect",e);}},{key:"onpacket",value:function(e){if(e.nsp===this.nsp)switch(e.type){case l.PacketType.CONNECT:e.data&&e.data.sid?(t=e.data.sid,this.onconnect(t)):this.emitReserved("connect_error",new Error("It seems you are trying to reach a Socket.IO server in v2.x with a v3.x client, but they are not compatible (more information here: https://socket.io/docs/v3/migrating-from-2-x-to-3-0/)"));break;case l.PacketType.EVENT:case l.PacketType.BINARY_EVENT:this.onevent(e);break;case l.PacketType.ACK:case l.PacketType.BINARY_ACK:this.onack(e);break;case l.PacketType.DISCONNECT:this.ondisconnect();break;case l.PacketType.CONNECT_ERROR:var t=new Error(e.data.message);t.data=e.data.data,this.emitReserved("connect_error",t);}}},{key:"onevent",value:function(e){var t=e.data||[];h("emitting event %j",t),null!=e.id&&(h("attaching ack callback to event"),t.push(this.ack(e.id))),this.connected?this.emitEvent(t):this.receiveBuffer.push(Object.freeze(t));}},{key:"emitEvent",value:function(e){if(this._anyListeners&&this._anyListeners.length){var t,n=r(this._anyListeners.slice());try{for(n.s();!(t=n.n()).done;)t.value.apply(this,e);}catch(e){n.e(e);}finally{n.f();}}c(u(o.prototype),"emit",this).apply(this,e);}},{key:"ack",value:function(r){var i=this,o=!1;return function(){if(!o){o=!0;for(var e=arguments.length,t=new Array(e),n=0;n<e;n++)t[n]=arguments[n];h("sending ack %j",t),i.packet({type:l.PacketType.ACK,id:r,data:t});}}}},{key:"onack",value:function(e){var t=this.acks[e.id];"function"==typeof t?(h("calling ack %s with %j",e.id,e.data),t.apply(this,e.data),delete this.acks[e.id]):h("bad ack %s",e.id);}},{key:"onconnect",value:function(e){h("socket connected with id %s",e),this.id=e,this.connected=!0,this.disconnected=!1,this.emitBuffered(),this.emitReserved("connect");}},{key:"emitBuffered",value:function(){var t=this;this.receiveBuffer.forEach(function(e){return t.emitEvent(e)}),this.receiveBuffer=[],this.sendBuffer.forEach(function(e){return t.packet(e)}),this.sendBuffer=[];}},{key:"ondisconnect",value:function(){h("server disconnect (%s)",this.nsp),this.destroy(),this.onclose("io server disconnect");}},{key:"destroy",value:function(){this.subs&&(this.subs.forEach(function(e){return e()}),this.subs=void 0),this.io._destroy(this);}},{key:"disconnect",value:function(){return this.connected&&(h("performing disconnect (%s)",this.nsp),this.packet({type:l.PacketType.DISCONNECT})),this.destroy(),this.connected&&this.onclose("io client disconnect"),this}},{key:"close",value:function(){return this.disconnect()}},{key:"compress",value:function(e){return this.flags.compress=e,this}},{key:"onAny",value:function(e){return this._anyListeners=this._anyListeners||[],this._anyListeners.push(e),this}},{key:"prependAny",value:function(e){return this._anyListeners=this._anyListeners||[],this._anyListeners.unshift(e),this}},{key:"offAny",value:function(e){if(!this._anyListeners)return this;if(e){for(var t=this._anyListeners,n=0;n<t.length;n++)if(e===t[n])return t.splice(n,1),this}else this._anyListeners=[];return this}},{key:"listenersAny",value:function(){return this._anyListeners||[]}},{key:"active",get:function(){return !!this.subs}},{key:"volatile",get:function(){return this.flags.volatile=!0,this}}])&&a(e.prototype,t),o}();t.Socket=n;},"./build/typed-events.js":function(e,t,n){function i(e){return (i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function a(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r);}}function s(e,t,n){return (s="undefined"!=typeof Reflect&&Reflect.get?Reflect.get:function(e,t,n){e=function(e,t){for(;!Object.prototype.hasOwnProperty.call(e,t)&&null!==(e=d(e)););return e}(e,t);if(e){t=Object.getOwnPropertyDescriptor(e,t);return t.get?t.get.call(n):t.value}})(e,t,n||e)}function c(e,t){return (c=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function p(n){var r=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return !1}}();return function(){var e,t=d(n);return e=r?(e=d(this).constructor,Reflect.construct(t,arguments,e)):t.apply(this,arguments),t=this,!(e=e)||"object"!==i(e)&&"function"!=typeof e?function(e){if(void 0!==e)return e;throw new ReferenceError("this hasn't been initialised - super() hasn't been called")}(t):e}}function d(e){return (d=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}Object.defineProperty(t,"__esModule",{value:!0}),t.StrictEventEmitter=void 0;var u=n("./node_modules/component-emitter/index.js"),n=function(){!function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&c(e,t);}(o,u);var e,t,r=p(o);function o(){return function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,o),r.apply(this,arguments)}return e=o,(t=[{key:"on",value:function(e,t){return s(d(o.prototype),"on",this).call(this,e,t),this}},{key:"once",value:function(e,t){return s(d(o.prototype),"once",this).call(this,e,t),this}},{key:"emit",value:function(e){for(var t,n=arguments.length,r=new Array(1<n?n-1:0),i=1;i<n;i++)r[i-1]=arguments[i];return (t=s(d(o.prototype),"emit",this)).call.apply(t,[this,e].concat(r)),this}},{key:"emitReserved",value:function(e){for(var t,n=arguments.length,r=new Array(1<n?n-1:0),i=1;i<n;i++)r[i-1]=arguments[i];return (t=s(d(o.prototype),"emit",this)).call.apply(t,[this,e].concat(r)),this}},{key:"listeners",value:function(e){return s(d(o.prototype),"listeners",this).call(this,e)}}])&&a(e.prototype,t),o}();t.StrictEventEmitter=n;},"./build/url.js":function(e,t,n){Object.defineProperty(t,"__esModule",{value:!0}),t.url=void 0;var o=n("./node_modules/parseuri/index.js"),a=n("./node_modules/debug/src/browser.js")("socket.io-client:url");t.url=function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:"",n=2<arguments.length?arguments[2]:void 0,r=e,n=n||"undefined"!=typeof location&&location;"string"==typeof(e=null==e?n.protocol+"//"+n.host:e)&&("/"===e.charAt(0)&&(e="/"===e.charAt(1)?n.protocol+e:n.host+e),/^(https?|wss?):\/\//.test(e)||(a("protocol-less url %s",e),e=void 0!==n?n.protocol+"//"+e:"https://"+e),a("parse %s",e),r=o(e)),r.port||(/^(http|ws)$/.test(r.protocol)?r.port="80":/^(http|ws)s$/.test(r.protocol)&&(r.port="443")),r.path=r.path||"/";var i=-1!==r.host.indexOf(":")?"["+r.host+"]":r.host;return r.id=r.protocol+"://"+i+":"+r.port+t,r.href=r.protocol+"://"+i+(n&&n.port===r.port?"":":"+r.port),r};},"./node_modules/backo2/index.js":function(e,t){function n(e){this.ms=(e=e||{}).min||100,this.max=e.max||1e4,this.factor=e.factor||2,this.jitter=0<e.jitter&&e.jitter<=1?e.jitter:0,this.attempts=0;}(e.exports=n).prototype.duration=function(){var e,t,n=this.ms*Math.pow(this.factor,this.attempts++);return this.jitter&&(e=Math.random(),t=Math.floor(e*this.jitter*n),n=0==(1&Math.floor(10*e))?n-t:n+t),0|Math.min(n,this.max)},n.prototype.reset=function(){this.attempts=0;},n.prototype.setMin=function(e){this.ms=e;},n.prototype.setMax=function(e){this.max=e;},n.prototype.setJitter=function(e){this.jitter=e;};},"./node_modules/component-emitter/index.js":function(e,t,n){function r(e){if(e)return function(e){for(var t in r.prototype)e[t]=r.prototype[t];return e}(e)}(e.exports=r).prototype.on=r.prototype.addEventListener=function(e,t){return this._callbacks=this._callbacks||{},(this._callbacks["$"+e]=this._callbacks["$"+e]||[]).push(t),this},r.prototype.once=function(e,t){function n(){this.off(e,n),t.apply(this,arguments);}return n.fn=t,this.on(e,n),this},r.prototype.off=r.prototype.removeListener=r.prototype.removeAllListeners=r.prototype.removeEventListener=function(e,t){if(this._callbacks=this._callbacks||{},0==arguments.length)return this._callbacks={},this;var n,r=this._callbacks["$"+e];if(!r)return this;if(1==arguments.length)return delete this._callbacks["$"+e],this;for(var i=0;i<r.length;i++)if((n=r[i])===t||n.fn===t){r.splice(i,1);break}return 0===r.length&&delete this._callbacks["$"+e],this},r.prototype.emit=function(e){this._callbacks=this._callbacks||{};for(var t=new Array(arguments.length-1),n=this._callbacks["$"+e],r=1;r<arguments.length;r++)t[r-1]=arguments[r];if(n)for(var r=0,i=(n=n.slice(0)).length;r<i;++r)n[r].apply(this,t);return this},r.prototype.listeners=function(e){return this._callbacks=this._callbacks||{},this._callbacks["$"+e]||[]},r.prototype.hasListeners=function(e){return !!this.listeners(e).length};},"./node_modules/debug/src/browser.js":function(i,t,e){var n;t.formatArgs=function(e){var t,n,r;e[0]=(this.useColors?"%c":"")+this.namespace+(this.useColors?" %c":" ")+e[0]+(this.useColors?"%c ":" ")+"+"+i.exports.humanize(this.diff),this.useColors&&(t="color: "+this.color,e.splice(1,0,t,"color: inherit"),e[r=n=0].replace(/%[a-zA-Z%]/g,function(e){"%%"!==e&&(n++,"%c"===e&&(r=n));}),e.splice(r,0,t));},t.save=function(e){try{e?t.storage.setItem("debug",e):t.storage.removeItem("debug");}catch(e){}},t.load=function(){var e;try{e=t.storage.getItem("debug");}catch(e){}!e&&"undefined"!=typeof process&&"env"in process&&(e=process.env.DEBUG);return e},t.useColors=function(){if("undefined"!=typeof window&&window.process&&("renderer"===window.process.type||window.process.__nwjs))return !0;if("undefined"!=typeof navigator&&navigator.userAgent&&navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/))return !1;return "undefined"!=typeof document&&document.documentElement&&document.documentElement.style&&document.documentElement.style.WebkitAppearance||"undefined"!=typeof window&&window.console&&(window.console.firebug||window.console.exception&&window.console.table)||"undefined"!=typeof navigator&&navigator.userAgent&&navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/)&&31<=parseInt(RegExp.$1,10)||"undefined"!=typeof navigator&&navigator.userAgent&&navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/)},t.storage=function(){try{return localStorage}catch(e){}}(),t.destroy=(n=!1,function(){n||(n=!0,console.warn("Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`."));}),t.colors=["#0000CC","#0000FF","#0033CC","#0033FF","#0066CC","#0066FF","#0099CC","#0099FF","#00CC00","#00CC33","#00CC66","#00CC99","#00CCCC","#00CCFF","#3300CC","#3300FF","#3333CC","#3333FF","#3366CC","#3366FF","#3399CC","#3399FF","#33CC00","#33CC33","#33CC66","#33CC99","#33CCCC","#33CCFF","#6600CC","#6600FF","#6633CC","#6633FF","#66CC00","#66CC33","#9900CC","#9900FF","#9933CC","#9933FF","#99CC00","#99CC33","#CC0000","#CC0033","#CC0066","#CC0099","#CC00CC","#CC00FF","#CC3300","#CC3333","#CC3366","#CC3399","#CC33CC","#CC33FF","#CC6600","#CC6633","#CC9900","#CC9933","#CCCC00","#CCCC33","#FF0000","#FF0033","#FF0066","#FF0099","#FF00CC","#FF00FF","#FF3300","#FF3333","#FF3366","#FF3399","#FF33CC","#FF33FF","#FF6600","#FF6633","#FF9900","#FF9933","#FFCC00","#FFCC33"],t.log=console.debug||console.log||function(){},i.exports=e("./node_modules/debug/src/common.js")(t),i.exports.formatters.j=function(e){try{return JSON.stringify(e)}catch(e){return "[UnexpectedJSONParseError]: "+e.message}};},"./node_modules/debug/src/common.js":function(e,t,i){function o(e){return function(e){if(Array.isArray(e))return r(e)}(e)||function(e){if("undefined"!=typeof Symbol&&Symbol.iterator in Object(e))return Array.from(e)}(e)||function(e,t){if(e){if("string"==typeof e)return r(e,t);var n=Object.prototype.toString.call(e).slice(8,-1);return "Map"===(n="Object"===n&&e.constructor?e.constructor.name:n)||"Set"===n?Array.from(e):"Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?r(e,t):void 0}}(e)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}()}function r(e,t){(null==t||t>e.length)&&(t=e.length);for(var n=0,r=new Array(t);n<t;n++)r[n]=e[n];return r}e.exports=function(t){function p(e){var s,t=null;function c(){for(var r,e,t,i,n=arguments.length,o=new Array(n),a=0;a<n;a++)o[a]=arguments[a];c.enabled&&(r=c,t=(e=Number(new Date))-(s||e),r.diff=t,r.prev=s,r.curr=e,s=e,o[0]=p.coerce(o[0]),"string"!=typeof o[0]&&o.unshift("%O"),o[i=0]=o[0].replace(/%([a-zA-Z%])/g,function(e,t){if("%%"===e)return "%";i++;var n=p.formatters[t];return "function"==typeof n&&(t=o[i],e=n.call(r,t),o.splice(i,1),i--),e}),p.formatArgs.call(r,o),(r.log||p.log).apply(r,o));}return c.namespace=e,c.useColors=p.useColors(),c.color=p.selectColor(e),c.extend=n,c.destroy=p.destroy,Object.defineProperty(c,"enabled",{enumerable:!0,configurable:!1,get:function(){return null===t?p.enabled(e):t},set:function(e){t=e;}}),"function"==typeof p.init&&p.init(c),c}function n(e,t){e=p(this.namespace+(void 0===t?":":t)+e);return e.log=this.log,e}function r(e){return e.toString().substring(2,e.toString().length-2).replace(/\.\*\?$/,"*")}return ((p.debug=p).default=p).coerce=function(e){if(e instanceof Error)return e.stack||e.message;return e},p.disable=function(){var e=[].concat(o(p.names.map(r)),o(p.skips.map(r).map(function(e){return "-"+e}))).join(",");return p.enable(""),e},p.enable=function(e){var t;p.save(e),p.names=[],p.skips=[];var n=("string"==typeof e?e:"").split(/[\s,]+/),r=n.length;for(t=0;t<r;t++)n[t]&&("-"===(e=n[t].replace(/\*/g,".*?"))[0]?p.skips.push(new RegExp("^"+e.substr(1)+"$")):p.names.push(new RegExp("^"+e+"$")));},p.enabled=function(e){if("*"===e[e.length-1])return !0;var t,n;for(t=0,n=p.skips.length;t<n;t++)if(p.skips[t].test(e))return !1;for(t=0,n=p.names.length;t<n;t++)if(p.names[t].test(e))return !0;return !1},p.humanize=i("./node_modules/ms/index.js"),p.destroy=function(){console.warn("Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.");},Object.keys(t).forEach(function(e){p[e]=t[e];}),p.names=[],p.skips=[],p.formatters={},p.selectColor=function(e){for(var t=0,n=0;n<e.length;n++)t=(t<<5)-t+e.charCodeAt(n),t|=0;return p.colors[Math.abs(t)%p.colors.length]},p.enable(p.load()),p};},"./node_modules/engine.io-client/lib/globalThis.browser.js":function(e,t){e.exports="undefined"!=typeof self?self:"undefined"!=typeof window?window:Function("return this")();},"./node_modules/engine.io-client/lib/index.js":function(e,t,n){var r=n("./node_modules/engine.io-client/lib/socket.js");e.exports=function(e,t){return new r(e,t)},e.exports.Socket=r,e.exports.protocol=r.protocol,e.exports.Transport=n("./node_modules/engine.io-client/lib/transport.js"),e.exports.transports=n("./node_modules/engine.io-client/lib/transports/index.js"),e.exports.parser=n("./node_modules/engine.io-parser/lib/index.js");},"./node_modules/engine.io-client/lib/socket.js":function(e,t,n){function i(){return (i=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n,r=arguments[t];for(n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n]);}return e}).apply(this,arguments)}function o(e){return (o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function a(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r);}}function s(e,t){return (s=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function c(n){var r=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return !1}}();return function(){var e,t=p(n);return e=r?(e=p(this).constructor,Reflect.construct(t,arguments,e)):t.apply(this,arguments),t=this,!(e=e)||"object"!==o(e)&&"function"!=typeof e?function(e){if(void 0!==e)return e;throw new ReferenceError("this hasn't been initialised - super() hasn't been called")}(t):e}}function p(e){return (p=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var d=n("./node_modules/engine.io-client/lib/transports/index.js"),l=n("./node_modules/component-emitter/index.js"),m=n("./node_modules/debug/src/browser.js")("engine.io-client:socket"),f=n("./node_modules/engine.io-parser/lib/index.js"),h=n("./node_modules/parseuri/index.js"),y=n("./node_modules/parseqs/index.js"),n=function(){!function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&s(e,t);}(u,l);var e,t,r=c(u);function u(e){var t,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:{};return function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,u),t=r.call(this),e&&"object"===o(e)&&(n=e,e=null),e?(e=h(e),n.hostname=e.host,n.secure="https"===e.protocol||"wss"===e.protocol,n.port=e.port,e.query&&(n.query=e.query)):n.host&&(n.hostname=h(n.host).host),t.secure=null!=n.secure?n.secure:"undefined"!=typeof location&&"https:"===location.protocol,n.hostname&&!n.port&&(n.port=t.secure?"443":"80"),t.hostname=n.hostname||("undefined"!=typeof location?location.hostname:"localhost"),t.port=n.port||("undefined"!=typeof location&&location.port?location.port:t.secure?443:80),t.transports=n.transports||["polling","websocket"],t.readyState="",t.writeBuffer=[],t.prevBufferLen=0,t.opts=i({path:"/engine.io",agent:!1,withCredentials:!1,upgrade:!0,jsonp:!0,timestampParam:"t",rememberUpgrade:!1,rejectUnauthorized:!0,perMessageDeflate:{threshold:1024},transportOptions:{},closeOnBeforeunload:!0},n),t.opts.path=t.opts.path.replace(/\/$/,"")+"/","string"==typeof t.opts.query&&(t.opts.query=y.decode(t.opts.query)),t.id=null,t.upgrades=null,t.pingInterval=null,t.pingTimeout=null,t.pingTimeoutTimer=null,"function"==typeof addEventListener&&(t.opts.closeOnBeforeunload&&addEventListener("beforeunload",function(){t.transport&&(t.transport.removeAllListeners(),t.transport.close());},!1),"localhost"!==t.hostname&&(t.offlineEventListener=function(){t.onClose("transport close");},addEventListener("offline",t.offlineEventListener,!1))),t.open(),t}return e=u,(t=[{key:"createTransport",value:function(e){m('creating transport "%s"',e);var t=function(e){var t,n={};for(t in e)e.hasOwnProperty(t)&&(n[t]=e[t]);return n}(this.opts.query);t.EIO=f.protocol,t.transport=e,this.id&&(t.sid=this.id);t=i({},this.opts.transportOptions[e],this.opts,{query:t,socket:this,hostname:this.hostname,secure:this.secure,port:this.port});return m("options: %j",t),new d[e](t)}},{key:"open",value:function(){var e,t=this;if(this.opts.rememberUpgrade&&u.priorWebsocketSuccess&&-1!==this.transports.indexOf("websocket"))e="websocket";else {if(0===this.transports.length)return void setTimeout(function(){t.emit("error","No transports available");},0);e=this.transports[0];}this.readyState="opening";try{e=this.createTransport(e);}catch(e){return m("error while creating transport: %s",e),this.transports.shift(),void this.open()}e.open(),this.setTransport(e);}},{key:"setTransport",value:function(e){var t=this;m("setting transport %s",e.name),this.transport&&(m("clearing existing transport %s",this.transport.name),this.transport.removeAllListeners()),(this.transport=e).on("drain",this.onDrain.bind(this)).on("packet",this.onPacket.bind(this)).on("error",this.onError.bind(this)).on("close",function(){t.onClose("transport close");});}},{key:"probe",value:function(n){var r=this;m('probing transport "%s"',n);var i=this.createTransport(n,{probe:1}),t=!1;u.priorWebsocketSuccess=!1;function e(){t||(m('probe transport "%s" opened',n),i.send([{type:"ping",data:"probe"}]),i.once("packet",function(e){t||("pong"===e.type&&"probe"===e.data?(m('probe transport "%s" pong',n),r.upgrading=!0,r.emit("upgrading",i),i&&(u.priorWebsocketSuccess="websocket"===i.name,m('pausing current transport "%s"',r.transport.name),r.transport.pause(function(){t||"closed"!==r.readyState&&(m("changing transport and sending upgrade packet"),d(),r.setTransport(i),i.send([{type:"upgrade"}]),r.emit("upgrade",i),i=null,r.upgrading=!1,r.flush());}))):(m('probe transport "%s" failed',n),(e=new Error("probe error")).transport=i.name,r.emit("upgradeError",e)));}));}function o(){t||(t=!0,d(),i.close(),i=null);}var a=function(e){var t=new Error("probe error: "+e);t.transport=i.name,o(),m('probe transport "%s" failed because of error: %s',n,e),r.emit("upgradeError",t);};function s(){a("transport closed");}function c(){a("socket closed");}function p(e){i&&e.name!==i.name&&(m('"%s" works - aborting "%s"',e.name,i.name),o());}var d=function(){i.removeListener("open",e),i.removeListener("error",a),i.removeListener("close",s),r.removeListener("close",c),r.removeListener("upgrading",p);};i.once("open",e),i.once("error",a),i.once("close",s),this.once("close",c),this.once("upgrading",p),i.open();}},{key:"onOpen",value:function(){if(m("socket open"),this.readyState="open",u.priorWebsocketSuccess="websocket"===this.transport.name,this.emit("open"),this.flush(),"open"===this.readyState&&this.opts.upgrade&&this.transport.pause){m("starting upgrade probes");for(var e=0,t=this.upgrades.length;e<t;e++)this.probe(this.upgrades[e]);}}},{key:"onPacket",value:function(e){if("opening"===this.readyState||"open"===this.readyState||"closing"===this.readyState)switch(m('socket receive: type "%s", data "%s"',e.type,e.data),this.emit("packet",e),this.emit("heartbeat"),e.type){case"open":this.onHandshake(JSON.parse(e.data));break;case"ping":this.resetPingTimeout(),this.sendPacket("pong"),this.emit("pong");break;case"error":var t=new Error("server error");t.code=e.data,this.onError(t);break;case"message":this.emit("data",e.data),this.emit("message",e.data);}else m('packet received with socket readyState "%s"',this.readyState);}},{key:"onHandshake",value:function(e){this.emit("handshake",e),this.id=e.sid,this.transport.query.sid=e.sid,this.upgrades=this.filterUpgrades(e.upgrades),this.pingInterval=e.pingInterval,this.pingTimeout=e.pingTimeout,this.onOpen(),"closed"!==this.readyState&&this.resetPingTimeout();}},{key:"resetPingTimeout",value:function(){var e=this;clearTimeout(this.pingTimeoutTimer),this.pingTimeoutTimer=setTimeout(function(){e.onClose("ping timeout");},this.pingInterval+this.pingTimeout),this.opts.autoUnref&&this.pingTimeoutTimer.unref();}},{key:"onDrain",value:function(){this.writeBuffer.splice(0,this.prevBufferLen),(this.prevBufferLen=0)===this.writeBuffer.length?this.emit("drain"):this.flush();}},{key:"flush",value:function(){"closed"!==this.readyState&&this.transport.writable&&!this.upgrading&&this.writeBuffer.length&&(m("flushing %d packets in socket",this.writeBuffer.length),this.transport.send(this.writeBuffer),this.prevBufferLen=this.writeBuffer.length,this.emit("flush"));}},{key:"write",value:function(e,t,n){return this.sendPacket("message",e,t,n),this}},{key:"send",value:function(e,t,n){return this.sendPacket("message",e,t,n),this}},{key:"sendPacket",value:function(e,t,n,r){"function"==typeof t&&(r=t,t=void 0),"function"==typeof n&&(r=n,n=null),"closing"!==this.readyState&&"closed"!==this.readyState&&((n=n||{}).compress=!1!==n.compress,this.emit("packetCreate",n={type:e,data:t,options:n}),this.writeBuffer.push(n),r&&this.once("flush",r),this.flush());}},{key:"close",value:function(){function e(){r.onClose("forced close"),m("socket closing - telling transport to close"),r.transport.close();}function t(){r.removeListener("upgrade",t),r.removeListener("upgradeError",t),e();}function n(){r.once("upgrade",t),r.once("upgradeError",t);}var r=this;return "opening"!==this.readyState&&"open"!==this.readyState||(this.readyState="closing",this.writeBuffer.length?this.once("drain",function(){(r.upgrading?n:e)();}):(this.upgrading?n:e)()),this}},{key:"onError",value:function(e){m("socket error %j",e),u.priorWebsocketSuccess=!1,this.emit("error",e),this.onClose("transport error",e);}},{key:"onClose",value:function(e,t){"opening"!==this.readyState&&"open"!==this.readyState&&"closing"!==this.readyState||(m('socket close with reason: "%s"',e),clearTimeout(this.pingIntervalTimer),clearTimeout(this.pingTimeoutTimer),this.transport.removeAllListeners("close"),this.transport.close(),this.transport.removeAllListeners(),"function"==typeof removeEventListener&&removeEventListener("offline",this.offlineEventListener,!1),this.readyState="closed",this.id=null,this.emit("close",e,t),this.writeBuffer=[],this.prevBufferLen=0);}},{key:"filterUpgrades",value:function(e){for(var t=[],n=0,r=e.length;n<r;n++)~this.transports.indexOf(e[n])&&t.push(e[n]);return t}}])&&a(e.prototype,t),u}();n.priorWebsocketSuccess=!1,n.protocol=f.protocol,e.exports=n;},"./node_modules/engine.io-client/lib/transport.js":function(e,t,n){function i(e){return (i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function o(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r);}}function a(e,t){return (a=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function s(n){var r=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return !1}}();return function(){var e,t=c(n);return e=r?(e=c(this).constructor,Reflect.construct(t,arguments,e)):t.apply(this,arguments),t=this,!(e=e)||"object"!==i(e)&&"function"!=typeof e?function(e){if(void 0!==e)return e;throw new ReferenceError("this hasn't been initialised - super() hasn't been called")}(t):e}}function c(e){return (c=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var p=n("./node_modules/engine.io-parser/lib/index.js"),d=n("./node_modules/component-emitter/index.js"),u=n("./node_modules/debug/src/browser.js")("engine.io-client:transport"),n=function(){!function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&a(e,t);}(i,d);var e,t,r=s(i);function i(e){var t;return function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,i),(t=r.call(this)).opts=e,t.query=e.query,t.readyState="",t.socket=e.socket,t}return e=i,(t=[{key:"onError",value:function(e,t){e=new Error(e);return e.type="TransportError",e.description=t,this.emit("error",e),this}},{key:"open",value:function(){return "closed"!==this.readyState&&""!==this.readyState||(this.readyState="opening",this.doOpen()),this}},{key:"close",value:function(){return "opening"!==this.readyState&&"open"!==this.readyState||(this.doClose(),this.onClose()),this}},{key:"send",value:function(e){"open"===this.readyState?this.write(e):u("transport is not open, discarding packets");}},{key:"onOpen",value:function(){this.readyState="open",this.writable=!0,this.emit("open");}},{key:"onData",value:function(e){e=p.decodePacket(e,this.socket.binaryType);this.onPacket(e);}},{key:"onPacket",value:function(e){this.emit("packet",e);}},{key:"onClose",value:function(){this.readyState="closed",this.emit("close");}}])&&o(e.prototype,t),i}();e.exports=n;},"./node_modules/engine.io-client/lib/transports/index.js":function(e,t,n){var a=n("./node_modules/engine.io-client/lib/xmlhttprequest.js"),s=n("./node_modules/engine.io-client/lib/transports/polling-xhr.js"),c=n("./node_modules/engine.io-client/lib/transports/polling-jsonp.js"),n=n("./node_modules/engine.io-client/lib/transports/websocket.js");t.polling=function(e){var t=!1,n=!1,r=!1!==e.jsonp;{var i,o;"undefined"!=typeof location&&(i="https:"===location.protocol,o=(o=location.port)||(i?443:80),t=e.hostname!==location.hostname||o!==e.port,n=e.secure!==i);}{if(e.xdomain=t,e.xscheme=n,"open"in new a(e)&&!e.forceJSONP)return new s(e);if(!r)throw new Error("JSONP disabled");return new c(e)}},t.websocket=n;},"./node_modules/engine.io-client/lib/transports/polling-jsonp.js":function(e,t,n){function i(e){return (i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function o(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r);}}function a(e,t,n){return (a="undefined"!=typeof Reflect&&Reflect.get?Reflect.get:function(e,t,n){e=function(e,t){for(;!Object.prototype.hasOwnProperty.call(e,t)&&null!==(e=d(e)););return e}(e,t);if(e){t=Object.getOwnPropertyDescriptor(e,t);return t.get?t.get.call(n):t.value}})(e,t,n||e)}function s(e,t){return (s=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function c(n){var r=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return !1}}();return function(){var e,t=d(n);return e=r?(e=d(this).constructor,Reflect.construct(t,arguments,e)):t.apply(this,arguments),t=this,!(e=e)||"object"!==i(e)&&"function"!=typeof e?p(t):e}}function p(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function d(e){return (d=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var u,l=n("./node_modules/engine.io-client/lib/transports/polling.js"),m=n("./node_modules/engine.io-client/lib/globalThis.browser.js"),f=/\n/g,h=/\\n/g,n=function(){!function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&s(e,t);}(i,l);var e,t,r=c(i);function i(e){return function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,i),(e=r.call(this,e)).query=e.query||{},u=u||(m.___eio=m.___eio||[]),e.index=u.length,u.push(e.onData.bind(p(e))),e.query.j=e.index,e}return e=i,(t=[{key:"doClose",value:function(){this.script&&(this.script.onerror=function(){},this.script.parentNode.removeChild(this.script),this.script=null),this.form&&(this.form.parentNode.removeChild(this.form),this.form=null,this.iframe=null),a(d(i.prototype),"doClose",this).call(this);}},{key:"doPoll",value:function(){var t=this,e=document.createElement("script");this.script&&(this.script.parentNode.removeChild(this.script),this.script=null),e.async=!0,e.src=this.uri(),e.onerror=function(e){t.onError("jsonp poll error",e);};var n=document.getElementsByTagName("script")[0];n?n.parentNode.insertBefore(e,n):(document.head||document.body).appendChild(e),this.script=e,"undefined"!=typeof navigator&&/gecko/i.test(navigator.userAgent)&&setTimeout(function(){var e=document.createElement("iframe");document.body.appendChild(e),document.body.removeChild(e);},100);}},{key:"doWrite",value:function(e,t){var n,r,i,o,a=this;function s(){c(),t();}this.form||(r=document.createElement("form"),i=document.createElement("textarea"),o=this.iframeId="eio_iframe_"+this.index,r.className="socketio",r.style.position="absolute",r.style.top="-1000px",r.style.left="-1000px",r.target=o,r.method="POST",r.setAttribute("accept-charset","utf-8"),i.name="d",r.appendChild(i),document.body.appendChild(r),this.form=r,this.area=i),this.form.action=this.uri();var c=function(){if(a.iframe)try{a.form.removeChild(a.iframe);}catch(e){a.onError("jsonp polling iframe removal error",e);}try{var e='<iframe src="javascript:0" name="'+a.iframeId+'">';n=document.createElement(e);}catch(e){(n=document.createElement("iframe")).name=a.iframeId,n.src="javascript:0";}n.id=a.iframeId,a.form.appendChild(n),a.iframe=n;};c(),e=e.replace(h,"\\\n"),this.area.value=e.replace(f,"\\n");try{this.form.submit();}catch(e){}this.iframe.attachEvent?this.iframe.onreadystatechange=function(){"complete"===a.iframe.readyState&&s();}:this.iframe.onload=s;}},{key:"supportsBinary",get:function(){return !1}}])&&o(e.prototype,t),i}();e.exports=n;},"./node_modules/engine.io-client/lib/transports/polling-xhr.js":function(e,t,n){function i(e){return (i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function r(){return (r=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n,r=arguments[t];for(n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n]);}return e}).apply(this,arguments)}function a(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function o(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r);}}function s(e,t,n){return t&&o(e.prototype,t),n&&o(e,n),e}function c(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&p(e,t);}function p(e,t){return (p=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function d(n){var r=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return !1}}();return function(){var e,t=u(n);return e=r?(e=u(this).constructor,Reflect.construct(t,arguments,e)):t.apply(this,arguments),t=this,!(e=e)||"object"!==i(e)&&"function"!=typeof e?function(e){if(void 0!==e)return e;throw new ReferenceError("this hasn't been initialised - super() hasn't been called")}(t):e}}function u(e){return (u=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var l=n("./node_modules/engine.io-client/lib/xmlhttprequest.js"),m=n("./node_modules/engine.io-client/lib/transports/polling.js"),f=n("./node_modules/component-emitter/index.js"),h=n("./node_modules/engine.io-client/lib/util.js").pick,y=n("./node_modules/engine.io-client/lib/globalThis.browser.js"),g=n("./node_modules/debug/src/browser.js")("engine.io-client:polling-xhr");function b(){}var v=null!=new l({xdomain:!1}).responseType,n=function(){c(o,m);var i=d(o);function o(e){var t,n,r;a(this,o),t=i.call(this,e),"undefined"!=typeof location&&(n="https:"===location.protocol,r=(r=location.port)||(n?443:80),t.xd="undefined"!=typeof location&&e.hostname!==location.hostname||r!==e.port,t.xs=e.secure!==n);e=e&&e.forceBase64;return t.supportsBinary=v&&!e,t}return s(o,[{key:"request",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:{};return r(e,{xd:this.xd,xs:this.xs},this.opts),new w(this.uri(),e)}},{key:"doWrite",value:function(e,t){var n=this,e=this.request({method:"POST",data:e});e.on("success",t),e.on("error",function(e){n.onError("xhr post error",e);});}},{key:"doPoll",value:function(){var t=this;g("xhr poll");var e=this.request();e.on("data",this.onData.bind(this)),e.on("error",function(e){t.onError("xhr poll error",e);}),this.pollXhr=e;}}]),o}(),w=function(){c(i,f);var r=d(i);function i(e,t){var n;return a(this,i),(n=r.call(this)).opts=t,n.method=t.method||"GET",n.uri=e,n.async=!1!==t.async,n.data=void 0!==t.data?t.data:null,n.create(),n}return s(i,[{key:"create",value:function(){var t=this,e=h(this.opts,"agent","enablesXDR","pfx","key","passphrase","cert","ca","ciphers","rejectUnauthorized","autoUnref");e.xdomain=!!this.opts.xd,e.xscheme=!!this.opts.xs;var n=this.xhr=new l(e);try{g("xhr open %s: %s",this.method,this.uri),n.open(this.method,this.uri,this.async);try{if(this.opts.extraHeaders)for(var r in n.setDisableHeaderCheck&&n.setDisableHeaderCheck(!0),this.opts.extraHeaders)this.opts.extraHeaders.hasOwnProperty(r)&&n.setRequestHeader(r,this.opts.extraHeaders[r]);}catch(e){}if("POST"===this.method)try{n.setRequestHeader("Content-type","text/plain;charset=UTF-8");}catch(e){}try{n.setRequestHeader("Accept","*/*");}catch(e){}"withCredentials"in n&&(n.withCredentials=this.opts.withCredentials),this.opts.requestTimeout&&(n.timeout=this.opts.requestTimeout),this.hasXDR()?(n.onload=function(){t.onLoad();},n.onerror=function(){t.onError(n.responseText);}):n.onreadystatechange=function(){4===n.readyState&&(200===n.status||1223===n.status?t.onLoad():setTimeout(function(){t.onError("number"==typeof n.status?n.status:0);},0));},g("xhr data %s",this.data),n.send(this.data);}catch(e){return void setTimeout(function(){t.onError(e);},0)}"undefined"!=typeof document&&(this.index=i.requestsCount++,i.requests[this.index]=this);}},{key:"onSuccess",value:function(){this.emit("success"),this.cleanup();}},{key:"onData",value:function(e){this.emit("data",e),this.onSuccess();}},{key:"onError",value:function(e){this.emit("error",e),this.cleanup(!0);}},{key:"cleanup",value:function(e){if(void 0!==this.xhr&&null!==this.xhr){if(this.hasXDR()?this.xhr.onload=this.xhr.onerror=b:this.xhr.onreadystatechange=b,e)try{this.xhr.abort();}catch(e){}"undefined"!=typeof document&&delete i.requests[this.index],this.xhr=null;}}},{key:"onLoad",value:function(){var e=this.xhr.responseText;null!==e&&this.onData(e);}},{key:"hasXDR",value:function(){return "undefined"!=typeof XDomainRequest&&!this.xs&&this.enablesXDR}},{key:"abort",value:function(){this.cleanup();}}]),i}();function S(){for(var e in w.requests)w.requests.hasOwnProperty(e)&&w.requests[e].abort();}w.requestsCount=0,w.requests={},"undefined"!=typeof document&&("function"==typeof attachEvent?attachEvent("onunload",S):"function"==typeof addEventListener&&(y="onpagehide"in y?"pagehide":"unload",addEventListener(y,S,!1))),e.exports=n,e.exports.Request=w;},"./node_modules/engine.io-client/lib/transports/polling.js":function(e,t,n){function i(e){return (i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function o(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r);}}function a(e,t){return (a=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function s(n){var r=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return !1}}();return function(){var e,t=c(n);return e=r?(e=c(this).constructor,Reflect.construct(t,arguments,e)):t.apply(this,arguments),t=this,!(e=e)||"object"!==i(e)&&"function"!=typeof e?function(e){if(void 0!==e)return e;throw new ReferenceError("this hasn't been initialised - super() hasn't been called")}(t):e}}function c(e){return (c=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var p=n("./node_modules/engine.io-client/lib/transport.js"),d=n("./node_modules/parseqs/index.js"),u=n("./node_modules/engine.io-parser/lib/index.js"),l=n("./node_modules/yeast/index.js"),m=n("./node_modules/debug/src/browser.js")("engine.io-client:polling"),n=function(){!function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&a(e,t);}(i,p);var e,t,r=s(i);function i(){return function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,i),r.apply(this,arguments)}return e=i,(t=[{key:"doOpen",value:function(){this.poll();}},{key:"pause",value:function(e){var t=this;this.readyState="pausing";function n(){m("paused"),t.readyState="paused",e();}var r;this.polling||!this.writable?(r=0,this.polling&&(m("we are currently polling - waiting to pause"),r++,this.once("pollComplete",function(){m("pre-pause polling complete"),--r||n();})),this.writable||(m("we are currently writing - waiting to pause"),r++,this.once("drain",function(){m("pre-pause writing complete"),--r||n();}))):n();}},{key:"poll",value:function(){m("polling"),this.polling=!0,this.doPoll(),this.emit("poll");}},{key:"onData",value:function(e){var t=this;m("polling got data %s",e);u.decodePayload(e,this.socket.binaryType).forEach(function(e){if("opening"===t.readyState&&"open"===e.type&&t.onOpen(),"close"===e.type)return t.onClose(),!1;t.onPacket(e);}),"closed"!==this.readyState&&(this.polling=!1,this.emit("pollComplete"),"open"===this.readyState?this.poll():m('ignoring poll - transport state "%s"',this.readyState));}},{key:"doClose",value:function(){function e(){m("writing close packet"),t.write([{type:"close"}]);}var t=this;"open"===this.readyState?(m("transport open - closing"),e()):(m("transport not open - deferring close"),this.once("open",e));}},{key:"write",value:function(e){var t=this;this.writable=!1,u.encodePayload(e,function(e){t.doWrite(e,function(){t.writable=!0,t.emit("drain");});});}},{key:"uri",value:function(){var e=this.query||{},t=this.opts.secure?"https":"http",n="";return !1!==this.opts.timestampRequests&&(e[this.opts.timestampParam]=l()),this.supportsBinary||e.sid||(e.b64=1),e=d.encode(e),this.opts.port&&("https"==t&&443!==Number(this.opts.port)||"http"==t&&80!==Number(this.opts.port))&&(n=":"+this.opts.port),e.length&&(e="?"+e),t+"://"+(-1!==this.opts.hostname.indexOf(":")?"["+this.opts.hostname+"]":this.opts.hostname)+n+this.opts.path+e}},{key:"name",get:function(){return "polling"}}])&&o(e.prototype,t),i}();e.exports=n;},"./node_modules/engine.io-client/lib/transports/websocket-constructor.browser.js":function(e,t,n){n=n("./node_modules/engine.io-client/lib/globalThis.browser.js");e.exports={WebSocket:n.WebSocket||n.MozWebSocket,usingBrowserWebSocket:!0,defaultBinaryType:"arraybuffer"};},"./node_modules/engine.io-client/lib/transports/websocket.js":function(e,t,n){function i(e){return (i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function o(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r);}}function a(e,t){return (a=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function s(n){var r=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return !1}}();return function(){var e,t=c(n);return e=r?(e=c(this).constructor,Reflect.construct(t,arguments,e)):t.apply(this,arguments),t=this,!(e=e)||"object"!==i(e)&&"function"!=typeof e?function(e){if(void 0!==e)return e;throw new ReferenceError("this hasn't been initialised - super() hasn't been called")}(t):e}}function c(e){return (c=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var p=n("./node_modules/engine.io-client/lib/transport.js"),d=n("./node_modules/engine.io-parser/lib/index.js"),u=n("./node_modules/parseqs/index.js"),l=n("./node_modules/yeast/index.js"),m=n("./node_modules/engine.io-client/lib/util.js").pick,r=n("./node_modules/engine.io-client/lib/transports/websocket-constructor.browser.js"),f=r.WebSocket,h=r.usingBrowserWebSocket,y=r.defaultBinaryType,g=n("./node_modules/debug/src/browser.js")("engine.io-client:websocket"),b="undefined"!=typeof navigator&&"string"==typeof navigator.product&&"reactnative"===navigator.product.toLowerCase(),n=function(){!function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&a(e,t);}(i,p);var e,t,r=s(i);function i(e){var t;return function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,i),(t=r.call(this,e)).supportsBinary=!e.forceBase64,t}return e=i,(t=[{key:"doOpen",value:function(){if(this.check()){var e=this.uri(),t=this.opts.protocols,n=b?{}:m(this.opts,"agent","perMessageDeflate","pfx","key","passphrase","cert","ca","ciphers","rejectUnauthorized","localAddress","protocolVersion","origin","maxPayload","family","checkServerIdentity");this.opts.extraHeaders&&(n.headers=this.opts.extraHeaders);try{this.ws=h&&!b?t?new f(e,t):new f(e):new f(e,t,n);}catch(e){return this.emit("error",e)}this.ws.binaryType=this.socket.binaryType||y,this.addEventListeners();}}},{key:"addEventListeners",value:function(){var t=this;this.ws.onopen=function(){t.opts.autoUnref&&t.ws._socket.unref(),t.onOpen();},this.ws.onclose=this.onClose.bind(this),this.ws.onmessage=function(e){return t.onData(e.data)},this.ws.onerror=function(e){return t.onError("websocket error",e)};}},{key:"write",value:function(t){var i=this;this.writable=!1;for(var e=0;e<t.length;e++)!function(e){var n=t[e],r=e===t.length-1;d.encodePacket(n,i.supportsBinary,function(e){var t={};h||(n.options&&(t.compress=n.options.compress),i.opts.perMessageDeflate&&("string"==typeof e?Buffer.byteLength(e):e.length)<i.opts.perMessageDeflate.threshold&&(t.compress=!1));try{h?i.ws.send(e):i.ws.send(e,t);}catch(e){g("websocket closed before onclose event");}r&&setTimeout(function(){i.writable=!0,i.emit("drain");},0);});}(e);}},{key:"onClose",value:function(){p.prototype.onClose.call(this);}},{key:"doClose",value:function(){void 0!==this.ws&&(this.ws.close(),this.ws=null);}},{key:"uri",value:function(){var e=this.query||{},t=this.opts.secure?"wss":"ws",n="";return this.opts.port&&("wss"==t&&443!==Number(this.opts.port)||"ws"==t&&80!==Number(this.opts.port))&&(n=":"+this.opts.port),this.opts.timestampRequests&&(e[this.opts.timestampParam]=l()),this.supportsBinary||(e.b64=1),(e=u.encode(e)).length&&(e="?"+e),t+"://"+(-1!==this.opts.hostname.indexOf(":")?"["+this.opts.hostname+"]":this.opts.hostname)+n+this.opts.path+e}},{key:"check",value:function(){return !(!f||"__initialize"in f&&this.name===i.prototype.name)}},{key:"name",get:function(){return "websocket"}}])&&o(e.prototype,t),i}();e.exports=n;},"./node_modules/engine.io-client/lib/util.js":function(e,t){e.exports.pick=function(n){for(var e=arguments.length,t=new Array(1<e?e-1:0),r=1;r<e;r++)t[r-1]=arguments[r];return t.reduce(function(e,t){return n.hasOwnProperty(t)&&(e[t]=n[t]),e},{})};},"./node_modules/engine.io-client/lib/xmlhttprequest.js":function(e,t,n){var r=n("./node_modules/has-cors/index.js"),i=n("./node_modules/engine.io-client/lib/globalThis.browser.js");e.exports=function(e){var t=e.xdomain,n=e.xscheme,e=e.enablesXDR;try{if("undefined"!=typeof XMLHttpRequest&&(!t||r))return new XMLHttpRequest}catch(e){}try{if("undefined"!=typeof XDomainRequest&&!n&&e)return new XDomainRequest}catch(e){}if(!t)try{return new i[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP")}catch(e){}};},"./node_modules/engine.io-parser/lib/commons.js":function(e,t){var n=Object.create(null);n.open="0",n.close="1",n.ping="2",n.pong="3",n.message="4",n.upgrade="5",n.noop="6";var r=Object.create(null);Object.keys(n).forEach(function(e){r[n[e]]=e;});e.exports={PACKET_TYPES:n,PACKET_TYPES_REVERSE:r,ERROR_PACKET:{type:"error",data:"parser error"}};},"./node_modules/engine.io-parser/lib/decodePacket.browser.js":function(e,t,n){var r,i=n("./node_modules/engine.io-parser/lib/commons.js"),o=i.PACKET_TYPES_REVERSE,a=i.ERROR_PACKET;"function"==typeof ArrayBuffer&&(r=n("./node_modules/engine.io-parser/node_modules/base64-arraybuffer/lib/base64-arraybuffer.js"));var s=function(e,t){if(r){var n=r.decode(e);return c(n,t)}return {base64:!0,data:e}},c=function(e,t){return "blob"===t&&e instanceof ArrayBuffer?new Blob([e]):e};e.exports=function(e,t){if("string"!=typeof e)return {type:"message",data:c(e,t)};var n=e.charAt(0);return "b"===n?{type:"message",data:s(e.substring(1),t)}:o[n]?1<e.length?{type:o[n],data:e.substring(1)}:{type:o[n]}:a};},"./node_modules/engine.io-parser/lib/encodePacket.browser.js":function(e,t,n){var o=n("./node_modules/engine.io-parser/lib/commons.js").PACKET_TYPES,a="function"==typeof Blob||"undefined"!=typeof Blob&&"[object BlobConstructor]"===Object.prototype.toString.call(Blob),s="function"==typeof ArrayBuffer,c=function(e,t){var n=new FileReader;return n.onload=function(){var e=n.result.split(",")[1];t("b"+e);},n.readAsDataURL(e)};e.exports=function(e,t,n){var r=e.type,i=e.data;return a&&i instanceof Blob?t?n(i):c(i,n):s&&(i instanceof ArrayBuffer||(e=i,"function"==typeof ArrayBuffer.isView?ArrayBuffer.isView(e):e&&e.buffer instanceof ArrayBuffer))?t?n(i instanceof ArrayBuffer?i:i.buffer):c(new Blob([i]),n):n(o[r]+(i||""))};},"./node_modules/engine.io-parser/lib/index.js":function(e,t,n){var a=n("./node_modules/engine.io-parser/lib/encodePacket.browser.js"),s=n("./node_modules/engine.io-parser/lib/decodePacket.browser.js"),c=String.fromCharCode(30);e.exports={protocol:4,encodePacket:a,encodePayload:function(e,n){var r=e.length,i=new Array(r),o=0;e.forEach(function(e,t){a(e,!1,function(e){i[t]=e,++o===r&&n(i.join(c));});});},decodePacket:s,decodePayload:function(e,t){for(var n=e.split(c),r=[],i=0;i<n.length;i++){var o=s(n[i],t);if(r.push(o),"error"===o.type)break}return r}};},"./node_modules/engine.io-parser/node_modules/base64-arraybuffer/lib/base64-arraybuffer.js":function(e,t){var d;d="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",t.encode=function(e){for(var t=new Uint8Array(e),n=t.length,r="",i=0;i<n;i+=3)r+=d[t[i]>>2],r+=d[(3&t[i])<<4|t[i+1]>>4],r+=d[(15&t[i+1])<<2|t[i+2]>>6],r+=d[63&t[i+2]];return n%3==2?r=r.substring(0,r.length-1)+"=":n%3==1&&(r=r.substring(0,r.length-2)+"=="),r},t.decode=function(e){var t,n,r,i,o=.75*e.length,a=e.length,s=0;"="===e[e.length-1]&&(o--,"="===e[e.length-2]&&o--);for(var o=new ArrayBuffer(o),c=new Uint8Array(o),p=0;p<a;p+=4)t=d.indexOf(e[p]),n=d.indexOf(e[p+1]),r=d.indexOf(e[p+2]),i=d.indexOf(e[p+3]),c[s++]=t<<2|n>>4,c[s++]=(15&n)<<4|r>>2,c[s++]=(3&r)<<6|63&i;return o};},"./node_modules/has-cors/index.js":function(t,e){try{t.exports="undefined"!=typeof XMLHttpRequest&&"withCredentials"in new XMLHttpRequest;}catch(e){t.exports=!1;}},"./node_modules/ms/index.js":function(e,t){function r(e){return (r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var i=36e5,o=864e5;function a(e,t,n,r){t=1.5*n<=t;return Math.round(e/n)+" "+r+(t?"s":"")}e.exports=function(e,t){t=t||{};var n=r(e);if("string"===n&&0<e.length)return function(e){if(!(100<(e=String(e)).length)){e=/^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(e);if(e){var t=parseFloat(e[1]);switch((e[2]||"ms").toLowerCase()){case"years":case"year":case"yrs":case"yr":case"y":return 315576e5*t;case"weeks":case"week":case"w":return 6048e5*t;case"days":case"day":case"d":return t*o;case"hours":case"hour":case"hrs":case"hr":case"h":return t*i;case"minutes":case"minute":case"mins":case"min":case"m":return 6e4*t;case"seconds":case"second":case"secs":case"sec":case"s":return 1e3*t;case"milliseconds":case"millisecond":case"msecs":case"msec":case"ms":return t;default:return}}}}(e);if("number"===n&&isFinite(e))return (t.long?function(e){var t=Math.abs(e);if(o<=t)return a(e,t,o,"day");if(i<=t)return a(e,t,i,"hour");if(6e4<=t)return a(e,t,6e4,"minute");if(1e3<=t)return a(e,t,1e3,"second");return e+" ms"}:function(e){var t=Math.abs(e);if(o<=t)return Math.round(e/o)+"d";if(i<=t)return Math.round(e/i)+"h";if(6e4<=t)return Math.round(e/6e4)+"m";if(1e3<=t)return Math.round(e/1e3)+"s";return e+"ms"})(e);throw new Error("val is not a non-empty string or a valid number. val="+JSON.stringify(e))};},"./node_modules/parseqs/index.js":function(e,t){t.encode=function(e){var t,n="";for(t in e)e.hasOwnProperty(t)&&(n.length&&(n+="&"),n+=encodeURIComponent(t)+"="+encodeURIComponent(e[t]));return n},t.decode=function(e){for(var t={},n=e.split("&"),r=0,i=n.length;r<i;r++){var o=n[r].split("=");t[decodeURIComponent(o[0])]=decodeURIComponent(o[1]);}return t};},"./node_modules/parseuri/index.js":function(e,t){var c=/^(?:(?![^:@]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/,p=["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"];e.exports=function(e){var t=e,n=e.indexOf("["),r=e.indexOf("]");-1!=n&&-1!=r&&(e=e.substring(0,n)+e.substring(n,r).replace(/:/g,";")+e.substring(r,e.length));for(var i,o=c.exec(e||""),a={},s=14;s--;)a[p[s]]=o[s]||"";return -1!=n&&-1!=r&&(a.source=t,a.host=a.host.substring(1,a.host.length-1).replace(/;/g,":"),a.authority=a.authority.replace("[","").replace("]","").replace(/;/g,":"),a.ipv6uri=!0),a.pathNames=function(e){var t=e.replace(/\/{2,9}/g,"/").split("/");"/"!=e.substr(0,1)&&0!==e.length||t.splice(0,1);"/"==e.substr(e.length-1,1)&&t.splice(t.length-1,1);return t}(a.path),a.queryKey=(t=a.query,i={},t.replace(/(?:^|&)([^&=]*)=?([^&]*)/g,function(e,t,n){t&&(i[t]=n);}),i),a};},"./node_modules/socket.io-parser/dist/binary.js":function(e,t,n){function c(e){return (c="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}Object.defineProperty(t,"__esModule",{value:!0}),t.reconstructPacket=t.deconstructPacket=void 0;var p=n("./node_modules/socket.io-parser/dist/is-binary.js");t.deconstructPacket=function(e){var t=[],n=e.data;return (e=e).data=function e(t,n){if(!t)return t;{if(p.isBinary(t)){var r={_placeholder:!0,num:n.length};return n.push(t),r}if(Array.isArray(t)){for(var i=new Array(t.length),o=0;o<t.length;o++)i[o]=e(t[o],n);return i}if("object"===c(t)&&!(t instanceof Date)){var a,s={};for(a in t)t.hasOwnProperty(a)&&(s[a]=e(t[a],n));return s}}return t}(n,t),e.attachments=t.length,{packet:e,buffers:t}},t.reconstructPacket=function(e,t){return e.data=function e(t,n){if(!t)return t;{if(t&&t._placeholder)return n[t.num];if(Array.isArray(t))for(var r=0;r<t.length;r++)t[r]=e(t[r],n);else if("object"===c(t))for(var i in t)t.hasOwnProperty(i)&&(t[i]=e(t[i],n));}return t}(e.data,t),e.attachments=void 0,e};},"./node_modules/socket.io-parser/dist/index.js":function(e,t,n){function i(e){return (i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function r(e,t,n){return (r="undefined"!=typeof Reflect&&Reflect.get?Reflect.get:function(e,t,n){e=function(e,t){for(;!Object.prototype.hasOwnProperty.call(e,t)&&null!==(e=c(e)););return e}(e,t);if(e){t=Object.getOwnPropertyDescriptor(e,t);return t.get?t.get.call(n):t.value}})(e,t,n||e)}function o(e,t){return (o=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function a(n){var r=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return !1}}();return function(){var e,t=c(n);return e=r?(e=c(this).constructor,Reflect.construct(t,arguments,e)):t.apply(this,arguments),t=this,!(e=e)||"object"!==i(e)&&"function"!=typeof e?function(e){if(void 0!==e)return e;throw new ReferenceError("this hasn't been initialised - super() hasn't been called")}(t):e}}function c(e){return (c=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}function p(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function s(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r);}}function d(e,t,n){return t&&s(e.prototype,t),n&&s(e,n),e}Object.defineProperty(t,"__esModule",{value:!0}),t.Decoder=t.Encoder=t.PacketType=t.protocol=void 0;var u,l=n("./node_modules/component-emitter/index.js"),m=n("./node_modules/socket.io-parser/dist/binary.js"),f=n("./node_modules/socket.io-parser/dist/is-binary.js"),h=n("./node_modules/debug/src/browser.js")("socket.io-parser");t.protocol=5,(n=u=t.PacketType||(t.PacketType={}))[n.CONNECT=0]="CONNECT",n[n.DISCONNECT=1]="DISCONNECT",n[n.EVENT=2]="EVENT",n[n.ACK=3]="ACK",n[n.CONNECT_ERROR=4]="CONNECT_ERROR",n[n.BINARY_EVENT=5]="BINARY_EVENT",n[n.BINARY_ACK=6]="BINARY_ACK";n=function(){function e(){p(this,e);}return d(e,[{key:"encode",value:function(e){return h("encoding packet %j",e),e.type!==u.EVENT&&e.type!==u.ACK||!f.hasBinary(e)?[this.encodeAsString(e)]:(e.type=e.type===u.EVENT?u.BINARY_EVENT:u.BINARY_ACK,this.encodeAsBinary(e))}},{key:"encodeAsString",value:function(e){var t=""+e.type;return e.type!==u.BINARY_EVENT&&e.type!==u.BINARY_ACK||(t+=e.attachments+"-"),e.nsp&&"/"!==e.nsp&&(t+=e.nsp+","),null!=e.id&&(t+=e.id),null!=e.data&&(t+=JSON.stringify(e.data)),h("encoded %j as %s",e,t),t}},{key:"encodeAsBinary",value:function(e){var t=m.deconstructPacket(e),e=this.encodeAsString(t.packet),t=t.buffers;return t.unshift(e),t}}]),e}();t.Encoder=n;n=function(){!function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&o(e,t);}(s,l);var e=a(s);function s(){return p(this,s),e.call(this)}return d(s,[{key:"add",value:function(e){var t;if("string"==typeof e)(t=this.decodeString(e)).type===u.BINARY_EVENT||t.type===u.BINARY_ACK?(this.reconstructor=new y(t),0===t.attachments&&r(c(s.prototype),"emit",this).call(this,"decoded",t)):r(c(s.prototype),"emit",this).call(this,"decoded",t);else {if(!f.isBinary(e)&&!e.base64)throw new Error("Unknown type: "+e);if(!this.reconstructor)throw new Error("got binary data when not reconstructing a packet");(t=this.reconstructor.takeBinaryData(e))&&(this.reconstructor=null,r(c(s.prototype),"emit",this).call(this,"decoded",t));}}},{key:"decodeString",value:function(e){var t=0,n={type:Number(e.charAt(0))};if(void 0===u[n.type])throw new Error("unknown packet type "+n.type);if(n.type===u.BINARY_EVENT||n.type===u.BINARY_ACK){for(var r=t+1;"-"!==e.charAt(++t)&&t!=e.length;);r=e.substring(r,t);if(r!=Number(r)||"-"!==e.charAt(t))throw new Error("Illegal attachments");n.attachments=Number(r);}if("/"===e.charAt(t+1)){for(var i=t+1;++t;){if(","===e.charAt(t))break;if(t===e.length)break}n.nsp=e.substring(i,t);}else n.nsp="/";i=e.charAt(t+1);if(""!==i&&Number(i)==i){for(var o=t+1;++t;){var a=e.charAt(t);if(null==a||Number(a)!=a){--t;break}if(t===e.length)break}n.id=Number(e.substring(o,t+1));}if(e.charAt(++t)){o=function(e){try{return JSON.parse(e)}catch(e){return !1}}(e.substr(t));if(!s.isPayloadValid(n.type,o))throw new Error("invalid payload");n.data=o;}return h("decoded %s as %j",e,n),n}},{key:"destroy",value:function(){this.reconstructor&&this.reconstructor.finishedReconstruction();}}],[{key:"isPayloadValid",value:function(e,t){switch(e){case u.CONNECT:return "object"===i(t);case u.DISCONNECT:return void 0===t;case u.CONNECT_ERROR:return "string"==typeof t||"object"===i(t);case u.EVENT:case u.BINARY_EVENT:return Array.isArray(t)&&0<t.length;case u.ACK:case u.BINARY_ACK:return Array.isArray(t)}}}]),s}();t.Decoder=n;var y=function(){function t(e){p(this,t),this.packet=e,this.buffers=[],this.reconPack=e;}return d(t,[{key:"takeBinaryData",value:function(e){if(this.buffers.push(e),this.buffers.length!==this.reconPack.attachments)return null;e=m.reconstructPacket(this.reconPack,this.buffers);return this.finishedReconstruction(),e}},{key:"finishedReconstruction",value:function(){this.reconPack=null,this.buffers=[];}}]),t}();},"./node_modules/socket.io-parser/dist/is-binary.js":function(e,t,n){function a(e){return (a="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}Object.defineProperty(t,"__esModule",{value:!0}),t.hasBinary=t.isBinary=void 0;var r="function"==typeof ArrayBuffer,i=function(e){return "function"==typeof ArrayBuffer.isView?ArrayBuffer.isView(e):e.buffer instanceof ArrayBuffer},o=Object.prototype.toString,s="function"==typeof Blob||"undefined"!=typeof Blob&&"[object BlobConstructor]"===o.call(Blob),c="function"==typeof File||"undefined"!=typeof File&&"[object FileConstructor]"===o.call(File);function p(e){return r&&(e instanceof ArrayBuffer||i(e))||s&&e instanceof Blob||c&&e instanceof File}t.isBinary=p,t.hasBinary=function e(t,n){if(!t||"object"!==a(t))return !1;if(Array.isArray(t)){for(var r=0,i=t.length;r<i;r++)if(e(t[r]))return !0;return !1}if(p(t))return !0;if(t.toJSON&&"function"==typeof t.toJSON&&1===arguments.length)return e(t.toJSON(),!0);for(var o in t)if(Object.prototype.hasOwnProperty.call(t,o)&&e(t[o]))return !0;return !1};},"./node_modules/yeast/index.js":function(e,t,n){var r,i="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_".split(""),o=64,a={},s=0,c=0;function p(e){for(var t="";t=i[e%o]+t,0<(e=Math.floor(e/o)););return t}function d(){var e=p(+new Date);return e!==r?(s=0,r=e):e+"."+p(s++)}for(;c<o;c++)a[i[c]]=c;d.encode=p,d.decode=function(e){var t=0;for(c=0;c<e.length;c++)t=t*o+a[e.charAt(c)];return t},e.exports=d;}},r={},i.m=n,i.c=r,i.d=function(e,t,n){i.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n});},i.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0});},i.t=function(t,e){if(1&e&&(t=i(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var n=Object.create(null);if(i.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var r in t)i.d(n,r,function(e){return t[e]}.bind(null,r));return n},i.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return i.d(t,"a",t),t},i.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},i.p="",i(i.s="./build/index.js");function i(e){if(r[e])return r[e].exports;var t=r[e]={i:e,l:!1,exports:{}};return n[e].call(t.exports,t,t.exports,i),t.l=!0,t.exports}var n,r;},e.exports=n();});function AssessmentController(e){this.timeout=void 0,this.panel=void 0,this.form=void 0,this.enter_time=void 0,this.timeout=void 0,this.mode=e,this.create_assessment_panel=function(){chrome.storage.local.get(["ASSESSMENT_PANEL_LAYOUT","ASSESSMENT_PANEL_OPACITY"],e=>{switch(this.remove_assessment_panel(),e.ASSESSMENT_PANEL_LAYOUT){case"middle":[this.panel,this.form]=middle_panel();break;case"bottom":[this.panel,this.form]=bottom_panel();break;case"top":[this.panel,this.form]=top_panel();}console.log(e),this.panel.style.opacity=e.ASSESSMENT_PANEL_OPACITY.toString()+"%",this.form.onsubmit=this.hand_over_data.bind(this);});},this.remove_assessment_panel=function(){const e=document.getElementById("acr-panel");e&&e.remove();},this.show_assessment_panel=function(){this.enter_time=Date.now(),this.panel.style.visibility="visible",this.disable_rightclick(),this.disable_fullscreen_scrolling();},this.hide_assessment_panel=function(){this.panel.style.visibility="hidden",this.enable_rightclick(),"auto"===this.mode&&this.run_timeout();},this.hand_over_data=function(e){e.preventDefault();var t=Date.now()-this.enter_time,n=this.form.getAttribute("assessment");console.log(n);var r=Date.now();const[i]=get_nerd_elements(),o=i.mysteryText.querySelector("span").innerText;e=o.match(/t\:([0-9]+\.[0-9]+)/)[1];chrome.runtime.sendMessage({msg:"assessment_handover",data:{assessment:n,duration:t,timestamp:r,time_in_video:e}}),this.hide_assessment_panel();},this.init=function(){this.create_assessment_panel(),console.log(this.mode),"auto"===this.mode?this.run_timeout():"remote"===this.mode?socketIoClient.io.connect("http://localhost:7070",{forceNew:!0}).on("controls",e=>{console.log(e),"create"===e.order?this.show_assessment_panel():"remove"===e.order&&this.hide_assessment_panel();}):"manual"===this.mode&&document.addEventListener("keydown",e=>{"o"===e.key?this.show_assessment_panel():"p"===e.key&&this.hide_assessment_panel();}),chrome.runtime.onMessage.addListener((e,t,n)=>{"stop"===e.msg&&(clearTimeout(this.timeout),this.remove_assessment_panel());});},this.run_timeout=function(){chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"],e=>{console.log("TIMEOUT"),clearTimeout(this.timeout),this.timeout=setTimeout(this.show_assessment_panel.bind(this),e.ASSESSMENT_INTERVAL_MS);});},this.disable_rightclick=function(){window.oncontextmenu=e=>{e.preventDefault();};},this.enable_rightclick=function(){window.oncontextmenu=e=>{};},this.disable_fullscreen_scrolling=function(){document.getElementsByTagName("ytd-app")[0].removeAttribute("scrolling_");};}var chromeRemoteInterface=createCommonjsModule(function(t){(()=>{var n={6010:(e,t,n)=>{var i=n(4155);const o=n(7187),r=n(7996),a=n(8855);e.exports=function(n,e){"function"==typeof n&&(e=n,n=void 0);const r=new o;return "function"==typeof e?(i.nextTick(()=>{new a(n,r);}),r.once("connect",e)):new Promise((e,t)=>{r.once("connect",e),r.once("error",t),new a(n,r);})},e.exports.Protocol=r.Protocol,e.exports.List=r.List,e.exports.New=r.New,e.exports.Activate=r.Activate,e.exports.Close=r.Close,e.exports.Version=r.Version;},7249:e=>{function s(t,n,r){t.category=n,Object.keys(r).forEach(e=>{"name"!==e&&(t[e]="type"===n&&"properties"===e||"parameters"===e?function(e){const n={};return e.forEach(e=>{var t=e.name;delete e.name,n[t]=e;}),n}(r[e]):r[e]);});}e.exports.prepare=function(a,e){(a.protocol=e).domains.forEach(e=>{const o=e.domain;a[o]={},(e.commands||[]).forEach(e=>{!function(r,e,t){const i=`${e}.${t.name}`,n=(e,t,n)=>r.send(i,e,t,n);s(n,"command",t),r[i]=r[e][t.name]=n;}(a,o,e);}),(e.events||[]).forEach(e=>{!function(r,e,t){const i=`${e}.${t.name}`,n=(e,t)=>{"function"==typeof e&&(t=e,e=void 0);const n=e?`${i}.${e}`:i;return "function"==typeof t?(r.on(n,t),()=>r.removeListener(n,t)):new Promise((e,t)=>{r.once(n,e);})};s(n,"event",t),r[i]=r[e][t.name]=n;}(a,o,e);}),(e.types||[]).forEach(e=>{var t,n,r,i;t=a,n=o,i=`${n}.${(r=e).id}`,s(e={},"type",r),t[i]=t[n][r.id]=e;}),a[o].on=(e,t)=>a[o][e](t);});};},8855:(e,t,n)=>{var i=n(4155);const r=n(7187),o=n(1588),a=n(8575).WU,s=n(8575).Qc,c=n(5529),p=n(7249),d=n(5372),u=n(7996);class l extends Error{constructor(e,t){let{message:n}=t;t.data&&(n+=` (${t.data})`),super(n),this.request=e,this.response=t;}}e.exports=class extends r{constructor(e,t){super(),this.host=(e=e||{}).host||d.HOST,this.port=e.port||d.PORT,this.secure=!!e.secure,this.useHostName=!!e.useHostName,this.alterPath=e.alterPath||(e=>e),this.protocol=e.protocol,this.local=!!e.local,this.target=e.target||(e=>{let t,n=e.find(e=>!!e.webSocketDebuggerUrl&&(t=t||e,"page"===e.type));if(n=n||t)return n;throw new Error("No inspectable targets")}),this._notifier=t,this._callbacks={},this._nextCommandId=1,this.webSocketUrl=void 0,this._start();}inspect(e,t){return t.customInspect=!1,o.inspect(this,t)}send(i,o,a,e){const t=Array.from(arguments).slice(1);return o=t.find(e=>"object"==typeof e),a=t.find(e=>"string"==typeof e),"function"==typeof(e=t.find(e=>"function"==typeof e))?void this._enqueueCommand(i,o,a,e):new Promise((n,r)=>{this._enqueueCommand(i,o,a,(e,t)=>{if(e){const n={method:i,params:o,sessionId:a};r(e instanceof Error?e:new l(n,t));}else n(t);});})}close(e){const n=e=>{3===this._ws.readyState?e():(this._ws.removeAllListeners("close"),this._ws.once("close",()=>{this._ws.removeAllListeners(),e();}),this._ws.close());};return "function"==typeof e?void n(e):new Promise((e,t)=>{n(e);})}async _start(){const e={host:this.host,port:this.port,secure:this.secure,useHostName:this.useHostName,alterPath:this.alterPath};try{const n=await this._fetchDebuggerURL(e),r=s(n);r.pathname=e.alterPath(r.pathname),this.webSocketUrl=a(r),e.host=r.hostname,e.port=r.port||e.port;var t=await this._fetchProtocol(e);p.prepare(this,t),await this._connectToWebSocket(),i.nextTick(()=>{this._notifier.emit("connect",this);});}catch(e){this._notifier.emit("error",e);}}async _fetchDebuggerURL(e){var n=this.target;switch(typeof n){case"string":{let t=n;return (t.startsWith("/")&&(t=`ws://${this.host}:${this.port}${t}`),t.match(/^wss?:/i))?t:(await u.List(e)).find(e=>e.id===t).webSocketDebuggerUrl}case"object":return n.webSocketDebuggerUrl;case"function":{const t=n,r=await u.List(e),i=t(r);return ("number"==typeof i?r[i]:i).webSocketDebuggerUrl}default:throw new Error(`Invalid target argument "${this.target}"`)}}async _fetchProtocol(e){return this.protocol||(e.local=this.local,await u.Protocol(e))}_connectToWebSocket(){return new Promise((e,t)=>{try{this.secure&&(this.webSocketUrl=this.webSocketUrl.replace(/^ws:/i,"wss:")),this._ws=new c(this.webSocketUrl);}catch(e){return void t(e)}this._ws.on("open",()=>{e();}),this._ws.on("message",e=>{e=JSON.parse(e);this._handleMessage(e);}),this._ws.on("close",e=>{this.emit("disconnect");}),this._ws.on("error",e=>{t(e);});})}_handleMessage(e){if(e.id){const i=this._callbacks[e.id];i&&(e.error?i(!0,e.error):i(!1,e.result||{}),delete this._callbacks[e.id],0===Object.keys(this._callbacks).length&&this.emit("ready"));}else {var t,n,r;e.method&&({method:t,params:n,sessionId:r}=e,this.emit("event",e),this.emit(t,n,r),this.emit(`${t}.${r}`,n,r));}}_enqueueCommand(e,t,n,r){const i=this._nextCommandId++,o={id:i,method:e,sessionId:n,params:t||{}};this._ws.send(JSON.stringify(o),e=>{e?"function"==typeof r&&r(e):this._callbacks[i]=r;});}};},5372:e=>{e.exports.HOST="localhost",e.exports.PORT=9222;},7996:(e,t,r)=>{const i=r(3423),o=r(8532),a=r(5372),s=r(1057);function c(e,t){e.host=e.host||a.HOST,e.port=e.port||a.PORT,e.secure=!!e.secure,e.useHostName=!!e.useHostName,e.alterPath=e.alterPath||(e=>e);const n={...e};n.path=e.alterPath(e.path),s(e.secure?o:i,n,t);}function n(i){return (e,t)=>("function"==typeof e&&(t=e,e=void 0),e=e||{},"function"==typeof t?void i(e,t):new Promise((n,r)=>{i(e,(e,t)=>{e?r(e):n(t);});}))}e.exports.Protocol=n(function(e,n){if(e.local){const e=r(5834);n(null,e);}else e.path="/json/protocol",c(e,(e,t)=>{e?n(e):n(null,JSON.parse(t));});}),e.exports.List=n(function(e,n){e.path="/json/list",c(e,(e,t)=>{e?n(e):n(null,JSON.parse(t));});}),e.exports.New=n(function(e,n){e.path="/json/new",Object.prototype.hasOwnProperty.call(e,"url")&&(e.path+=`?${e.url}`),c(e,(e,t)=>{e?n(e):n(null,JSON.parse(t));});}),e.exports.Activate=n(function(e,t){e.path="/json/activate/"+e.id,c(e,e=>{t(e||null);});}),e.exports.Close=n(function(e,t){e.path="/json/close/"+e.id,c(e,e=>{t(e||null);});}),e.exports.Version=n(function(e,n){e.path="/json/version",c(e,(e,t)=>{e?n(e):n(null,JSON.parse(t));});});},5834:e=>{e.exports=JSON.parse('{"version":{"major":"1","minor":"3"},"domains":[{"domain":"Accessibility","experimental":true,"dependencies":["DOM"],"types":[{"id":"AXNodeId","description":"Unique accessibility node identifier.","type":"string"},{"id":"AXValueType","description":"Enum of possible property types.","type":"string","enum":["boolean","tristate","booleanOrUndefined","idref","idrefList","integer","node","nodeList","number","string","computedString","token","tokenList","domRelation","role","internalRole","valueUndefined"]},{"id":"AXValueSourceType","description":"Enum of possible property sources.","type":"string","enum":["attribute","implicit","style","contents","placeholder","relatedElement"]},{"id":"AXValueNativeSourceType","description":"Enum of possible native property sources (as a subtype of a particular AXValueSourceType).","type":"string","enum":["figcaption","label","labelfor","labelwrapped","legend","tablecaption","title","other"]},{"id":"AXValueSource","description":"A single source for a computed AX property.","type":"object","properties":[{"name":"type","description":"What type of source this is.","$ref":"AXValueSourceType"},{"name":"value","description":"The value of this property source.","optional":true,"$ref":"AXValue"},{"name":"attribute","description":"The name of the relevant attribute, if any.","optional":true,"type":"string"},{"name":"attributeValue","description":"The value of the relevant attribute, if any.","optional":true,"$ref":"AXValue"},{"name":"superseded","description":"Whether this source is superseded by a higher priority source.","optional":true,"type":"boolean"},{"name":"nativeSource","description":"The native markup source for this value, e.g. a <label> element.","optional":true,"$ref":"AXValueNativeSourceType"},{"name":"nativeSourceValue","description":"The value, such as a node or node list, of the native source.","optional":true,"$ref":"AXValue"},{"name":"invalid","description":"Whether the value for this property is invalid.","optional":true,"type":"boolean"},{"name":"invalidReason","description":"Reason for the value being invalid, if it is.","optional":true,"type":"string"}]},{"id":"AXRelatedNode","type":"object","properties":[{"name":"backendDOMNodeId","description":"The BackendNodeId of the related DOM node.","$ref":"DOM.BackendNodeId"},{"name":"idref","description":"The IDRef value provided, if any.","optional":true,"type":"string"},{"name":"text","description":"The text alternative of this node in the current context.","optional":true,"type":"string"}]},{"id":"AXProperty","type":"object","properties":[{"name":"name","description":"The name of this property.","$ref":"AXPropertyName"},{"name":"value","description":"The value of this property.","$ref":"AXValue"}]},{"id":"AXValue","description":"A single computed AX property.","type":"object","properties":[{"name":"type","description":"The type of this value.","$ref":"AXValueType"},{"name":"value","description":"The computed value of this property.","optional":true,"type":"any"},{"name":"relatedNodes","description":"One or more related nodes, if applicable.","optional":true,"type":"array","items":{"$ref":"AXRelatedNode"}},{"name":"sources","description":"The sources which contributed to the computation of this property.","optional":true,"type":"array","items":{"$ref":"AXValueSource"}}]},{"id":"AXPropertyName","description":"Values of AXProperty name:\\n- from \'busy\' to \'roledescription\': states which apply to every AX node\\n- from \'live\' to \'root\': attributes which apply to nodes in live regions\\n- from \'autocomplete\' to \'valuetext\': attributes which apply to widgets\\n- from \'checked\' to \'selected\': states which apply to widgets\\n- from \'activedescendant\' to \'owns\' - relationships between elements other than parent/child/sibling.","type":"string","enum":["busy","disabled","editable","focusable","focused","hidden","hiddenRoot","invalid","keyshortcuts","settable","roledescription","live","atomic","relevant","root","autocomplete","hasPopup","level","multiselectable","orientation","multiline","readonly","required","valuemin","valuemax","valuetext","checked","expanded","modal","pressed","selected","activedescendant","controls","describedby","details","errormessage","flowto","labelledby","owns"]},{"id":"AXNode","description":"A node in the accessibility tree.","type":"object","properties":[{"name":"nodeId","description":"Unique identifier for this node.","$ref":"AXNodeId"},{"name":"ignored","description":"Whether this node is ignored for accessibility","type":"boolean"},{"name":"ignoredReasons","description":"Collection of reasons why this node is hidden.","optional":true,"type":"array","items":{"$ref":"AXProperty"}},{"name":"role","description":"This `Node`\'s role, whether explicit or implicit.","optional":true,"$ref":"AXValue"},{"name":"name","description":"The accessible name for this `Node`.","optional":true,"$ref":"AXValue"},{"name":"description","description":"The accessible description for this `Node`.","optional":true,"$ref":"AXValue"},{"name":"value","description":"The value for this `Node`.","optional":true,"$ref":"AXValue"},{"name":"properties","description":"All other properties","optional":true,"type":"array","items":{"$ref":"AXProperty"}},{"name":"childIds","description":"IDs for each of this node\'s child nodes.","optional":true,"type":"array","items":{"$ref":"AXNodeId"}},{"name":"backendDOMNodeId","description":"The backend ID for the associated DOM node, if any.","optional":true,"$ref":"DOM.BackendNodeId"}]}],"commands":[{"name":"disable","description":"Disables the accessibility domain."},{"name":"enable","description":"Enables the accessibility domain which causes `AXNodeId`s to remain consistent between method calls.\\nThis turns on accessibility for the page, which can impact performance until accessibility is disabled."},{"name":"getPartialAXTree","description":"Fetches the accessibility node and partial accessibility tree for this DOM node, if it exists.","experimental":true,"parameters":[{"name":"nodeId","description":"Identifier of the node to get the partial accessibility tree for.","optional":true,"$ref":"DOM.NodeId"},{"name":"backendNodeId","description":"Identifier of the backend node to get the partial accessibility tree for.","optional":true,"$ref":"DOM.BackendNodeId"},{"name":"objectId","description":"JavaScript object id of the node wrapper to get the partial accessibility tree for.","optional":true,"$ref":"Runtime.RemoteObjectId"},{"name":"fetchRelatives","description":"Whether to fetch this nodes ancestors, siblings and children. Defaults to true.","optional":true,"type":"boolean"}],"returns":[{"name":"nodes","description":"The `Accessibility.AXNode` for this DOM node, if it exists, plus its ancestors, siblings and\\nchildren, if requested.","type":"array","items":{"$ref":"AXNode"}}]},{"name":"getFullAXTree","description":"Fetches the entire accessibility tree","experimental":true,"returns":[{"name":"nodes","type":"array","items":{"$ref":"AXNode"}}]}]},{"domain":"Animation","experimental":true,"dependencies":["Runtime","DOM"],"types":[{"id":"Animation","description":"Animation instance.","type":"object","properties":[{"name":"id","description":"`Animation`\'s id.","type":"string"},{"name":"name","description":"`Animation`\'s name.","type":"string"},{"name":"pausedState","description":"`Animation`\'s internal paused state.","type":"boolean"},{"name":"playState","description":"`Animation`\'s play state.","type":"string"},{"name":"playbackRate","description":"`Animation`\'s playback rate.","type":"number"},{"name":"startTime","description":"`Animation`\'s start time.","type":"number"},{"name":"currentTime","description":"`Animation`\'s current time.","type":"number"},{"name":"type","description":"Animation type of `Animation`.","type":"string","enum":["CSSTransition","CSSAnimation","WebAnimation"]},{"name":"source","description":"`Animation`\'s source animation node.","optional":true,"$ref":"AnimationEffect"},{"name":"cssId","description":"A unique ID for `Animation` representing the sources that triggered this CSS\\nanimation/transition.","optional":true,"type":"string"}]},{"id":"AnimationEffect","description":"AnimationEffect instance","type":"object","properties":[{"name":"delay","description":"`AnimationEffect`\'s delay.","type":"number"},{"name":"endDelay","description":"`AnimationEffect`\'s end delay.","type":"number"},{"name":"iterationStart","description":"`AnimationEffect`\'s iteration start.","type":"number"},{"name":"iterations","description":"`AnimationEffect`\'s iterations.","type":"number"},{"name":"duration","description":"`AnimationEffect`\'s iteration duration.","type":"number"},{"name":"direction","description":"`AnimationEffect`\'s playback direction.","type":"string"},{"name":"fill","description":"`AnimationEffect`\'s fill mode.","type":"string"},{"name":"backendNodeId","description":"`AnimationEffect`\'s target node.","optional":true,"$ref":"DOM.BackendNodeId"},{"name":"keyframesRule","description":"`AnimationEffect`\'s keyframes.","optional":true,"$ref":"KeyframesRule"},{"name":"easing","description":"`AnimationEffect`\'s timing function.","type":"string"}]},{"id":"KeyframesRule","description":"Keyframes Rule","type":"object","properties":[{"name":"name","description":"CSS keyframed animation\'s name.","optional":true,"type":"string"},{"name":"keyframes","description":"List of animation keyframes.","type":"array","items":{"$ref":"KeyframeStyle"}}]},{"id":"KeyframeStyle","description":"Keyframe Style","type":"object","properties":[{"name":"offset","description":"Keyframe\'s time offset.","type":"string"},{"name":"easing","description":"`AnimationEffect`\'s timing function.","type":"string"}]}],"commands":[{"name":"disable","description":"Disables animation domain notifications."},{"name":"enable","description":"Enables animation domain notifications."},{"name":"getCurrentTime","description":"Returns the current time of the an animation.","parameters":[{"name":"id","description":"Id of animation.","type":"string"}],"returns":[{"name":"currentTime","description":"Current time of the page.","type":"number"}]},{"name":"getPlaybackRate","description":"Gets the playback rate of the document timeline.","returns":[{"name":"playbackRate","description":"Playback rate for animations on page.","type":"number"}]},{"name":"releaseAnimations","description":"Releases a set of animations to no longer be manipulated.","parameters":[{"name":"animations","description":"List of animation ids to seek.","type":"array","items":{"type":"string"}}]},{"name":"resolveAnimation","description":"Gets the remote object of the Animation.","parameters":[{"name":"animationId","description":"Animation id.","type":"string"}],"returns":[{"name":"remoteObject","description":"Corresponding remote object.","$ref":"Runtime.RemoteObject"}]},{"name":"seekAnimations","description":"Seek a set of animations to a particular time within each animation.","parameters":[{"name":"animations","description":"List of animation ids to seek.","type":"array","items":{"type":"string"}},{"name":"currentTime","description":"Set the current time of each animation.","type":"number"}]},{"name":"setPaused","description":"Sets the paused state of a set of animations.","parameters":[{"name":"animations","description":"Animations to set the pause state of.","type":"array","items":{"type":"string"}},{"name":"paused","description":"Paused state to set to.","type":"boolean"}]},{"name":"setPlaybackRate","description":"Sets the playback rate of the document timeline.","parameters":[{"name":"playbackRate","description":"Playback rate for animations on page","type":"number"}]},{"name":"setTiming","description":"Sets the timing of an animation node.","parameters":[{"name":"animationId","description":"Animation id.","type":"string"},{"name":"duration","description":"Duration of the animation.","type":"number"},{"name":"delay","description":"Delay of the animation.","type":"number"}]}],"events":[{"name":"animationCanceled","description":"Event for when an animation has been cancelled.","parameters":[{"name":"id","description":"Id of the animation that was cancelled.","type":"string"}]},{"name":"animationCreated","description":"Event for each animation that has been created.","parameters":[{"name":"id","description":"Id of the animation that was created.","type":"string"}]},{"name":"animationStarted","description":"Event for animation that has been started.","parameters":[{"name":"animation","description":"Animation that was started.","$ref":"Animation"}]}]},{"domain":"ApplicationCache","experimental":true,"types":[{"id":"ApplicationCacheResource","description":"Detailed application cache resource information.","type":"object","properties":[{"name":"url","description":"Resource url.","type":"string"},{"name":"size","description":"Resource size.","type":"integer"},{"name":"type","description":"Resource type.","type":"string"}]},{"id":"ApplicationCache","description":"Detailed application cache information.","type":"object","properties":[{"name":"manifestURL","description":"Manifest URL.","type":"string"},{"name":"size","description":"Application cache size.","type":"number"},{"name":"creationTime","description":"Application cache creation time.","type":"number"},{"name":"updateTime","description":"Application cache update time.","type":"number"},{"name":"resources","description":"Application cache resources.","type":"array","items":{"$ref":"ApplicationCacheResource"}}]},{"id":"FrameWithManifest","description":"Frame identifier - manifest URL pair.","type":"object","properties":[{"name":"frameId","description":"Frame identifier.","$ref":"Page.FrameId"},{"name":"manifestURL","description":"Manifest URL.","type":"string"},{"name":"status","description":"Application cache status.","type":"integer"}]}],"commands":[{"name":"enable","description":"Enables application cache domain notifications."},{"name":"getApplicationCacheForFrame","description":"Returns relevant application cache data for the document in given frame.","parameters":[{"name":"frameId","description":"Identifier of the frame containing document whose application cache is retrieved.","$ref":"Page.FrameId"}],"returns":[{"name":"applicationCache","description":"Relevant application cache data for the document in given frame.","$ref":"ApplicationCache"}]},{"name":"getFramesWithManifests","description":"Returns array of frame identifiers with manifest urls for each frame containing a document\\nassociated with some application cache.","returns":[{"name":"frameIds","description":"Array of frame identifiers with manifest urls for each frame containing a document\\nassociated with some application cache.","type":"array","items":{"$ref":"FrameWithManifest"}}]},{"name":"getManifestForFrame","description":"Returns manifest URL for document in the given frame.","parameters":[{"name":"frameId","description":"Identifier of the frame containing document whose manifest is retrieved.","$ref":"Page.FrameId"}],"returns":[{"name":"manifestURL","description":"Manifest URL for document in the given frame.","type":"string"}]}],"events":[{"name":"applicationCacheStatusUpdated","parameters":[{"name":"frameId","description":"Identifier of the frame containing document whose application cache updated status.","$ref":"Page.FrameId"},{"name":"manifestURL","description":"Manifest URL.","type":"string"},{"name":"status","description":"Updated application cache status.","type":"integer"}]},{"name":"networkStateUpdated","parameters":[{"name":"isNowOnline","type":"boolean"}]}]},{"domain":"Audits","description":"Audits domain allows investigation of page violations and possible improvements.","experimental":true,"dependencies":["Network"],"commands":[{"name":"getEncodedResponse","description":"Returns the response body and size if it were re-encoded with the specified settings. Only\\napplies to images.","parameters":[{"name":"requestId","description":"Identifier of the network request to get content for.","$ref":"Network.RequestId"},{"name":"encoding","description":"The encoding to use.","type":"string","enum":["webp","jpeg","png"]},{"name":"quality","description":"The quality of the encoding (0-1). (defaults to 1)","optional":true,"type":"number"},{"name":"sizeOnly","description":"Whether to only return the size information (defaults to false).","optional":true,"type":"boolean"}],"returns":[{"name":"body","description":"The encoded body as a base64 string. Omitted if sizeOnly is true.","optional":true,"type":"string"},{"name":"originalSize","description":"Size before re-encoding.","type":"integer"},{"name":"encodedSize","description":"Size after re-encoding.","type":"integer"}]}]},{"domain":"BackgroundService","description":"Defines events for background web platform features.","experimental":true,"types":[{"id":"ServiceName","description":"The Background Service that will be associated with the commands/events.\\nEvery Background Service operates independently, but they share the same\\nAPI.","type":"string","enum":["backgroundFetch","backgroundSync","pushMessaging","notifications","paymentHandler"]},{"id":"EventMetadata","description":"A key-value pair for additional event information to pass along.","type":"object","properties":[{"name":"key","type":"string"},{"name":"value","type":"string"}]},{"id":"BackgroundServiceEvent","type":"object","properties":[{"name":"timestamp","description":"Timestamp of the event (in seconds).","$ref":"Network.TimeSinceEpoch"},{"name":"origin","description":"The origin this event belongs to.","type":"string"},{"name":"serviceWorkerRegistrationId","description":"The Service Worker ID that initiated the event.","$ref":"ServiceWorker.RegistrationID"},{"name":"service","description":"The Background Service this event belongs to.","$ref":"ServiceName"},{"name":"eventName","description":"A description of the event.","type":"string"},{"name":"instanceId","description":"An identifier that groups related events together.","type":"string"},{"name":"eventMetadata","description":"A list of event-specific information.","type":"array","items":{"$ref":"EventMetadata"}}]}],"commands":[{"name":"startObserving","description":"Enables event updates for the service.","parameters":[{"name":"service","$ref":"ServiceName"}]},{"name":"stopObserving","description":"Disables event updates for the service.","parameters":[{"name":"service","$ref":"ServiceName"}]},{"name":"setRecording","description":"Set the recording state for the service.","parameters":[{"name":"shouldRecord","type":"boolean"},{"name":"service","$ref":"ServiceName"}]},{"name":"clearEvents","description":"Clears all stored data for the service.","parameters":[{"name":"service","$ref":"ServiceName"}]}],"events":[{"name":"recordingStateChanged","description":"Called when the recording state for the service has been updated.","parameters":[{"name":"isRecording","type":"boolean"},{"name":"service","$ref":"ServiceName"}]},{"name":"backgroundServiceEventReceived","description":"Called with all existing backgroundServiceEvents when enabled, and all new\\nevents afterwards if enabled and recording.","parameters":[{"name":"backgroundServiceEvent","$ref":"BackgroundServiceEvent"}]}]},{"domain":"Browser","description":"The Browser domain defines methods and events for browser managing.","types":[{"id":"WindowID","experimental":true,"type":"integer"},{"id":"WindowState","description":"The state of the browser window.","experimental":true,"type":"string","enum":["normal","minimized","maximized","fullscreen"]},{"id":"Bounds","description":"Browser window bounds information","experimental":true,"type":"object","properties":[{"name":"left","description":"The offset from the left edge of the screen to the window in pixels.","optional":true,"type":"integer"},{"name":"top","description":"The offset from the top edge of the screen to the window in pixels.","optional":true,"type":"integer"},{"name":"width","description":"The window width in pixels.","optional":true,"type":"integer"},{"name":"height","description":"The window height in pixels.","optional":true,"type":"integer"},{"name":"windowState","description":"The window state. Default to normal.","optional":true,"$ref":"WindowState"}]},{"id":"PermissionType","experimental":true,"type":"string","enum":["accessibilityEvents","audioCapture","backgroundSync","backgroundFetch","clipboardRead","clipboardWrite","durableStorage","flash","geolocation","midi","midiSysex","notifications","paymentHandler","periodicBackgroundSync","protectedMediaIdentifier","sensors","videoCapture","idleDetection","wakeLockScreen","wakeLockSystem"]},{"id":"Bucket","description":"Chrome histogram bucket.","experimental":true,"type":"object","properties":[{"name":"low","description":"Minimum value (inclusive).","type":"integer"},{"name":"high","description":"Maximum value (exclusive).","type":"integer"},{"name":"count","description":"Number of samples.","type":"integer"}]},{"id":"Histogram","description":"Chrome histogram.","experimental":true,"type":"object","properties":[{"name":"name","description":"Name.","type":"string"},{"name":"sum","description":"Sum of sample values.","type":"integer"},{"name":"count","description":"Total number of samples.","type":"integer"},{"name":"buckets","description":"Buckets.","type":"array","items":{"$ref":"Bucket"}}]}],"commands":[{"name":"grantPermissions","description":"Grant specific permissions to the given origin and reject all others.","experimental":true,"parameters":[{"name":"origin","type":"string"},{"name":"permissions","type":"array","items":{"$ref":"PermissionType"}},{"name":"browserContextId","description":"BrowserContext to override permissions. When omitted, default browser context is used.","optional":true,"$ref":"Target.BrowserContextID"}]},{"name":"resetPermissions","description":"Reset all permission management for all origins.","experimental":true,"parameters":[{"name":"browserContextId","description":"BrowserContext to reset permissions. When omitted, default browser context is used.","optional":true,"$ref":"Target.BrowserContextID"}]},{"name":"close","description":"Close browser gracefully."},{"name":"crash","description":"Crashes browser on the main thread.","experimental":true},{"name":"crashGpuProcess","description":"Crashes GPU process.","experimental":true},{"name":"getVersion","description":"Returns version information.","returns":[{"name":"protocolVersion","description":"Protocol version.","type":"string"},{"name":"product","description":"Product name.","type":"string"},{"name":"revision","description":"Product revision.","type":"string"},{"name":"userAgent","description":"User-Agent.","type":"string"},{"name":"jsVersion","description":"V8 version.","type":"string"}]},{"name":"getBrowserCommandLine","description":"Returns the command line switches for the browser process if, and only if\\n--enable-automation is on the commandline.","experimental":true,"returns":[{"name":"arguments","description":"Commandline parameters","type":"array","items":{"type":"string"}}]},{"name":"getHistograms","description":"Get Chrome histograms.","experimental":true,"parameters":[{"name":"query","description":"Requested substring in name. Only histograms which have query as a\\nsubstring in their name are extracted. An empty or absent query returns\\nall histograms.","optional":true,"type":"string"},{"name":"delta","description":"If true, retrieve delta since last call.","optional":true,"type":"boolean"}],"returns":[{"name":"histograms","description":"Histograms.","type":"array","items":{"$ref":"Histogram"}}]},{"name":"getHistogram","description":"Get a Chrome histogram by name.","experimental":true,"parameters":[{"name":"name","description":"Requested histogram name.","type":"string"},{"name":"delta","description":"If true, retrieve delta since last call.","optional":true,"type":"boolean"}],"returns":[{"name":"histogram","description":"Histogram.","$ref":"Histogram"}]},{"name":"getWindowBounds","description":"Get position and size of the browser window.","experimental":true,"parameters":[{"name":"windowId","description":"Browser window id.","$ref":"WindowID"}],"returns":[{"name":"bounds","description":"Bounds information of the window. When window state is \'minimized\', the restored window\\nposition and size are returned.","$ref":"Bounds"}]},{"name":"getWindowForTarget","description":"Get the browser window that contains the devtools target.","experimental":true,"parameters":[{"name":"targetId","description":"Devtools agent host id. If called as a part of the session, associated targetId is used.","optional":true,"$ref":"Target.TargetID"}],"returns":[{"name":"windowId","description":"Browser window id.","$ref":"WindowID"},{"name":"bounds","description":"Bounds information of the window. When window state is \'minimized\', the restored window\\nposition and size are returned.","$ref":"Bounds"}]},{"name":"setWindowBounds","description":"Set position and/or size of the browser window.","experimental":true,"parameters":[{"name":"windowId","description":"Browser window id.","$ref":"WindowID"},{"name":"bounds","description":"New window bounds. The \'minimized\', \'maximized\' and \'fullscreen\' states cannot be combined\\nwith \'left\', \'top\', \'width\' or \'height\'. Leaves unspecified fields unchanged.","$ref":"Bounds"}]},{"name":"setDockTile","description":"Set dock tile details, platform-specific.","experimental":true,"parameters":[{"name":"badgeLabel","optional":true,"type":"string"},{"name":"image","description":"Png encoded image.","optional":true,"type":"string"}]}]},{"domain":"CSS","description":"This domain exposes CSS read/write operations. All CSS objects (stylesheets, rules, and styles)\\nhave an associated `id` used in subsequent operations on the related object. Each object type has\\na specific `id` structure, and those are not interchangeable between objects of different kinds.\\nCSS objects can be loaded using the `get*ForNode()` calls (which accept a DOM node id). A client\\ncan also keep track of stylesheets via the `styleSheetAdded`/`styleSheetRemoved` events and\\nsubsequently load the required stylesheet contents using the `getStyleSheet[Text]()` methods.","experimental":true,"dependencies":["DOM"],"types":[{"id":"StyleSheetId","type":"string"},{"id":"StyleSheetOrigin","description":"Stylesheet type: \\"injected\\" for stylesheets injected via extension, \\"user-agent\\" for user-agent\\nstylesheets, \\"inspector\\" for stylesheets created by the inspector (i.e. those holding the \\"via\\ninspector\\" rules), \\"regular\\" for regular stylesheets.","type":"string","enum":["injected","user-agent","inspector","regular"]},{"id":"PseudoElementMatches","description":"CSS rule collection for a single pseudo style.","type":"object","properties":[{"name":"pseudoType","description":"Pseudo element type.","$ref":"DOM.PseudoType"},{"name":"matches","description":"Matches of CSS rules applicable to the pseudo style.","type":"array","items":{"$ref":"RuleMatch"}}]},{"id":"InheritedStyleEntry","description":"Inherited CSS rule collection from ancestor node.","type":"object","properties":[{"name":"inlineStyle","description":"The ancestor node\'s inline style, if any, in the style inheritance chain.","optional":true,"$ref":"CSSStyle"},{"name":"matchedCSSRules","description":"Matches of CSS rules matching the ancestor node in the style inheritance chain.","type":"array","items":{"$ref":"RuleMatch"}}]},{"id":"RuleMatch","description":"Match data for a CSS rule.","type":"object","properties":[{"name":"rule","description":"CSS rule in the match.","$ref":"CSSRule"},{"name":"matchingSelectors","description":"Matching selector indices in the rule\'s selectorList selectors (0-based).","type":"array","items":{"type":"integer"}}]},{"id":"Value","description":"Data for a simple selector (these are delimited by commas in a selector list).","type":"object","properties":[{"name":"text","description":"Value text.","type":"string"},{"name":"range","description":"Value range in the underlying resource (if available).","optional":true,"$ref":"SourceRange"}]},{"id":"SelectorList","description":"Selector list data.","type":"object","properties":[{"name":"selectors","description":"Selectors in the list.","type":"array","items":{"$ref":"Value"}},{"name":"text","description":"Rule selector text.","type":"string"}]},{"id":"CSSStyleSheetHeader","description":"CSS stylesheet metainformation.","type":"object","properties":[{"name":"styleSheetId","description":"The stylesheet identifier.","$ref":"StyleSheetId"},{"name":"frameId","description":"Owner frame identifier.","$ref":"Page.FrameId"},{"name":"sourceURL","description":"Stylesheet resource URL.","type":"string"},{"name":"sourceMapURL","description":"URL of source map associated with the stylesheet (if any).","optional":true,"type":"string"},{"name":"origin","description":"Stylesheet origin.","$ref":"StyleSheetOrigin"},{"name":"title","description":"Stylesheet title.","type":"string"},{"name":"ownerNode","description":"The backend id for the owner node of the stylesheet.","optional":true,"$ref":"DOM.BackendNodeId"},{"name":"disabled","description":"Denotes whether the stylesheet is disabled.","type":"boolean"},{"name":"hasSourceURL","description":"Whether the sourceURL field value comes from the sourceURL comment.","optional":true,"type":"boolean"},{"name":"isInline","description":"Whether this stylesheet is created for STYLE tag by parser. This flag is not set for\\ndocument.written STYLE tags.","type":"boolean"},{"name":"startLine","description":"Line offset of the stylesheet within the resource (zero based).","type":"number"},{"name":"startColumn","description":"Column offset of the stylesheet within the resource (zero based).","type":"number"},{"name":"length","description":"Size of the content (in characters).","type":"number"}]},{"id":"CSSRule","description":"CSS rule representation.","type":"object","properties":[{"name":"styleSheetId","description":"The css style sheet identifier (absent for user agent stylesheet and user-specified\\nstylesheet rules) this rule came from.","optional":true,"$ref":"StyleSheetId"},{"name":"selectorList","description":"Rule selector data.","$ref":"SelectorList"},{"name":"origin","description":"Parent stylesheet\'s origin.","$ref":"StyleSheetOrigin"},{"name":"style","description":"Associated style declaration.","$ref":"CSSStyle"},{"name":"media","description":"Media list array (for rules involving media queries). The array enumerates media queries\\nstarting with the innermost one, going outwards.","optional":true,"type":"array","items":{"$ref":"CSSMedia"}}]},{"id":"RuleUsage","description":"CSS coverage information.","type":"object","properties":[{"name":"styleSheetId","description":"The css style sheet identifier (absent for user agent stylesheet and user-specified\\nstylesheet rules) this rule came from.","$ref":"StyleSheetId"},{"name":"startOffset","description":"Offset of the start of the rule (including selector) from the beginning of the stylesheet.","type":"number"},{"name":"endOffset","description":"Offset of the end of the rule body from the beginning of the stylesheet.","type":"number"},{"name":"used","description":"Indicates whether the rule was actually used by some element in the page.","type":"boolean"}]},{"id":"SourceRange","description":"Text range within a resource. All numbers are zero-based.","type":"object","properties":[{"name":"startLine","description":"Start line of range.","type":"integer"},{"name":"startColumn","description":"Start column of range (inclusive).","type":"integer"},{"name":"endLine","description":"End line of range","type":"integer"},{"name":"endColumn","description":"End column of range (exclusive).","type":"integer"}]},{"id":"ShorthandEntry","type":"object","properties":[{"name":"name","description":"Shorthand name.","type":"string"},{"name":"value","description":"Shorthand value.","type":"string"},{"name":"important","description":"Whether the property has \\"!important\\" annotation (implies `false` if absent).","optional":true,"type":"boolean"}]},{"id":"CSSComputedStyleProperty","type":"object","properties":[{"name":"name","description":"Computed style property name.","type":"string"},{"name":"value","description":"Computed style property value.","type":"string"}]},{"id":"CSSStyle","description":"CSS style representation.","type":"object","properties":[{"name":"styleSheetId","description":"The css style sheet identifier (absent for user agent stylesheet and user-specified\\nstylesheet rules) this rule came from.","optional":true,"$ref":"StyleSheetId"},{"name":"cssProperties","description":"CSS properties in the style.","type":"array","items":{"$ref":"CSSProperty"}},{"name":"shorthandEntries","description":"Computed values for all shorthands found in the style.","type":"array","items":{"$ref":"ShorthandEntry"}},{"name":"cssText","description":"Style declaration text (if available).","optional":true,"type":"string"},{"name":"range","description":"Style declaration range in the enclosing stylesheet (if available).","optional":true,"$ref":"SourceRange"}]},{"id":"CSSProperty","description":"CSS property declaration data.","type":"object","properties":[{"name":"name","description":"The property name.","type":"string"},{"name":"value","description":"The property value.","type":"string"},{"name":"important","description":"Whether the property has \\"!important\\" annotation (implies `false` if absent).","optional":true,"type":"boolean"},{"name":"implicit","description":"Whether the property is implicit (implies `false` if absent).","optional":true,"type":"boolean"},{"name":"text","description":"The full property text as specified in the style.","optional":true,"type":"string"},{"name":"parsedOk","description":"Whether the property is understood by the browser (implies `true` if absent).","optional":true,"type":"boolean"},{"name":"disabled","description":"Whether the property is disabled by the user (present for source-based properties only).","optional":true,"type":"boolean"},{"name":"range","description":"The entire property range in the enclosing style declaration (if available).","optional":true,"$ref":"SourceRange"}]},{"id":"CSSMedia","description":"CSS media rule descriptor.","type":"object","properties":[{"name":"text","description":"Media query text.","type":"string"},{"name":"source","description":"Source of the media query: \\"mediaRule\\" if specified by a @media rule, \\"importRule\\" if\\nspecified by an @import rule, \\"linkedSheet\\" if specified by a \\"media\\" attribute in a linked\\nstylesheet\'s LINK tag, \\"inlineSheet\\" if specified by a \\"media\\" attribute in an inline\\nstylesheet\'s STYLE tag.","type":"string","enum":["mediaRule","importRule","linkedSheet","inlineSheet"]},{"name":"sourceURL","description":"URL of the document containing the media query description.","optional":true,"type":"string"},{"name":"range","description":"The associated rule (@media or @import) header range in the enclosing stylesheet (if\\navailable).","optional":true,"$ref":"SourceRange"},{"name":"styleSheetId","description":"Identifier of the stylesheet containing this object (if exists).","optional":true,"$ref":"StyleSheetId"},{"name":"mediaList","description":"Array of media queries.","optional":true,"type":"array","items":{"$ref":"MediaQuery"}}]},{"id":"MediaQuery","description":"Media query descriptor.","type":"object","properties":[{"name":"expressions","description":"Array of media query expressions.","type":"array","items":{"$ref":"MediaQueryExpression"}},{"name":"active","description":"Whether the media query condition is satisfied.","type":"boolean"}]},{"id":"MediaQueryExpression","description":"Media query expression descriptor.","type":"object","properties":[{"name":"value","description":"Media query expression value.","type":"number"},{"name":"unit","description":"Media query expression units.","type":"string"},{"name":"feature","description":"Media query expression feature.","type":"string"},{"name":"valueRange","description":"The associated range of the value text in the enclosing stylesheet (if available).","optional":true,"$ref":"SourceRange"},{"name":"computedLength","description":"Computed length of media query expression (if applicable).","optional":true,"type":"number"}]},{"id":"PlatformFontUsage","description":"Information about amount of glyphs that were rendered with given font.","type":"object","properties":[{"name":"familyName","description":"Font\'s family name reported by platform.","type":"string"},{"name":"isCustomFont","description":"Indicates if the font was downloaded or resolved locally.","type":"boolean"},{"name":"glyphCount","description":"Amount of glyphs that were rendered with this font.","type":"number"}]},{"id":"FontFace","description":"Properties of a web font: https://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions","type":"object","properties":[{"name":"fontFamily","description":"The font-family.","type":"string"},{"name":"fontStyle","description":"The font-style.","type":"string"},{"name":"fontVariant","description":"The font-variant.","type":"string"},{"name":"fontWeight","description":"The font-weight.","type":"string"},{"name":"fontStretch","description":"The font-stretch.","type":"string"},{"name":"unicodeRange","description":"The unicode-range.","type":"string"},{"name":"src","description":"The src.","type":"string"},{"name":"platformFontFamily","description":"The resolved platform font family","type":"string"}]},{"id":"CSSKeyframesRule","description":"CSS keyframes rule representation.","type":"object","properties":[{"name":"animationName","description":"Animation name.","$ref":"Value"},{"name":"keyframes","description":"List of keyframes.","type":"array","items":{"$ref":"CSSKeyframeRule"}}]},{"id":"CSSKeyframeRule","description":"CSS keyframe rule representation.","type":"object","properties":[{"name":"styleSheetId","description":"The css style sheet identifier (absent for user agent stylesheet and user-specified\\nstylesheet rules) this rule came from.","optional":true,"$ref":"StyleSheetId"},{"name":"origin","description":"Parent stylesheet\'s origin.","$ref":"StyleSheetOrigin"},{"name":"keyText","description":"Associated key text.","$ref":"Value"},{"name":"style","description":"Associated style declaration.","$ref":"CSSStyle"}]},{"id":"StyleDeclarationEdit","description":"A descriptor of operation to mutate style declaration text.","type":"object","properties":[{"name":"styleSheetId","description":"The css style sheet identifier.","$ref":"StyleSheetId"},{"name":"range","description":"The range of the style text in the enclosing stylesheet.","$ref":"SourceRange"},{"name":"text","description":"New style text.","type":"string"}]}],"commands":[{"name":"addRule","description":"Inserts a new rule with the given `ruleText` in a stylesheet with given `styleSheetId`, at the\\nposition specified by `location`.","parameters":[{"name":"styleSheetId","description":"The css style sheet identifier where a new rule should be inserted.","$ref":"StyleSheetId"},{"name":"ruleText","description":"The text of a new rule.","type":"string"},{"name":"location","description":"Text position of a new rule in the target style sheet.","$ref":"SourceRange"}],"returns":[{"name":"rule","description":"The newly created rule.","$ref":"CSSRule"}]},{"name":"collectClassNames","description":"Returns all class names from specified stylesheet.","parameters":[{"name":"styleSheetId","$ref":"StyleSheetId"}],"returns":[{"name":"classNames","description":"Class name list.","type":"array","items":{"type":"string"}}]},{"name":"createStyleSheet","description":"Creates a new special \\"via-inspector\\" stylesheet in the frame with given `frameId`.","parameters":[{"name":"frameId","description":"Identifier of the frame where \\"via-inspector\\" stylesheet should be created.","$ref":"Page.FrameId"}],"returns":[{"name":"styleSheetId","description":"Identifier of the created \\"via-inspector\\" stylesheet.","$ref":"StyleSheetId"}]},{"name":"disable","description":"Disables the CSS agent for the given page."},{"name":"enable","description":"Enables the CSS agent for the given page. Clients should not assume that the CSS agent has been\\nenabled until the result of this command is received."},{"name":"forcePseudoState","description":"Ensures that the given node will have specified pseudo-classes whenever its style is computed by\\nthe browser.","parameters":[{"name":"nodeId","description":"The element id for which to force the pseudo state.","$ref":"DOM.NodeId"},{"name":"forcedPseudoClasses","description":"Element pseudo classes to force when computing the element\'s style.","type":"array","items":{"type":"string"}}]},{"name":"getBackgroundColors","parameters":[{"name":"nodeId","description":"Id of the node to get background colors for.","$ref":"DOM.NodeId"}],"returns":[{"name":"backgroundColors","description":"The range of background colors behind this element, if it contains any visible text. If no\\nvisible text is present, this will be undefined. In the case of a flat background color,\\nthis will consist of simply that color. In the case of a gradient, this will consist of each\\nof the color stops. For anything more complicated, this will be an empty array. Images will\\nbe ignored (as if the image had failed to load).","optional":true,"type":"array","items":{"type":"string"}},{"name":"computedFontSize","description":"The computed font size for this node, as a CSS computed value string (e.g. \'12px\').","optional":true,"type":"string"},{"name":"computedFontWeight","description":"The computed font weight for this node, as a CSS computed value string (e.g. \'normal\' or\\n\'100\').","optional":true,"type":"string"}]},{"name":"getComputedStyleForNode","description":"Returns the computed style for a DOM node identified by `nodeId`.","parameters":[{"name":"nodeId","$ref":"DOM.NodeId"}],"returns":[{"name":"computedStyle","description":"Computed style for the specified DOM node.","type":"array","items":{"$ref":"CSSComputedStyleProperty"}}]},{"name":"getInlineStylesForNode","description":"Returns the styles defined inline (explicitly in the \\"style\\" attribute and implicitly, using DOM\\nattributes) for a DOM node identified by `nodeId`.","parameters":[{"name":"nodeId","$ref":"DOM.NodeId"}],"returns":[{"name":"inlineStyle","description":"Inline style for the specified DOM node.","optional":true,"$ref":"CSSStyle"},{"name":"attributesStyle","description":"Attribute-defined element style (e.g. resulting from \\"width=20 height=100%\\").","optional":true,"$ref":"CSSStyle"}]},{"name":"getMatchedStylesForNode","description":"Returns requested styles for a DOM node identified by `nodeId`.","parameters":[{"name":"nodeId","$ref":"DOM.NodeId"}],"returns":[{"name":"inlineStyle","description":"Inline style for the specified DOM node.","optional":true,"$ref":"CSSStyle"},{"name":"attributesStyle","description":"Attribute-defined element style (e.g. resulting from \\"width=20 height=100%\\").","optional":true,"$ref":"CSSStyle"},{"name":"matchedCSSRules","description":"CSS rules matching this node, from all applicable stylesheets.","optional":true,"type":"array","items":{"$ref":"RuleMatch"}},{"name":"pseudoElements","description":"Pseudo style matches for this node.","optional":true,"type":"array","items":{"$ref":"PseudoElementMatches"}},{"name":"inherited","description":"A chain of inherited styles (from the immediate node parent up to the DOM tree root).","optional":true,"type":"array","items":{"$ref":"InheritedStyleEntry"}},{"name":"cssKeyframesRules","description":"A list of CSS keyframed animations matching this node.","optional":true,"type":"array","items":{"$ref":"CSSKeyframesRule"}}]},{"name":"getMediaQueries","description":"Returns all media queries parsed by the rendering engine.","returns":[{"name":"medias","type":"array","items":{"$ref":"CSSMedia"}}]},{"name":"getPlatformFontsForNode","description":"Requests information about platform fonts which we used to render child TextNodes in the given\\nnode.","parameters":[{"name":"nodeId","$ref":"DOM.NodeId"}],"returns":[{"name":"fonts","description":"Usage statistics for every employed platform font.","type":"array","items":{"$ref":"PlatformFontUsage"}}]},{"name":"getStyleSheetText","description":"Returns the current textual content for a stylesheet.","parameters":[{"name":"styleSheetId","$ref":"StyleSheetId"}],"returns":[{"name":"text","description":"The stylesheet text.","type":"string"}]},{"name":"setEffectivePropertyValueForNode","description":"Find a rule with the given active property for the given node and set the new value for this\\nproperty","parameters":[{"name":"nodeId","description":"The element id for which to set property.","$ref":"DOM.NodeId"},{"name":"propertyName","type":"string"},{"name":"value","type":"string"}]},{"name":"setKeyframeKey","description":"Modifies the keyframe rule key text.","parameters":[{"name":"styleSheetId","$ref":"StyleSheetId"},{"name":"range","$ref":"SourceRange"},{"name":"keyText","type":"string"}],"returns":[{"name":"keyText","description":"The resulting key text after modification.","$ref":"Value"}]},{"name":"setMediaText","description":"Modifies the rule selector.","parameters":[{"name":"styleSheetId","$ref":"StyleSheetId"},{"name":"range","$ref":"SourceRange"},{"name":"text","type":"string"}],"returns":[{"name":"media","description":"The resulting CSS media rule after modification.","$ref":"CSSMedia"}]},{"name":"setRuleSelector","description":"Modifies the rule selector.","parameters":[{"name":"styleSheetId","$ref":"StyleSheetId"},{"name":"range","$ref":"SourceRange"},{"name":"selector","type":"string"}],"returns":[{"name":"selectorList","description":"The resulting selector list after modification.","$ref":"SelectorList"}]},{"name":"setStyleSheetText","description":"Sets the new stylesheet text.","parameters":[{"name":"styleSheetId","$ref":"StyleSheetId"},{"name":"text","type":"string"}],"returns":[{"name":"sourceMapURL","description":"URL of source map associated with script (if any).","optional":true,"type":"string"}]},{"name":"setStyleTexts","description":"Applies specified style edits one after another in the given order.","parameters":[{"name":"edits","type":"array","items":{"$ref":"StyleDeclarationEdit"}}],"returns":[{"name":"styles","description":"The resulting styles after modification.","type":"array","items":{"$ref":"CSSStyle"}}]},{"name":"startRuleUsageTracking","description":"Enables the selector recording."},{"name":"stopRuleUsageTracking","description":"Stop tracking rule usage and return the list of rules that were used since last call to\\n`takeCoverageDelta` (or since start of coverage instrumentation)","returns":[{"name":"ruleUsage","type":"array","items":{"$ref":"RuleUsage"}}]},{"name":"takeCoverageDelta","description":"Obtain list of rules that became used since last call to this method (or since start of coverage\\ninstrumentation)","returns":[{"name":"coverage","type":"array","items":{"$ref":"RuleUsage"}}]}],"events":[{"name":"fontsUpdated","description":"Fires whenever a web font is updated.  A non-empty font parameter indicates a successfully loaded\\nweb font","parameters":[{"name":"font","description":"The web font that has loaded.","optional":true,"$ref":"FontFace"}]},{"name":"mediaQueryResultChanged","description":"Fires whenever a MediaQuery result changes (for example, after a browser window has been\\nresized.) The current implementation considers only viewport-dependent media features."},{"name":"styleSheetAdded","description":"Fired whenever an active document stylesheet is added.","parameters":[{"name":"header","description":"Added stylesheet metainfo.","$ref":"CSSStyleSheetHeader"}]},{"name":"styleSheetChanged","description":"Fired whenever a stylesheet is changed as a result of the client operation.","parameters":[{"name":"styleSheetId","$ref":"StyleSheetId"}]},{"name":"styleSheetRemoved","description":"Fired whenever an active document stylesheet is removed.","parameters":[{"name":"styleSheetId","description":"Identifier of the removed stylesheet.","$ref":"StyleSheetId"}]}]},{"domain":"CacheStorage","experimental":true,"types":[{"id":"CacheId","description":"Unique identifier of the Cache object.","type":"string"},{"id":"CachedResponseType","description":"type of HTTP response cached","type":"string","enum":["basic","cors","default","error","opaqueResponse","opaqueRedirect"]},{"id":"DataEntry","description":"Data entry.","type":"object","properties":[{"name":"requestURL","description":"Request URL.","type":"string"},{"name":"requestMethod","description":"Request method.","type":"string"},{"name":"requestHeaders","description":"Request headers","type":"array","items":{"$ref":"Header"}},{"name":"responseTime","description":"Number of seconds since epoch.","type":"number"},{"name":"responseStatus","description":"HTTP response status code.","type":"integer"},{"name":"responseStatusText","description":"HTTP response status text.","type":"string"},{"name":"responseType","description":"HTTP response type","$ref":"CachedResponseType"},{"name":"responseHeaders","description":"Response headers","type":"array","items":{"$ref":"Header"}}]},{"id":"Cache","description":"Cache identifier.","type":"object","properties":[{"name":"cacheId","description":"An opaque unique id of the cache.","$ref":"CacheId"},{"name":"securityOrigin","description":"Security origin of the cache.","type":"string"},{"name":"cacheName","description":"The name of the cache.","type":"string"}]},{"id":"Header","type":"object","properties":[{"name":"name","type":"string"},{"name":"value","type":"string"}]},{"id":"CachedResponse","description":"Cached response","type":"object","properties":[{"name":"body","description":"Entry content, base64-encoded.","type":"string"}]}],"commands":[{"name":"deleteCache","description":"Deletes a cache.","parameters":[{"name":"cacheId","description":"Id of cache for deletion.","$ref":"CacheId"}]},{"name":"deleteEntry","description":"Deletes a cache entry.","parameters":[{"name":"cacheId","description":"Id of cache where the entry will be deleted.","$ref":"CacheId"},{"name":"request","description":"URL spec of the request.","type":"string"}]},{"name":"requestCacheNames","description":"Requests cache names.","parameters":[{"name":"securityOrigin","description":"Security origin.","type":"string"}],"returns":[{"name":"caches","description":"Caches for the security origin.","type":"array","items":{"$ref":"Cache"}}]},{"name":"requestCachedResponse","description":"Fetches cache entry.","parameters":[{"name":"cacheId","description":"Id of cache that contains the entry.","$ref":"CacheId"},{"name":"requestURL","description":"URL spec of the request.","type":"string"},{"name":"requestHeaders","description":"headers of the request.","type":"array","items":{"$ref":"Header"}}],"returns":[{"name":"response","description":"Response read from the cache.","$ref":"CachedResponse"}]},{"name":"requestEntries","description":"Requests data from cache.","parameters":[{"name":"cacheId","description":"ID of cache to get entries from.","$ref":"CacheId"},{"name":"skipCount","description":"Number of records to skip.","type":"integer"},{"name":"pageSize","description":"Number of records to fetch.","type":"integer"},{"name":"pathFilter","description":"If present, only return the entries containing this substring in the path","optional":true,"type":"string"}],"returns":[{"name":"cacheDataEntries","description":"Array of object store data entries.","type":"array","items":{"$ref":"DataEntry"}},{"name":"returnCount","description":"Count of returned entries from this storage. If pathFilter is empty, it\\nis the count of all entries from this storage.","type":"number"}]}]},{"domain":"Cast","description":"A domain for interacting with Cast, Presentation API, and Remote Playback API\\nfunctionalities.","experimental":true,"types":[{"id":"Sink","type":"object","properties":[{"name":"name","type":"string"},{"name":"id","type":"string"},{"name":"session","description":"Text describing the current session. Present only if there is an active\\nsession on the sink.","optional":true,"type":"string"}]}],"commands":[{"name":"enable","description":"Starts observing for sinks that can be used for tab mirroring, and if set,\\nsinks compatible with |presentationUrl| as well. When sinks are found, a\\n|sinksUpdated| event is fired.\\nAlso starts observing for issue messages. When an issue is added or removed,\\nan |issueUpdated| event is fired.","parameters":[{"name":"presentationUrl","optional":true,"type":"string"}]},{"name":"disable","description":"Stops observing for sinks and issues."},{"name":"setSinkToUse","description":"Sets a sink to be used when the web page requests the browser to choose a\\nsink via Presentation API, Remote Playback API, or Cast SDK.","parameters":[{"name":"sinkName","type":"string"}]},{"name":"startTabMirroring","description":"Starts mirroring the tab to the sink.","parameters":[{"name":"sinkName","type":"string"}]},{"name":"stopCasting","description":"Stops the active Cast session on the sink.","parameters":[{"name":"sinkName","type":"string"}]}],"events":[{"name":"sinksUpdated","description":"This is fired whenever the list of available sinks changes. A sink is a\\ndevice or a software surface that you can cast to.","parameters":[{"name":"sinks","type":"array","items":{"$ref":"Sink"}}]},{"name":"issueUpdated","description":"This is fired whenever the outstanding issue/error message changes.\\n|issueMessage| is empty if there is no issue.","parameters":[{"name":"issueMessage","type":"string"}]}]},{"domain":"DOM","description":"This domain exposes DOM read/write operations. Each DOM Node is represented with its mirror object\\nthat has an `id`. This `id` can be used to get additional information on the Node, resolve it into\\nthe JavaScript object wrapper, etc. It is important that client receives DOM events only for the\\nnodes that are known to the client. Backend keeps track of the nodes that were sent to the client\\nand never sends the same node twice. It is client\'s responsibility to collect information about\\nthe nodes that were sent to the client.<p>Note that `iframe` owner elements will return\\ncorresponding document elements as their child nodes.</p>","dependencies":["Runtime"],"types":[{"id":"NodeId","description":"Unique DOM node identifier.","type":"integer"},{"id":"BackendNodeId","description":"Unique DOM node identifier used to reference a node that may not have been pushed to the\\nfront-end.","type":"integer"},{"id":"BackendNode","description":"Backend node with a friendly name.","type":"object","properties":[{"name":"nodeType","description":"`Node`\'s nodeType.","type":"integer"},{"name":"nodeName","description":"`Node`\'s nodeName.","type":"string"},{"name":"backendNodeId","$ref":"BackendNodeId"}]},{"id":"PseudoType","description":"Pseudo element type.","type":"string","enum":["first-line","first-letter","before","after","backdrop","selection","first-line-inherited","scrollbar","scrollbar-thumb","scrollbar-button","scrollbar-track","scrollbar-track-piece","scrollbar-corner","resizer","input-list-button"]},{"id":"ShadowRootType","description":"Shadow root type.","type":"string","enum":["user-agent","open","closed"]},{"id":"Node","description":"DOM interaction is implemented in terms of mirror objects that represent the actual DOM nodes.\\nDOMNode is a base node mirror type.","type":"object","properties":[{"name":"nodeId","description":"Node identifier that is passed into the rest of the DOM messages as the `nodeId`. Backend\\nwill only push node with given `id` once. It is aware of all requested nodes and will only\\nfire DOM events for nodes known to the client.","$ref":"NodeId"},{"name":"parentId","description":"The id of the parent node if any.","optional":true,"$ref":"NodeId"},{"name":"backendNodeId","description":"The BackendNodeId for this node.","$ref":"BackendNodeId"},{"name":"nodeType","description":"`Node`\'s nodeType.","type":"integer"},{"name":"nodeName","description":"`Node`\'s nodeName.","type":"string"},{"name":"localName","description":"`Node`\'s localName.","type":"string"},{"name":"nodeValue","description":"`Node`\'s nodeValue.","type":"string"},{"name":"childNodeCount","description":"Child count for `Container` nodes.","optional":true,"type":"integer"},{"name":"children","description":"Child nodes of this node when requested with children.","optional":true,"type":"array","items":{"$ref":"Node"}},{"name":"attributes","description":"Attributes of the `Element` node in the form of flat array `[name1, value1, name2, value2]`.","optional":true,"type":"array","items":{"type":"string"}},{"name":"documentURL","description":"Document URL that `Document` or `FrameOwner` node points to.","optional":true,"type":"string"},{"name":"baseURL","description":"Base URL that `Document` or `FrameOwner` node uses for URL completion.","optional":true,"type":"string"},{"name":"publicId","description":"`DocumentType`\'s publicId.","optional":true,"type":"string"},{"name":"systemId","description":"`DocumentType`\'s systemId.","optional":true,"type":"string"},{"name":"internalSubset","description":"`DocumentType`\'s internalSubset.","optional":true,"type":"string"},{"name":"xmlVersion","description":"`Document`\'s XML version in case of XML documents.","optional":true,"type":"string"},{"name":"name","description":"`Attr`\'s name.","optional":true,"type":"string"},{"name":"value","description":"`Attr`\'s value.","optional":true,"type":"string"},{"name":"pseudoType","description":"Pseudo element type for this node.","optional":true,"$ref":"PseudoType"},{"name":"shadowRootType","description":"Shadow root type.","optional":true,"$ref":"ShadowRootType"},{"name":"frameId","description":"Frame ID for frame owner elements.","optional":true,"$ref":"Page.FrameId"},{"name":"contentDocument","description":"Content document for frame owner elements.","optional":true,"$ref":"Node"},{"name":"shadowRoots","description":"Shadow root list for given element host.","optional":true,"type":"array","items":{"$ref":"Node"}},{"name":"templateContent","description":"Content document fragment for template elements.","optional":true,"$ref":"Node"},{"name":"pseudoElements","description":"Pseudo elements associated with this node.","optional":true,"type":"array","items":{"$ref":"Node"}},{"name":"importedDocument","description":"Import document for the HTMLImport links.","optional":true,"$ref":"Node"},{"name":"distributedNodes","description":"Distributed nodes for given insertion point.","optional":true,"type":"array","items":{"$ref":"BackendNode"}},{"name":"isSVG","description":"Whether the node is SVG.","optional":true,"type":"boolean"}]},{"id":"RGBA","description":"A structure holding an RGBA color.","type":"object","properties":[{"name":"r","description":"The red component, in the [0-255] range.","type":"integer"},{"name":"g","description":"The green component, in the [0-255] range.","type":"integer"},{"name":"b","description":"The blue component, in the [0-255] range.","type":"integer"},{"name":"a","description":"The alpha component, in the [0-1] range (default: 1).","optional":true,"type":"number"}]},{"id":"Quad","description":"An array of quad vertices, x immediately followed by y for each point, points clock-wise.","type":"array","items":{"type":"number"}},{"id":"BoxModel","description":"Box model.","type":"object","properties":[{"name":"content","description":"Content box","$ref":"Quad"},{"name":"padding","description":"Padding box","$ref":"Quad"},{"name":"border","description":"Border box","$ref":"Quad"},{"name":"margin","description":"Margin box","$ref":"Quad"},{"name":"width","description":"Node width","type":"integer"},{"name":"height","description":"Node height","type":"integer"},{"name":"shapeOutside","description":"Shape outside coordinates","optional":true,"$ref":"ShapeOutsideInfo"}]},{"id":"ShapeOutsideInfo","description":"CSS Shape Outside details.","type":"object","properties":[{"name":"bounds","description":"Shape bounds","$ref":"Quad"},{"name":"shape","description":"Shape coordinate details","type":"array","items":{"type":"any"}},{"name":"marginShape","description":"Margin shape bounds","type":"array","items":{"type":"any"}}]},{"id":"Rect","description":"Rectangle.","type":"object","properties":[{"name":"x","description":"X coordinate","type":"number"},{"name":"y","description":"Y coordinate","type":"number"},{"name":"width","description":"Rectangle width","type":"number"},{"name":"height","description":"Rectangle height","type":"number"}]}],"commands":[{"name":"collectClassNamesFromSubtree","description":"Collects class names for the node with given id and all of it\'s child nodes.","experimental":true,"parameters":[{"name":"nodeId","description":"Id of the node to collect class names.","$ref":"NodeId"}],"returns":[{"name":"classNames","description":"Class name list.","type":"array","items":{"type":"string"}}]},{"name":"copyTo","description":"Creates a deep copy of the specified node and places it into the target container before the\\ngiven anchor.","experimental":true,"parameters":[{"name":"nodeId","description":"Id of the node to copy.","$ref":"NodeId"},{"name":"targetNodeId","description":"Id of the element to drop the copy into.","$ref":"NodeId"},{"name":"insertBeforeNodeId","description":"Drop the copy before this node (if absent, the copy becomes the last child of\\n`targetNodeId`).","optional":true,"$ref":"NodeId"}],"returns":[{"name":"nodeId","description":"Id of the node clone.","$ref":"NodeId"}]},{"name":"describeNode","description":"Describes node given its id, does not require domain to be enabled. Does not start tracking any\\nobjects, can be used for automation.","parameters":[{"name":"nodeId","description":"Identifier of the node.","optional":true,"$ref":"NodeId"},{"name":"backendNodeId","description":"Identifier of the backend node.","optional":true,"$ref":"BackendNodeId"},{"name":"objectId","description":"JavaScript object id of the node wrapper.","optional":true,"$ref":"Runtime.RemoteObjectId"},{"name":"depth","description":"The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the\\nentire subtree or provide an integer larger than 0.","optional":true,"type":"integer"},{"name":"pierce","description":"Whether or not iframes and shadow roots should be traversed when returning the subtree\\n(default is false).","optional":true,"type":"boolean"}],"returns":[{"name":"node","description":"Node description.","$ref":"Node"}]},{"name":"disable","description":"Disables DOM agent for the given page."},{"name":"discardSearchResults","description":"Discards search results from the session with the given id. `getSearchResults` should no longer\\nbe called for that search.","experimental":true,"parameters":[{"name":"searchId","description":"Unique search session identifier.","type":"string"}]},{"name":"enable","description":"Enables DOM agent for the given page."},{"name":"focus","description":"Focuses the given element.","parameters":[{"name":"nodeId","description":"Identifier of the node.","optional":true,"$ref":"NodeId"},{"name":"backendNodeId","description":"Identifier of the backend node.","optional":true,"$ref":"BackendNodeId"},{"name":"objectId","description":"JavaScript object id of the node wrapper.","optional":true,"$ref":"Runtime.RemoteObjectId"}]},{"name":"getAttributes","description":"Returns attributes for the specified node.","parameters":[{"name":"nodeId","description":"Id of the node to retrieve attibutes for.","$ref":"NodeId"}],"returns":[{"name":"attributes","description":"An interleaved array of node attribute names and values.","type":"array","items":{"type":"string"}}]},{"name":"getBoxModel","description":"Returns boxes for the given node.","parameters":[{"name":"nodeId","description":"Identifier of the node.","optional":true,"$ref":"NodeId"},{"name":"backendNodeId","description":"Identifier of the backend node.","optional":true,"$ref":"BackendNodeId"},{"name":"objectId","description":"JavaScript object id of the node wrapper.","optional":true,"$ref":"Runtime.RemoteObjectId"}],"returns":[{"name":"model","description":"Box model for the node.","$ref":"BoxModel"}]},{"name":"getContentQuads","description":"Returns quads that describe node position on the page. This method\\nmight return multiple quads for inline nodes.","experimental":true,"parameters":[{"name":"nodeId","description":"Identifier of the node.","optional":true,"$ref":"NodeId"},{"name":"backendNodeId","description":"Identifier of the backend node.","optional":true,"$ref":"BackendNodeId"},{"name":"objectId","description":"JavaScript object id of the node wrapper.","optional":true,"$ref":"Runtime.RemoteObjectId"}],"returns":[{"name":"quads","description":"Quads that describe node layout relative to viewport.","type":"array","items":{"$ref":"Quad"}}]},{"name":"getDocument","description":"Returns the root DOM node (and optionally the subtree) to the caller.","parameters":[{"name":"depth","description":"The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the\\nentire subtree or provide an integer larger than 0.","optional":true,"type":"integer"},{"name":"pierce","description":"Whether or not iframes and shadow roots should be traversed when returning the subtree\\n(default is false).","optional":true,"type":"boolean"}],"returns":[{"name":"root","description":"Resulting node.","$ref":"Node"}]},{"name":"getFlattenedDocument","description":"Returns the root DOM node (and optionally the subtree) to the caller.","parameters":[{"name":"depth","description":"The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the\\nentire subtree or provide an integer larger than 0.","optional":true,"type":"integer"},{"name":"pierce","description":"Whether or not iframes and shadow roots should be traversed when returning the subtree\\n(default is false).","optional":true,"type":"boolean"}],"returns":[{"name":"nodes","description":"Resulting node.","type":"array","items":{"$ref":"Node"}}]},{"name":"getNodeForLocation","description":"Returns node id at given location. Depending on whether DOM domain is enabled, nodeId is\\neither returned or not.","experimental":true,"parameters":[{"name":"x","description":"X coordinate.","type":"integer"},{"name":"y","description":"Y coordinate.","type":"integer"},{"name":"includeUserAgentShadowDOM","description":"False to skip to the nearest non-UA shadow root ancestor (default: false).","optional":true,"type":"boolean"}],"returns":[{"name":"backendNodeId","description":"Resulting node.","$ref":"BackendNodeId"},{"name":"nodeId","description":"Id of the node at given coordinates, only when enabled and requested document.","optional":true,"$ref":"NodeId"}]},{"name":"getOuterHTML","description":"Returns node\'s HTML markup.","parameters":[{"name":"nodeId","description":"Identifier of the node.","optional":true,"$ref":"NodeId"},{"name":"backendNodeId","description":"Identifier of the backend node.","optional":true,"$ref":"BackendNodeId"},{"name":"objectId","description":"JavaScript object id of the node wrapper.","optional":true,"$ref":"Runtime.RemoteObjectId"}],"returns":[{"name":"outerHTML","description":"Outer HTML markup.","type":"string"}]},{"name":"getRelayoutBoundary","description":"Returns the id of the nearest ancestor that is a relayout boundary.","experimental":true,"parameters":[{"name":"nodeId","description":"Id of the node.","$ref":"NodeId"}],"returns":[{"name":"nodeId","description":"Relayout boundary node id for the given node.","$ref":"NodeId"}]},{"name":"getSearchResults","description":"Returns search results from given `fromIndex` to given `toIndex` from the search with the given\\nidentifier.","experimental":true,"parameters":[{"name":"searchId","description":"Unique search session identifier.","type":"string"},{"name":"fromIndex","description":"Start index of the search result to be returned.","type":"integer"},{"name":"toIndex","description":"End index of the search result to be returned.","type":"integer"}],"returns":[{"name":"nodeIds","description":"Ids of the search result nodes.","type":"array","items":{"$ref":"NodeId"}}]},{"name":"hideHighlight","description":"Hides any highlight.","redirect":"Overlay"},{"name":"highlightNode","description":"Highlights DOM node.","redirect":"Overlay"},{"name":"highlightRect","description":"Highlights given rectangle.","redirect":"Overlay"},{"name":"markUndoableState","description":"Marks last undoable state.","experimental":true},{"name":"moveTo","description":"Moves node into the new container, places it before the given anchor.","parameters":[{"name":"nodeId","description":"Id of the node to move.","$ref":"NodeId"},{"name":"targetNodeId","description":"Id of the element to drop the moved node into.","$ref":"NodeId"},{"name":"insertBeforeNodeId","description":"Drop node before this one (if absent, the moved node becomes the last child of\\n`targetNodeId`).","optional":true,"$ref":"NodeId"}],"returns":[{"name":"nodeId","description":"New id of the moved node.","$ref":"NodeId"}]},{"name":"performSearch","description":"Searches for a given string in the DOM tree. Use `getSearchResults` to access search results or\\n`cancelSearch` to end this search session.","experimental":true,"parameters":[{"name":"query","description":"Plain text or query selector or XPath search query.","type":"string"},{"name":"includeUserAgentShadowDOM","description":"True to search in user agent shadow DOM.","optional":true,"type":"boolean"}],"returns":[{"name":"searchId","description":"Unique search session identifier.","type":"string"},{"name":"resultCount","description":"Number of search results.","type":"integer"}]},{"name":"pushNodeByPathToFrontend","description":"Requests that the node is sent to the caller given its path. // FIXME, use XPath","experimental":true,"parameters":[{"name":"path","description":"Path to node in the proprietary format.","type":"string"}],"returns":[{"name":"nodeId","description":"Id of the node for given path.","$ref":"NodeId"}]},{"name":"pushNodesByBackendIdsToFrontend","description":"Requests that a batch of nodes is sent to the caller given their backend node ids.","experimental":true,"parameters":[{"name":"backendNodeIds","description":"The array of backend node ids.","type":"array","items":{"$ref":"BackendNodeId"}}],"returns":[{"name":"nodeIds","description":"The array of ids of pushed nodes that correspond to the backend ids specified in\\nbackendNodeIds.","type":"array","items":{"$ref":"NodeId"}}]},{"name":"querySelector","description":"Executes `querySelector` on a given node.","parameters":[{"name":"nodeId","description":"Id of the node to query upon.","$ref":"NodeId"},{"name":"selector","description":"Selector string.","type":"string"}],"returns":[{"name":"nodeId","description":"Query selector result.","$ref":"NodeId"}]},{"name":"querySelectorAll","description":"Executes `querySelectorAll` on a given node.","parameters":[{"name":"nodeId","description":"Id of the node to query upon.","$ref":"NodeId"},{"name":"selector","description":"Selector string.","type":"string"}],"returns":[{"name":"nodeIds","description":"Query selector result.","type":"array","items":{"$ref":"NodeId"}}]},{"name":"redo","description":"Re-does the last undone action.","experimental":true},{"name":"removeAttribute","description":"Removes attribute with given name from an element with given id.","parameters":[{"name":"nodeId","description":"Id of the element to remove attribute from.","$ref":"NodeId"},{"name":"name","description":"Name of the attribute to remove.","type":"string"}]},{"name":"removeNode","description":"Removes node with given id.","parameters":[{"name":"nodeId","description":"Id of the node to remove.","$ref":"NodeId"}]},{"name":"requestChildNodes","description":"Requests that children of the node with given id are returned to the caller in form of\\n`setChildNodes` events where not only immediate children are retrieved, but all children down to\\nthe specified depth.","parameters":[{"name":"nodeId","description":"Id of the node to get children for.","$ref":"NodeId"},{"name":"depth","description":"The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the\\nentire subtree or provide an integer larger than 0.","optional":true,"type":"integer"},{"name":"pierce","description":"Whether or not iframes and shadow roots should be traversed when returning the sub-tree\\n(default is false).","optional":true,"type":"boolean"}]},{"name":"requestNode","description":"Requests that the node is sent to the caller given the JavaScript node object reference. All\\nnodes that form the path from the node to the root are also sent to the client as a series of\\n`setChildNodes` notifications.","parameters":[{"name":"objectId","description":"JavaScript object id to convert into node.","$ref":"Runtime.RemoteObjectId"}],"returns":[{"name":"nodeId","description":"Node id for given object.","$ref":"NodeId"}]},{"name":"resolveNode","description":"Resolves the JavaScript node object for a given NodeId or BackendNodeId.","parameters":[{"name":"nodeId","description":"Id of the node to resolve.","optional":true,"$ref":"NodeId"},{"name":"backendNodeId","description":"Backend identifier of the node to resolve.","optional":true,"$ref":"DOM.BackendNodeId"},{"name":"objectGroup","description":"Symbolic group name that can be used to release multiple objects.","optional":true,"type":"string"},{"name":"executionContextId","description":"Execution context in which to resolve the node.","optional":true,"$ref":"Runtime.ExecutionContextId"}],"returns":[{"name":"object","description":"JavaScript object wrapper for given node.","$ref":"Runtime.RemoteObject"}]},{"name":"setAttributeValue","description":"Sets attribute for an element with given id.","parameters":[{"name":"nodeId","description":"Id of the element to set attribute for.","$ref":"NodeId"},{"name":"name","description":"Attribute name.","type":"string"},{"name":"value","description":"Attribute value.","type":"string"}]},{"name":"setAttributesAsText","description":"Sets attributes on element with given id. This method is useful when user edits some existing\\nattribute value and types in several attribute name/value pairs.","parameters":[{"name":"nodeId","description":"Id of the element to set attributes for.","$ref":"NodeId"},{"name":"text","description":"Text with a number of attributes. Will parse this text using HTML parser.","type":"string"},{"name":"name","description":"Attribute name to replace with new attributes derived from text in case text parsed\\nsuccessfully.","optional":true,"type":"string"}]},{"name":"setFileInputFiles","description":"Sets files for the given file input element.","parameters":[{"name":"files","description":"Array of file paths to set.","type":"array","items":{"type":"string"}},{"name":"nodeId","description":"Identifier of the node.","optional":true,"$ref":"NodeId"},{"name":"backendNodeId","description":"Identifier of the backend node.","optional":true,"$ref":"BackendNodeId"},{"name":"objectId","description":"JavaScript object id of the node wrapper.","optional":true,"$ref":"Runtime.RemoteObjectId"}]},{"name":"getFileInfo","description":"Returns file information for the given\\nFile wrapper.","experimental":true,"parameters":[{"name":"objectId","description":"JavaScript object id of the node wrapper.","$ref":"Runtime.RemoteObjectId"}],"returns":[{"name":"path","type":"string"}]},{"name":"setInspectedNode","description":"Enables console to refer to the node with given id via $x (see Command Line API for more details\\n$x functions).","experimental":true,"parameters":[{"name":"nodeId","description":"DOM node id to be accessible by means of $x command line API.","$ref":"NodeId"}]},{"name":"setNodeName","description":"Sets node name for a node with given id.","parameters":[{"name":"nodeId","description":"Id of the node to set name for.","$ref":"NodeId"},{"name":"name","description":"New node\'s name.","type":"string"}],"returns":[{"name":"nodeId","description":"New node\'s id.","$ref":"NodeId"}]},{"name":"setNodeValue","description":"Sets node value for a node with given id.","parameters":[{"name":"nodeId","description":"Id of the node to set value for.","$ref":"NodeId"},{"name":"value","description":"New node\'s value.","type":"string"}]},{"name":"setOuterHTML","description":"Sets node HTML markup, returns new node id.","parameters":[{"name":"nodeId","description":"Id of the node to set markup for.","$ref":"NodeId"},{"name":"outerHTML","description":"Outer HTML markup to set.","type":"string"}]},{"name":"undo","description":"Undoes the last performed action.","experimental":true},{"name":"getFrameOwner","description":"Returns iframe node that owns iframe with the given domain.","experimental":true,"parameters":[{"name":"frameId","$ref":"Page.FrameId"}],"returns":[{"name":"backendNodeId","description":"Resulting node.","$ref":"BackendNodeId"},{"name":"nodeId","description":"Id of the node at given coordinates, only when enabled and requested document.","optional":true,"$ref":"NodeId"}]}],"events":[{"name":"attributeModified","description":"Fired when `Element`\'s attribute is modified.","parameters":[{"name":"nodeId","description":"Id of the node that has changed.","$ref":"NodeId"},{"name":"name","description":"Attribute name.","type":"string"},{"name":"value","description":"Attribute value.","type":"string"}]},{"name":"attributeRemoved","description":"Fired when `Element`\'s attribute is removed.","parameters":[{"name":"nodeId","description":"Id of the node that has changed.","$ref":"NodeId"},{"name":"name","description":"A ttribute name.","type":"string"}]},{"name":"characterDataModified","description":"Mirrors `DOMCharacterDataModified` event.","parameters":[{"name":"nodeId","description":"Id of the node that has changed.","$ref":"NodeId"},{"name":"characterData","description":"New text value.","type":"string"}]},{"name":"childNodeCountUpdated","description":"Fired when `Container`\'s child node count has changed.","parameters":[{"name":"nodeId","description":"Id of the node that has changed.","$ref":"NodeId"},{"name":"childNodeCount","description":"New node count.","type":"integer"}]},{"name":"childNodeInserted","description":"Mirrors `DOMNodeInserted` event.","parameters":[{"name":"parentNodeId","description":"Id of the node that has changed.","$ref":"NodeId"},{"name":"previousNodeId","description":"If of the previous siblint.","$ref":"NodeId"},{"name":"node","description":"Inserted node data.","$ref":"Node"}]},{"name":"childNodeRemoved","description":"Mirrors `DOMNodeRemoved` event.","parameters":[{"name":"parentNodeId","description":"Parent id.","$ref":"NodeId"},{"name":"nodeId","description":"Id of the node that has been removed.","$ref":"NodeId"}]},{"name":"distributedNodesUpdated","description":"Called when distrubution is changed.","experimental":true,"parameters":[{"name":"insertionPointId","description":"Insertion point where distrubuted nodes were updated.","$ref":"NodeId"},{"name":"distributedNodes","description":"Distributed nodes for given insertion point.","type":"array","items":{"$ref":"BackendNode"}}]},{"name":"documentUpdated","description":"Fired when `Document` has been totally updated. Node ids are no longer valid."},{"name":"inlineStyleInvalidated","description":"Fired when `Element`\'s inline style is modified via a CSS property modification.","experimental":true,"parameters":[{"name":"nodeIds","description":"Ids of the nodes for which the inline styles have been invalidated.","type":"array","items":{"$ref":"NodeId"}}]},{"name":"pseudoElementAdded","description":"Called when a pseudo element is added to an element.","experimental":true,"parameters":[{"name":"parentId","description":"Pseudo element\'s parent element id.","$ref":"NodeId"},{"name":"pseudoElement","description":"The added pseudo element.","$ref":"Node"}]},{"name":"pseudoElementRemoved","description":"Called when a pseudo element is removed from an element.","experimental":true,"parameters":[{"name":"parentId","description":"Pseudo element\'s parent element id.","$ref":"NodeId"},{"name":"pseudoElementId","description":"The removed pseudo element id.","$ref":"NodeId"}]},{"name":"setChildNodes","description":"Fired when backend wants to provide client with the missing DOM structure. This happens upon\\nmost of the calls requesting node ids.","parameters":[{"name":"parentId","description":"Parent node id to populate with children.","$ref":"NodeId"},{"name":"nodes","description":"Child nodes array.","type":"array","items":{"$ref":"Node"}}]},{"name":"shadowRootPopped","description":"Called when shadow root is popped from the element.","experimental":true,"parameters":[{"name":"hostId","description":"Host element id.","$ref":"NodeId"},{"name":"rootId","description":"Shadow root id.","$ref":"NodeId"}]},{"name":"shadowRootPushed","description":"Called when shadow root is pushed into the element.","experimental":true,"parameters":[{"name":"hostId","description":"Host element id.","$ref":"NodeId"},{"name":"root","description":"Shadow root.","$ref":"Node"}]}]},{"domain":"DOMDebugger","description":"DOM debugging allows setting breakpoints on particular DOM operations and events. JavaScript\\nexecution will stop on these operations as if there was a regular breakpoint set.","dependencies":["DOM","Debugger","Runtime"],"types":[{"id":"DOMBreakpointType","description":"DOM breakpoint type.","type":"string","enum":["subtree-modified","attribute-modified","node-removed"]},{"id":"EventListener","description":"Object event listener.","type":"object","properties":[{"name":"type","description":"`EventListener`\'s type.","type":"string"},{"name":"useCapture","description":"`EventListener`\'s useCapture.","type":"boolean"},{"name":"passive","description":"`EventListener`\'s passive flag.","type":"boolean"},{"name":"once","description":"`EventListener`\'s once flag.","type":"boolean"},{"name":"scriptId","description":"Script id of the handler code.","$ref":"Runtime.ScriptId"},{"name":"lineNumber","description":"Line number in the script (0-based).","type":"integer"},{"name":"columnNumber","description":"Column number in the script (0-based).","type":"integer"},{"name":"handler","description":"Event handler function value.","optional":true,"$ref":"Runtime.RemoteObject"},{"name":"originalHandler","description":"Event original handler function value.","optional":true,"$ref":"Runtime.RemoteObject"},{"name":"backendNodeId","description":"Node the listener is added to (if any).","optional":true,"$ref":"DOM.BackendNodeId"}]}],"commands":[{"name":"getEventListeners","description":"Returns event listeners of the given object.","parameters":[{"name":"objectId","description":"Identifier of the object to return listeners for.","$ref":"Runtime.RemoteObjectId"},{"name":"depth","description":"The maximum depth at which Node children should be retrieved, defaults to 1. Use -1 for the\\nentire subtree or provide an integer larger than 0.","optional":true,"type":"integer"},{"name":"pierce","description":"Whether or not iframes and shadow roots should be traversed when returning the subtree\\n(default is false). Reports listeners for all contexts if pierce is enabled.","optional":true,"type":"boolean"}],"returns":[{"name":"listeners","description":"Array of relevant listeners.","type":"array","items":{"$ref":"EventListener"}}]},{"name":"removeDOMBreakpoint","description":"Removes DOM breakpoint that was set using `setDOMBreakpoint`.","parameters":[{"name":"nodeId","description":"Identifier of the node to remove breakpoint from.","$ref":"DOM.NodeId"},{"name":"type","description":"Type of the breakpoint to remove.","$ref":"DOMBreakpointType"}]},{"name":"removeEventListenerBreakpoint","description":"Removes breakpoint on particular DOM event.","parameters":[{"name":"eventName","description":"Event name.","type":"string"},{"name":"targetName","description":"EventTarget interface name.","experimental":true,"optional":true,"type":"string"}]},{"name":"removeInstrumentationBreakpoint","description":"Removes breakpoint on particular native event.","experimental":true,"parameters":[{"name":"eventName","description":"Instrumentation name to stop on.","type":"string"}]},{"name":"removeXHRBreakpoint","description":"Removes breakpoint from XMLHttpRequest.","parameters":[{"name":"url","description":"Resource URL substring.","type":"string"}]},{"name":"setDOMBreakpoint","description":"Sets breakpoint on particular operation with DOM.","parameters":[{"name":"nodeId","description":"Identifier of the node to set breakpoint on.","$ref":"DOM.NodeId"},{"name":"type","description":"Type of the operation to stop upon.","$ref":"DOMBreakpointType"}]},{"name":"setEventListenerBreakpoint","description":"Sets breakpoint on particular DOM event.","parameters":[{"name":"eventName","description":"DOM Event name to stop on (any DOM event will do).","type":"string"},{"name":"targetName","description":"EventTarget interface name to stop on. If equal to `\\"*\\"` or not provided, will stop on any\\nEventTarget.","experimental":true,"optional":true,"type":"string"}]},{"name":"setInstrumentationBreakpoint","description":"Sets breakpoint on particular native event.","experimental":true,"parameters":[{"name":"eventName","description":"Instrumentation name to stop on.","type":"string"}]},{"name":"setXHRBreakpoint","description":"Sets breakpoint on XMLHttpRequest.","parameters":[{"name":"url","description":"Resource URL substring. All XHRs having this substring in the URL will get stopped upon.","type":"string"}]}]},{"domain":"DOMSnapshot","description":"This domain facilitates obtaining document snapshots with DOM, layout, and style information.","experimental":true,"dependencies":["CSS","DOM","DOMDebugger","Page"],"types":[{"id":"DOMNode","description":"A Node in the DOM tree.","type":"object","properties":[{"name":"nodeType","description":"`Node`\'s nodeType.","type":"integer"},{"name":"nodeName","description":"`Node`\'s nodeName.","type":"string"},{"name":"nodeValue","description":"`Node`\'s nodeValue.","type":"string"},{"name":"textValue","description":"Only set for textarea elements, contains the text value.","optional":true,"type":"string"},{"name":"inputValue","description":"Only set for input elements, contains the input\'s associated text value.","optional":true,"type":"string"},{"name":"inputChecked","description":"Only set for radio and checkbox input elements, indicates if the element has been checked","optional":true,"type":"boolean"},{"name":"optionSelected","description":"Only set for option elements, indicates if the element has been selected","optional":true,"type":"boolean"},{"name":"backendNodeId","description":"`Node`\'s id, corresponds to DOM.Node.backendNodeId.","$ref":"DOM.BackendNodeId"},{"name":"childNodeIndexes","description":"The indexes of the node\'s child nodes in the `domNodes` array returned by `getSnapshot`, if\\nany.","optional":true,"type":"array","items":{"type":"integer"}},{"name":"attributes","description":"Attributes of an `Element` node.","optional":true,"type":"array","items":{"$ref":"NameValue"}},{"name":"pseudoElementIndexes","description":"Indexes of pseudo elements associated with this node in the `domNodes` array returned by\\n`getSnapshot`, if any.","optional":true,"type":"array","items":{"type":"integer"}},{"name":"layoutNodeIndex","description":"The index of the node\'s related layout tree node in the `layoutTreeNodes` array returned by\\n`getSnapshot`, if any.","optional":true,"type":"integer"},{"name":"documentURL","description":"Document URL that `Document` or `FrameOwner` node points to.","optional":true,"type":"string"},{"name":"baseURL","description":"Base URL that `Document` or `FrameOwner` node uses for URL completion.","optional":true,"type":"string"},{"name":"contentLanguage","description":"Only set for documents, contains the document\'s content language.","optional":true,"type":"string"},{"name":"documentEncoding","description":"Only set for documents, contains the document\'s character set encoding.","optional":true,"type":"string"},{"name":"publicId","description":"`DocumentType` node\'s publicId.","optional":true,"type":"string"},{"name":"systemId","description":"`DocumentType` node\'s systemId.","optional":true,"type":"string"},{"name":"frameId","description":"Frame ID for frame owner elements and also for the document node.","optional":true,"$ref":"Page.FrameId"},{"name":"contentDocumentIndex","description":"The index of a frame owner element\'s content document in the `domNodes` array returned by\\n`getSnapshot`, if any.","optional":true,"type":"integer"},{"name":"pseudoType","description":"Type of a pseudo element node.","optional":true,"$ref":"DOM.PseudoType"},{"name":"shadowRootType","description":"Shadow root type.","optional":true,"$ref":"DOM.ShadowRootType"},{"name":"isClickable","description":"Whether this DOM node responds to mouse clicks. This includes nodes that have had click\\nevent listeners attached via JavaScript as well as anchor tags that naturally navigate when\\nclicked.","optional":true,"type":"boolean"},{"name":"eventListeners","description":"Details of the node\'s event listeners, if any.","optional":true,"type":"array","items":{"$ref":"DOMDebugger.EventListener"}},{"name":"currentSourceURL","description":"The selected url for nodes with a srcset attribute.","optional":true,"type":"string"},{"name":"originURL","description":"The url of the script (if any) that generates this node.","optional":true,"type":"string"},{"name":"scrollOffsetX","description":"Scroll offsets, set when this node is a Document.","optional":true,"type":"number"},{"name":"scrollOffsetY","optional":true,"type":"number"}]},{"id":"InlineTextBox","description":"Details of post layout rendered text positions. The exact layout should not be regarded as\\nstable and may change between versions.","type":"object","properties":[{"name":"boundingBox","description":"The bounding box in document coordinates. Note that scroll offset of the document is ignored.","$ref":"DOM.Rect"},{"name":"startCharacterIndex","description":"The starting index in characters, for this post layout textbox substring. Characters that\\nwould be represented as a surrogate pair in UTF-16 have length 2.","type":"integer"},{"name":"numCharacters","description":"The number of characters in this post layout textbox substring. Characters that would be\\nrepresented as a surrogate pair in UTF-16 have length 2.","type":"integer"}]},{"id":"LayoutTreeNode","description":"Details of an element in the DOM tree with a LayoutObject.","type":"object","properties":[{"name":"domNodeIndex","description":"The index of the related DOM node in the `domNodes` array returned by `getSnapshot`.","type":"integer"},{"name":"boundingBox","description":"The bounding box in document coordinates. Note that scroll offset of the document is ignored.","$ref":"DOM.Rect"},{"name":"layoutText","description":"Contents of the LayoutText, if any.","optional":true,"type":"string"},{"name":"inlineTextNodes","description":"The post-layout inline text nodes, if any.","optional":true,"type":"array","items":{"$ref":"InlineTextBox"}},{"name":"styleIndex","description":"Index into the `computedStyles` array returned by `getSnapshot`.","optional":true,"type":"integer"},{"name":"paintOrder","description":"Global paint order index, which is determined by the stacking order of the nodes. Nodes\\nthat are painted together will have the same index. Only provided if includePaintOrder in\\ngetSnapshot was true.","optional":true,"type":"integer"},{"name":"isStackingContext","description":"Set to true to indicate the element begins a new stacking context.","optional":true,"type":"boolean"}]},{"id":"ComputedStyle","description":"A subset of the full ComputedStyle as defined by the request whitelist.","type":"object","properties":[{"name":"properties","description":"Name/value pairs of computed style properties.","type":"array","items":{"$ref":"NameValue"}}]},{"id":"NameValue","description":"A name/value pair.","type":"object","properties":[{"name":"name","description":"Attribute/property name.","type":"string"},{"name":"value","description":"Attribute/property value.","type":"string"}]},{"id":"StringIndex","description":"Index of the string in the strings table.","type":"integer"},{"id":"ArrayOfStrings","description":"Index of the string in the strings table.","type":"array","items":{"$ref":"StringIndex"}},{"id":"RareStringData","description":"Data that is only present on rare nodes.","type":"object","properties":[{"name":"index","type":"array","items":{"type":"integer"}},{"name":"value","type":"array","items":{"$ref":"StringIndex"}}]},{"id":"RareBooleanData","type":"object","properties":[{"name":"index","type":"array","items":{"type":"integer"}}]},{"id":"RareIntegerData","type":"object","properties":[{"name":"index","type":"array","items":{"type":"integer"}},{"name":"value","type":"array","items":{"type":"integer"}}]},{"id":"Rectangle","type":"array","items":{"type":"number"}},{"id":"DocumentSnapshot","description":"Document snapshot.","type":"object","properties":[{"name":"documentURL","description":"Document URL that `Document` or `FrameOwner` node points to.","$ref":"StringIndex"},{"name":"baseURL","description":"Base URL that `Document` or `FrameOwner` node uses for URL completion.","$ref":"StringIndex"},{"name":"contentLanguage","description":"Contains the document\'s content language.","$ref":"StringIndex"},{"name":"encodingName","description":"Contains the document\'s character set encoding.","$ref":"StringIndex"},{"name":"publicId","description":"`DocumentType` node\'s publicId.","$ref":"StringIndex"},{"name":"systemId","description":"`DocumentType` node\'s systemId.","$ref":"StringIndex"},{"name":"frameId","description":"Frame ID for frame owner elements and also for the document node.","$ref":"StringIndex"},{"name":"nodes","description":"A table with dom nodes.","$ref":"NodeTreeSnapshot"},{"name":"layout","description":"The nodes in the layout tree.","$ref":"LayoutTreeSnapshot"},{"name":"textBoxes","description":"The post-layout inline text nodes.","$ref":"TextBoxSnapshot"},{"name":"scrollOffsetX","description":"Horizontal scroll offset.","optional":true,"type":"number"},{"name":"scrollOffsetY","description":"Vertical scroll offset.","optional":true,"type":"number"}]},{"id":"NodeTreeSnapshot","description":"Table containing nodes.","type":"object","properties":[{"name":"parentIndex","description":"Parent node index.","optional":true,"type":"array","items":{"type":"integer"}},{"name":"nodeType","description":"`Node`\'s nodeType.","optional":true,"type":"array","items":{"type":"integer"}},{"name":"nodeName","description":"`Node`\'s nodeName.","optional":true,"type":"array","items":{"$ref":"StringIndex"}},{"name":"nodeValue","description":"`Node`\'s nodeValue.","optional":true,"type":"array","items":{"$ref":"StringIndex"}},{"name":"backendNodeId","description":"`Node`\'s id, corresponds to DOM.Node.backendNodeId.","optional":true,"type":"array","items":{"$ref":"DOM.BackendNodeId"}},{"name":"attributes","description":"Attributes of an `Element` node. Flatten name, value pairs.","optional":true,"type":"array","items":{"$ref":"ArrayOfStrings"}},{"name":"textValue","description":"Only set for textarea elements, contains the text value.","optional":true,"$ref":"RareStringData"},{"name":"inputValue","description":"Only set for input elements, contains the input\'s associated text value.","optional":true,"$ref":"RareStringData"},{"name":"inputChecked","description":"Only set for radio and checkbox input elements, indicates if the element has been checked","optional":true,"$ref":"RareBooleanData"},{"name":"optionSelected","description":"Only set for option elements, indicates if the element has been selected","optional":true,"$ref":"RareBooleanData"},{"name":"contentDocumentIndex","description":"The index of the document in the list of the snapshot documents.","optional":true,"$ref":"RareIntegerData"},{"name":"pseudoType","description":"Type of a pseudo element node.","optional":true,"$ref":"RareStringData"},{"name":"isClickable","description":"Whether this DOM node responds to mouse clicks. This includes nodes that have had click\\nevent listeners attached via JavaScript as well as anchor tags that naturally navigate when\\nclicked.","optional":true,"$ref":"RareBooleanData"},{"name":"currentSourceURL","description":"The selected url for nodes with a srcset attribute.","optional":true,"$ref":"RareStringData"},{"name":"originURL","description":"The url of the script (if any) that generates this node.","optional":true,"$ref":"RareStringData"}]},{"id":"LayoutTreeSnapshot","description":"Table of details of an element in the DOM tree with a LayoutObject.","type":"object","properties":[{"name":"nodeIndex","description":"Index of the corresponding node in the `NodeTreeSnapshot` array returned by `captureSnapshot`.","type":"array","items":{"type":"integer"}},{"name":"styles","description":"Array of indexes specifying computed style strings, filtered according to the `computedStyles` parameter passed to `captureSnapshot`.","type":"array","items":{"$ref":"ArrayOfStrings"}},{"name":"bounds","description":"The absolute position bounding box.","type":"array","items":{"$ref":"Rectangle"}},{"name":"text","description":"Contents of the LayoutText, if any.","type":"array","items":{"$ref":"StringIndex"}},{"name":"stackingContexts","description":"Stacking context information.","$ref":"RareBooleanData"},{"name":"offsetRects","description":"The offset rect of nodes. Only available when includeDOMRects is set to true","optional":true,"type":"array","items":{"$ref":"Rectangle"}},{"name":"scrollRects","description":"The scroll rect of nodes. Only available when includeDOMRects is set to true","optional":true,"type":"array","items":{"$ref":"Rectangle"}},{"name":"clientRects","description":"The client rect of nodes. Only available when includeDOMRects is set to true","optional":true,"type":"array","items":{"$ref":"Rectangle"}}]},{"id":"TextBoxSnapshot","description":"Table of details of the post layout rendered text positions. The exact layout should not be regarded as\\nstable and may change between versions.","type":"object","properties":[{"name":"layoutIndex","description":"Index of the layout tree node that owns this box collection.","type":"array","items":{"type":"integer"}},{"name":"bounds","description":"The absolute position bounding box.","type":"array","items":{"$ref":"Rectangle"}},{"name":"start","description":"The starting index in characters, for this post layout textbox substring. Characters that\\nwould be represented as a surrogate pair in UTF-16 have length 2.","type":"array","items":{"type":"integer"}},{"name":"length","description":"The number of characters in this post layout textbox substring. Characters that would be\\nrepresented as a surrogate pair in UTF-16 have length 2.","type":"array","items":{"type":"integer"}}]}],"commands":[{"name":"disable","description":"Disables DOM snapshot agent for the given page."},{"name":"enable","description":"Enables DOM snapshot agent for the given page."},{"name":"getSnapshot","description":"Returns a document snapshot, including the full DOM tree of the root node (including iframes,\\ntemplate contents, and imported documents) in a flattened array, as well as layout and\\nwhite-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is\\nflattened.","deprecated":true,"parameters":[{"name":"computedStyleWhitelist","description":"Whitelist of computed styles to return.","type":"array","items":{"type":"string"}},{"name":"includeEventListeners","description":"Whether or not to retrieve details of DOM listeners (default false).","optional":true,"type":"boolean"},{"name":"includePaintOrder","description":"Whether to determine and include the paint order index of LayoutTreeNodes (default false).","optional":true,"type":"boolean"},{"name":"includeUserAgentShadowTree","description":"Whether to include UA shadow tree in the snapshot (default false).","optional":true,"type":"boolean"}],"returns":[{"name":"domNodes","description":"The nodes in the DOM tree. The DOMNode at index 0 corresponds to the root document.","type":"array","items":{"$ref":"DOMNode"}},{"name":"layoutTreeNodes","description":"The nodes in the layout tree.","type":"array","items":{"$ref":"LayoutTreeNode"}},{"name":"computedStyles","description":"Whitelisted ComputedStyle properties for each node in the layout tree.","type":"array","items":{"$ref":"ComputedStyle"}}]},{"name":"captureSnapshot","description":"Returns a document snapshot, including the full DOM tree of the root node (including iframes,\\ntemplate contents, and imported documents) in a flattened array, as well as layout and\\nwhite-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is\\nflattened.","parameters":[{"name":"computedStyles","description":"Whitelist of computed styles to return.","type":"array","items":{"type":"string"}},{"name":"includeDOMRects","description":"Whether to include DOM rectangles (offsetRects, clientRects, scrollRects) into the snapshot","optional":true,"type":"boolean"}],"returns":[{"name":"documents","description":"The nodes in the DOM tree. The DOMNode at index 0 corresponds to the root document.","type":"array","items":{"$ref":"DocumentSnapshot"}},{"name":"strings","description":"Shared string table that all string properties refer to with indexes.","type":"array","items":{"type":"string"}}]}]},{"domain":"DOMStorage","description":"Query and modify DOM storage.","experimental":true,"types":[{"id":"StorageId","description":"DOM Storage identifier.","type":"object","properties":[{"name":"securityOrigin","description":"Security origin for the storage.","type":"string"},{"name":"isLocalStorage","description":"Whether the storage is local storage (not session storage).","type":"boolean"}]},{"id":"Item","description":"DOM Storage item.","type":"array","items":{"type":"string"}}],"commands":[{"name":"clear","parameters":[{"name":"storageId","$ref":"StorageId"}]},{"name":"disable","description":"Disables storage tracking, prevents storage events from being sent to the client."},{"name":"enable","description":"Enables storage tracking, storage events will now be delivered to the client."},{"name":"getDOMStorageItems","parameters":[{"name":"storageId","$ref":"StorageId"}],"returns":[{"name":"entries","type":"array","items":{"$ref":"Item"}}]},{"name":"removeDOMStorageItem","parameters":[{"name":"storageId","$ref":"StorageId"},{"name":"key","type":"string"}]},{"name":"setDOMStorageItem","parameters":[{"name":"storageId","$ref":"StorageId"},{"name":"key","type":"string"},{"name":"value","type":"string"}]}],"events":[{"name":"domStorageItemAdded","parameters":[{"name":"storageId","$ref":"StorageId"},{"name":"key","type":"string"},{"name":"newValue","type":"string"}]},{"name":"domStorageItemRemoved","parameters":[{"name":"storageId","$ref":"StorageId"},{"name":"key","type":"string"}]},{"name":"domStorageItemUpdated","parameters":[{"name":"storageId","$ref":"StorageId"},{"name":"key","type":"string"},{"name":"oldValue","type":"string"},{"name":"newValue","type":"string"}]},{"name":"domStorageItemsCleared","parameters":[{"name":"storageId","$ref":"StorageId"}]}]},{"domain":"Database","experimental":true,"types":[{"id":"DatabaseId","description":"Unique identifier of Database object.","type":"string"},{"id":"Database","description":"Database object.","type":"object","properties":[{"name":"id","description":"Database ID.","$ref":"DatabaseId"},{"name":"domain","description":"Database domain.","type":"string"},{"name":"name","description":"Database name.","type":"string"},{"name":"version","description":"Database version.","type":"string"}]},{"id":"Error","description":"Database error.","type":"object","properties":[{"name":"message","description":"Error message.","type":"string"},{"name":"code","description":"Error code.","type":"integer"}]}],"commands":[{"name":"disable","description":"Disables database tracking, prevents database events from being sent to the client."},{"name":"enable","description":"Enables database tracking, database events will now be delivered to the client."},{"name":"executeSQL","parameters":[{"name":"databaseId","$ref":"DatabaseId"},{"name":"query","type":"string"}],"returns":[{"name":"columnNames","optional":true,"type":"array","items":{"type":"string"}},{"name":"values","optional":true,"type":"array","items":{"type":"any"}},{"name":"sqlError","optional":true,"$ref":"Error"}]},{"name":"getDatabaseTableNames","parameters":[{"name":"databaseId","$ref":"DatabaseId"}],"returns":[{"name":"tableNames","type":"array","items":{"type":"string"}}]}],"events":[{"name":"addDatabase","parameters":[{"name":"database","$ref":"Database"}]}]},{"domain":"DeviceOrientation","experimental":true,"commands":[{"name":"clearDeviceOrientationOverride","description":"Clears the overridden Device Orientation."},{"name":"setDeviceOrientationOverride","description":"Overrides the Device Orientation.","parameters":[{"name":"alpha","description":"Mock alpha","type":"number"},{"name":"beta","description":"Mock beta","type":"number"},{"name":"gamma","description":"Mock gamma","type":"number"}]}]},{"domain":"Emulation","description":"This domain emulates different environments for the page.","dependencies":["DOM","Page","Runtime"],"types":[{"id":"ScreenOrientation","description":"Screen orientation.","type":"object","properties":[{"name":"type","description":"Orientation type.","type":"string","enum":["portraitPrimary","portraitSecondary","landscapePrimary","landscapeSecondary"]},{"name":"angle","description":"Orientation angle.","type":"integer"}]},{"id":"VirtualTimePolicy","description":"advance: If the scheduler runs out of immediate work, the virtual time base may fast forward to\\nallow the next delayed task (if any) to run; pause: The virtual time base may not advance;\\npauseIfNetworkFetchesPending: The virtual time base may not advance if there are any pending\\nresource fetches.","experimental":true,"type":"string","enum":["advance","pause","pauseIfNetworkFetchesPending"]}],"commands":[{"name":"canEmulate","description":"Tells whether emulation is supported.","returns":[{"name":"result","description":"True if emulation is supported.","type":"boolean"}]},{"name":"clearDeviceMetricsOverride","description":"Clears the overriden device metrics."},{"name":"clearGeolocationOverride","description":"Clears the overriden Geolocation Position and Error."},{"name":"resetPageScaleFactor","description":"Requests that page scale factor is reset to initial values.","experimental":true},{"name":"setFocusEmulationEnabled","description":"Enables or disables simulating a focused and active page.","experimental":true,"parameters":[{"name":"enabled","description":"Whether to enable to disable focus emulation.","type":"boolean"}]},{"name":"setCPUThrottlingRate","description":"Enables CPU throttling to emulate slow CPUs.","experimental":true,"parameters":[{"name":"rate","description":"Throttling rate as a slowdown factor (1 is no throttle, 2 is 2x slowdown, etc).","type":"number"}]},{"name":"setDefaultBackgroundColorOverride","description":"Sets or clears an override of the default background color of the frame. This override is used\\nif the content does not specify one.","parameters":[{"name":"color","description":"RGBA of the default background color. If not specified, any existing override will be\\ncleared.","optional":true,"$ref":"DOM.RGBA"}]},{"name":"setDeviceMetricsOverride","description":"Overrides the values of device screen dimensions (window.screen.width, window.screen.height,\\nwindow.innerWidth, window.innerHeight, and \\"device-width\\"/\\"device-height\\"-related CSS media\\nquery results).","parameters":[{"name":"width","description":"Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.","type":"integer"},{"name":"height","description":"Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.","type":"integer"},{"name":"deviceScaleFactor","description":"Overriding device scale factor value. 0 disables the override.","type":"number"},{"name":"mobile","description":"Whether to emulate mobile device. This includes viewport meta tag, overlay scrollbars, text\\nautosizing and more.","type":"boolean"},{"name":"scale","description":"Scale to apply to resulting view image.","experimental":true,"optional":true,"type":"number"},{"name":"screenWidth","description":"Overriding screen width value in pixels (minimum 0, maximum 10000000).","experimental":true,"optional":true,"type":"integer"},{"name":"screenHeight","description":"Overriding screen height value in pixels (minimum 0, maximum 10000000).","experimental":true,"optional":true,"type":"integer"},{"name":"positionX","description":"Overriding view X position on screen in pixels (minimum 0, maximum 10000000).","experimental":true,"optional":true,"type":"integer"},{"name":"positionY","description":"Overriding view Y position on screen in pixels (minimum 0, maximum 10000000).","experimental":true,"optional":true,"type":"integer"},{"name":"dontSetVisibleSize","description":"Do not set visible view size, rely upon explicit setVisibleSize call.","experimental":true,"optional":true,"type":"boolean"},{"name":"screenOrientation","description":"Screen orientation override.","optional":true,"$ref":"ScreenOrientation"},{"name":"viewport","description":"If set, the visible area of the page will be overridden to this viewport. This viewport\\nchange is not observed by the page, e.g. viewport-relative elements do not change positions.","experimental":true,"optional":true,"$ref":"Page.Viewport"}]},{"name":"setScrollbarsHidden","experimental":true,"parameters":[{"name":"hidden","description":"Whether scrollbars should be always hidden.","type":"boolean"}]},{"name":"setDocumentCookieDisabled","experimental":true,"parameters":[{"name":"disabled","description":"Whether document.coookie API should be disabled.","type":"boolean"}]},{"name":"setEmitTouchEventsForMouse","experimental":true,"parameters":[{"name":"enabled","description":"Whether touch emulation based on mouse input should be enabled.","type":"boolean"},{"name":"configuration","description":"Touch/gesture events configuration. Default: current platform.","optional":true,"type":"string","enum":["mobile","desktop"]}]},{"name":"setEmulatedMedia","description":"Emulates the given media for CSS media queries.","parameters":[{"name":"media","description":"Media type to emulate. Empty string disables the override.","type":"string"}]},{"name":"setGeolocationOverride","description":"Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position\\nunavailable.","parameters":[{"name":"latitude","description":"Mock latitude","optional":true,"type":"number"},{"name":"longitude","description":"Mock longitude","optional":true,"type":"number"},{"name":"accuracy","description":"Mock accuracy","optional":true,"type":"number"}]},{"name":"setNavigatorOverrides","description":"Overrides value returned by the javascript navigator object.","experimental":true,"deprecated":true,"parameters":[{"name":"platform","description":"The platform navigator.platform should return.","type":"string"}]},{"name":"setPageScaleFactor","description":"Sets a specified page scale factor.","experimental":true,"parameters":[{"name":"pageScaleFactor","description":"Page scale factor.","type":"number"}]},{"name":"setScriptExecutionDisabled","description":"Switches script execution in the page.","parameters":[{"name":"value","description":"Whether script execution should be disabled in the page.","type":"boolean"}]},{"name":"setTouchEmulationEnabled","description":"Enables touch on platforms which do not support them.","parameters":[{"name":"enabled","description":"Whether the touch event emulation should be enabled.","type":"boolean"},{"name":"maxTouchPoints","description":"Maximum touch points supported. Defaults to one.","optional":true,"type":"integer"}]},{"name":"setVirtualTimePolicy","description":"Turns on virtual time for all frames (replacing real-time with a synthetic time source) and sets\\nthe current virtual time policy.  Note this supersedes any previous time budget.","experimental":true,"parameters":[{"name":"policy","$ref":"VirtualTimePolicy"},{"name":"budget","description":"If set, after this many virtual milliseconds have elapsed virtual time will be paused and a\\nvirtualTimeBudgetExpired event is sent.","optional":true,"type":"number"},{"name":"maxVirtualTimeTaskStarvationCount","description":"If set this specifies the maximum number of tasks that can be run before virtual is forced\\nforwards to prevent deadlock.","optional":true,"type":"integer"},{"name":"waitForNavigation","description":"If set the virtual time policy change should be deferred until any frame starts navigating.\\nNote any previous deferred policy change is superseded.","optional":true,"type":"boolean"},{"name":"initialVirtualTime","description":"If set, base::Time::Now will be overriden to initially return this value.","optional":true,"$ref":"Network.TimeSinceEpoch"}],"returns":[{"name":"virtualTimeTicksBase","description":"Absolute timestamp at which virtual time was first enabled (up time in milliseconds).","type":"number"}]},{"name":"setTimezoneOverride","description":"Overrides default host system timezone with the specified one.","experimental":true,"parameters":[{"name":"timezoneId","description":"The timezone identifier. If empty, disables the override and\\nrestores default host system timezone.","type":"string"}]},{"name":"setVisibleSize","description":"Resizes the frame/viewport of the page. Note that this does not affect the frame\'s container\\n(e.g. browser window). Can be used to produce screenshots of the specified size. Not supported\\non Android.","experimental":true,"deprecated":true,"parameters":[{"name":"width","description":"Frame width (DIP).","type":"integer"},{"name":"height","description":"Frame height (DIP).","type":"integer"}]},{"name":"setUserAgentOverride","description":"Allows overriding user agent with the given string.","parameters":[{"name":"userAgent","description":"User agent to use.","type":"string"},{"name":"acceptLanguage","description":"Browser langugage to emulate.","optional":true,"type":"string"},{"name":"platform","description":"The platform navigator.platform should return.","optional":true,"type":"string"}]}],"events":[{"name":"virtualTimeBudgetExpired","description":"Notification sent after the virtual time budget for the current VirtualTimePolicy has run out.","experimental":true}]},{"domain":"HeadlessExperimental","description":"This domain provides experimental commands only supported in headless mode.","experimental":true,"dependencies":["Page","Runtime"],"types":[{"id":"ScreenshotParams","description":"Encoding options for a screenshot.","type":"object","properties":[{"name":"format","description":"Image compression format (defaults to png).","optional":true,"type":"string","enum":["jpeg","png"]},{"name":"quality","description":"Compression quality from range [0..100] (jpeg only).","optional":true,"type":"integer"}]}],"commands":[{"name":"beginFrame","description":"Sends a BeginFrame to the target and returns when the frame was completed. Optionally captures a\\nscreenshot from the resulting frame. Requires that the target was created with enabled\\nBeginFrameControl. Designed for use with --run-all-compositor-stages-before-draw, see also\\nhttps://goo.gl/3zHXhB for more background.","parameters":[{"name":"frameTimeTicks","description":"Timestamp of this BeginFrame in Renderer TimeTicks (milliseconds of uptime). If not set,\\nthe current time will be used.","optional":true,"type":"number"},{"name":"interval","description":"The interval between BeginFrames that is reported to the compositor, in milliseconds.\\nDefaults to a 60 frames/second interval, i.e. about 16.666 milliseconds.","optional":true,"type":"number"},{"name":"noDisplayUpdates","description":"Whether updates should not be committed and drawn onto the display. False by default. If\\ntrue, only side effects of the BeginFrame will be run, such as layout and animations, but\\nany visual updates may not be visible on the display or in screenshots.","optional":true,"type":"boolean"},{"name":"screenshot","description":"If set, a screenshot of the frame will be captured and returned in the response. Otherwise,\\nno screenshot will be captured. Note that capturing a screenshot can fail, for example,\\nduring renderer initialization. In such a case, no screenshot data will be returned.","optional":true,"$ref":"ScreenshotParams"}],"returns":[{"name":"hasDamage","description":"Whether the BeginFrame resulted in damage and, thus, a new frame was committed to the\\ndisplay. Reported for diagnostic uses, may be removed in the future.","type":"boolean"},{"name":"screenshotData","description":"Base64-encoded image data of the screenshot, if one was requested and successfully taken.","optional":true,"type":"string"}]},{"name":"disable","description":"Disables headless events for the target."},{"name":"enable","description":"Enables headless events for the target."}],"events":[{"name":"needsBeginFramesChanged","description":"Issued when the target starts or stops needing BeginFrames.","parameters":[{"name":"needsBeginFrames","description":"True if BeginFrames are needed, false otherwise.","type":"boolean"}]}]},{"domain":"IO","description":"Input/Output operations for streams produced by DevTools.","types":[{"id":"StreamHandle","description":"This is either obtained from another method or specifed as `blob:&lt;uuid&gt;` where\\n`&lt;uuid&gt` is an UUID of a Blob.","type":"string"}],"commands":[{"name":"close","description":"Close the stream, discard any temporary backing storage.","parameters":[{"name":"handle","description":"Handle of the stream to close.","$ref":"StreamHandle"}]},{"name":"read","description":"Read a chunk of the stream","parameters":[{"name":"handle","description":"Handle of the stream to read.","$ref":"StreamHandle"},{"name":"offset","description":"Seek to the specified offset before reading (if not specificed, proceed with offset\\nfollowing the last read). Some types of streams may only support sequential reads.","optional":true,"type":"integer"},{"name":"size","description":"Maximum number of bytes to read (left upon the agent discretion if not specified).","optional":true,"type":"integer"}],"returns":[{"name":"base64Encoded","description":"Set if the data is base64-encoded","optional":true,"type":"boolean"},{"name":"data","description":"Data that were read.","type":"string"},{"name":"eof","description":"Set if the end-of-file condition occured while reading.","type":"boolean"}]},{"name":"resolveBlob","description":"Return UUID of Blob object specified by a remote object id.","parameters":[{"name":"objectId","description":"Object id of a Blob object wrapper.","$ref":"Runtime.RemoteObjectId"}],"returns":[{"name":"uuid","description":"UUID of the specified Blob.","type":"string"}]}]},{"domain":"IndexedDB","experimental":true,"dependencies":["Runtime"],"types":[{"id":"DatabaseWithObjectStores","description":"Database with an array of object stores.","type":"object","properties":[{"name":"name","description":"Database name.","type":"string"},{"name":"version","description":"Database version (type is not \'integer\', as the standard\\nrequires the version number to be \'unsigned long long\')","type":"number"},{"name":"objectStores","description":"Object stores in this database.","type":"array","items":{"$ref":"ObjectStore"}}]},{"id":"ObjectStore","description":"Object store.","type":"object","properties":[{"name":"name","description":"Object store name.","type":"string"},{"name":"keyPath","description":"Object store key path.","$ref":"KeyPath"},{"name":"autoIncrement","description":"If true, object store has auto increment flag set.","type":"boolean"},{"name":"indexes","description":"Indexes in this object store.","type":"array","items":{"$ref":"ObjectStoreIndex"}}]},{"id":"ObjectStoreIndex","description":"Object store index.","type":"object","properties":[{"name":"name","description":"Index name.","type":"string"},{"name":"keyPath","description":"Index key path.","$ref":"KeyPath"},{"name":"unique","description":"If true, index is unique.","type":"boolean"},{"name":"multiEntry","description":"If true, index allows multiple entries for a key.","type":"boolean"}]},{"id":"Key","description":"Key.","type":"object","properties":[{"name":"type","description":"Key type.","type":"string","enum":["number","string","date","array"]},{"name":"number","description":"Number value.","optional":true,"type":"number"},{"name":"string","description":"String value.","optional":true,"type":"string"},{"name":"date","description":"Date value.","optional":true,"type":"number"},{"name":"array","description":"Array value.","optional":true,"type":"array","items":{"$ref":"Key"}}]},{"id":"KeyRange","description":"Key range.","type":"object","properties":[{"name":"lower","description":"Lower bound.","optional":true,"$ref":"Key"},{"name":"upper","description":"Upper bound.","optional":true,"$ref":"Key"},{"name":"lowerOpen","description":"If true lower bound is open.","type":"boolean"},{"name":"upperOpen","description":"If true upper bound is open.","type":"boolean"}]},{"id":"DataEntry","description":"Data entry.","type":"object","properties":[{"name":"key","description":"Key object.","$ref":"Runtime.RemoteObject"},{"name":"primaryKey","description":"Primary key object.","$ref":"Runtime.RemoteObject"},{"name":"value","description":"Value object.","$ref":"Runtime.RemoteObject"}]},{"id":"KeyPath","description":"Key path.","type":"object","properties":[{"name":"type","description":"Key path type.","type":"string","enum":["null","string","array"]},{"name":"string","description":"String value.","optional":true,"type":"string"},{"name":"array","description":"Array value.","optional":true,"type":"array","items":{"type":"string"}}]}],"commands":[{"name":"clearObjectStore","description":"Clears all entries from an object store.","parameters":[{"name":"securityOrigin","description":"Security origin.","type":"string"},{"name":"databaseName","description":"Database name.","type":"string"},{"name":"objectStoreName","description":"Object store name.","type":"string"}]},{"name":"deleteDatabase","description":"Deletes a database.","parameters":[{"name":"securityOrigin","description":"Security origin.","type":"string"},{"name":"databaseName","description":"Database name.","type":"string"}]},{"name":"deleteObjectStoreEntries","description":"Delete a range of entries from an object store","parameters":[{"name":"securityOrigin","type":"string"},{"name":"databaseName","type":"string"},{"name":"objectStoreName","type":"string"},{"name":"keyRange","description":"Range of entry keys to delete","$ref":"KeyRange"}]},{"name":"disable","description":"Disables events from backend."},{"name":"enable","description":"Enables events from backend."},{"name":"requestData","description":"Requests data from object store or index.","parameters":[{"name":"securityOrigin","description":"Security origin.","type":"string"},{"name":"databaseName","description":"Database name.","type":"string"},{"name":"objectStoreName","description":"Object store name.","type":"string"},{"name":"indexName","description":"Index name, empty string for object store data requests.","type":"string"},{"name":"skipCount","description":"Number of records to skip.","type":"integer"},{"name":"pageSize","description":"Number of records to fetch.","type":"integer"},{"name":"keyRange","description":"Key range.","optional":true,"$ref":"KeyRange"}],"returns":[{"name":"objectStoreDataEntries","description":"Array of object store data entries.","type":"array","items":{"$ref":"DataEntry"}},{"name":"hasMore","description":"If true, there are more entries to fetch in the given range.","type":"boolean"}]},{"name":"getMetadata","description":"Gets metadata of an object store","parameters":[{"name":"securityOrigin","description":"Security origin.","type":"string"},{"name":"databaseName","description":"Database name.","type":"string"},{"name":"objectStoreName","description":"Object store name.","type":"string"}],"returns":[{"name":"entriesCount","description":"the entries count","type":"number"},{"name":"keyGeneratorValue","description":"the current value of key generator, to become the next inserted\\nkey into the object store. Valid if objectStore.autoIncrement\\nis true.","type":"number"}]},{"name":"requestDatabase","description":"Requests database with given name in given frame.","parameters":[{"name":"securityOrigin","description":"Security origin.","type":"string"},{"name":"databaseName","description":"Database name.","type":"string"}],"returns":[{"name":"databaseWithObjectStores","description":"Database with an array of object stores.","$ref":"DatabaseWithObjectStores"}]},{"name":"requestDatabaseNames","description":"Requests database names for given security origin.","parameters":[{"name":"securityOrigin","description":"Security origin.","type":"string"}],"returns":[{"name":"databaseNames","description":"Database names for origin.","type":"array","items":{"type":"string"}}]}]},{"domain":"Input","types":[{"id":"TouchPoint","type":"object","properties":[{"name":"x","description":"X coordinate of the event relative to the main frame\'s viewport in CSS pixels.","type":"number"},{"name":"y","description":"Y coordinate of the event relative to the main frame\'s viewport in CSS pixels. 0 refers to\\nthe top of the viewport and Y increases as it proceeds towards the bottom of the viewport.","type":"number"},{"name":"radiusX","description":"X radius of the touch area (default: 1.0).","optional":true,"type":"number"},{"name":"radiusY","description":"Y radius of the touch area (default: 1.0).","optional":true,"type":"number"},{"name":"rotationAngle","description":"Rotation angle (default: 0.0).","optional":true,"type":"number"},{"name":"force","description":"Force (default: 1.0).","optional":true,"type":"number"},{"name":"id","description":"Identifier used to track touch sources between events, must be unique within an event.","optional":true,"type":"number"}]},{"id":"GestureSourceType","experimental":true,"type":"string","enum":["default","touch","mouse"]},{"id":"TimeSinceEpoch","description":"UTC time in seconds, counted from January 1, 1970.","type":"number"}],"commands":[{"name":"dispatchKeyEvent","description":"Dispatches a key event to the page.","parameters":[{"name":"type","description":"Type of the key event.","type":"string","enum":["keyDown","keyUp","rawKeyDown","char"]},{"name":"modifiers","description":"Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8\\n(default: 0).","optional":true,"type":"integer"},{"name":"timestamp","description":"Time at which the event occurred.","optional":true,"$ref":"TimeSinceEpoch"},{"name":"text","description":"Text as generated by processing a virtual key code with a keyboard layout. Not needed for\\nfor `keyUp` and `rawKeyDown` events (default: \\"\\")","optional":true,"type":"string"},{"name":"unmodifiedText","description":"Text that would have been generated by the keyboard if no modifiers were pressed (except for\\nshift). Useful for shortcut (accelerator) key handling (default: \\"\\").","optional":true,"type":"string"},{"name":"keyIdentifier","description":"Unique key identifier (e.g., \'U+0041\') (default: \\"\\").","optional":true,"type":"string"},{"name":"code","description":"Unique DOM defined string value for each physical key (e.g., \'KeyA\') (default: \\"\\").","optional":true,"type":"string"},{"name":"key","description":"Unique DOM defined string value describing the meaning of the key in the context of active\\nmodifiers, keyboard layout, etc (e.g., \'AltGr\') (default: \\"\\").","optional":true,"type":"string"},{"name":"windowsVirtualKeyCode","description":"Windows virtual key code (default: 0).","optional":true,"type":"integer"},{"name":"nativeVirtualKeyCode","description":"Native virtual key code (default: 0).","optional":true,"type":"integer"},{"name":"autoRepeat","description":"Whether the event was generated from auto repeat (default: false).","optional":true,"type":"boolean"},{"name":"isKeypad","description":"Whether the event was generated from the keypad (default: false).","optional":true,"type":"boolean"},{"name":"isSystemKey","description":"Whether the event was a system key event (default: false).","optional":true,"type":"boolean"},{"name":"location","description":"Whether the event was from the left or right side of the keyboard. 1=Left, 2=Right (default:\\n0).","optional":true,"type":"integer"}]},{"name":"insertText","description":"This method emulates inserting text that doesn\'t come from a key press,\\nfor example an emoji keyboard or an IME.","experimental":true,"parameters":[{"name":"text","description":"The text to insert.","type":"string"}]},{"name":"dispatchMouseEvent","description":"Dispatches a mouse event to the page.","parameters":[{"name":"type","description":"Type of the mouse event.","type":"string","enum":["mousePressed","mouseReleased","mouseMoved","mouseWheel"]},{"name":"x","description":"X coordinate of the event relative to the main frame\'s viewport in CSS pixels.","type":"number"},{"name":"y","description":"Y coordinate of the event relative to the main frame\'s viewport in CSS pixels. 0 refers to\\nthe top of the viewport and Y increases as it proceeds towards the bottom of the viewport.","type":"number"},{"name":"modifiers","description":"Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8\\n(default: 0).","optional":true,"type":"integer"},{"name":"timestamp","description":"Time at which the event occurred.","optional":true,"$ref":"TimeSinceEpoch"},{"name":"button","description":"Mouse button (default: \\"none\\").","optional":true,"type":"string","enum":["none","left","middle","right","back","forward"]},{"name":"buttons","description":"A number indicating which buttons are pressed on the mouse when a mouse event is triggered.\\nLeft=1, Right=2, Middle=4, Back=8, Forward=16, None=0.","optional":true,"type":"integer"},{"name":"clickCount","description":"Number of times the mouse button was clicked (default: 0).","optional":true,"type":"integer"},{"name":"deltaX","description":"X delta in CSS pixels for mouse wheel event (default: 0).","optional":true,"type":"number"},{"name":"deltaY","description":"Y delta in CSS pixels for mouse wheel event (default: 0).","optional":true,"type":"number"},{"name":"pointerType","description":"Pointer type (default: \\"mouse\\").","optional":true,"type":"string","enum":["mouse","pen"]}]},{"name":"dispatchTouchEvent","description":"Dispatches a touch event to the page.","parameters":[{"name":"type","description":"Type of the touch event. TouchEnd and TouchCancel must not contain any touch points, while\\nTouchStart and TouchMove must contains at least one.","type":"string","enum":["touchStart","touchEnd","touchMove","touchCancel"]},{"name":"touchPoints","description":"Active touch points on the touch device. One event per any changed point (compared to\\nprevious touch event in a sequence) is generated, emulating pressing/moving/releasing points\\none by one.","type":"array","items":{"$ref":"TouchPoint"}},{"name":"modifiers","description":"Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8\\n(default: 0).","optional":true,"type":"integer"},{"name":"timestamp","description":"Time at which the event occurred.","optional":true,"$ref":"TimeSinceEpoch"}]},{"name":"emulateTouchFromMouseEvent","description":"Emulates touch event from the mouse event parameters.","experimental":true,"parameters":[{"name":"type","description":"Type of the mouse event.","type":"string","enum":["mousePressed","mouseReleased","mouseMoved","mouseWheel"]},{"name":"x","description":"X coordinate of the mouse pointer in DIP.","type":"integer"},{"name":"y","description":"Y coordinate of the mouse pointer in DIP.","type":"integer"},{"name":"button","description":"Mouse button.","type":"string","enum":["none","left","middle","right"]},{"name":"timestamp","description":"Time at which the event occurred (default: current time).","optional":true,"$ref":"TimeSinceEpoch"},{"name":"deltaX","description":"X delta in DIP for mouse wheel event (default: 0).","optional":true,"type":"number"},{"name":"deltaY","description":"Y delta in DIP for mouse wheel event (default: 0).","optional":true,"type":"number"},{"name":"modifiers","description":"Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8\\n(default: 0).","optional":true,"type":"integer"},{"name":"clickCount","description":"Number of times the mouse button was clicked (default: 0).","optional":true,"type":"integer"}]},{"name":"setIgnoreInputEvents","description":"Ignores input events (useful while auditing page).","parameters":[{"name":"ignore","description":"Ignores input events processing when set to true.","type":"boolean"}]},{"name":"synthesizePinchGesture","description":"Synthesizes a pinch gesture over a time period by issuing appropriate touch events.","experimental":true,"parameters":[{"name":"x","description":"X coordinate of the start of the gesture in CSS pixels.","type":"number"},{"name":"y","description":"Y coordinate of the start of the gesture in CSS pixels.","type":"number"},{"name":"scaleFactor","description":"Relative scale factor after zooming (>1.0 zooms in, <1.0 zooms out).","type":"number"},{"name":"relativeSpeed","description":"Relative pointer speed in pixels per second (default: 800).","optional":true,"type":"integer"},{"name":"gestureSourceType","description":"Which type of input events to be generated (default: \'default\', which queries the platform\\nfor the preferred input type).","optional":true,"$ref":"GestureSourceType"}]},{"name":"synthesizeScrollGesture","description":"Synthesizes a scroll gesture over a time period by issuing appropriate touch events.","experimental":true,"parameters":[{"name":"x","description":"X coordinate of the start of the gesture in CSS pixels.","type":"number"},{"name":"y","description":"Y coordinate of the start of the gesture in CSS pixels.","type":"number"},{"name":"xDistance","description":"The distance to scroll along the X axis (positive to scroll left).","optional":true,"type":"number"},{"name":"yDistance","description":"The distance to scroll along the Y axis (positive to scroll up).","optional":true,"type":"number"},{"name":"xOverscroll","description":"The number of additional pixels to scroll back along the X axis, in addition to the given\\ndistance.","optional":true,"type":"number"},{"name":"yOverscroll","description":"The number of additional pixels to scroll back along the Y axis, in addition to the given\\ndistance.","optional":true,"type":"number"},{"name":"preventFling","description":"Prevent fling (default: true).","optional":true,"type":"boolean"},{"name":"speed","description":"Swipe speed in pixels per second (default: 800).","optional":true,"type":"integer"},{"name":"gestureSourceType","description":"Which type of input events to be generated (default: \'default\', which queries the platform\\nfor the preferred input type).","optional":true,"$ref":"GestureSourceType"},{"name":"repeatCount","description":"The number of times to repeat the gesture (default: 0).","optional":true,"type":"integer"},{"name":"repeatDelayMs","description":"The number of milliseconds delay between each repeat. (default: 250).","optional":true,"type":"integer"},{"name":"interactionMarkerName","description":"The name of the interaction markers to generate, if not empty (default: \\"\\").","optional":true,"type":"string"}]},{"name":"synthesizeTapGesture","description":"Synthesizes a tap gesture over a time period by issuing appropriate touch events.","experimental":true,"parameters":[{"name":"x","description":"X coordinate of the start of the gesture in CSS pixels.","type":"number"},{"name":"y","description":"Y coordinate of the start of the gesture in CSS pixels.","type":"number"},{"name":"duration","description":"Duration between touchdown and touchup events in ms (default: 50).","optional":true,"type":"integer"},{"name":"tapCount","description":"Number of times to perform the tap (e.g. 2 for double tap, default: 1).","optional":true,"type":"integer"},{"name":"gestureSourceType","description":"Which type of input events to be generated (default: \'default\', which queries the platform\\nfor the preferred input type).","optional":true,"$ref":"GestureSourceType"}]}]},{"domain":"Inspector","experimental":true,"commands":[{"name":"disable","description":"Disables inspector domain notifications."},{"name":"enable","description":"Enables inspector domain notifications."}],"events":[{"name":"detached","description":"Fired when remote debugging connection is about to be terminated. Contains detach reason.","parameters":[{"name":"reason","description":"The reason why connection has been terminated.","type":"string"}]},{"name":"targetCrashed","description":"Fired when debugging target has crashed"},{"name":"targetReloadedAfterCrash","description":"Fired when debugging target has reloaded after crash"}]},{"domain":"LayerTree","experimental":true,"dependencies":["DOM"],"types":[{"id":"LayerId","description":"Unique Layer identifier.","type":"string"},{"id":"SnapshotId","description":"Unique snapshot identifier.","type":"string"},{"id":"ScrollRect","description":"Rectangle where scrolling happens on the main thread.","type":"object","properties":[{"name":"rect","description":"Rectangle itself.","$ref":"DOM.Rect"},{"name":"type","description":"Reason for rectangle to force scrolling on the main thread","type":"string","enum":["RepaintsOnScroll","TouchEventHandler","WheelEventHandler"]}]},{"id":"StickyPositionConstraint","description":"Sticky position constraints.","type":"object","properties":[{"name":"stickyBoxRect","description":"Layout rectangle of the sticky element before being shifted","$ref":"DOM.Rect"},{"name":"containingBlockRect","description":"Layout rectangle of the containing block of the sticky element","$ref":"DOM.Rect"},{"name":"nearestLayerShiftingStickyBox","description":"The nearest sticky layer that shifts the sticky box","optional":true,"$ref":"LayerId"},{"name":"nearestLayerShiftingContainingBlock","description":"The nearest sticky layer that shifts the containing block","optional":true,"$ref":"LayerId"}]},{"id":"PictureTile","description":"Serialized fragment of layer picture along with its offset within the layer.","type":"object","properties":[{"name":"x","description":"Offset from owning layer left boundary","type":"number"},{"name":"y","description":"Offset from owning layer top boundary","type":"number"},{"name":"picture","description":"Base64-encoded snapshot data.","type":"string"}]},{"id":"Layer","description":"Information about a compositing layer.","type":"object","properties":[{"name":"layerId","description":"The unique id for this layer.","$ref":"LayerId"},{"name":"parentLayerId","description":"The id of parent (not present for root).","optional":true,"$ref":"LayerId"},{"name":"backendNodeId","description":"The backend id for the node associated with this layer.","optional":true,"$ref":"DOM.BackendNodeId"},{"name":"offsetX","description":"Offset from parent layer, X coordinate.","type":"number"},{"name":"offsetY","description":"Offset from parent layer, Y coordinate.","type":"number"},{"name":"width","description":"Layer width.","type":"number"},{"name":"height","description":"Layer height.","type":"number"},{"name":"transform","description":"Transformation matrix for layer, default is identity matrix","optional":true,"type":"array","items":{"type":"number"}},{"name":"anchorX","description":"Transform anchor point X, absent if no transform specified","optional":true,"type":"number"},{"name":"anchorY","description":"Transform anchor point Y, absent if no transform specified","optional":true,"type":"number"},{"name":"anchorZ","description":"Transform anchor point Z, absent if no transform specified","optional":true,"type":"number"},{"name":"paintCount","description":"Indicates how many time this layer has painted.","type":"integer"},{"name":"drawsContent","description":"Indicates whether this layer hosts any content, rather than being used for\\ntransform/scrolling purposes only.","type":"boolean"},{"name":"invisible","description":"Set if layer is not visible.","optional":true,"type":"boolean"},{"name":"scrollRects","description":"Rectangles scrolling on main thread only.","optional":true,"type":"array","items":{"$ref":"ScrollRect"}},{"name":"stickyPositionConstraint","description":"Sticky position constraint information","optional":true,"$ref":"StickyPositionConstraint"}]},{"id":"PaintProfile","description":"Array of timings, one per paint step.","type":"array","items":{"type":"number"}}],"commands":[{"name":"compositingReasons","description":"Provides the reasons why the given layer was composited.","parameters":[{"name":"layerId","description":"The id of the layer for which we want to get the reasons it was composited.","$ref":"LayerId"}],"returns":[{"name":"compositingReasons","description":"A list of strings specifying reasons for the given layer to become composited.","type":"array","items":{"type":"string"}}]},{"name":"disable","description":"Disables compositing tree inspection."},{"name":"enable","description":"Enables compositing tree inspection."},{"name":"loadSnapshot","description":"Returns the snapshot identifier.","parameters":[{"name":"tiles","description":"An array of tiles composing the snapshot.","type":"array","items":{"$ref":"PictureTile"}}],"returns":[{"name":"snapshotId","description":"The id of the snapshot.","$ref":"SnapshotId"}]},{"name":"makeSnapshot","description":"Returns the layer snapshot identifier.","parameters":[{"name":"layerId","description":"The id of the layer.","$ref":"LayerId"}],"returns":[{"name":"snapshotId","description":"The id of the layer snapshot.","$ref":"SnapshotId"}]},{"name":"profileSnapshot","parameters":[{"name":"snapshotId","description":"The id of the layer snapshot.","$ref":"SnapshotId"},{"name":"minRepeatCount","description":"The maximum number of times to replay the snapshot (1, if not specified).","optional":true,"type":"integer"},{"name":"minDuration","description":"The minimum duration (in seconds) to replay the snapshot.","optional":true,"type":"number"},{"name":"clipRect","description":"The clip rectangle to apply when replaying the snapshot.","optional":true,"$ref":"DOM.Rect"}],"returns":[{"name":"timings","description":"The array of paint profiles, one per run.","type":"array","items":{"$ref":"PaintProfile"}}]},{"name":"releaseSnapshot","description":"Releases layer snapshot captured by the back-end.","parameters":[{"name":"snapshotId","description":"The id of the layer snapshot.","$ref":"SnapshotId"}]},{"name":"replaySnapshot","description":"Replays the layer snapshot and returns the resulting bitmap.","parameters":[{"name":"snapshotId","description":"The id of the layer snapshot.","$ref":"SnapshotId"},{"name":"fromStep","description":"The first step to replay from (replay from the very start if not specified).","optional":true,"type":"integer"},{"name":"toStep","description":"The last step to replay to (replay till the end if not specified).","optional":true,"type":"integer"},{"name":"scale","description":"The scale to apply while replaying (defaults to 1).","optional":true,"type":"number"}],"returns":[{"name":"dataURL","description":"A data: URL for resulting image.","type":"string"}]},{"name":"snapshotCommandLog","description":"Replays the layer snapshot and returns canvas log.","parameters":[{"name":"snapshotId","description":"The id of the layer snapshot.","$ref":"SnapshotId"}],"returns":[{"name":"commandLog","description":"The array of canvas function calls.","type":"array","items":{"type":"object"}}]}],"events":[{"name":"layerPainted","parameters":[{"name":"layerId","description":"The id of the painted layer.","$ref":"LayerId"},{"name":"clip","description":"Clip rectangle.","$ref":"DOM.Rect"}]},{"name":"layerTreeDidChange","parameters":[{"name":"layers","description":"Layer tree, absent if not in the comspositing mode.","optional":true,"type":"array","items":{"$ref":"Layer"}}]}]},{"domain":"Log","description":"Provides access to log entries.","dependencies":["Runtime","Network"],"types":[{"id":"LogEntry","description":"Log entry.","type":"object","properties":[{"name":"source","description":"Log entry source.","type":"string","enum":["xml","javascript","network","storage","appcache","rendering","security","deprecation","worker","violation","intervention","recommendation","other"]},{"name":"level","description":"Log entry severity.","type":"string","enum":["verbose","info","warning","error"]},{"name":"text","description":"Logged text.","type":"string"},{"name":"timestamp","description":"Timestamp when this entry was added.","$ref":"Runtime.Timestamp"},{"name":"url","description":"URL of the resource if known.","optional":true,"type":"string"},{"name":"lineNumber","description":"Line number in the resource.","optional":true,"type":"integer"},{"name":"stackTrace","description":"JavaScript stack trace.","optional":true,"$ref":"Runtime.StackTrace"},{"name":"networkRequestId","description":"Identifier of the network request associated with this entry.","optional":true,"$ref":"Network.RequestId"},{"name":"workerId","description":"Identifier of the worker associated with this entry.","optional":true,"type":"string"},{"name":"args","description":"Call arguments.","optional":true,"type":"array","items":{"$ref":"Runtime.RemoteObject"}}]},{"id":"ViolationSetting","description":"Violation configuration setting.","type":"object","properties":[{"name":"name","description":"Violation type.","type":"string","enum":["longTask","longLayout","blockedEvent","blockedParser","discouragedAPIUse","handler","recurringHandler"]},{"name":"threshold","description":"Time threshold to trigger upon.","type":"number"}]}],"commands":[{"name":"clear","description":"Clears the log."},{"name":"disable","description":"Disables log domain, prevents further log entries from being reported to the client."},{"name":"enable","description":"Enables log domain, sends the entries collected so far to the client by means of the\\n`entryAdded` notification."},{"name":"startViolationsReport","description":"start violation reporting.","parameters":[{"name":"config","description":"Configuration for violations.","type":"array","items":{"$ref":"ViolationSetting"}}]},{"name":"stopViolationsReport","description":"Stop violation reporting."}],"events":[{"name":"entryAdded","description":"Issued when new message was logged.","parameters":[{"name":"entry","description":"The entry.","$ref":"LogEntry"}]}]},{"domain":"Memory","experimental":true,"types":[{"id":"PressureLevel","description":"Memory pressure level.","type":"string","enum":["moderate","critical"]},{"id":"SamplingProfileNode","description":"Heap profile sample.","type":"object","properties":[{"name":"size","description":"Size of the sampled allocation.","type":"number"},{"name":"total","description":"Total bytes attributed to this sample.","type":"number"},{"name":"stack","description":"Execution stack at the point of allocation.","type":"array","items":{"type":"string"}}]},{"id":"SamplingProfile","description":"Array of heap profile samples.","type":"object","properties":[{"name":"samples","type":"array","items":{"$ref":"SamplingProfileNode"}},{"name":"modules","type":"array","items":{"$ref":"Module"}}]},{"id":"Module","description":"Executable module information","type":"object","properties":[{"name":"name","description":"Name of the module.","type":"string"},{"name":"uuid","description":"UUID of the module.","type":"string"},{"name":"baseAddress","description":"Base address where the module is loaded into memory. Encoded as a decimal\\nor hexadecimal (0x prefixed) string.","type":"string"},{"name":"size","description":"Size of the module in bytes.","type":"number"}]}],"commands":[{"name":"getDOMCounters","returns":[{"name":"documents","type":"integer"},{"name":"nodes","type":"integer"},{"name":"jsEventListeners","type":"integer"}]},{"name":"prepareForLeakDetection"},{"name":"forciblyPurgeJavaScriptMemory","description":"Simulate OomIntervention by purging V8 memory."},{"name":"setPressureNotificationsSuppressed","description":"Enable/disable suppressing memory pressure notifications in all processes.","parameters":[{"name":"suppressed","description":"If true, memory pressure notifications will be suppressed.","type":"boolean"}]},{"name":"simulatePressureNotification","description":"Simulate a memory pressure notification in all processes.","parameters":[{"name":"level","description":"Memory pressure level of the notification.","$ref":"PressureLevel"}]},{"name":"startSampling","description":"Start collecting native memory profile.","parameters":[{"name":"samplingInterval","description":"Average number of bytes between samples.","optional":true,"type":"integer"},{"name":"suppressRandomness","description":"Do not randomize intervals between samples.","optional":true,"type":"boolean"}]},{"name":"stopSampling","description":"Stop collecting native memory profile."},{"name":"getAllTimeSamplingProfile","description":"Retrieve native memory allocations profile\\ncollected since renderer process startup.","returns":[{"name":"profile","$ref":"SamplingProfile"}]},{"name":"getBrowserSamplingProfile","description":"Retrieve native memory allocations profile\\ncollected since browser process startup.","returns":[{"name":"profile","$ref":"SamplingProfile"}]},{"name":"getSamplingProfile","description":"Retrieve native memory allocations profile collected since last\\n`startSampling` call.","returns":[{"name":"profile","$ref":"SamplingProfile"}]}]},{"domain":"Network","description":"Network domain allows tracking network activities of the page. It exposes information about http,\\nfile, data and other requests and responses, their headers, bodies, timing, etc.","dependencies":["Debugger","Runtime","Security"],"types":[{"id":"ResourceType","description":"Resource type as it was perceived by the rendering engine.","type":"string","enum":["Document","Stylesheet","Image","Media","Font","Script","TextTrack","XHR","Fetch","EventSource","WebSocket","Manifest","SignedExchange","Ping","CSPViolationReport","Other"]},{"id":"LoaderId","description":"Unique loader identifier.","type":"string"},{"id":"RequestId","description":"Unique request identifier.","type":"string"},{"id":"InterceptionId","description":"Unique intercepted request identifier.","type":"string"},{"id":"ErrorReason","description":"Network level fetch failure reason.","type":"string","enum":["Failed","Aborted","TimedOut","AccessDenied","ConnectionClosed","ConnectionReset","ConnectionRefused","ConnectionAborted","ConnectionFailed","NameNotResolved","InternetDisconnected","AddressUnreachable","BlockedByClient","BlockedByResponse"]},{"id":"TimeSinceEpoch","description":"UTC time in seconds, counted from January 1, 1970.","type":"number"},{"id":"MonotonicTime","description":"Monotonically increasing time in seconds since an arbitrary point in the past.","type":"number"},{"id":"Headers","description":"Request / response headers as keys / values of JSON object.","type":"object"},{"id":"ConnectionType","description":"The underlying connection technology that the browser is supposedly using.","type":"string","enum":["none","cellular2g","cellular3g","cellular4g","bluetooth","ethernet","wifi","wimax","other"]},{"id":"CookieSameSite","description":"Represents the cookie\'s \'SameSite\' status:\\nhttps://tools.ietf.org/html/draft-west-first-party-cookies","type":"string","enum":["Strict","Lax","Extended","None"]},{"id":"ResourceTiming","description":"Timing information for the request.","type":"object","properties":[{"name":"requestTime","description":"Timing\'s requestTime is a baseline in seconds, while the other numbers are ticks in\\nmilliseconds relatively to this requestTime.","type":"number"},{"name":"proxyStart","description":"Started resolving proxy.","type":"number"},{"name":"proxyEnd","description":"Finished resolving proxy.","type":"number"},{"name":"dnsStart","description":"Started DNS address resolve.","type":"number"},{"name":"dnsEnd","description":"Finished DNS address resolve.","type":"number"},{"name":"connectStart","description":"Started connecting to the remote host.","type":"number"},{"name":"connectEnd","description":"Connected to the remote host.","type":"number"},{"name":"sslStart","description":"Started SSL handshake.","type":"number"},{"name":"sslEnd","description":"Finished SSL handshake.","type":"number"},{"name":"workerStart","description":"Started running ServiceWorker.","experimental":true,"type":"number"},{"name":"workerReady","description":"Finished Starting ServiceWorker.","experimental":true,"type":"number"},{"name":"sendStart","description":"Started sending request.","type":"number"},{"name":"sendEnd","description":"Finished sending request.","type":"number"},{"name":"pushStart","description":"Time the server started pushing request.","experimental":true,"type":"number"},{"name":"pushEnd","description":"Time the server finished pushing request.","experimental":true,"type":"number"},{"name":"receiveHeadersEnd","description":"Finished receiving response headers.","type":"number"}]},{"id":"ResourcePriority","description":"Loading priority of a resource request.","type":"string","enum":["VeryLow","Low","Medium","High","VeryHigh"]},{"id":"Request","description":"HTTP request data.","type":"object","properties":[{"name":"url","description":"Request URL (without fragment).","type":"string"},{"name":"urlFragment","description":"Fragment of the requested URL starting with hash, if present.","optional":true,"type":"string"},{"name":"method","description":"HTTP request method.","type":"string"},{"name":"headers","description":"HTTP request headers.","$ref":"Headers"},{"name":"postData","description":"HTTP POST request data.","optional":true,"type":"string"},{"name":"hasPostData","description":"True when the request has POST data. Note that postData might still be omitted when this flag is true when the data is too long.","optional":true,"type":"boolean"},{"name":"mixedContentType","description":"The mixed content type of the request.","optional":true,"$ref":"Security.MixedContentType"},{"name":"initialPriority","description":"Priority of the resource request at the time request is sent.","$ref":"ResourcePriority"},{"name":"referrerPolicy","description":"The referrer policy of the request, as defined in https://www.w3.org/TR/referrer-policy/","type":"string","enum":["unsafe-url","no-referrer-when-downgrade","no-referrer","origin","origin-when-cross-origin","same-origin","strict-origin","strict-origin-when-cross-origin"]},{"name":"isLinkPreload","description":"Whether is loaded via link preload.","optional":true,"type":"boolean"}]},{"id":"SignedCertificateTimestamp","description":"Details of a signed certificate timestamp (SCT).","type":"object","properties":[{"name":"status","description":"Validation status.","type":"string"},{"name":"origin","description":"Origin.","type":"string"},{"name":"logDescription","description":"Log name / description.","type":"string"},{"name":"logId","description":"Log ID.","type":"string"},{"name":"timestamp","description":"Issuance date.","$ref":"TimeSinceEpoch"},{"name":"hashAlgorithm","description":"Hash algorithm.","type":"string"},{"name":"signatureAlgorithm","description":"Signature algorithm.","type":"string"},{"name":"signatureData","description":"Signature data.","type":"string"}]},{"id":"SecurityDetails","description":"Security details about a request.","type":"object","properties":[{"name":"protocol","description":"Protocol name (e.g. \\"TLS 1.2\\" or \\"QUIC\\").","type":"string"},{"name":"keyExchange","description":"Key Exchange used by the connection, or the empty string if not applicable.","type":"string"},{"name":"keyExchangeGroup","description":"(EC)DH group used by the connection, if applicable.","optional":true,"type":"string"},{"name":"cipher","description":"Cipher name.","type":"string"},{"name":"mac","description":"TLS MAC. Note that AEAD ciphers do not have separate MACs.","optional":true,"type":"string"},{"name":"certificateId","description":"Certificate ID value.","$ref":"Security.CertificateId"},{"name":"subjectName","description":"Certificate subject name.","type":"string"},{"name":"sanList","description":"Subject Alternative Name (SAN) DNS names and IP addresses.","type":"array","items":{"type":"string"}},{"name":"issuer","description":"Name of the issuing CA.","type":"string"},{"name":"validFrom","description":"Certificate valid from date.","$ref":"TimeSinceEpoch"},{"name":"validTo","description":"Certificate valid to (expiration) date","$ref":"TimeSinceEpoch"},{"name":"signedCertificateTimestampList","description":"List of signed certificate timestamps (SCTs).","type":"array","items":{"$ref":"SignedCertificateTimestamp"}},{"name":"certificateTransparencyCompliance","description":"Whether the request complied with Certificate Transparency policy","$ref":"CertificateTransparencyCompliance"}]},{"id":"CertificateTransparencyCompliance","description":"Whether the request complied with Certificate Transparency policy.","type":"string","enum":["unknown","not-compliant","compliant"]},{"id":"BlockedReason","description":"The reason why request was blocked.","type":"string","enum":["other","csp","mixed-content","origin","inspector","subresource-filter","content-type","collapsed-by-client"]},{"id":"Response","description":"HTTP response data.","type":"object","properties":[{"name":"url","description":"Response URL. This URL can be different from CachedResource.url in case of redirect.","type":"string"},{"name":"status","description":"HTTP response status code.","type":"integer"},{"name":"statusText","description":"HTTP response status text.","type":"string"},{"name":"headers","description":"HTTP response headers.","$ref":"Headers"},{"name":"headersText","description":"HTTP response headers text.","optional":true,"type":"string"},{"name":"mimeType","description":"Resource mimeType as determined by the browser.","type":"string"},{"name":"requestHeaders","description":"Refined HTTP request headers that were actually transmitted over the network.","optional":true,"$ref":"Headers"},{"name":"requestHeadersText","description":"HTTP request headers text.","optional":true,"type":"string"},{"name":"connectionReused","description":"Specifies whether physical connection was actually reused for this request.","type":"boolean"},{"name":"connectionId","description":"Physical connection id that was actually used for this request.","type":"number"},{"name":"remoteIPAddress","description":"Remote IP address.","optional":true,"type":"string"},{"name":"remotePort","description":"Remote port.","optional":true,"type":"integer"},{"name":"fromDiskCache","description":"Specifies that the request was served from the disk cache.","optional":true,"type":"boolean"},{"name":"fromServiceWorker","description":"Specifies that the request was served from the ServiceWorker.","optional":true,"type":"boolean"},{"name":"fromPrefetchCache","description":"Specifies that the request was served from the prefetch cache.","optional":true,"type":"boolean"},{"name":"encodedDataLength","description":"Total number of bytes received for this request so far.","type":"number"},{"name":"timing","description":"Timing information for the given request.","optional":true,"$ref":"ResourceTiming"},{"name":"protocol","description":"Protocol used to fetch this request.","optional":true,"type":"string"},{"name":"securityState","description":"Security state of the request resource.","$ref":"Security.SecurityState"},{"name":"securityDetails","description":"Security details for the request.","optional":true,"$ref":"SecurityDetails"}]},{"id":"WebSocketRequest","description":"WebSocket request data.","type":"object","properties":[{"name":"headers","description":"HTTP request headers.","$ref":"Headers"}]},{"id":"WebSocketResponse","description":"WebSocket response data.","type":"object","properties":[{"name":"status","description":"HTTP response status code.","type":"integer"},{"name":"statusText","description":"HTTP response status text.","type":"string"},{"name":"headers","description":"HTTP response headers.","$ref":"Headers"},{"name":"headersText","description":"HTTP response headers text.","optional":true,"type":"string"},{"name":"requestHeaders","description":"HTTP request headers.","optional":true,"$ref":"Headers"},{"name":"requestHeadersText","description":"HTTP request headers text.","optional":true,"type":"string"}]},{"id":"WebSocketFrame","description":"WebSocket message data. This represents an entire WebSocket message, not just a fragmented frame as the name suggests.","type":"object","properties":[{"name":"opcode","description":"WebSocket message opcode.","type":"number"},{"name":"mask","description":"WebSocket message mask.","type":"boolean"},{"name":"payloadData","description":"WebSocket message payload data.\\nIf the opcode is 1, this is a text message and payloadData is a UTF-8 string.\\nIf the opcode isn\'t 1, then payloadData is a base64 encoded string representing binary data.","type":"string"}]},{"id":"CachedResource","description":"Information about the cached resource.","type":"object","properties":[{"name":"url","description":"Resource URL. This is the url of the original network request.","type":"string"},{"name":"type","description":"Type of this resource.","$ref":"ResourceType"},{"name":"response","description":"Cached response data.","optional":true,"$ref":"Response"},{"name":"bodySize","description":"Cached response body size.","type":"number"}]},{"id":"Initiator","description":"Information about the request initiator.","type":"object","properties":[{"name":"type","description":"Type of this initiator.","type":"string","enum":["parser","script","preload","SignedExchange","other"]},{"name":"stack","description":"Initiator JavaScript stack trace, set for Script only.","optional":true,"$ref":"Runtime.StackTrace"},{"name":"url","description":"Initiator URL, set for Parser type or for Script type (when script is importing module) or for SignedExchange type.","optional":true,"type":"string"},{"name":"lineNumber","description":"Initiator line number, set for Parser type or for Script type (when script is importing\\nmodule) (0-based).","optional":true,"type":"number"}]},{"id":"Cookie","description":"Cookie object","type":"object","properties":[{"name":"name","description":"Cookie name.","type":"string"},{"name":"value","description":"Cookie value.","type":"string"},{"name":"domain","description":"Cookie domain.","type":"string"},{"name":"path","description":"Cookie path.","type":"string"},{"name":"expires","description":"Cookie expiration date as the number of seconds since the UNIX epoch.","type":"number"},{"name":"size","description":"Cookie size.","type":"integer"},{"name":"httpOnly","description":"True if cookie is http-only.","type":"boolean"},{"name":"secure","description":"True if cookie is secure.","type":"boolean"},{"name":"session","description":"True in case of session cookie.","type":"boolean"},{"name":"sameSite","description":"Cookie SameSite type.","optional":true,"$ref":"CookieSameSite"}]},{"id":"CookieParam","description":"Cookie parameter object","type":"object","properties":[{"name":"name","description":"Cookie name.","type":"string"},{"name":"value","description":"Cookie value.","type":"string"},{"name":"url","description":"The request-URI to associate with the setting of the cookie. This value can affect the\\ndefault domain and path values of the created cookie.","optional":true,"type":"string"},{"name":"domain","description":"Cookie domain.","optional":true,"type":"string"},{"name":"path","description":"Cookie path.","optional":true,"type":"string"},{"name":"secure","description":"True if cookie is secure.","optional":true,"type":"boolean"},{"name":"httpOnly","description":"True if cookie is http-only.","optional":true,"type":"boolean"},{"name":"sameSite","description":"Cookie SameSite type.","optional":true,"$ref":"CookieSameSite"},{"name":"expires","description":"Cookie expiration date, session cookie if not set","optional":true,"$ref":"TimeSinceEpoch"}]},{"id":"AuthChallenge","description":"Authorization challenge for HTTP status code 401 or 407.","experimental":true,"type":"object","properties":[{"name":"source","description":"Source of the authentication challenge.","optional":true,"type":"string","enum":["Server","Proxy"]},{"name":"origin","description":"Origin of the challenger.","type":"string"},{"name":"scheme","description":"The authentication scheme used, such as basic or digest","type":"string"},{"name":"realm","description":"The realm of the challenge. May be empty.","type":"string"}]},{"id":"AuthChallengeResponse","description":"Response to an AuthChallenge.","experimental":true,"type":"object","properties":[{"name":"response","description":"The decision on what to do in response to the authorization challenge.  Default means\\ndeferring to the default behavior of the net stack, which will likely either the Cancel\\nauthentication or display a popup dialog box.","type":"string","enum":["Default","CancelAuth","ProvideCredentials"]},{"name":"username","description":"The username to provide, possibly empty. Should only be set if response is\\nProvideCredentials.","optional":true,"type":"string"},{"name":"password","description":"The password to provide, possibly empty. Should only be set if response is\\nProvideCredentials.","optional":true,"type":"string"}]},{"id":"InterceptionStage","description":"Stages of the interception to begin intercepting. Request will intercept before the request is\\nsent. Response will intercept after the response is received.","experimental":true,"type":"string","enum":["Request","HeadersReceived"]},{"id":"RequestPattern","description":"Request pattern for interception.","experimental":true,"type":"object","properties":[{"name":"urlPattern","description":"Wildcards (\'*\' -> zero or more, \'?\' -> exactly one) are allowed. Escape character is\\nbackslash. Omitting is equivalent to \\"*\\".","optional":true,"type":"string"},{"name":"resourceType","description":"If set, only requests for matching resource types will be intercepted.","optional":true,"$ref":"ResourceType"},{"name":"interceptionStage","description":"Stage at wich to begin intercepting requests. Default is Request.","optional":true,"$ref":"InterceptionStage"}]},{"id":"SignedExchangeSignature","description":"Information about a signed exchange signature.\\nhttps://wicg.github.io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-impl.html#rfc.section.3.1","experimental":true,"type":"object","properties":[{"name":"label","description":"Signed exchange signature label.","type":"string"},{"name":"signature","description":"The hex string of signed exchange signature.","type":"string"},{"name":"integrity","description":"Signed exchange signature integrity.","type":"string"},{"name":"certUrl","description":"Signed exchange signature cert Url.","optional":true,"type":"string"},{"name":"certSha256","description":"The hex string of signed exchange signature cert sha256.","optional":true,"type":"string"},{"name":"validityUrl","description":"Signed exchange signature validity Url.","type":"string"},{"name":"date","description":"Signed exchange signature date.","type":"integer"},{"name":"expires","description":"Signed exchange signature expires.","type":"integer"},{"name":"certificates","description":"The encoded certificates.","optional":true,"type":"array","items":{"type":"string"}}]},{"id":"SignedExchangeHeader","description":"Information about a signed exchange header.\\nhttps://wicg.github.io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-impl.html#cbor-representation","experimental":true,"type":"object","properties":[{"name":"requestUrl","description":"Signed exchange request URL.","type":"string"},{"name":"responseCode","description":"Signed exchange response code.","type":"integer"},{"name":"responseHeaders","description":"Signed exchange response headers.","$ref":"Headers"},{"name":"signatures","description":"Signed exchange response signature.","type":"array","items":{"$ref":"SignedExchangeSignature"}},{"name":"headerIntegrity","description":"Signed exchange header integrity hash in the form of \\"sha256-<base64-hash-value>\\".","type":"string"}]},{"id":"SignedExchangeErrorField","description":"Field type for a signed exchange related error.","experimental":true,"type":"string","enum":["signatureSig","signatureIntegrity","signatureCertUrl","signatureCertSha256","signatureValidityUrl","signatureTimestamps"]},{"id":"SignedExchangeError","description":"Information about a signed exchange response.","experimental":true,"type":"object","properties":[{"name":"message","description":"Error message.","type":"string"},{"name":"signatureIndex","description":"The index of the signature which caused the error.","optional":true,"type":"integer"},{"name":"errorField","description":"The field which caused the error.","optional":true,"$ref":"SignedExchangeErrorField"}]},{"id":"SignedExchangeInfo","description":"Information about a signed exchange response.","experimental":true,"type":"object","properties":[{"name":"outerResponse","description":"The outer response of signed HTTP exchange which was received from network.","$ref":"Response"},{"name":"header","description":"Information about the signed exchange header.","optional":true,"$ref":"SignedExchangeHeader"},{"name":"securityDetails","description":"Security details for the signed exchange header.","optional":true,"$ref":"SecurityDetails"},{"name":"errors","description":"Errors occurred while handling the signed exchagne.","optional":true,"type":"array","items":{"$ref":"SignedExchangeError"}}]}],"commands":[{"name":"canClearBrowserCache","description":"Tells whether clearing browser cache is supported.","deprecated":true,"returns":[{"name":"result","description":"True if browser cache can be cleared.","type":"boolean"}]},{"name":"canClearBrowserCookies","description":"Tells whether clearing browser cookies is supported.","deprecated":true,"returns":[{"name":"result","description":"True if browser cookies can be cleared.","type":"boolean"}]},{"name":"canEmulateNetworkConditions","description":"Tells whether emulation of network conditions is supported.","deprecated":true,"returns":[{"name":"result","description":"True if emulation of network conditions is supported.","type":"boolean"}]},{"name":"clearBrowserCache","description":"Clears browser cache."},{"name":"clearBrowserCookies","description":"Clears browser cookies."},{"name":"continueInterceptedRequest","description":"Response to Network.requestIntercepted which either modifies the request to continue with any\\nmodifications, or blocks it, or completes it with the provided response bytes. If a network\\nfetch occurs as a result which encounters a redirect an additional Network.requestIntercepted\\nevent will be sent with the same InterceptionId.\\nDeprecated, use Fetch.continueRequest, Fetch.fulfillRequest and Fetch.failRequest instead.","experimental":true,"deprecated":true,"parameters":[{"name":"interceptionId","$ref":"InterceptionId"},{"name":"errorReason","description":"If set this causes the request to fail with the given reason. Passing `Aborted` for requests\\nmarked with `isNavigationRequest` also cancels the navigation. Must not be set in response\\nto an authChallenge.","optional":true,"$ref":"ErrorReason"},{"name":"rawResponse","description":"If set the requests completes using with the provided base64 encoded raw response, including\\nHTTP status line and headers etc... Must not be set in response to an authChallenge.","optional":true,"type":"string"},{"name":"url","description":"If set the request url will be modified in a way that\'s not observable by page. Must not be\\nset in response to an authChallenge.","optional":true,"type":"string"},{"name":"method","description":"If set this allows the request method to be overridden. Must not be set in response to an\\nauthChallenge.","optional":true,"type":"string"},{"name":"postData","description":"If set this allows postData to be set. Must not be set in response to an authChallenge.","optional":true,"type":"string"},{"name":"headers","description":"If set this allows the request headers to be changed. Must not be set in response to an\\nauthChallenge.","optional":true,"$ref":"Headers"},{"name":"authChallengeResponse","description":"Response to a requestIntercepted with an authChallenge. Must not be set otherwise.","optional":true,"$ref":"AuthChallengeResponse"}]},{"name":"deleteCookies","description":"Deletes browser cookies with matching name and url or domain/path pair.","parameters":[{"name":"name","description":"Name of the cookies to remove.","type":"string"},{"name":"url","description":"If specified, deletes all the cookies with the given name where domain and path match\\nprovided URL.","optional":true,"type":"string"},{"name":"domain","description":"If specified, deletes only cookies with the exact domain.","optional":true,"type":"string"},{"name":"path","description":"If specified, deletes only cookies with the exact path.","optional":true,"type":"string"}]},{"name":"disable","description":"Disables network tracking, prevents network events from being sent to the client."},{"name":"emulateNetworkConditions","description":"Activates emulation of network conditions.","parameters":[{"name":"offline","description":"True to emulate internet disconnection.","type":"boolean"},{"name":"latency","description":"Minimum latency from request sent to response headers received (ms).","type":"number"},{"name":"downloadThroughput","description":"Maximal aggregated download throughput (bytes/sec). -1 disables download throttling.","type":"number"},{"name":"uploadThroughput","description":"Maximal aggregated upload throughput (bytes/sec).  -1 disables upload throttling.","type":"number"},{"name":"connectionType","description":"Connection type if known.","optional":true,"$ref":"ConnectionType"}]},{"name":"enable","description":"Enables network tracking, network events will now be delivered to the client.","parameters":[{"name":"maxTotalBufferSize","description":"Buffer size in bytes to use when preserving network payloads (XHRs, etc).","experimental":true,"optional":true,"type":"integer"},{"name":"maxResourceBufferSize","description":"Per-resource buffer size in bytes to use when preserving network payloads (XHRs, etc).","experimental":true,"optional":true,"type":"integer"},{"name":"maxPostDataSize","description":"Longest post body size (in bytes) that would be included in requestWillBeSent notification","optional":true,"type":"integer"}]},{"name":"getAllCookies","description":"Returns all browser cookies. Depending on the backend support, will return detailed cookie\\ninformation in the `cookies` field.","returns":[{"name":"cookies","description":"Array of cookie objects.","type":"array","items":{"$ref":"Cookie"}}]},{"name":"getCertificate","description":"Returns the DER-encoded certificate.","experimental":true,"parameters":[{"name":"origin","description":"Origin to get certificate for.","type":"string"}],"returns":[{"name":"tableNames","type":"array","items":{"type":"string"}}]},{"name":"getCookies","description":"Returns all browser cookies for the current URL. Depending on the backend support, will return\\ndetailed cookie information in the `cookies` field.","parameters":[{"name":"urls","description":"The list of URLs for which applicable cookies will be fetched","optional":true,"type":"array","items":{"type":"string"}}],"returns":[{"name":"cookies","description":"Array of cookie objects.","type":"array","items":{"$ref":"Cookie"}}]},{"name":"getResponseBody","description":"Returns content served for the given request.","parameters":[{"name":"requestId","description":"Identifier of the network request to get content for.","$ref":"RequestId"}],"returns":[{"name":"body","description":"Response body.","type":"string"},{"name":"base64Encoded","description":"True, if content was sent as base64.","type":"boolean"}]},{"name":"getRequestPostData","description":"Returns post data sent with the request. Returns an error when no data was sent with the request.","parameters":[{"name":"requestId","description":"Identifier of the network request to get content for.","$ref":"RequestId"}],"returns":[{"name":"postData","description":"Request body string, omitting files from multipart requests","type":"string"}]},{"name":"getResponseBodyForInterception","description":"Returns content served for the given currently intercepted request.","experimental":true,"parameters":[{"name":"interceptionId","description":"Identifier for the intercepted request to get body for.","$ref":"InterceptionId"}],"returns":[{"name":"body","description":"Response body.","type":"string"},{"name":"base64Encoded","description":"True, if content was sent as base64.","type":"boolean"}]},{"name":"takeResponseBodyForInterceptionAsStream","description":"Returns a handle to the stream representing the response body. Note that after this command,\\nthe intercepted request can\'t be continued as is -- you either need to cancel it or to provide\\nthe response body. The stream only supports sequential read, IO.read will fail if the position\\nis specified.","experimental":true,"parameters":[{"name":"interceptionId","$ref":"InterceptionId"}],"returns":[{"name":"stream","$ref":"IO.StreamHandle"}]},{"name":"replayXHR","description":"This method sends a new XMLHttpRequest which is identical to the original one. The following\\nparameters should be identical: method, url, async, request body, extra headers, withCredentials\\nattribute, user, password.","experimental":true,"parameters":[{"name":"requestId","description":"Identifier of XHR to replay.","$ref":"RequestId"}]},{"name":"searchInResponseBody","description":"Searches for given string in response content.","experimental":true,"parameters":[{"name":"requestId","description":"Identifier of the network response to search.","$ref":"RequestId"},{"name":"query","description":"String to search for.","type":"string"},{"name":"caseSensitive","description":"If true, search is case sensitive.","optional":true,"type":"boolean"},{"name":"isRegex","description":"If true, treats string parameter as regex.","optional":true,"type":"boolean"}],"returns":[{"name":"result","description":"List of search matches.","type":"array","items":{"$ref":"Debugger.SearchMatch"}}]},{"name":"setBlockedURLs","description":"Blocks URLs from loading.","experimental":true,"parameters":[{"name":"urls","description":"URL patterns to block. Wildcards (\'*\') are allowed.","type":"array","items":{"type":"string"}}]},{"name":"setBypassServiceWorker","description":"Toggles ignoring of service worker for each request.","experimental":true,"parameters":[{"name":"bypass","description":"Bypass service worker and load from network.","type":"boolean"}]},{"name":"setCacheDisabled","description":"Toggles ignoring cache for each request. If `true`, cache will not be used.","parameters":[{"name":"cacheDisabled","description":"Cache disabled state.","type":"boolean"}]},{"name":"setCookie","description":"Sets a cookie with the given cookie data; may overwrite equivalent cookies if they exist.","parameters":[{"name":"name","description":"Cookie name.","type":"string"},{"name":"value","description":"Cookie value.","type":"string"},{"name":"url","description":"The request-URI to associate with the setting of the cookie. This value can affect the\\ndefault domain and path values of the created cookie.","optional":true,"type":"string"},{"name":"domain","description":"Cookie domain.","optional":true,"type":"string"},{"name":"path","description":"Cookie path.","optional":true,"type":"string"},{"name":"secure","description":"True if cookie is secure.","optional":true,"type":"boolean"},{"name":"httpOnly","description":"True if cookie is http-only.","optional":true,"type":"boolean"},{"name":"sameSite","description":"Cookie SameSite type.","optional":true,"$ref":"CookieSameSite"},{"name":"expires","description":"Cookie expiration date, session cookie if not set","optional":true,"$ref":"TimeSinceEpoch"}],"returns":[{"name":"success","description":"True if successfully set cookie.","type":"boolean"}]},{"name":"setCookies","description":"Sets given cookies.","parameters":[{"name":"cookies","description":"Cookies to be set.","type":"array","items":{"$ref":"CookieParam"}}]},{"name":"setDataSizeLimitsForTest","description":"For testing.","experimental":true,"parameters":[{"name":"maxTotalSize","description":"Maximum total buffer size.","type":"integer"},{"name":"maxResourceSize","description":"Maximum per-resource size.","type":"integer"}]},{"name":"setExtraHTTPHeaders","description":"Specifies whether to always send extra HTTP headers with the requests from this page.","parameters":[{"name":"headers","description":"Map with extra HTTP headers.","$ref":"Headers"}]},{"name":"setRequestInterception","description":"Sets the requests to intercept that match the provided patterns and optionally resource types.\\nDeprecated, please use Fetch.enable instead.","experimental":true,"deprecated":true,"parameters":[{"name":"patterns","description":"Requests matching any of these patterns will be forwarded and wait for the corresponding\\ncontinueInterceptedRequest call.","type":"array","items":{"$ref":"RequestPattern"}}]},{"name":"setUserAgentOverride","description":"Allows overriding user agent with the given string.","redirect":"Emulation","parameters":[{"name":"userAgent","description":"User agent to use.","type":"string"},{"name":"acceptLanguage","description":"Browser langugage to emulate.","optional":true,"type":"string"},{"name":"platform","description":"The platform navigator.platform should return.","optional":true,"type":"string"}]}],"events":[{"name":"dataReceived","description":"Fired when data chunk was received over the network.","parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"},{"name":"timestamp","description":"Timestamp.","$ref":"MonotonicTime"},{"name":"dataLength","description":"Data chunk length.","type":"integer"},{"name":"encodedDataLength","description":"Actual bytes received (might be less than dataLength for compressed encodings).","type":"integer"}]},{"name":"eventSourceMessageReceived","description":"Fired when EventSource message is received.","parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"},{"name":"timestamp","description":"Timestamp.","$ref":"MonotonicTime"},{"name":"eventName","description":"Message type.","type":"string"},{"name":"eventId","description":"Message identifier.","type":"string"},{"name":"data","description":"Message content.","type":"string"}]},{"name":"loadingFailed","description":"Fired when HTTP request has failed to load.","parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"},{"name":"timestamp","description":"Timestamp.","$ref":"MonotonicTime"},{"name":"type","description":"Resource type.","$ref":"ResourceType"},{"name":"errorText","description":"User friendly error message.","type":"string"},{"name":"canceled","description":"True if loading was canceled.","optional":true,"type":"boolean"},{"name":"blockedReason","description":"The reason why loading was blocked, if any.","optional":true,"$ref":"BlockedReason"}]},{"name":"loadingFinished","description":"Fired when HTTP request has finished loading.","parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"},{"name":"timestamp","description":"Timestamp.","$ref":"MonotonicTime"},{"name":"encodedDataLength","description":"Total number of bytes received for this request.","type":"number"},{"name":"shouldReportCorbBlocking","description":"Set when 1) response was blocked by Cross-Origin Read Blocking and also\\n2) this needs to be reported to the DevTools console.","optional":true,"type":"boolean"}]},{"name":"requestIntercepted","description":"Details of an intercepted HTTP request, which must be either allowed, blocked, modified or\\nmocked.\\nDeprecated, use Fetch.requestPaused instead.","experimental":true,"deprecated":true,"parameters":[{"name":"interceptionId","description":"Each request the page makes will have a unique id, however if any redirects are encountered\\nwhile processing that fetch, they will be reported with the same id as the original fetch.\\nLikewise if HTTP authentication is needed then the same fetch id will be used.","$ref":"InterceptionId"},{"name":"request","$ref":"Request"},{"name":"frameId","description":"The id of the frame that initiated the request.","$ref":"Page.FrameId"},{"name":"resourceType","description":"How the requested resource will be used.","$ref":"ResourceType"},{"name":"isNavigationRequest","description":"Whether this is a navigation request, which can abort the navigation completely.","type":"boolean"},{"name":"isDownload","description":"Set if the request is a navigation that will result in a download.\\nOnly present after response is received from the server (i.e. HeadersReceived stage).","optional":true,"type":"boolean"},{"name":"redirectUrl","description":"Redirect location, only sent if a redirect was intercepted.","optional":true,"type":"string"},{"name":"authChallenge","description":"Details of the Authorization Challenge encountered. If this is set then\\ncontinueInterceptedRequest must contain an authChallengeResponse.","optional":true,"$ref":"AuthChallenge"},{"name":"responseErrorReason","description":"Response error if intercepted at response stage or if redirect occurred while intercepting\\nrequest.","optional":true,"$ref":"ErrorReason"},{"name":"responseStatusCode","description":"Response code if intercepted at response stage or if redirect occurred while intercepting\\nrequest or auth retry occurred.","optional":true,"type":"integer"},{"name":"responseHeaders","description":"Response headers if intercepted at the response stage or if redirect occurred while\\nintercepting request or auth retry occurred.","optional":true,"$ref":"Headers"},{"name":"requestId","description":"If the intercepted request had a corresponding requestWillBeSent event fired for it, then\\nthis requestId will be the same as the requestId present in the requestWillBeSent event.","optional":true,"$ref":"RequestId"}]},{"name":"requestServedFromCache","description":"Fired if request ended up loading from cache.","parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"}]},{"name":"requestWillBeSent","description":"Fired when page is about to send HTTP request.","parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"},{"name":"loaderId","description":"Loader identifier. Empty string if the request is fetched from worker.","$ref":"LoaderId"},{"name":"documentURL","description":"URL of the document this request is loaded for.","type":"string"},{"name":"request","description":"Request data.","$ref":"Request"},{"name":"timestamp","description":"Timestamp.","$ref":"MonotonicTime"},{"name":"wallTime","description":"Timestamp.","$ref":"TimeSinceEpoch"},{"name":"initiator","description":"Request initiator.","$ref":"Initiator"},{"name":"redirectResponse","description":"Redirect response data.","optional":true,"$ref":"Response"},{"name":"type","description":"Type of this resource.","optional":true,"$ref":"ResourceType"},{"name":"frameId","description":"Frame identifier.","optional":true,"$ref":"Page.FrameId"},{"name":"hasUserGesture","description":"Whether the request is initiated by a user gesture. Defaults to false.","optional":true,"type":"boolean"}]},{"name":"resourceChangedPriority","description":"Fired when resource loading priority is changed","experimental":true,"parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"},{"name":"newPriority","description":"New priority","$ref":"ResourcePriority"},{"name":"timestamp","description":"Timestamp.","$ref":"MonotonicTime"}]},{"name":"signedExchangeReceived","description":"Fired when a signed exchange was received over the network","experimental":true,"parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"},{"name":"info","description":"Information about the signed exchange response.","$ref":"SignedExchangeInfo"}]},{"name":"responseReceived","description":"Fired when HTTP response is available.","parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"},{"name":"loaderId","description":"Loader identifier. Empty string if the request is fetched from worker.","$ref":"LoaderId"},{"name":"timestamp","description":"Timestamp.","$ref":"MonotonicTime"},{"name":"type","description":"Resource type.","$ref":"ResourceType"},{"name":"response","description":"Response data.","$ref":"Response"},{"name":"frameId","description":"Frame identifier.","optional":true,"$ref":"Page.FrameId"}]},{"name":"webSocketClosed","description":"Fired when WebSocket is closed.","parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"},{"name":"timestamp","description":"Timestamp.","$ref":"MonotonicTime"}]},{"name":"webSocketCreated","description":"Fired upon WebSocket creation.","parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"},{"name":"url","description":"WebSocket request URL.","type":"string"},{"name":"initiator","description":"Request initiator.","optional":true,"$ref":"Initiator"}]},{"name":"webSocketFrameError","description":"Fired when WebSocket message error occurs.","parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"},{"name":"timestamp","description":"Timestamp.","$ref":"MonotonicTime"},{"name":"errorMessage","description":"WebSocket error message.","type":"string"}]},{"name":"webSocketFrameReceived","description":"Fired when WebSocket message is received.","parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"},{"name":"timestamp","description":"Timestamp.","$ref":"MonotonicTime"},{"name":"response","description":"WebSocket response data.","$ref":"WebSocketFrame"}]},{"name":"webSocketFrameSent","description":"Fired when WebSocket message is sent.","parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"},{"name":"timestamp","description":"Timestamp.","$ref":"MonotonicTime"},{"name":"response","description":"WebSocket response data.","$ref":"WebSocketFrame"}]},{"name":"webSocketHandshakeResponseReceived","description":"Fired when WebSocket handshake response becomes available.","parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"},{"name":"timestamp","description":"Timestamp.","$ref":"MonotonicTime"},{"name":"response","description":"WebSocket response data.","$ref":"WebSocketResponse"}]},{"name":"webSocketWillSendHandshakeRequest","description":"Fired when WebSocket is about to initiate handshake.","parameters":[{"name":"requestId","description":"Request identifier.","$ref":"RequestId"},{"name":"timestamp","description":"Timestamp.","$ref":"MonotonicTime"},{"name":"wallTime","description":"UTC Timestamp.","$ref":"TimeSinceEpoch"},{"name":"request","description":"WebSocket request data.","$ref":"WebSocketRequest"}]}]},{"domain":"Overlay","description":"This domain provides various functionality related to drawing atop the inspected page.","experimental":true,"dependencies":["DOM","Page","Runtime"],"types":[{"id":"HighlightConfig","description":"Configuration data for the highlighting of page elements.","type":"object","properties":[{"name":"showInfo","description":"Whether the node info tooltip should be shown (default: false).","optional":true,"type":"boolean"},{"name":"showStyles","description":"Whether the node styles in the tooltip (default: false).","optional":true,"type":"boolean"},{"name":"showRulers","description":"Whether the rulers should be shown (default: false).","optional":true,"type":"boolean"},{"name":"showExtensionLines","description":"Whether the extension lines from node to the rulers should be shown (default: false).","optional":true,"type":"boolean"},{"name":"contentColor","description":"The content box highlight fill color (default: transparent).","optional":true,"$ref":"DOM.RGBA"},{"name":"paddingColor","description":"The padding highlight fill color (default: transparent).","optional":true,"$ref":"DOM.RGBA"},{"name":"borderColor","description":"The border highlight fill color (default: transparent).","optional":true,"$ref":"DOM.RGBA"},{"name":"marginColor","description":"The margin highlight fill color (default: transparent).","optional":true,"$ref":"DOM.RGBA"},{"name":"eventTargetColor","description":"The event target element highlight fill color (default: transparent).","optional":true,"$ref":"DOM.RGBA"},{"name":"shapeColor","description":"The shape outside fill color (default: transparent).","optional":true,"$ref":"DOM.RGBA"},{"name":"shapeMarginColor","description":"The shape margin fill color (default: transparent).","optional":true,"$ref":"DOM.RGBA"},{"name":"cssGridColor","description":"The grid layout color (default: transparent).","optional":true,"$ref":"DOM.RGBA"}]},{"id":"InspectMode","type":"string","enum":["searchForNode","searchForUAShadowDOM","captureAreaScreenshot","showDistances","none"]}],"commands":[{"name":"disable","description":"Disables domain notifications."},{"name":"enable","description":"Enables domain notifications."},{"name":"getHighlightObjectForTest","description":"For testing.","parameters":[{"name":"nodeId","description":"Id of the node to get highlight object for.","$ref":"DOM.NodeId"},{"name":"includeDistance","description":"Whether to include distance info.","optional":true,"type":"boolean"},{"name":"includeStyle","description":"Whether to include style info.","optional":true,"type":"boolean"}],"returns":[{"name":"highlight","description":"Highlight data for the node.","type":"object"}]},{"name":"hideHighlight","description":"Hides any highlight."},{"name":"highlightFrame","description":"Highlights owner element of the frame with given id.","parameters":[{"name":"frameId","description":"Identifier of the frame to highlight.","$ref":"Page.FrameId"},{"name":"contentColor","description":"The content box highlight fill color (default: transparent).","optional":true,"$ref":"DOM.RGBA"},{"name":"contentOutlineColor","description":"The content box highlight outline color (default: transparent).","optional":true,"$ref":"DOM.RGBA"}]},{"name":"highlightNode","description":"Highlights DOM node with given id or with the given JavaScript object wrapper. Either nodeId or\\nobjectId must be specified.","parameters":[{"name":"highlightConfig","description":"A descriptor for the highlight appearance.","$ref":"HighlightConfig"},{"name":"nodeId","description":"Identifier of the node to highlight.","optional":true,"$ref":"DOM.NodeId"},{"name":"backendNodeId","description":"Identifier of the backend node to highlight.","optional":true,"$ref":"DOM.BackendNodeId"},{"name":"objectId","description":"JavaScript object id of the node to be highlighted.","optional":true,"$ref":"Runtime.RemoteObjectId"},{"name":"selector","description":"Selectors to highlight relevant nodes.","optional":true,"type":"string"}]},{"name":"highlightQuad","description":"Highlights given quad. Coordinates are absolute with respect to the main frame viewport.","parameters":[{"name":"quad","description":"Quad to highlight","$ref":"DOM.Quad"},{"name":"color","description":"The highlight fill color (default: transparent).","optional":true,"$ref":"DOM.RGBA"},{"name":"outlineColor","description":"The highlight outline color (default: transparent).","optional":true,"$ref":"DOM.RGBA"}]},{"name":"highlightRect","description":"Highlights given rectangle. Coordinates are absolute with respect to the main frame viewport.","parameters":[{"name":"x","description":"X coordinate","type":"integer"},{"name":"y","description":"Y coordinate","type":"integer"},{"name":"width","description":"Rectangle width","type":"integer"},{"name":"height","description":"Rectangle height","type":"integer"},{"name":"color","description":"The highlight fill color (default: transparent).","optional":true,"$ref":"DOM.RGBA"},{"name":"outlineColor","description":"The highlight outline color (default: transparent).","optional":true,"$ref":"DOM.RGBA"}]},{"name":"setInspectMode","description":"Enters the \'inspect\' mode. In this mode, elements that user is hovering over are highlighted.\\nBackend then generates \'inspectNodeRequested\' event upon element selection.","parameters":[{"name":"mode","description":"Set an inspection mode.","$ref":"InspectMode"},{"name":"highlightConfig","description":"A descriptor for the highlight appearance of hovered-over nodes. May be omitted if `enabled\\n== false`.","optional":true,"$ref":"HighlightConfig"}]},{"name":"setShowAdHighlights","description":"Highlights owner element of all frames detected to be ads.","parameters":[{"name":"show","description":"True for showing ad highlights","type":"boolean"}]},{"name":"setPausedInDebuggerMessage","parameters":[{"name":"message","description":"The message to display, also triggers resume and step over controls.","optional":true,"type":"string"}]},{"name":"setShowDebugBorders","description":"Requests that backend shows debug borders on layers","parameters":[{"name":"show","description":"True for showing debug borders","type":"boolean"}]},{"name":"setShowFPSCounter","description":"Requests that backend shows the FPS counter","parameters":[{"name":"show","description":"True for showing the FPS counter","type":"boolean"}]},{"name":"setShowPaintRects","description":"Requests that backend shows paint rectangles","parameters":[{"name":"result","description":"True for showing paint rectangles","type":"boolean"}]},{"name":"setShowLayoutShiftRegions","description":"Requests that backend shows layout shift regions","parameters":[{"name":"result","description":"True for showing layout shift regions","type":"boolean"}]},{"name":"setShowScrollBottleneckRects","description":"Requests that backend shows scroll bottleneck rects","parameters":[{"name":"show","description":"True for showing scroll bottleneck rects","type":"boolean"}]},{"name":"setShowHitTestBorders","description":"Requests that backend shows hit-test borders on layers","parameters":[{"name":"show","description":"True for showing hit-test borders","type":"boolean"}]},{"name":"setShowViewportSizeOnResize","description":"Paints viewport size upon main frame resize.","parameters":[{"name":"show","description":"Whether to paint size or not.","type":"boolean"}]}],"events":[{"name":"inspectNodeRequested","description":"Fired when the node should be inspected. This happens after call to `setInspectMode` or when\\nuser manually inspects an element.","parameters":[{"name":"backendNodeId","description":"Id of the node to inspect.","$ref":"DOM.BackendNodeId"}]},{"name":"nodeHighlightRequested","description":"Fired when the node should be highlighted. This happens after call to `setInspectMode`.","parameters":[{"name":"nodeId","$ref":"DOM.NodeId"}]},{"name":"screenshotRequested","description":"Fired when user asks to capture screenshot of some area on the page.","parameters":[{"name":"viewport","description":"Viewport to capture, in device independent pixels (dip).","$ref":"Page.Viewport"}]},{"name":"inspectModeCanceled","description":"Fired when user cancels the inspect mode."}]},{"domain":"Page","description":"Actions and events related to the inspected page belong to the page domain.","dependencies":["Debugger","DOM","IO","Network","Runtime"],"types":[{"id":"FrameId","description":"Unique frame identifier.","type":"string"},{"id":"Frame","description":"Information about the Frame on the page.","type":"object","properties":[{"name":"id","description":"Frame unique identifier.","type":"string"},{"name":"parentId","description":"Parent frame identifier.","optional":true,"type":"string"},{"name":"loaderId","description":"Identifier of the loader associated with this frame.","$ref":"Network.LoaderId"},{"name":"name","description":"Frame\'s name as specified in the tag.","optional":true,"type":"string"},{"name":"url","description":"Frame document\'s URL without fragment.","type":"string"},{"name":"urlFragment","description":"Frame document\'s URL fragment including the \'#\'.","experimental":true,"optional":true,"type":"string"},{"name":"securityOrigin","description":"Frame document\'s security origin.","type":"string"},{"name":"mimeType","description":"Frame document\'s mimeType as determined by the browser.","type":"string"},{"name":"unreachableUrl","description":"If the frame failed to load, this contains the URL that could not be loaded. Note that unlike url above, this URL may contain a fragment.","experimental":true,"optional":true,"type":"string"}]},{"id":"FrameResource","description":"Information about the Resource on the page.","experimental":true,"type":"object","properties":[{"name":"url","description":"Resource URL.","type":"string"},{"name":"type","description":"Type of this resource.","$ref":"Network.ResourceType"},{"name":"mimeType","description":"Resource mimeType as determined by the browser.","type":"string"},{"name":"lastModified","description":"last-modified timestamp as reported by server.","optional":true,"$ref":"Network.TimeSinceEpoch"},{"name":"contentSize","description":"Resource content size.","optional":true,"type":"number"},{"name":"failed","description":"True if the resource failed to load.","optional":true,"type":"boolean"},{"name":"canceled","description":"True if the resource was canceled during loading.","optional":true,"type":"boolean"}]},{"id":"FrameResourceTree","description":"Information about the Frame hierarchy along with their cached resources.","experimental":true,"type":"object","properties":[{"name":"frame","description":"Frame information for this tree item.","$ref":"Frame"},{"name":"childFrames","description":"Child frames.","optional":true,"type":"array","items":{"$ref":"FrameResourceTree"}},{"name":"resources","description":"Information about frame resources.","type":"array","items":{"$ref":"FrameResource"}}]},{"id":"FrameTree","description":"Information about the Frame hierarchy.","type":"object","properties":[{"name":"frame","description":"Frame information for this tree item.","$ref":"Frame"},{"name":"childFrames","description":"Child frames.","optional":true,"type":"array","items":{"$ref":"FrameTree"}}]},{"id":"ScriptIdentifier","description":"Unique script identifier.","type":"string"},{"id":"TransitionType","description":"Transition type.","type":"string","enum":["link","typed","address_bar","auto_bookmark","auto_subframe","manual_subframe","generated","auto_toplevel","form_submit","reload","keyword","keyword_generated","other"]},{"id":"NavigationEntry","description":"Navigation history entry.","type":"object","properties":[{"name":"id","description":"Unique id of the navigation history entry.","type":"integer"},{"name":"url","description":"URL of the navigation history entry.","type":"string"},{"name":"userTypedURL","description":"URL that the user typed in the url bar.","type":"string"},{"name":"title","description":"Title of the navigation history entry.","type":"string"},{"name":"transitionType","description":"Transition type.","$ref":"TransitionType"}]},{"id":"ScreencastFrameMetadata","description":"Screencast frame metadata.","experimental":true,"type":"object","properties":[{"name":"offsetTop","description":"Top offset in DIP.","type":"number"},{"name":"pageScaleFactor","description":"Page scale factor.","type":"number"},{"name":"deviceWidth","description":"Device screen width in DIP.","type":"number"},{"name":"deviceHeight","description":"Device screen height in DIP.","type":"number"},{"name":"scrollOffsetX","description":"Position of horizontal scroll in CSS pixels.","type":"number"},{"name":"scrollOffsetY","description":"Position of vertical scroll in CSS pixels.","type":"number"},{"name":"timestamp","description":"Frame swap timestamp.","optional":true,"$ref":"Network.TimeSinceEpoch"}]},{"id":"DialogType","description":"Javascript dialog type.","type":"string","enum":["alert","confirm","prompt","beforeunload"]},{"id":"AppManifestError","description":"Error while paring app manifest.","type":"object","properties":[{"name":"message","description":"Error message.","type":"string"},{"name":"critical","description":"If criticial, this is a non-recoverable parse error.","type":"integer"},{"name":"line","description":"Error line.","type":"integer"},{"name":"column","description":"Error column.","type":"integer"}]},{"id":"LayoutViewport","description":"Layout viewport position and dimensions.","type":"object","properties":[{"name":"pageX","description":"Horizontal offset relative to the document (CSS pixels).","type":"integer"},{"name":"pageY","description":"Vertical offset relative to the document (CSS pixels).","type":"integer"},{"name":"clientWidth","description":"Width (CSS pixels), excludes scrollbar if present.","type":"integer"},{"name":"clientHeight","description":"Height (CSS pixels), excludes scrollbar if present.","type":"integer"}]},{"id":"VisualViewport","description":"Visual viewport position, dimensions, and scale.","type":"object","properties":[{"name":"offsetX","description":"Horizontal offset relative to the layout viewport (CSS pixels).","type":"number"},{"name":"offsetY","description":"Vertical offset relative to the layout viewport (CSS pixels).","type":"number"},{"name":"pageX","description":"Horizontal offset relative to the document (CSS pixels).","type":"number"},{"name":"pageY","description":"Vertical offset relative to the document (CSS pixels).","type":"number"},{"name":"clientWidth","description":"Width (CSS pixels), excludes scrollbar if present.","type":"number"},{"name":"clientHeight","description":"Height (CSS pixels), excludes scrollbar if present.","type":"number"},{"name":"scale","description":"Scale relative to the ideal viewport (size at width=device-width).","type":"number"},{"name":"zoom","description":"Page zoom factor (CSS to device independent pixels ratio).","optional":true,"type":"number"}]},{"id":"Viewport","description":"Viewport for capturing screenshot.","type":"object","properties":[{"name":"x","description":"X offset in device independent pixels (dip).","type":"number"},{"name":"y","description":"Y offset in device independent pixels (dip).","type":"number"},{"name":"width","description":"Rectangle width in device independent pixels (dip).","type":"number"},{"name":"height","description":"Rectangle height in device independent pixels (dip).","type":"number"},{"name":"scale","description":"Page scale factor.","type":"number"}]},{"id":"FontFamilies","description":"Generic font families collection.","experimental":true,"type":"object","properties":[{"name":"standard","description":"The standard font-family.","optional":true,"type":"string"},{"name":"fixed","description":"The fixed font-family.","optional":true,"type":"string"},{"name":"serif","description":"The serif font-family.","optional":true,"type":"string"},{"name":"sansSerif","description":"The sansSerif font-family.","optional":true,"type":"string"},{"name":"cursive","description":"The cursive font-family.","optional":true,"type":"string"},{"name":"fantasy","description":"The fantasy font-family.","optional":true,"type":"string"},{"name":"pictograph","description":"The pictograph font-family.","optional":true,"type":"string"}]},{"id":"FontSizes","description":"Default font sizes.","experimental":true,"type":"object","properties":[{"name":"standard","description":"Default standard font size.","optional":true,"type":"integer"},{"name":"fixed","description":"Default fixed font size.","optional":true,"type":"integer"}]},{"id":"ClientNavigationReason","experimental":true,"type":"string","enum":["formSubmissionGet","formSubmissionPost","httpHeaderRefresh","scriptInitiated","metaTagRefresh","pageBlockInterstitial","reload"]}],"commands":[{"name":"addScriptToEvaluateOnLoad","description":"Deprecated, please use addScriptToEvaluateOnNewDocument instead.","experimental":true,"deprecated":true,"parameters":[{"name":"scriptSource","type":"string"}],"returns":[{"name":"identifier","description":"Identifier of the added script.","$ref":"ScriptIdentifier"}]},{"name":"addScriptToEvaluateOnNewDocument","description":"Evaluates given script in every frame upon creation (before loading frame\'s scripts).","parameters":[{"name":"source","type":"string"},{"name":"worldName","description":"If specified, creates an isolated world with the given name and evaluates given script in it.\\nThis world name will be used as the ExecutionContextDescription::name when the corresponding\\nevent is emitted.","experimental":true,"optional":true,"type":"string"}],"returns":[{"name":"identifier","description":"Identifier of the added script.","$ref":"ScriptIdentifier"}]},{"name":"bringToFront","description":"Brings page to front (activates tab)."},{"name":"captureScreenshot","description":"Capture page screenshot.","parameters":[{"name":"format","description":"Image compression format (defaults to png).","optional":true,"type":"string","enum":["jpeg","png"]},{"name":"quality","description":"Compression quality from range [0..100] (jpeg only).","optional":true,"type":"integer"},{"name":"clip","description":"Capture the screenshot of a given region only.","optional":true,"$ref":"Viewport"},{"name":"fromSurface","description":"Capture the screenshot from the surface, rather than the view. Defaults to true.","experimental":true,"optional":true,"type":"boolean"}],"returns":[{"name":"data","description":"Base64-encoded image data.","type":"string"}]},{"name":"captureSnapshot","description":"Returns a snapshot of the page as a string. For MHTML format, the serialization includes\\niframes, shadow DOM, external resources, and element-inline styles.","experimental":true,"parameters":[{"name":"format","description":"Format (defaults to mhtml).","optional":true,"type":"string","enum":["mhtml"]}],"returns":[{"name":"data","description":"Serialized page data.","type":"string"}]},{"name":"clearDeviceMetricsOverride","description":"Clears the overriden device metrics.","experimental":true,"deprecated":true,"redirect":"Emulation"},{"name":"clearDeviceOrientationOverride","description":"Clears the overridden Device Orientation.","experimental":true,"deprecated":true,"redirect":"DeviceOrientation"},{"name":"clearGeolocationOverride","description":"Clears the overriden Geolocation Position and Error.","deprecated":true,"redirect":"Emulation"},{"name":"createIsolatedWorld","description":"Creates an isolated world for the given frame.","parameters":[{"name":"frameId","description":"Id of the frame in which the isolated world should be created.","$ref":"FrameId"},{"name":"worldName","description":"An optional name which is reported in the Execution Context.","optional":true,"type":"string"},{"name":"grantUniveralAccess","description":"Whether or not universal access should be granted to the isolated world. This is a powerful\\noption, use with caution.","optional":true,"type":"boolean"}],"returns":[{"name":"executionContextId","description":"Execution context of the isolated world.","$ref":"Runtime.ExecutionContextId"}]},{"name":"deleteCookie","description":"Deletes browser cookie with given name, domain and path.","experimental":true,"deprecated":true,"redirect":"Network","parameters":[{"name":"cookieName","description":"Name of the cookie to remove.","type":"string"},{"name":"url","description":"URL to match cooke domain and path.","type":"string"}]},{"name":"disable","description":"Disables page domain notifications."},{"name":"enable","description":"Enables page domain notifications."},{"name":"getAppManifest","returns":[{"name":"url","description":"Manifest location.","type":"string"},{"name":"errors","type":"array","items":{"$ref":"AppManifestError"}},{"name":"data","description":"Manifest content.","optional":true,"type":"string"}]},{"name":"getInstallabilityErrors","experimental":true,"returns":[{"name":"errors","type":"array","items":{"type":"string"}}]},{"name":"getCookies","description":"Returns all browser cookies. Depending on the backend support, will return detailed cookie\\ninformation in the `cookies` field.","experimental":true,"deprecated":true,"redirect":"Network","returns":[{"name":"cookies","description":"Array of cookie objects.","type":"array","items":{"$ref":"Network.Cookie"}}]},{"name":"getFrameTree","description":"Returns present frame tree structure.","returns":[{"name":"frameTree","description":"Present frame tree structure.","$ref":"FrameTree"}]},{"name":"getLayoutMetrics","description":"Returns metrics relating to the layouting of the page, such as viewport bounds/scale.","returns":[{"name":"layoutViewport","description":"Metrics relating to the layout viewport.","$ref":"LayoutViewport"},{"name":"visualViewport","description":"Metrics relating to the visual viewport.","$ref":"VisualViewport"},{"name":"contentSize","description":"Size of scrollable area.","$ref":"DOM.Rect"}]},{"name":"getNavigationHistory","description":"Returns navigation history for the current page.","returns":[{"name":"currentIndex","description":"Index of the current navigation history entry.","type":"integer"},{"name":"entries","description":"Array of navigation history entries.","type":"array","items":{"$ref":"NavigationEntry"}}]},{"name":"resetNavigationHistory","description":"Resets navigation history for the current page."},{"name":"getResourceContent","description":"Returns content of the given resource.","experimental":true,"parameters":[{"name":"frameId","description":"Frame id to get resource for.","$ref":"FrameId"},{"name":"url","description":"URL of the resource to get content for.","type":"string"}],"returns":[{"name":"content","description":"Resource content.","type":"string"},{"name":"base64Encoded","description":"True, if content was served as base64.","type":"boolean"}]},{"name":"getResourceTree","description":"Returns present frame / resource tree structure.","experimental":true,"returns":[{"name":"frameTree","description":"Present frame / resource tree structure.","$ref":"FrameResourceTree"}]},{"name":"handleJavaScriptDialog","description":"Accepts or dismisses a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload).","parameters":[{"name":"accept","description":"Whether to accept or dismiss the dialog.","type":"boolean"},{"name":"promptText","description":"The text to enter into the dialog prompt before accepting. Used only if this is a prompt\\ndialog.","optional":true,"type":"string"}]},{"name":"navigate","description":"Navigates current page to the given URL.","parameters":[{"name":"url","description":"URL to navigate the page to.","type":"string"},{"name":"referrer","description":"Referrer URL.","optional":true,"type":"string"},{"name":"transitionType","description":"Intended transition type.","optional":true,"$ref":"TransitionType"},{"name":"frameId","description":"Frame id to navigate, if not specified navigates the top frame.","optional":true,"$ref":"FrameId"}],"returns":[{"name":"frameId","description":"Frame id that has navigated (or failed to navigate)","$ref":"FrameId"},{"name":"loaderId","description":"Loader identifier.","optional":true,"$ref":"Network.LoaderId"},{"name":"errorText","description":"User friendly error message, present if and only if navigation has failed.","optional":true,"type":"string"}]},{"name":"navigateToHistoryEntry","description":"Navigates current page to the given history entry.","parameters":[{"name":"entryId","description":"Unique id of the entry to navigate to.","type":"integer"}]},{"name":"printToPDF","description":"Print page as PDF.","parameters":[{"name":"landscape","description":"Paper orientation. Defaults to false.","optional":true,"type":"boolean"},{"name":"displayHeaderFooter","description":"Display header and footer. Defaults to false.","optional":true,"type":"boolean"},{"name":"printBackground","description":"Print background graphics. Defaults to false.","optional":true,"type":"boolean"},{"name":"scale","description":"Scale of the webpage rendering. Defaults to 1.","optional":true,"type":"number"},{"name":"paperWidth","description":"Paper width in inches. Defaults to 8.5 inches.","optional":true,"type":"number"},{"name":"paperHeight","description":"Paper height in inches. Defaults to 11 inches.","optional":true,"type":"number"},{"name":"marginTop","description":"Top margin in inches. Defaults to 1cm (~0.4 inches).","optional":true,"type":"number"},{"name":"marginBottom","description":"Bottom margin in inches. Defaults to 1cm (~0.4 inches).","optional":true,"type":"number"},{"name":"marginLeft","description":"Left margin in inches. Defaults to 1cm (~0.4 inches).","optional":true,"type":"number"},{"name":"marginRight","description":"Right margin in inches. Defaults to 1cm (~0.4 inches).","optional":true,"type":"number"},{"name":"pageRanges","description":"Paper ranges to print, e.g., \'1-5, 8, 11-13\'. Defaults to the empty string, which means\\nprint all pages.","optional":true,"type":"string"},{"name":"ignoreInvalidPageRanges","description":"Whether to silently ignore invalid but successfully parsed page ranges, such as \'3-2\'.\\nDefaults to false.","optional":true,"type":"boolean"},{"name":"headerTemplate","description":"HTML template for the print header. Should be valid HTML markup with following\\nclasses used to inject printing values into them:\\n- `date`: formatted print date\\n- `title`: document title\\n- `url`: document location\\n- `pageNumber`: current page number\\n- `totalPages`: total pages in the document\\n\\nFor example, `<span class=title></span>` would generate span containing the title.","optional":true,"type":"string"},{"name":"footerTemplate","description":"HTML template for the print footer. Should use the same format as the `headerTemplate`.","optional":true,"type":"string"},{"name":"preferCSSPageSize","description":"Whether or not to prefer page size as defined by css. Defaults to false,\\nin which case the content will be scaled to fit the paper size.","optional":true,"type":"boolean"},{"name":"transferMode","description":"return as stream","experimental":true,"optional":true,"type":"string","enum":["ReturnAsBase64","ReturnAsStream"]}],"returns":[{"name":"data","description":"Base64-encoded pdf data. Empty if |returnAsStream| is specified.","type":"string"},{"name":"stream","description":"A handle of the stream that holds resulting PDF data.","experimental":true,"optional":true,"$ref":"IO.StreamHandle"}]},{"name":"reload","description":"Reloads given page optionally ignoring the cache.","parameters":[{"name":"ignoreCache","description":"If true, browser cache is ignored (as if the user pressed Shift+refresh).","optional":true,"type":"boolean"},{"name":"scriptToEvaluateOnLoad","description":"If set, the script will be injected into all frames of the inspected page after reload.\\nArgument will be ignored if reloading dataURL origin.","optional":true,"type":"string"}]},{"name":"removeScriptToEvaluateOnLoad","description":"Deprecated, please use removeScriptToEvaluateOnNewDocument instead.","experimental":true,"deprecated":true,"parameters":[{"name":"identifier","$ref":"ScriptIdentifier"}]},{"name":"removeScriptToEvaluateOnNewDocument","description":"Removes given script from the list.","parameters":[{"name":"identifier","$ref":"ScriptIdentifier"}]},{"name":"screencastFrameAck","description":"Acknowledges that a screencast frame has been received by the frontend.","experimental":true,"parameters":[{"name":"sessionId","description":"Frame number.","type":"integer"}]},{"name":"searchInResource","description":"Searches for given string in resource content.","experimental":true,"parameters":[{"name":"frameId","description":"Frame id for resource to search in.","$ref":"FrameId"},{"name":"url","description":"URL of the resource to search in.","type":"string"},{"name":"query","description":"String to search for.","type":"string"},{"name":"caseSensitive","description":"If true, search is case sensitive.","optional":true,"type":"boolean"},{"name":"isRegex","description":"If true, treats string parameter as regex.","optional":true,"type":"boolean"}],"returns":[{"name":"result","description":"List of search matches.","type":"array","items":{"$ref":"Debugger.SearchMatch"}}]},{"name":"setAdBlockingEnabled","description":"Enable Chrome\'s experimental ad filter on all sites.","experimental":true,"parameters":[{"name":"enabled","description":"Whether to block ads.","type":"boolean"}]},{"name":"setBypassCSP","description":"Enable page Content Security Policy by-passing.","experimental":true,"parameters":[{"name":"enabled","description":"Whether to bypass page CSP.","type":"boolean"}]},{"name":"setDeviceMetricsOverride","description":"Overrides the values of device screen dimensions (window.screen.width, window.screen.height,\\nwindow.innerWidth, window.innerHeight, and \\"device-width\\"/\\"device-height\\"-related CSS media\\nquery results).","experimental":true,"deprecated":true,"redirect":"Emulation","parameters":[{"name":"width","description":"Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.","type":"integer"},{"name":"height","description":"Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.","type":"integer"},{"name":"deviceScaleFactor","description":"Overriding device scale factor value. 0 disables the override.","type":"number"},{"name":"mobile","description":"Whether to emulate mobile device. This includes viewport meta tag, overlay scrollbars, text\\nautosizing and more.","type":"boolean"},{"name":"scale","description":"Scale to apply to resulting view image.","optional":true,"type":"number"},{"name":"screenWidth","description":"Overriding screen width value in pixels (minimum 0, maximum 10000000).","optional":true,"type":"integer"},{"name":"screenHeight","description":"Overriding screen height value in pixels (minimum 0, maximum 10000000).","optional":true,"type":"integer"},{"name":"positionX","description":"Overriding view X position on screen in pixels (minimum 0, maximum 10000000).","optional":true,"type":"integer"},{"name":"positionY","description":"Overriding view Y position on screen in pixels (minimum 0, maximum 10000000).","optional":true,"type":"integer"},{"name":"dontSetVisibleSize","description":"Do not set visible view size, rely upon explicit setVisibleSize call.","optional":true,"type":"boolean"},{"name":"screenOrientation","description":"Screen orientation override.","optional":true,"$ref":"Emulation.ScreenOrientation"},{"name":"viewport","description":"The viewport dimensions and scale. If not set, the override is cleared.","optional":true,"$ref":"Viewport"}]},{"name":"setDeviceOrientationOverride","description":"Overrides the Device Orientation.","experimental":true,"deprecated":true,"redirect":"DeviceOrientation","parameters":[{"name":"alpha","description":"Mock alpha","type":"number"},{"name":"beta","description":"Mock beta","type":"number"},{"name":"gamma","description":"Mock gamma","type":"number"}]},{"name":"setFontFamilies","description":"Set generic font families.","experimental":true,"parameters":[{"name":"fontFamilies","description":"Specifies font families to set. If a font family is not specified, it won\'t be changed.","$ref":"FontFamilies"}]},{"name":"setFontSizes","description":"Set default font sizes.","experimental":true,"parameters":[{"name":"fontSizes","description":"Specifies font sizes to set. If a font size is not specified, it won\'t be changed.","$ref":"FontSizes"}]},{"name":"setDocumentContent","description":"Sets given markup as the document\'s HTML.","parameters":[{"name":"frameId","description":"Frame id to set HTML for.","$ref":"FrameId"},{"name":"html","description":"HTML content to set.","type":"string"}]},{"name":"setDownloadBehavior","description":"Set the behavior when downloading a file.","experimental":true,"parameters":[{"name":"behavior","description":"Whether to allow all or deny all download requests, or use default Chrome behavior if\\navailable (otherwise deny).","type":"string","enum":["deny","allow","default"]},{"name":"downloadPath","description":"The default path to save downloaded files to. This is requred if behavior is set to \'allow\'","optional":true,"type":"string"}]},{"name":"setGeolocationOverride","description":"Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position\\nunavailable.","deprecated":true,"redirect":"Emulation","parameters":[{"name":"latitude","description":"Mock latitude","optional":true,"type":"number"},{"name":"longitude","description":"Mock longitude","optional":true,"type":"number"},{"name":"accuracy","description":"Mock accuracy","optional":true,"type":"number"}]},{"name":"setLifecycleEventsEnabled","description":"Controls whether page will emit lifecycle events.","experimental":true,"parameters":[{"name":"enabled","description":"If true, starts emitting lifecycle events.","type":"boolean"}]},{"name":"setTouchEmulationEnabled","description":"Toggles mouse event-based touch event emulation.","experimental":true,"deprecated":true,"redirect":"Emulation","parameters":[{"name":"enabled","description":"Whether the touch event emulation should be enabled.","type":"boolean"},{"name":"configuration","description":"Touch/gesture events configuration. Default: current platform.","optional":true,"type":"string","enum":["mobile","desktop"]}]},{"name":"startScreencast","description":"Starts sending each frame using the `screencastFrame` event.","experimental":true,"parameters":[{"name":"format","description":"Image compression format.","optional":true,"type":"string","enum":["jpeg","png"]},{"name":"quality","description":"Compression quality from range [0..100].","optional":true,"type":"integer"},{"name":"maxWidth","description":"Maximum screenshot width.","optional":true,"type":"integer"},{"name":"maxHeight","description":"Maximum screenshot height.","optional":true,"type":"integer"},{"name":"everyNthFrame","description":"Send every n-th frame.","optional":true,"type":"integer"}]},{"name":"stopLoading","description":"Force the page stop all navigations and pending resource fetches."},{"name":"crash","description":"Crashes renderer on the IO thread, generates minidumps.","experimental":true},{"name":"close","description":"Tries to close page, running its beforeunload hooks, if any.","experimental":true},{"name":"setWebLifecycleState","description":"Tries to update the web lifecycle state of the page.\\nIt will transition the page to the given state according to:\\nhttps://github.com/WICG/web-lifecycle/","experimental":true,"parameters":[{"name":"state","description":"Target lifecycle state","type":"string","enum":["frozen","active"]}]},{"name":"stopScreencast","description":"Stops sending each frame in the `screencastFrame`.","experimental":true},{"name":"setProduceCompilationCache","description":"Forces compilation cache to be generated for every subresource script.","experimental":true,"parameters":[{"name":"enabled","type":"boolean"}]},{"name":"addCompilationCache","description":"Seeds compilation cache for given url. Compilation cache does not survive\\ncross-process navigation.","experimental":true,"parameters":[{"name":"url","type":"string"},{"name":"data","description":"Base64-encoded data","type":"string"}]},{"name":"clearCompilationCache","description":"Clears seeded compilation cache.","experimental":true},{"name":"generateTestReport","description":"Generates a report for testing.","experimental":true,"parameters":[{"name":"message","description":"Message to be displayed in the report.","type":"string"},{"name":"group","description":"Specifies the endpoint group to deliver the report to.","optional":true,"type":"string"}]},{"name":"waitForDebugger","description":"Pauses page execution. Can be resumed using generic Runtime.runIfWaitingForDebugger.","experimental":true},{"name":"setInterceptFileChooserDialog","description":"Intercept file chooser requests and transfer control to protocol clients.\\nWhen file chooser interception is enabled, native file chooser dialog is not shown.\\nInstead, a protocol event `Page.fileChooserOpened` is emitted.\\nFile chooser can be handled with `page.handleFileChooser` command.","experimental":true,"parameters":[{"name":"enabled","type":"boolean"}]},{"name":"handleFileChooser","description":"Accepts or cancels an intercepted file chooser dialog.","experimental":true,"parameters":[{"name":"action","type":"string","enum":["accept","cancel","fallback"]},{"name":"files","description":"Array of absolute file paths to set, only respected with `accept` action.","optional":true,"type":"array","items":{"type":"string"}}]}],"events":[{"name":"domContentEventFired","parameters":[{"name":"timestamp","$ref":"Network.MonotonicTime"}]},{"name":"fileChooserOpened","description":"Emitted only when `page.interceptFileChooser` is enabled.","parameters":[{"name":"mode","type":"string","enum":["selectSingle","selectMultiple"]}]},{"name":"frameAttached","description":"Fired when frame has been attached to its parent.","parameters":[{"name":"frameId","description":"Id of the frame that has been attached.","$ref":"FrameId"},{"name":"parentFrameId","description":"Parent frame identifier.","$ref":"FrameId"},{"name":"stack","description":"JavaScript stack trace of when frame was attached, only set if frame initiated from script.","optional":true,"$ref":"Runtime.StackTrace"}]},{"name":"frameClearedScheduledNavigation","description":"Fired when frame no longer has a scheduled navigation.","deprecated":true,"parameters":[{"name":"frameId","description":"Id of the frame that has cleared its scheduled navigation.","$ref":"FrameId"}]},{"name":"frameDetached","description":"Fired when frame has been detached from its parent.","parameters":[{"name":"frameId","description":"Id of the frame that has been detached.","$ref":"FrameId"}]},{"name":"frameNavigated","description":"Fired once navigation of the frame has completed. Frame is now associated with the new loader.","parameters":[{"name":"frame","description":"Frame object.","$ref":"Frame"}]},{"name":"frameResized","experimental":true},{"name":"frameRequestedNavigation","description":"Fired when a renderer-initiated navigation is requested.\\nNavigation may still be cancelled after the event is issued.","experimental":true,"parameters":[{"name":"frameId","description":"Id of the frame that is being navigated.","$ref":"FrameId"},{"name":"reason","description":"The reason for the navigation.","$ref":"ClientNavigationReason"},{"name":"url","description":"The destination URL for the requested navigation.","type":"string"}]},{"name":"frameScheduledNavigation","description":"Fired when frame schedules a potential navigation.","deprecated":true,"parameters":[{"name":"frameId","description":"Id of the frame that has scheduled a navigation.","$ref":"FrameId"},{"name":"delay","description":"Delay (in seconds) until the navigation is scheduled to begin. The navigation is not\\nguaranteed to start.","type":"number"},{"name":"reason","description":"The reason for the navigation.","type":"string","enum":["formSubmissionGet","formSubmissionPost","httpHeaderRefresh","scriptInitiated","metaTagRefresh","pageBlockInterstitial","reload"]},{"name":"url","description":"The destination URL for the scheduled navigation.","type":"string"}]},{"name":"frameStartedLoading","description":"Fired when frame has started loading.","experimental":true,"parameters":[{"name":"frameId","description":"Id of the frame that has started loading.","$ref":"FrameId"}]},{"name":"frameStoppedLoading","description":"Fired when frame has stopped loading.","experimental":true,"parameters":[{"name":"frameId","description":"Id of the frame that has stopped loading.","$ref":"FrameId"}]},{"name":"downloadWillBegin","description":"Fired when page is about to start a download.","experimental":true,"parameters":[{"name":"frameId","description":"Id of the frame that caused download to begin.","$ref":"FrameId"},{"name":"url","description":"URL of the resource being downloaded.","type":"string"}]},{"name":"interstitialHidden","description":"Fired when interstitial page was hidden"},{"name":"interstitialShown","description":"Fired when interstitial page was shown"},{"name":"javascriptDialogClosed","description":"Fired when a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload) has been\\nclosed.","parameters":[{"name":"result","description":"Whether dialog was confirmed.","type":"boolean"},{"name":"userInput","description":"User input in case of prompt.","type":"string"}]},{"name":"javascriptDialogOpening","description":"Fired when a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload) is about to\\nopen.","parameters":[{"name":"url","description":"Frame url.","type":"string"},{"name":"message","description":"Message that will be displayed by the dialog.","type":"string"},{"name":"type","description":"Dialog type.","$ref":"DialogType"},{"name":"hasBrowserHandler","description":"True iff browser is capable showing or acting on the given dialog. When browser has no\\ndialog handler for given target, calling alert while Page domain is engaged will stall\\nthe page execution. Execution can be resumed via calling Page.handleJavaScriptDialog.","type":"boolean"},{"name":"defaultPrompt","description":"Default dialog prompt.","optional":true,"type":"string"}]},{"name":"lifecycleEvent","description":"Fired for top level page lifecycle events such as navigation, load, paint, etc.","parameters":[{"name":"frameId","description":"Id of the frame.","$ref":"FrameId"},{"name":"loaderId","description":"Loader identifier. Empty string if the request is fetched from worker.","$ref":"Network.LoaderId"},{"name":"name","type":"string"},{"name":"timestamp","$ref":"Network.MonotonicTime"}]},{"name":"loadEventFired","parameters":[{"name":"timestamp","$ref":"Network.MonotonicTime"}]},{"name":"navigatedWithinDocument","description":"Fired when same-document navigation happens, e.g. due to history API usage or anchor navigation.","experimental":true,"parameters":[{"name":"frameId","description":"Id of the frame.","$ref":"FrameId"},{"name":"url","description":"Frame\'s new url.","type":"string"}]},{"name":"screencastFrame","description":"Compressed image data requested by the `startScreencast`.","experimental":true,"parameters":[{"name":"data","description":"Base64-encoded compressed image.","type":"string"},{"name":"metadata","description":"Screencast frame metadata.","$ref":"ScreencastFrameMetadata"},{"name":"sessionId","description":"Frame number.","type":"integer"}]},{"name":"screencastVisibilityChanged","description":"Fired when the page with currently enabled screencast was shown or hidden `.","experimental":true,"parameters":[{"name":"visible","description":"True if the page is visible.","type":"boolean"}]},{"name":"windowOpen","description":"Fired when a new window is going to be opened, via window.open(), link click, form submission,\\netc.","parameters":[{"name":"url","description":"The URL for the new window.","type":"string"},{"name":"windowName","description":"Window name.","type":"string"},{"name":"windowFeatures","description":"An array of enabled window features.","type":"array","items":{"type":"string"}},{"name":"userGesture","description":"Whether or not it was triggered by user gesture.","type":"boolean"}]},{"name":"compilationCacheProduced","description":"Issued for every compilation cache generated. Is only available\\nif Page.setGenerateCompilationCache is enabled.","experimental":true,"parameters":[{"name":"url","type":"string"},{"name":"data","description":"Base64-encoded data","type":"string"}]}]},{"domain":"Performance","types":[{"id":"Metric","description":"Run-time execution metric.","type":"object","properties":[{"name":"name","description":"Metric name.","type":"string"},{"name":"value","description":"Metric value.","type":"number"}]}],"commands":[{"name":"disable","description":"Disable collecting and reporting metrics."},{"name":"enable","description":"Enable collecting and reporting metrics."},{"name":"setTimeDomain","description":"Sets time domain to use for collecting and reporting duration metrics.\\nNote that this must be called before enabling metrics collection. Calling\\nthis method while metrics collection is enabled returns an error.","experimental":true,"parameters":[{"name":"timeDomain","description":"Time domain","type":"string","enum":["timeTicks","threadTicks"]}]},{"name":"getMetrics","description":"Retrieve current values of run-time metrics.","returns":[{"name":"metrics","description":"Current values for run-time metrics.","type":"array","items":{"$ref":"Metric"}}]}],"events":[{"name":"metrics","description":"Current values of the metrics.","parameters":[{"name":"metrics","description":"Current values of the metrics.","type":"array","items":{"$ref":"Metric"}},{"name":"title","description":"Timestamp title.","type":"string"}]}]},{"domain":"Security","description":"Security","types":[{"id":"CertificateId","description":"An internal certificate ID value.","type":"integer"},{"id":"MixedContentType","description":"A description of mixed content (HTTP resources on HTTPS pages), as defined by\\nhttps://www.w3.org/TR/mixed-content/#categories","type":"string","enum":["blockable","optionally-blockable","none"]},{"id":"SecurityState","description":"The security level of a page or resource.","type":"string","enum":["unknown","neutral","insecure","secure","info"]},{"id":"SecurityStateExplanation","description":"An explanation of an factor contributing to the security state.","type":"object","properties":[{"name":"securityState","description":"Security state representing the severity of the factor being explained.","$ref":"SecurityState"},{"name":"title","description":"Title describing the type of factor.","type":"string"},{"name":"summary","description":"Short phrase describing the type of factor.","type":"string"},{"name":"description","description":"Full text explanation of the factor.","type":"string"},{"name":"mixedContentType","description":"The type of mixed content described by the explanation.","$ref":"MixedContentType"},{"name":"certificate","description":"Page certificate.","type":"array","items":{"type":"string"}},{"name":"recommendations","description":"Recommendations to fix any issues.","optional":true,"type":"array","items":{"type":"string"}}]},{"id":"InsecureContentStatus","description":"Information about insecure content on the page.","deprecated":true,"type":"object","properties":[{"name":"ranMixedContent","description":"Always false.","type":"boolean"},{"name":"displayedMixedContent","description":"Always false.","type":"boolean"},{"name":"containedMixedForm","description":"Always false.","type":"boolean"},{"name":"ranContentWithCertErrors","description":"Always false.","type":"boolean"},{"name":"displayedContentWithCertErrors","description":"Always false.","type":"boolean"},{"name":"ranInsecureContentStyle","description":"Always set to unknown.","$ref":"SecurityState"},{"name":"displayedInsecureContentStyle","description":"Always set to unknown.","$ref":"SecurityState"}]},{"id":"CertificateErrorAction","description":"The action to take when a certificate error occurs. continue will continue processing the\\nrequest and cancel will cancel the request.","type":"string","enum":["continue","cancel"]}],"commands":[{"name":"disable","description":"Disables tracking security state changes."},{"name":"enable","description":"Enables tracking security state changes."},{"name":"setIgnoreCertificateErrors","description":"Enable/disable whether all certificate errors should be ignored.","experimental":true,"parameters":[{"name":"ignore","description":"If true, all certificate errors will be ignored.","type":"boolean"}]},{"name":"handleCertificateError","description":"Handles a certificate error that fired a certificateError event.","deprecated":true,"parameters":[{"name":"eventId","description":"The ID of the event.","type":"integer"},{"name":"action","description":"The action to take on the certificate error.","$ref":"CertificateErrorAction"}]},{"name":"setOverrideCertificateErrors","description":"Enable/disable overriding certificate errors. If enabled, all certificate error events need to\\nbe handled by the DevTools client and should be answered with `handleCertificateError` commands.","deprecated":true,"parameters":[{"name":"override","description":"If true, certificate errors will be overridden.","type":"boolean"}]}],"events":[{"name":"certificateError","description":"There is a certificate error. If overriding certificate errors is enabled, then it should be\\nhandled with the `handleCertificateError` command. Note: this event does not fire if the\\ncertificate error has been allowed internally. Only one client per target should override\\ncertificate errors at the same time.","deprecated":true,"parameters":[{"name":"eventId","description":"The ID of the event.","type":"integer"},{"name":"errorType","description":"The type of the error.","type":"string"},{"name":"requestURL","description":"The url that was requested.","type":"string"}]},{"name":"securityStateChanged","description":"The security state of the page changed.","parameters":[{"name":"securityState","description":"Security state.","$ref":"SecurityState"},{"name":"schemeIsCryptographic","description":"True if the page was loaded over cryptographic transport such as HTTPS.","deprecated":true,"type":"boolean"},{"name":"explanations","description":"List of explanations for the security state. If the overall security state is `insecure` or\\n`warning`, at least one corresponding explanation should be included.","type":"array","items":{"$ref":"SecurityStateExplanation"}},{"name":"insecureContentStatus","description":"Information about insecure content on the page.","deprecated":true,"$ref":"InsecureContentStatus"},{"name":"summary","description":"Overrides user-visible description of the state.","optional":true,"type":"string"}]}]},{"domain":"ServiceWorker","experimental":true,"types":[{"id":"RegistrationID","type":"string"},{"id":"ServiceWorkerRegistration","description":"ServiceWorker registration.","type":"object","properties":[{"name":"registrationId","$ref":"RegistrationID"},{"name":"scopeURL","type":"string"},{"name":"isDeleted","type":"boolean"}]},{"id":"ServiceWorkerVersionRunningStatus","type":"string","enum":["stopped","starting","running","stopping"]},{"id":"ServiceWorkerVersionStatus","type":"string","enum":["new","installing","installed","activating","activated","redundant"]},{"id":"ServiceWorkerVersion","description":"ServiceWorker version.","type":"object","properties":[{"name":"versionId","type":"string"},{"name":"registrationId","$ref":"RegistrationID"},{"name":"scriptURL","type":"string"},{"name":"runningStatus","$ref":"ServiceWorkerVersionRunningStatus"},{"name":"status","$ref":"ServiceWorkerVersionStatus"},{"name":"scriptLastModified","description":"The Last-Modified header value of the main script.","optional":true,"type":"number"},{"name":"scriptResponseTime","description":"The time at which the response headers of the main script were received from the server.\\nFor cached script it is the last time the cache entry was validated.","optional":true,"type":"number"},{"name":"controlledClients","optional":true,"type":"array","items":{"$ref":"Target.TargetID"}},{"name":"targetId","optional":true,"$ref":"Target.TargetID"}]},{"id":"ServiceWorkerErrorMessage","description":"ServiceWorker error message.","type":"object","properties":[{"name":"errorMessage","type":"string"},{"name":"registrationId","$ref":"RegistrationID"},{"name":"versionId","type":"string"},{"name":"sourceURL","type":"string"},{"name":"lineNumber","type":"integer"},{"name":"columnNumber","type":"integer"}]}],"commands":[{"name":"deliverPushMessage","parameters":[{"name":"origin","type":"string"},{"name":"registrationId","$ref":"RegistrationID"},{"name":"data","type":"string"}]},{"name":"disable"},{"name":"dispatchSyncEvent","parameters":[{"name":"origin","type":"string"},{"name":"registrationId","$ref":"RegistrationID"},{"name":"tag","type":"string"},{"name":"lastChance","type":"boolean"}]},{"name":"enable"},{"name":"inspectWorker","parameters":[{"name":"versionId","type":"string"}]},{"name":"setForceUpdateOnPageLoad","parameters":[{"name":"forceUpdateOnPageLoad","type":"boolean"}]},{"name":"skipWaiting","parameters":[{"name":"scopeURL","type":"string"}]},{"name":"startWorker","parameters":[{"name":"scopeURL","type":"string"}]},{"name":"stopAllWorkers"},{"name":"stopWorker","parameters":[{"name":"versionId","type":"string"}]},{"name":"unregister","parameters":[{"name":"scopeURL","type":"string"}]},{"name":"updateRegistration","parameters":[{"name":"scopeURL","type":"string"}]}],"events":[{"name":"workerErrorReported","parameters":[{"name":"errorMessage","$ref":"ServiceWorkerErrorMessage"}]},{"name":"workerRegistrationUpdated","parameters":[{"name":"registrations","type":"array","items":{"$ref":"ServiceWorkerRegistration"}}]},{"name":"workerVersionUpdated","parameters":[{"name":"versions","type":"array","items":{"$ref":"ServiceWorkerVersion"}}]}]},{"domain":"Storage","experimental":true,"types":[{"id":"StorageType","description":"Enum of possible storage types.","type":"string","enum":["appcache","cookies","file_systems","indexeddb","local_storage","shader_cache","websql","service_workers","cache_storage","all","other"]},{"id":"UsageForType","description":"Usage for a storage type.","type":"object","properties":[{"name":"storageType","description":"Name of storage type.","$ref":"StorageType"},{"name":"usage","description":"Storage usage (bytes).","type":"number"}]}],"commands":[{"name":"clearDataForOrigin","description":"Clears storage for origin.","parameters":[{"name":"origin","description":"Security origin.","type":"string"},{"name":"storageTypes","description":"Comma separated list of StorageType to clear.","type":"string"}]},{"name":"getUsageAndQuota","description":"Returns usage and quota in bytes.","parameters":[{"name":"origin","description":"Security origin.","type":"string"}],"returns":[{"name":"usage","description":"Storage usage (bytes).","type":"number"},{"name":"quota","description":"Storage quota (bytes).","type":"number"},{"name":"usageBreakdown","description":"Storage usage per type (bytes).","type":"array","items":{"$ref":"UsageForType"}}]},{"name":"trackCacheStorageForOrigin","description":"Registers origin to be notified when an update occurs to its cache storage list.","parameters":[{"name":"origin","description":"Security origin.","type":"string"}]},{"name":"trackIndexedDBForOrigin","description":"Registers origin to be notified when an update occurs to its IndexedDB.","parameters":[{"name":"origin","description":"Security origin.","type":"string"}]},{"name":"untrackCacheStorageForOrigin","description":"Unregisters origin from receiving notifications for cache storage.","parameters":[{"name":"origin","description":"Security origin.","type":"string"}]},{"name":"untrackIndexedDBForOrigin","description":"Unregisters origin from receiving notifications for IndexedDB.","parameters":[{"name":"origin","description":"Security origin.","type":"string"}]}],"events":[{"name":"cacheStorageContentUpdated","description":"A cache\'s contents have been modified.","parameters":[{"name":"origin","description":"Origin to update.","type":"string"},{"name":"cacheName","description":"Name of cache in origin.","type":"string"}]},{"name":"cacheStorageListUpdated","description":"A cache has been added/deleted.","parameters":[{"name":"origin","description":"Origin to update.","type":"string"}]},{"name":"indexedDBContentUpdated","description":"The origin\'s IndexedDB object store has been modified.","parameters":[{"name":"origin","description":"Origin to update.","type":"string"},{"name":"databaseName","description":"Database to update.","type":"string"},{"name":"objectStoreName","description":"ObjectStore to update.","type":"string"}]},{"name":"indexedDBListUpdated","description":"The origin\'s IndexedDB database list has been modified.","parameters":[{"name":"origin","description":"Origin to update.","type":"string"}]}]},{"domain":"SystemInfo","description":"The SystemInfo domain defines methods and events for querying low-level system information.","experimental":true,"types":[{"id":"GPUDevice","description":"Describes a single graphics processor (GPU).","type":"object","properties":[{"name":"vendorId","description":"PCI ID of the GPU vendor, if available; 0 otherwise.","type":"number"},{"name":"deviceId","description":"PCI ID of the GPU device, if available; 0 otherwise.","type":"number"},{"name":"vendorString","description":"String description of the GPU vendor, if the PCI ID is not available.","type":"string"},{"name":"deviceString","description":"String description of the GPU device, if the PCI ID is not available.","type":"string"},{"name":"driverVendor","description":"String description of the GPU driver vendor.","type":"string"},{"name":"driverVersion","description":"String description of the GPU driver version.","type":"string"}]},{"id":"Size","description":"Describes the width and height dimensions of an entity.","type":"object","properties":[{"name":"width","description":"Width in pixels.","type":"integer"},{"name":"height","description":"Height in pixels.","type":"integer"}]},{"id":"VideoDecodeAcceleratorCapability","description":"Describes a supported video decoding profile with its associated minimum and\\nmaximum resolutions.","type":"object","properties":[{"name":"profile","description":"Video codec profile that is supported, e.g. VP9 Profile 2.","type":"string"},{"name":"maxResolution","description":"Maximum video dimensions in pixels supported for this |profile|.","$ref":"Size"},{"name":"minResolution","description":"Minimum video dimensions in pixels supported for this |profile|.","$ref":"Size"}]},{"id":"VideoEncodeAcceleratorCapability","description":"Describes a supported video encoding profile with its associated maximum\\nresolution and maximum framerate.","type":"object","properties":[{"name":"profile","description":"Video codec profile that is supported, e.g H264 Main.","type":"string"},{"name":"maxResolution","description":"Maximum video dimensions in pixels supported for this |profile|.","$ref":"Size"},{"name":"maxFramerateNumerator","description":"Maximum encoding framerate in frames per second supported for this\\n|profile|, as fraction\'s numerator and denominator, e.g. 24/1 fps,\\n24000/1001 fps, etc.","type":"integer"},{"name":"maxFramerateDenominator","type":"integer"}]},{"id":"SubsamplingFormat","description":"YUV subsampling type of the pixels of a given image.","type":"string","enum":["yuv420","yuv422","yuv444"]},{"id":"ImageDecodeAcceleratorCapability","description":"Describes a supported image decoding profile with its associated minimum and\\nmaximum resolutions and subsampling.","type":"object","properties":[{"name":"imageType","description":"Image coded, e.g. Jpeg.","type":"string"},{"name":"maxDimensions","description":"Maximum supported dimensions of the image in pixels.","$ref":"Size"},{"name":"minDimensions","description":"Minimum supported dimensions of the image in pixels.","$ref":"Size"},{"name":"subsamplings","description":"Optional array of supported subsampling formats, e.g. 4:2:0, if known.","type":"array","items":{"$ref":"SubsamplingFormat"}}]},{"id":"GPUInfo","description":"Provides information about the GPU(s) on the system.","type":"object","properties":[{"name":"devices","description":"The graphics devices on the system. Element 0 is the primary GPU.","type":"array","items":{"$ref":"GPUDevice"}},{"name":"auxAttributes","description":"An optional dictionary of additional GPU related attributes.","optional":true,"type":"object"},{"name":"featureStatus","description":"An optional dictionary of graphics features and their status.","optional":true,"type":"object"},{"name":"driverBugWorkarounds","description":"An optional array of GPU driver bug workarounds.","type":"array","items":{"type":"string"}},{"name":"videoDecoding","description":"Supported accelerated video decoding capabilities.","type":"array","items":{"$ref":"VideoDecodeAcceleratorCapability"}},{"name":"videoEncoding","description":"Supported accelerated video encoding capabilities.","type":"array","items":{"$ref":"VideoEncodeAcceleratorCapability"}},{"name":"imageDecoding","description":"Supported accelerated image decoding capabilities.","type":"array","items":{"$ref":"ImageDecodeAcceleratorCapability"}}]},{"id":"ProcessInfo","description":"Represents process info.","type":"object","properties":[{"name":"type","description":"Specifies process type.","type":"string"},{"name":"id","description":"Specifies process id.","type":"integer"},{"name":"cpuTime","description":"Specifies cumulative CPU usage in seconds across all threads of the\\nprocess since the process start.","type":"number"}]}],"commands":[{"name":"getInfo","description":"Returns information about the system.","returns":[{"name":"gpu","description":"Information about the GPUs on the system.","$ref":"GPUInfo"},{"name":"modelName","description":"A platform-dependent description of the model of the machine. On Mac OS, this is, for\\nexample, \'MacBookPro\'. Will be the empty string if not supported.","type":"string"},{"name":"modelVersion","description":"A platform-dependent description of the version of the machine. On Mac OS, this is, for\\nexample, \'10.1\'. Will be the empty string if not supported.","type":"string"},{"name":"commandLine","description":"The command line string used to launch the browser. Will be the empty string if not\\nsupported.","type":"string"}]},{"name":"getProcessInfo","description":"Returns information about all running processes.","returns":[{"name":"processInfo","description":"An array of process info blocks.","type":"array","items":{"$ref":"ProcessInfo"}}]}]},{"domain":"Target","description":"Supports additional targets discovery and allows to attach to them.","types":[{"id":"TargetID","type":"string"},{"id":"SessionID","description":"Unique identifier of attached debugging session.","type":"string"},{"id":"BrowserContextID","experimental":true,"type":"string"},{"id":"TargetInfo","type":"object","properties":[{"name":"targetId","$ref":"TargetID"},{"name":"type","type":"string"},{"name":"title","type":"string"},{"name":"url","type":"string"},{"name":"attached","description":"Whether the target has an attached client.","type":"boolean"},{"name":"openerId","description":"Opener target Id","optional":true,"$ref":"TargetID"},{"name":"browserContextId","experimental":true,"optional":true,"$ref":"BrowserContextID"}]},{"id":"RemoteLocation","experimental":true,"type":"object","properties":[{"name":"host","type":"string"},{"name":"port","type":"integer"}]}],"commands":[{"name":"activateTarget","description":"Activates (focuses) the target.","parameters":[{"name":"targetId","$ref":"TargetID"}]},{"name":"attachToTarget","description":"Attaches to the target with given id.","parameters":[{"name":"targetId","$ref":"TargetID"},{"name":"flatten","description":"Enables \\"flat\\" access to the session via specifying sessionId attribute in the commands.","experimental":true,"optional":true,"type":"boolean"}],"returns":[{"name":"sessionId","description":"Id assigned to the session.","$ref":"SessionID"}]},{"name":"attachToBrowserTarget","description":"Attaches to the browser target, only uses flat sessionId mode.","experimental":true,"returns":[{"name":"sessionId","description":"Id assigned to the session.","$ref":"SessionID"}]},{"name":"closeTarget","description":"Closes the target. If the target is a page that gets closed too.","parameters":[{"name":"targetId","$ref":"TargetID"}],"returns":[{"name":"success","type":"boolean"}]},{"name":"exposeDevToolsProtocol","description":"Inject object to the target\'s main frame that provides a communication\\nchannel with browser target.\\n\\nInjected object will be available as `window[bindingName]`.\\n\\nThe object has the follwing API:\\n- `binding.send(json)` - a method to send messages over the remote debugging protocol\\n- `binding.onmessage = json => handleMessage(json)` - a callback that will be called for the protocol notifications and command responses.","experimental":true,"parameters":[{"name":"targetId","$ref":"TargetID"},{"name":"bindingName","description":"Binding name, \'cdp\' if not specified.","optional":true,"type":"string"}]},{"name":"createBrowserContext","description":"Creates a new empty BrowserContext. Similar to an incognito profile but you can have more than\\none.","experimental":true,"returns":[{"name":"browserContextId","description":"The id of the context created.","$ref":"BrowserContextID"}]},{"name":"getBrowserContexts","description":"Returns all browser contexts created with `Target.createBrowserContext` method.","experimental":true,"returns":[{"name":"browserContextIds","description":"An array of browser context ids.","type":"array","items":{"$ref":"BrowserContextID"}}]},{"name":"createTarget","description":"Creates a new page.","parameters":[{"name":"url","description":"The initial URL the page will be navigated to.","type":"string"},{"name":"width","description":"Frame width in DIP (headless chrome only).","optional":true,"type":"integer"},{"name":"height","description":"Frame height in DIP (headless chrome only).","optional":true,"type":"integer"},{"name":"browserContextId","description":"The browser context to create the page in.","optional":true,"$ref":"BrowserContextID"},{"name":"enableBeginFrameControl","description":"Whether BeginFrames for this target will be controlled via DevTools (headless chrome only,\\nnot supported on MacOS yet, false by default).","experimental":true,"optional":true,"type":"boolean"},{"name":"newWindow","description":"Whether to create a new Window or Tab (chrome-only, false by default).","optional":true,"type":"boolean"},{"name":"background","description":"Whether to create the target in background or foreground (chrome-only,\\nfalse by default).","optional":true,"type":"boolean"}],"returns":[{"name":"targetId","description":"The id of the page opened.","$ref":"TargetID"}]},{"name":"detachFromTarget","description":"Detaches session with given id.","parameters":[{"name":"sessionId","description":"Session to detach.","optional":true,"$ref":"SessionID"},{"name":"targetId","description":"Deprecated.","deprecated":true,"optional":true,"$ref":"TargetID"}]},{"name":"disposeBrowserContext","description":"Deletes a BrowserContext. All the belonging pages will be closed without calling their\\nbeforeunload hooks.","experimental":true,"parameters":[{"name":"browserContextId","$ref":"BrowserContextID"}]},{"name":"getTargetInfo","description":"Returns information about a target.","experimental":true,"parameters":[{"name":"targetId","optional":true,"$ref":"TargetID"}],"returns":[{"name":"targetInfo","$ref":"TargetInfo"}]},{"name":"getTargets","description":"Retrieves a list of available targets.","returns":[{"name":"targetInfos","description":"The list of targets.","type":"array","items":{"$ref":"TargetInfo"}}]},{"name":"sendMessageToTarget","description":"Sends protocol message over session with given id.","parameters":[{"name":"message","type":"string"},{"name":"sessionId","description":"Identifier of the session.","optional":true,"$ref":"SessionID"},{"name":"targetId","description":"Deprecated.","deprecated":true,"optional":true,"$ref":"TargetID"}]},{"name":"setAutoAttach","description":"Controls whether to automatically attach to new targets which are considered to be related to\\nthis one. When turned on, attaches to all existing related targets as well. When turned off,\\nautomatically detaches from all currently attached targets.","experimental":true,"parameters":[{"name":"autoAttach","description":"Whether to auto-attach to related targets.","type":"boolean"},{"name":"waitForDebuggerOnStart","description":"Whether to pause new targets when attaching to them. Use `Runtime.runIfWaitingForDebugger`\\nto run paused targets.","type":"boolean"},{"name":"flatten","description":"Enables \\"flat\\" access to the session via specifying sessionId attribute in the commands.","experimental":true,"optional":true,"type":"boolean"}]},{"name":"setDiscoverTargets","description":"Controls whether to discover available targets and notify via\\n`targetCreated/targetInfoChanged/targetDestroyed` events.","parameters":[{"name":"discover","description":"Whether to discover available targets.","type":"boolean"}]},{"name":"setRemoteLocations","description":"Enables target discovery for the specified locations, when `setDiscoverTargets` was set to\\n`true`.","experimental":true,"parameters":[{"name":"locations","description":"List of remote locations.","type":"array","items":{"$ref":"RemoteLocation"}}]}],"events":[{"name":"attachedToTarget","description":"Issued when attached to target because of auto-attach or `attachToTarget` command.","experimental":true,"parameters":[{"name":"sessionId","description":"Identifier assigned to the session used to send/receive messages.","$ref":"SessionID"},{"name":"targetInfo","$ref":"TargetInfo"},{"name":"waitingForDebugger","type":"boolean"}]},{"name":"detachedFromTarget","description":"Issued when detached from target for any reason (including `detachFromTarget` command). Can be\\nissued multiple times per target if multiple sessions have been attached to it.","experimental":true,"parameters":[{"name":"sessionId","description":"Detached session identifier.","$ref":"SessionID"},{"name":"targetId","description":"Deprecated.","deprecated":true,"optional":true,"$ref":"TargetID"}]},{"name":"receivedMessageFromTarget","description":"Notifies about a new protocol message received from the session (as reported in\\n`attachedToTarget` event).","parameters":[{"name":"sessionId","description":"Identifier of a session which sends a message.","$ref":"SessionID"},{"name":"message","type":"string"},{"name":"targetId","description":"Deprecated.","deprecated":true,"optional":true,"$ref":"TargetID"}]},{"name":"targetCreated","description":"Issued when a possible inspection target is created.","parameters":[{"name":"targetInfo","$ref":"TargetInfo"}]},{"name":"targetDestroyed","description":"Issued when a target is destroyed.","parameters":[{"name":"targetId","$ref":"TargetID"}]},{"name":"targetCrashed","description":"Issued when a target has crashed.","parameters":[{"name":"targetId","$ref":"TargetID"},{"name":"status","description":"Termination status type.","type":"string"},{"name":"errorCode","description":"Termination error code.","type":"integer"}]},{"name":"targetInfoChanged","description":"Issued when some information about a target has changed. This only happens between\\n`targetCreated` and `targetDestroyed`.","parameters":[{"name":"targetInfo","$ref":"TargetInfo"}]}]},{"domain":"Tethering","description":"The Tethering domain defines methods and events for browser port binding.","experimental":true,"commands":[{"name":"bind","description":"Request browser port binding.","parameters":[{"name":"port","description":"Port number to bind.","type":"integer"}]},{"name":"unbind","description":"Request browser port unbinding.","parameters":[{"name":"port","description":"Port number to unbind.","type":"integer"}]}],"events":[{"name":"accepted","description":"Informs that port was successfully bound and got a specified connection id.","parameters":[{"name":"port","description":"Port number that was successfully bound.","type":"integer"},{"name":"connectionId","description":"Connection id to be used.","type":"string"}]}]},{"domain":"Tracing","experimental":true,"dependencies":["IO"],"types":[{"id":"MemoryDumpConfig","description":"Configuration for memory dump. Used only when \\"memory-infra\\" category is enabled.","type":"object"},{"id":"TraceConfig","type":"object","properties":[{"name":"recordMode","description":"Controls how the trace buffer stores data.","optional":true,"type":"string","enum":["recordUntilFull","recordContinuously","recordAsMuchAsPossible","echoToConsole"]},{"name":"enableSampling","description":"Turns on JavaScript stack sampling.","optional":true,"type":"boolean"},{"name":"enableSystrace","description":"Turns on system tracing.","optional":true,"type":"boolean"},{"name":"enableArgumentFilter","description":"Turns on argument filter.","optional":true,"type":"boolean"},{"name":"includedCategories","description":"Included category filters.","optional":true,"type":"array","items":{"type":"string"}},{"name":"excludedCategories","description":"Excluded category filters.","optional":true,"type":"array","items":{"type":"string"}},{"name":"syntheticDelays","description":"Configuration to synthesize the delays in tracing.","optional":true,"type":"array","items":{"type":"string"}},{"name":"memoryDumpConfig","description":"Configuration for memory dump triggers. Used only when \\"memory-infra\\" category is enabled.","optional":true,"$ref":"MemoryDumpConfig"}]},{"id":"StreamFormat","description":"Data format of a trace. Can be either the legacy JSON format or the\\nprotocol buffer format. Note that the JSON format will be deprecated soon.","type":"string","enum":["json","proto"]},{"id":"StreamCompression","description":"Compression type to use for traces returned via streams.","type":"string","enum":["none","gzip"]}],"commands":[{"name":"end","description":"Stop trace events collection."},{"name":"getCategories","description":"Gets supported tracing categories.","returns":[{"name":"categories","description":"A list of supported tracing categories.","type":"array","items":{"type":"string"}}]},{"name":"recordClockSyncMarker","description":"Record a clock sync marker in the trace.","parameters":[{"name":"syncId","description":"The ID of this clock sync marker","type":"string"}]},{"name":"requestMemoryDump","description":"Request a global memory dump.","returns":[{"name":"dumpGuid","description":"GUID of the resulting global memory dump.","type":"string"},{"name":"success","description":"True iff the global memory dump succeeded.","type":"boolean"}]},{"name":"start","description":"Start trace events collection.","parameters":[{"name":"categories","description":"Category/tag filter","deprecated":true,"optional":true,"type":"string"},{"name":"options","description":"Tracing options","deprecated":true,"optional":true,"type":"string"},{"name":"bufferUsageReportingInterval","description":"If set, the agent will issue bufferUsage events at this interval, specified in milliseconds","optional":true,"type":"number"},{"name":"transferMode","description":"Whether to report trace events as series of dataCollected events or to save trace to a\\nstream (defaults to `ReportEvents`).","optional":true,"type":"string","enum":["ReportEvents","ReturnAsStream"]},{"name":"streamFormat","description":"Trace data format to use. This only applies when using `ReturnAsStream`\\ntransfer mode (defaults to `json`).","optional":true,"$ref":"StreamFormat"},{"name":"streamCompression","description":"Compression format to use. This only applies when using `ReturnAsStream`\\ntransfer mode (defaults to `none`)","optional":true,"$ref":"StreamCompression"},{"name":"traceConfig","optional":true,"$ref":"TraceConfig"}]}],"events":[{"name":"bufferUsage","parameters":[{"name":"percentFull","description":"A number in range [0..1] that indicates the used size of event buffer as a fraction of its\\ntotal size.","optional":true,"type":"number"},{"name":"eventCount","description":"An approximate number of events in the trace log.","optional":true,"type":"number"},{"name":"value","description":"A number in range [0..1] that indicates the used size of event buffer as a fraction of its\\ntotal size.","optional":true,"type":"number"}]},{"name":"dataCollected","description":"Contains an bucket of collected trace events. When tracing is stopped collected events will be\\nsend as a sequence of dataCollected events followed by tracingComplete event.","parameters":[{"name":"value","type":"array","items":{"type":"object"}}]},{"name":"tracingComplete","description":"Signals that tracing is stopped and there is no trace buffers pending flush, all data were\\ndelivered via dataCollected events.","parameters":[{"name":"dataLossOccurred","description":"Indicates whether some trace data is known to have been lost, e.g. because the trace ring\\nbuffer wrapped around.","type":"boolean"},{"name":"stream","description":"A handle of the stream that holds resulting trace data.","optional":true,"$ref":"IO.StreamHandle"},{"name":"traceFormat","description":"Trace data format of returned stream.","optional":true,"$ref":"StreamFormat"},{"name":"streamCompression","description":"Compression format of returned stream.","optional":true,"$ref":"StreamCompression"}]}]},{"domain":"Fetch","description":"A domain for letting clients substitute browser\'s network layer with client code.","experimental":true,"dependencies":["Network","IO","Page"],"types":[{"id":"RequestId","description":"Unique request identifier.","type":"string"},{"id":"RequestStage","description":"Stages of the request to handle. Request will intercept before the request is\\nsent. Response will intercept after the response is received (but before response\\nbody is received.","experimental":true,"type":"string","enum":["Request","Response"]},{"id":"RequestPattern","experimental":true,"type":"object","properties":[{"name":"urlPattern","description":"Wildcards (\'*\' -> zero or more, \'?\' -> exactly one) are allowed. Escape character is\\nbackslash. Omitting is equivalent to \\"*\\".","optional":true,"type":"string"},{"name":"resourceType","description":"If set, only requests for matching resource types will be intercepted.","optional":true,"$ref":"Network.ResourceType"},{"name":"requestStage","description":"Stage at wich to begin intercepting requests. Default is Request.","optional":true,"$ref":"RequestStage"}]},{"id":"HeaderEntry","description":"Response HTTP header entry","type":"object","properties":[{"name":"name","type":"string"},{"name":"value","type":"string"}]},{"id":"AuthChallenge","description":"Authorization challenge for HTTP status code 401 or 407.","experimental":true,"type":"object","properties":[{"name":"source","description":"Source of the authentication challenge.","optional":true,"type":"string","enum":["Server","Proxy"]},{"name":"origin","description":"Origin of the challenger.","type":"string"},{"name":"scheme","description":"The authentication scheme used, such as basic or digest","type":"string"},{"name":"realm","description":"The realm of the challenge. May be empty.","type":"string"}]},{"id":"AuthChallengeResponse","description":"Response to an AuthChallenge.","experimental":true,"type":"object","properties":[{"name":"response","description":"The decision on what to do in response to the authorization challenge.  Default means\\ndeferring to the default behavior of the net stack, which will likely either the Cancel\\nauthentication or display a popup dialog box.","type":"string","enum":["Default","CancelAuth","ProvideCredentials"]},{"name":"username","description":"The username to provide, possibly empty. Should only be set if response is\\nProvideCredentials.","optional":true,"type":"string"},{"name":"password","description":"The password to provide, possibly empty. Should only be set if response is\\nProvideCredentials.","optional":true,"type":"string"}]}],"commands":[{"name":"disable","description":"Disables the fetch domain."},{"name":"enable","description":"Enables issuing of requestPaused events. A request will be paused until client\\ncalls one of failRequest, fulfillRequest or continueRequest/continueWithAuth.","parameters":[{"name":"patterns","description":"If specified, only requests matching any of these patterns will produce\\nfetchRequested event and will be paused until clients response. If not set,\\nall requests will be affected.","optional":true,"type":"array","items":{"$ref":"RequestPattern"}},{"name":"handleAuthRequests","description":"If true, authRequired events will be issued and requests will be paused\\nexpecting a call to continueWithAuth.","optional":true,"type":"boolean"}]},{"name":"failRequest","description":"Causes the request to fail with specified reason.","parameters":[{"name":"requestId","description":"An id the client received in requestPaused event.","$ref":"RequestId"},{"name":"errorReason","description":"Causes the request to fail with the given reason.","$ref":"Network.ErrorReason"}]},{"name":"fulfillRequest","description":"Provides response to the request.","parameters":[{"name":"requestId","description":"An id the client received in requestPaused event.","$ref":"RequestId"},{"name":"responseCode","description":"An HTTP response code.","type":"integer"},{"name":"responseHeaders","description":"Response headers.","type":"array","items":{"$ref":"HeaderEntry"}},{"name":"body","description":"A response body.","optional":true,"type":"string"},{"name":"responsePhrase","description":"A textual representation of responseCode.\\nIf absent, a standard phrase mathcing responseCode is used.","optional":true,"type":"string"}]},{"name":"continueRequest","description":"Continues the request, optionally modifying some of its parameters.","parameters":[{"name":"requestId","description":"An id the client received in requestPaused event.","$ref":"RequestId"},{"name":"url","description":"If set, the request url will be modified in a way that\'s not observable by page.","optional":true,"type":"string"},{"name":"method","description":"If set, the request method is overridden.","optional":true,"type":"string"},{"name":"postData","description":"If set, overrides the post data in the request.","optional":true,"type":"string"},{"name":"headers","description":"If set, overrides the request headrts.","optional":true,"type":"array","items":{"$ref":"HeaderEntry"}}]},{"name":"continueWithAuth","description":"Continues a request supplying authChallengeResponse following authRequired event.","parameters":[{"name":"requestId","description":"An id the client received in authRequired event.","$ref":"RequestId"},{"name":"authChallengeResponse","description":"Response to  with an authChallenge.","$ref":"AuthChallengeResponse"}]},{"name":"getResponseBody","description":"Causes the body of the response to be received from the server and\\nreturned as a single string. May only be issued for a request that\\nis paused in the Response stage and is mutually exclusive with\\ntakeResponseBodyForInterceptionAsStream. Calling other methods that\\naffect the request or disabling fetch domain before body is received\\nresults in an undefined behavior.","parameters":[{"name":"requestId","description":"Identifier for the intercepted request to get body for.","$ref":"RequestId"}],"returns":[{"name":"body","description":"Response body.","type":"string"},{"name":"base64Encoded","description":"True, if content was sent as base64.","type":"boolean"}]},{"name":"takeResponseBodyAsStream","description":"Returns a handle to the stream representing the response body.\\nThe request must be paused in the HeadersReceived stage.\\nNote that after this command the request can\'t be continued\\nas is -- client either needs to cancel it or to provide the\\nresponse body.\\nThe stream only supports sequential read, IO.read will fail if the position\\nis specified.\\nThis method is mutually exclusive with getResponseBody.\\nCalling other methods that affect the request or disabling fetch\\ndomain before body is received results in an undefined behavior.","parameters":[{"name":"requestId","$ref":"RequestId"}],"returns":[{"name":"stream","$ref":"IO.StreamHandle"}]}],"events":[{"name":"requestPaused","description":"Issued when the domain is enabled and the request URL matches the\\nspecified filter. The request is paused until the client responds\\nwith one of continueRequest, failRequest or fulfillRequest.\\nThe stage of the request can be determined by presence of responseErrorReason\\nand responseStatusCode -- the request is at the response stage if either\\nof these fields is present and in the request stage otherwise.","parameters":[{"name":"requestId","description":"Each request the page makes will have a unique id.","$ref":"RequestId"},{"name":"request","description":"The details of the request.","$ref":"Network.Request"},{"name":"frameId","description":"The id of the frame that initiated the request.","$ref":"Page.FrameId"},{"name":"resourceType","description":"How the requested resource will be used.","$ref":"Network.ResourceType"},{"name":"responseErrorReason","description":"Response error if intercepted at response stage.","optional":true,"$ref":"Network.ErrorReason"},{"name":"responseStatusCode","description":"Response code if intercepted at response stage.","optional":true,"type":"integer"},{"name":"responseHeaders","description":"Response headers if intercepted at the response stage.","optional":true,"type":"array","items":{"$ref":"HeaderEntry"}},{"name":"networkId","description":"If the intercepted request had a corresponding Network.requestWillBeSent event fired for it,\\nthen this networkId will be the same as the requestId present in the requestWillBeSent event.","optional":true,"$ref":"RequestId"}]},{"name":"authRequired","description":"Issued when the domain is enabled with handleAuthRequests set to true.\\nThe request is paused until client responds with continueWithAuth.","parameters":[{"name":"requestId","description":"Each request the page makes will have a unique id.","$ref":"RequestId"},{"name":"request","description":"The details of the request.","$ref":"Network.Request"},{"name":"frameId","description":"The id of the frame that initiated the request.","$ref":"Page.FrameId"},{"name":"resourceType","description":"How the requested resource will be used.","$ref":"Network.ResourceType"},{"name":"authChallenge","description":"Details of the Authorization Challenge encountered.\\nIf this is set, client should respond with continueRequest that\\ncontains AuthChallengeResponse.","$ref":"AuthChallenge"}]}]},{"domain":"WebAudio","description":"This domain allows inspection of Web Audio API.\\nhttps://webaudio.github.io/web-audio-api/","experimental":true,"types":[{"id":"ContextId","description":"Context\'s UUID in string","type":"string"},{"id":"ContextType","description":"Enum of BaseAudioContext types","type":"string","enum":["realtime","offline"]},{"id":"ContextState","description":"Enum of AudioContextState from the spec","type":"string","enum":["suspended","running","closed"]},{"id":"ContextRealtimeData","description":"Fields in AudioContext that change in real-time.","type":"object","properties":[{"name":"currentTime","description":"The current context time in second in BaseAudioContext.","type":"number"},{"name":"renderCapacity","description":"The time spent on rendering graph divided by render qunatum duration,\\nand multiplied by 100. 100 means the audio renderer reached the full\\ncapacity and glitch may occur.","type":"number"},{"name":"callbackIntervalMean","description":"A running mean of callback interval.","type":"number"},{"name":"callbackIntervalVariance","description":"A running variance of callback interval.","type":"number"}]},{"id":"BaseAudioContext","description":"Protocol object for BaseAudioContext","type":"object","properties":[{"name":"contextId","$ref":"ContextId"},{"name":"contextType","$ref":"ContextType"},{"name":"contextState","$ref":"ContextState"},{"name":"realtimeData","optional":true,"$ref":"ContextRealtimeData"},{"name":"callbackBufferSize","description":"Platform-dependent callback buffer size.","type":"number"},{"name":"maxOutputChannelCount","description":"Number of output channels supported by audio hardware in use.","type":"number"},{"name":"sampleRate","description":"Context sample rate.","type":"number"}]}],"commands":[{"name":"enable","description":"Enables the WebAudio domain and starts sending context lifetime events."},{"name":"disable","description":"Disables the WebAudio domain."},{"name":"getRealtimeData","description":"Fetch the realtime data from the registered contexts.","parameters":[{"name":"contextId","$ref":"ContextId"}],"returns":[{"name":"realtimeData","$ref":"ContextRealtimeData"}]}],"events":[{"name":"contextCreated","description":"Notifies that a new BaseAudioContext has been created.","parameters":[{"name":"context","$ref":"BaseAudioContext"}]},{"name":"contextDestroyed","description":"Notifies that existing BaseAudioContext has been destroyed.","parameters":[{"name":"contextId","$ref":"ContextId"}]},{"name":"contextChanged","description":"Notifies that existing BaseAudioContext has changed some properties (id stays the same)..","parameters":[{"name":"context","$ref":"BaseAudioContext"}]}]},{"domain":"WebAuthn","description":"This domain allows configuring virtual authenticators to test the WebAuthn\\nAPI.","experimental":true,"types":[{"id":"AuthenticatorId","type":"string"},{"id":"AuthenticatorProtocol","type":"string","enum":["u2f","ctap2"]},{"id":"AuthenticatorTransport","type":"string","enum":["usb","nfc","ble","cable","internal"]},{"id":"VirtualAuthenticatorOptions","type":"object","properties":[{"name":"protocol","$ref":"AuthenticatorProtocol"},{"name":"transport","$ref":"AuthenticatorTransport"},{"name":"hasResidentKey","type":"boolean"},{"name":"hasUserVerification","type":"boolean"},{"name":"automaticPresenceSimulation","description":"If set to true, tests of user presence will succeed immediately.\\nOtherwise, they will not be resolved. Defaults to true.","optional":true,"type":"boolean"}]},{"id":"Credential","type":"object","properties":[{"name":"credentialId","type":"string"},{"name":"rpIdHash","description":"SHA-256 hash of the Relying Party ID the credential is scoped to. Must\\nbe 32 bytes long.\\nSee https://w3c.github.io/webauthn/#rpidhash","type":"string"},{"name":"privateKey","description":"The private key in PKCS#8 format.","type":"string"},{"name":"signCount","description":"Signature counter. This is incremented by one for each successful\\nassertion.\\nSee https://w3c.github.io/webauthn/#signature-counter","type":"integer"}]}],"commands":[{"name":"enable","description":"Enable the WebAuthn domain and start intercepting credential storage and\\nretrieval with a virtual authenticator."},{"name":"disable","description":"Disable the WebAuthn domain."},{"name":"addVirtualAuthenticator","description":"Creates and adds a virtual authenticator.","parameters":[{"name":"options","$ref":"VirtualAuthenticatorOptions"}],"returns":[{"name":"authenticatorId","$ref":"AuthenticatorId"}]},{"name":"removeVirtualAuthenticator","description":"Removes the given authenticator.","parameters":[{"name":"authenticatorId","$ref":"AuthenticatorId"}]},{"name":"addCredential","description":"Adds the credential to the specified authenticator.","parameters":[{"name":"authenticatorId","$ref":"AuthenticatorId"},{"name":"credential","$ref":"Credential"}]},{"name":"getCredentials","description":"Returns all the credentials stored in the given virtual authenticator.","parameters":[{"name":"authenticatorId","$ref":"AuthenticatorId"}],"returns":[{"name":"credentials","type":"array","items":{"$ref":"Credential"}}]},{"name":"clearCredentials","description":"Clears all the credentials from the specified device.","parameters":[{"name":"authenticatorId","$ref":"AuthenticatorId"}]},{"name":"setUserVerified","description":"Sets whether User Verification succeeds or fails for an authenticator.\\nThe default is true.","parameters":[{"name":"authenticatorId","$ref":"AuthenticatorId"},{"name":"isUserVerified","type":"boolean"}]}]},{"domain":"Console","description":"This domain is deprecated - use Runtime or Log instead.","deprecated":true,"dependencies":["Runtime"],"types":[{"id":"ConsoleMessage","description":"Console message.","type":"object","properties":[{"name":"source","description":"Message source.","type":"string","enum":["xml","javascript","network","console-api","storage","appcache","rendering","security","other","deprecation","worker"]},{"name":"level","description":"Message severity.","type":"string","enum":["log","warning","error","debug","info"]},{"name":"text","description":"Message text.","type":"string"},{"name":"url","description":"URL of the message origin.","optional":true,"type":"string"},{"name":"line","description":"Line number in the resource that generated this message (1-based).","optional":true,"type":"integer"},{"name":"column","description":"Column number in the resource that generated this message (1-based).","optional":true,"type":"integer"}]}],"commands":[{"name":"clearMessages","description":"Does nothing."},{"name":"disable","description":"Disables console domain, prevents further console messages from being reported to the client."},{"name":"enable","description":"Enables console domain, sends the messages collected so far to the client by means of the\\n`messageAdded` notification."}],"events":[{"name":"messageAdded","description":"Issued when new console message is added.","parameters":[{"name":"message","description":"Console message that has been added.","$ref":"ConsoleMessage"}]}]},{"domain":"Debugger","description":"Debugger domain exposes JavaScript debugging capabilities. It allows setting and removing\\nbreakpoints, stepping through execution, exploring stack traces, etc.","dependencies":["Runtime"],"types":[{"id":"BreakpointId","description":"Breakpoint identifier.","type":"string"},{"id":"CallFrameId","description":"Call frame identifier.","type":"string"},{"id":"Location","description":"Location in the source code.","type":"object","properties":[{"name":"scriptId","description":"Script identifier as reported in the `Debugger.scriptParsed`.","$ref":"Runtime.ScriptId"},{"name":"lineNumber","description":"Line number in the script (0-based).","type":"integer"},{"name":"columnNumber","description":"Column number in the script (0-based).","optional":true,"type":"integer"}]},{"id":"ScriptPosition","description":"Location in the source code.","experimental":true,"type":"object","properties":[{"name":"lineNumber","type":"integer"},{"name":"columnNumber","type":"integer"}]},{"id":"CallFrame","description":"JavaScript call frame. Array of call frames form the call stack.","type":"object","properties":[{"name":"callFrameId","description":"Call frame identifier. This identifier is only valid while the virtual machine is paused.","$ref":"CallFrameId"},{"name":"functionName","description":"Name of the JavaScript function called on this call frame.","type":"string"},{"name":"functionLocation","description":"Location in the source code.","optional":true,"$ref":"Location"},{"name":"location","description":"Location in the source code.","$ref":"Location"},{"name":"url","description":"JavaScript script name or url.","type":"string"},{"name":"scopeChain","description":"Scope chain for this call frame.","type":"array","items":{"$ref":"Scope"}},{"name":"this","description":"`this` object for this call frame.","$ref":"Runtime.RemoteObject"},{"name":"returnValue","description":"The value being returned, if the function is at return point.","optional":true,"$ref":"Runtime.RemoteObject"}]},{"id":"Scope","description":"Scope description.","type":"object","properties":[{"name":"type","description":"Scope type.","type":"string","enum":["global","local","with","closure","catch","block","script","eval","module"]},{"name":"object","description":"Object representing the scope. For `global` and `with` scopes it represents the actual\\nobject; for the rest of the scopes, it is artificial transient object enumerating scope\\nvariables as its properties.","$ref":"Runtime.RemoteObject"},{"name":"name","optional":true,"type":"string"},{"name":"startLocation","description":"Location in the source code where scope starts","optional":true,"$ref":"Location"},{"name":"endLocation","description":"Location in the source code where scope ends","optional":true,"$ref":"Location"}]},{"id":"SearchMatch","description":"Search match for resource.","type":"object","properties":[{"name":"lineNumber","description":"Line number in resource content.","type":"number"},{"name":"lineContent","description":"Line with match content.","type":"string"}]},{"id":"BreakLocation","type":"object","properties":[{"name":"scriptId","description":"Script identifier as reported in the `Debugger.scriptParsed`.","$ref":"Runtime.ScriptId"},{"name":"lineNumber","description":"Line number in the script (0-based).","type":"integer"},{"name":"columnNumber","description":"Column number in the script (0-based).","optional":true,"type":"integer"},{"name":"type","optional":true,"type":"string","enum":["debuggerStatement","call","return"]}]}],"commands":[{"name":"continueToLocation","description":"Continues execution until specific location is reached.","parameters":[{"name":"location","description":"Location to continue to.","$ref":"Location"},{"name":"targetCallFrames","optional":true,"type":"string","enum":["any","current"]}]},{"name":"disable","description":"Disables debugger for given page."},{"name":"enable","description":"Enables debugger for the given page. Clients should not assume that the debugging has been\\nenabled until the result for this command is received.","parameters":[{"name":"maxScriptsCacheSize","description":"The maximum size in bytes of collected scripts (not referenced by other heap objects)\\nthe debugger can hold. Puts no limit if paramter is omitted.","experimental":true,"optional":true,"type":"number"}],"returns":[{"name":"debuggerId","description":"Unique identifier of the debugger.","experimental":true,"$ref":"Runtime.UniqueDebuggerId"}]},{"name":"evaluateOnCallFrame","description":"Evaluates expression on a given call frame.","parameters":[{"name":"callFrameId","description":"Call frame identifier to evaluate on.","$ref":"CallFrameId"},{"name":"expression","description":"Expression to evaluate.","type":"string"},{"name":"objectGroup","description":"String object group name to put result into (allows rapid releasing resulting object handles\\nusing `releaseObjectGroup`).","optional":true,"type":"string"},{"name":"includeCommandLineAPI","description":"Specifies whether command line API should be available to the evaluated expression, defaults\\nto false.","optional":true,"type":"boolean"},{"name":"silent","description":"In silent mode exceptions thrown during evaluation are not reported and do not pause\\nexecution. Overrides `setPauseOnException` state.","optional":true,"type":"boolean"},{"name":"returnByValue","description":"Whether the result is expected to be a JSON object that should be sent by value.","optional":true,"type":"boolean"},{"name":"generatePreview","description":"Whether preview should be generated for the result.","experimental":true,"optional":true,"type":"boolean"},{"name":"throwOnSideEffect","description":"Whether to throw an exception if side effect cannot be ruled out during evaluation.","optional":true,"type":"boolean"},{"name":"timeout","description":"Terminate execution after timing out (number of milliseconds).","experimental":true,"optional":true,"$ref":"Runtime.TimeDelta"}],"returns":[{"name":"result","description":"Object wrapper for the evaluation result.","$ref":"Runtime.RemoteObject"},{"name":"exceptionDetails","description":"Exception details.","optional":true,"$ref":"Runtime.ExceptionDetails"}]},{"name":"getPossibleBreakpoints","description":"Returns possible locations for breakpoint. scriptId in start and end range locations should be\\nthe same.","parameters":[{"name":"start","description":"Start of range to search possible breakpoint locations in.","$ref":"Location"},{"name":"end","description":"End of range to search possible breakpoint locations in (excluding). When not specified, end\\nof scripts is used as end of range.","optional":true,"$ref":"Location"},{"name":"restrictToFunction","description":"Only consider locations which are in the same (non-nested) function as start.","optional":true,"type":"boolean"}],"returns":[{"name":"locations","description":"List of the possible breakpoint locations.","type":"array","items":{"$ref":"BreakLocation"}}]},{"name":"getScriptSource","description":"Returns source for the script with given id.","parameters":[{"name":"scriptId","description":"Id of the script to get source for.","$ref":"Runtime.ScriptId"}],"returns":[{"name":"scriptSource","description":"Script source.","type":"string"}]},{"name":"getStackTrace","description":"Returns stack trace with given `stackTraceId`.","experimental":true,"parameters":[{"name":"stackTraceId","$ref":"Runtime.StackTraceId"}],"returns":[{"name":"stackTrace","$ref":"Runtime.StackTrace"}]},{"name":"pause","description":"Stops on the next JavaScript statement."},{"name":"pauseOnAsyncCall","experimental":true,"parameters":[{"name":"parentStackTraceId","description":"Debugger will pause when async call with given stack trace is started.","$ref":"Runtime.StackTraceId"}]},{"name":"removeBreakpoint","description":"Removes JavaScript breakpoint.","parameters":[{"name":"breakpointId","$ref":"BreakpointId"}]},{"name":"restartFrame","description":"Restarts particular call frame from the beginning.","parameters":[{"name":"callFrameId","description":"Call frame identifier to evaluate on.","$ref":"CallFrameId"}],"returns":[{"name":"callFrames","description":"New stack trace.","type":"array","items":{"$ref":"CallFrame"}},{"name":"asyncStackTrace","description":"Async stack trace, if any.","optional":true,"$ref":"Runtime.StackTrace"},{"name":"asyncStackTraceId","description":"Async stack trace, if any.","experimental":true,"optional":true,"$ref":"Runtime.StackTraceId"}]},{"name":"resume","description":"Resumes JavaScript execution."},{"name":"searchInContent","description":"Searches for given string in script content.","parameters":[{"name":"scriptId","description":"Id of the script to search in.","$ref":"Runtime.ScriptId"},{"name":"query","description":"String to search for.","type":"string"},{"name":"caseSensitive","description":"If true, search is case sensitive.","optional":true,"type":"boolean"},{"name":"isRegex","description":"If true, treats string parameter as regex.","optional":true,"type":"boolean"}],"returns":[{"name":"result","description":"List of search matches.","type":"array","items":{"$ref":"SearchMatch"}}]},{"name":"setAsyncCallStackDepth","description":"Enables or disables async call stacks tracking.","parameters":[{"name":"maxDepth","description":"Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async\\ncall stacks (default).","type":"integer"}]},{"name":"setBlackboxPatterns","description":"Replace previous blackbox patterns with passed ones. Forces backend to skip stepping/pausing in\\nscripts with url matching one of the patterns. VM will try to leave blackboxed script by\\nperforming \'step in\' several times, finally resorting to \'step out\' if unsuccessful.","experimental":true,"parameters":[{"name":"patterns","description":"Array of regexps that will be used to check script url for blackbox state.","type":"array","items":{"type":"string"}}]},{"name":"setBlackboxedRanges","description":"Makes backend skip steps in the script in blackboxed ranges. VM will try leave blacklisted\\nscripts by performing \'step in\' several times, finally resorting to \'step out\' if unsuccessful.\\nPositions array contains positions where blackbox state is changed. First interval isn\'t\\nblackboxed. Array should be sorted.","experimental":true,"parameters":[{"name":"scriptId","description":"Id of the script.","$ref":"Runtime.ScriptId"},{"name":"positions","type":"array","items":{"$ref":"ScriptPosition"}}]},{"name":"setBreakpoint","description":"Sets JavaScript breakpoint at a given location.","parameters":[{"name":"location","description":"Location to set breakpoint in.","$ref":"Location"},{"name":"condition","description":"Expression to use as a breakpoint condition. When specified, debugger will only stop on the\\nbreakpoint if this expression evaluates to true.","optional":true,"type":"string"}],"returns":[{"name":"breakpointId","description":"Id of the created breakpoint for further reference.","$ref":"BreakpointId"},{"name":"actualLocation","description":"Location this breakpoint resolved into.","$ref":"Location"}]},{"name":"setInstrumentationBreakpoint","description":"Sets instrumentation breakpoint.","parameters":[{"name":"instrumentation","description":"Instrumentation name.","type":"string","enum":["beforeScriptExecution","beforeScriptWithSourceMapExecution"]}],"returns":[{"name":"breakpointId","description":"Id of the created breakpoint for further reference.","$ref":"BreakpointId"}]},{"name":"setBreakpointByUrl","description":"Sets JavaScript breakpoint at given location specified either by URL or URL regex. Once this\\ncommand is issued, all existing parsed scripts will have breakpoints resolved and returned in\\n`locations` property. Further matching script parsing will result in subsequent\\n`breakpointResolved` events issued. This logical breakpoint will survive page reloads.","parameters":[{"name":"lineNumber","description":"Line number to set breakpoint at.","type":"integer"},{"name":"url","description":"URL of the resources to set breakpoint on.","optional":true,"type":"string"},{"name":"urlRegex","description":"Regex pattern for the URLs of the resources to set breakpoints on. Either `url` or\\n`urlRegex` must be specified.","optional":true,"type":"string"},{"name":"scriptHash","description":"Script hash of the resources to set breakpoint on.","optional":true,"type":"string"},{"name":"columnNumber","description":"Offset in the line to set breakpoint at.","optional":true,"type":"integer"},{"name":"condition","description":"Expression to use as a breakpoint condition. When specified, debugger will only stop on the\\nbreakpoint if this expression evaluates to true.","optional":true,"type":"string"}],"returns":[{"name":"breakpointId","description":"Id of the created breakpoint for further reference.","$ref":"BreakpointId"},{"name":"locations","description":"List of the locations this breakpoint resolved into upon addition.","type":"array","items":{"$ref":"Location"}}]},{"name":"setBreakpointOnFunctionCall","description":"Sets JavaScript breakpoint before each call to the given function.\\nIf another function was created from the same source as a given one,\\ncalling it will also trigger the breakpoint.","experimental":true,"parameters":[{"name":"objectId","description":"Function object id.","$ref":"Runtime.RemoteObjectId"},{"name":"condition","description":"Expression to use as a breakpoint condition. When specified, debugger will\\nstop on the breakpoint if this expression evaluates to true.","optional":true,"type":"string"}],"returns":[{"name":"breakpointId","description":"Id of the created breakpoint for further reference.","$ref":"BreakpointId"}]},{"name":"setBreakpointsActive","description":"Activates / deactivates all breakpoints on the page.","parameters":[{"name":"active","description":"New value for breakpoints active state.","type":"boolean"}]},{"name":"setPauseOnExceptions","description":"Defines pause on exceptions state. Can be set to stop on all exceptions, uncaught exceptions or\\nno exceptions. Initial pause on exceptions state is `none`.","parameters":[{"name":"state","description":"Pause on exceptions mode.","type":"string","enum":["none","uncaught","all"]}]},{"name":"setReturnValue","description":"Changes return value in top frame. Available only at return break position.","experimental":true,"parameters":[{"name":"newValue","description":"New return value.","$ref":"Runtime.CallArgument"}]},{"name":"setScriptSource","description":"Edits JavaScript source live.","parameters":[{"name":"scriptId","description":"Id of the script to edit.","$ref":"Runtime.ScriptId"},{"name":"scriptSource","description":"New content of the script.","type":"string"},{"name":"dryRun","description":"If true the change will not actually be applied. Dry run may be used to get result\\ndescription without actually modifying the code.","optional":true,"type":"boolean"}],"returns":[{"name":"callFrames","description":"New stack trace in case editing has happened while VM was stopped.","optional":true,"type":"array","items":{"$ref":"CallFrame"}},{"name":"stackChanged","description":"Whether current call stack  was modified after applying the changes.","optional":true,"type":"boolean"},{"name":"asyncStackTrace","description":"Async stack trace, if any.","optional":true,"$ref":"Runtime.StackTrace"},{"name":"asyncStackTraceId","description":"Async stack trace, if any.","experimental":true,"optional":true,"$ref":"Runtime.StackTraceId"},{"name":"exceptionDetails","description":"Exception details if any.","optional":true,"$ref":"Runtime.ExceptionDetails"}]},{"name":"setSkipAllPauses","description":"Makes page not interrupt on any pauses (breakpoint, exception, dom exception etc).","parameters":[{"name":"skip","description":"New value for skip pauses state.","type":"boolean"}]},{"name":"setVariableValue","description":"Changes value of variable in a callframe. Object-based scopes are not supported and must be\\nmutated manually.","parameters":[{"name":"scopeNumber","description":"0-based number of scope as was listed in scope chain. Only \'local\', \'closure\' and \'catch\'\\nscope types are allowed. Other scopes could be manipulated manually.","type":"integer"},{"name":"variableName","description":"Variable name.","type":"string"},{"name":"newValue","description":"New variable value.","$ref":"Runtime.CallArgument"},{"name":"callFrameId","description":"Id of callframe that holds variable.","$ref":"CallFrameId"}]},{"name":"stepInto","description":"Steps into the function call.","parameters":[{"name":"breakOnAsyncCall","description":"Debugger will issue additional Debugger.paused notification if any async task is scheduled\\nbefore next pause.","experimental":true,"optional":true,"type":"boolean"}]},{"name":"stepOut","description":"Steps out of the function call."},{"name":"stepOver","description":"Steps over the statement."}],"events":[{"name":"breakpointResolved","description":"Fired when breakpoint is resolved to an actual script and location.","parameters":[{"name":"breakpointId","description":"Breakpoint unique identifier.","$ref":"BreakpointId"},{"name":"location","description":"Actual breakpoint location.","$ref":"Location"}]},{"name":"paused","description":"Fired when the virtual machine stopped on breakpoint or exception or any other stop criteria.","parameters":[{"name":"callFrames","description":"Call stack the virtual machine stopped on.","type":"array","items":{"$ref":"CallFrame"}},{"name":"reason","description":"Pause reason.","type":"string","enum":["ambiguous","assert","debugCommand","DOM","EventListener","exception","instrumentation","OOM","other","promiseRejection","XHR"]},{"name":"data","description":"Object containing break-specific auxiliary properties.","optional":true,"type":"object"},{"name":"hitBreakpoints","description":"Hit breakpoints IDs","optional":true,"type":"array","items":{"type":"string"}},{"name":"asyncStackTrace","description":"Async stack trace, if any.","optional":true,"$ref":"Runtime.StackTrace"},{"name":"asyncStackTraceId","description":"Async stack trace, if any.","experimental":true,"optional":true,"$ref":"Runtime.StackTraceId"},{"name":"asyncCallStackTraceId","description":"Just scheduled async call will have this stack trace as parent stack during async execution.\\nThis field is available only after `Debugger.stepInto` call with `breakOnAsynCall` flag.","experimental":true,"optional":true,"$ref":"Runtime.StackTraceId"}]},{"name":"resumed","description":"Fired when the virtual machine resumed execution."},{"name":"scriptFailedToParse","description":"Fired when virtual machine fails to parse the script.","parameters":[{"name":"scriptId","description":"Identifier of the script parsed.","$ref":"Runtime.ScriptId"},{"name":"url","description":"URL or name of the script parsed (if any).","type":"string"},{"name":"startLine","description":"Line offset of the script within the resource with given URL (for script tags).","type":"integer"},{"name":"startColumn","description":"Column offset of the script within the resource with given URL.","type":"integer"},{"name":"endLine","description":"Last line of the script.","type":"integer"},{"name":"endColumn","description":"Length of the last line of the script.","type":"integer"},{"name":"executionContextId","description":"Specifies script creation context.","$ref":"Runtime.ExecutionContextId"},{"name":"hash","description":"Content hash of the script.","type":"string"},{"name":"executionContextAuxData","description":"Embedder-specific auxiliary data.","optional":true,"type":"object"},{"name":"sourceMapURL","description":"URL of source map associated with script (if any).","optional":true,"type":"string"},{"name":"hasSourceURL","description":"True, if this script has sourceURL.","optional":true,"type":"boolean"},{"name":"isModule","description":"True, if this script is ES6 module.","optional":true,"type":"boolean"},{"name":"length","description":"This script length.","optional":true,"type":"integer"},{"name":"stackTrace","description":"JavaScript top stack frame of where the script parsed event was triggered if available.","experimental":true,"optional":true,"$ref":"Runtime.StackTrace"}]},{"name":"scriptParsed","description":"Fired when virtual machine parses script. This event is also fired for all known and uncollected\\nscripts upon enabling debugger.","parameters":[{"name":"scriptId","description":"Identifier of the script parsed.","$ref":"Runtime.ScriptId"},{"name":"url","description":"URL or name of the script parsed (if any).","type":"string"},{"name":"startLine","description":"Line offset of the script within the resource with given URL (for script tags).","type":"integer"},{"name":"startColumn","description":"Column offset of the script within the resource with given URL.","type":"integer"},{"name":"endLine","description":"Last line of the script.","type":"integer"},{"name":"endColumn","description":"Length of the last line of the script.","type":"integer"},{"name":"executionContextId","description":"Specifies script creation context.","$ref":"Runtime.ExecutionContextId"},{"name":"hash","description":"Content hash of the script.","type":"string"},{"name":"executionContextAuxData","description":"Embedder-specific auxiliary data.","optional":true,"type":"object"},{"name":"isLiveEdit","description":"True, if this script is generated as a result of the live edit operation.","experimental":true,"optional":true,"type":"boolean"},{"name":"sourceMapURL","description":"URL of source map associated with script (if any).","optional":true,"type":"string"},{"name":"hasSourceURL","description":"True, if this script has sourceURL.","optional":true,"type":"boolean"},{"name":"isModule","description":"True, if this script is ES6 module.","optional":true,"type":"boolean"},{"name":"length","description":"This script length.","optional":true,"type":"integer"},{"name":"stackTrace","description":"JavaScript top stack frame of where the script parsed event was triggered if available.","experimental":true,"optional":true,"$ref":"Runtime.StackTrace"}]}]},{"domain":"HeapProfiler","experimental":true,"dependencies":["Runtime"],"types":[{"id":"HeapSnapshotObjectId","description":"Heap snapshot object id.","type":"string"},{"id":"SamplingHeapProfileNode","description":"Sampling Heap Profile node. Holds callsite information, allocation statistics and child nodes.","type":"object","properties":[{"name":"callFrame","description":"Function location.","$ref":"Runtime.CallFrame"},{"name":"selfSize","description":"Allocations size in bytes for the node excluding children.","type":"number"},{"name":"id","description":"Node id. Ids are unique across all profiles collected between startSampling and stopSampling.","type":"integer"},{"name":"children","description":"Child nodes.","type":"array","items":{"$ref":"SamplingHeapProfileNode"}}]},{"id":"SamplingHeapProfileSample","description":"A single sample from a sampling profile.","type":"object","properties":[{"name":"size","description":"Allocation size in bytes attributed to the sample.","type":"number"},{"name":"nodeId","description":"Id of the corresponding profile tree node.","type":"integer"},{"name":"ordinal","description":"Time-ordered sample ordinal number. It is unique across all profiles retrieved\\nbetween startSampling and stopSampling.","type":"number"}]},{"id":"SamplingHeapProfile","description":"Sampling profile.","type":"object","properties":[{"name":"head","$ref":"SamplingHeapProfileNode"},{"name":"samples","type":"array","items":{"$ref":"SamplingHeapProfileSample"}}]}],"commands":[{"name":"addInspectedHeapObject","description":"Enables console to refer to the node with given id via $x (see Command Line API for more details\\n$x functions).","parameters":[{"name":"heapObjectId","description":"Heap snapshot object id to be accessible by means of $x command line API.","$ref":"HeapSnapshotObjectId"}]},{"name":"collectGarbage"},{"name":"disable"},{"name":"enable"},{"name":"getHeapObjectId","parameters":[{"name":"objectId","description":"Identifier of the object to get heap object id for.","$ref":"Runtime.RemoteObjectId"}],"returns":[{"name":"heapSnapshotObjectId","description":"Id of the heap snapshot object corresponding to the passed remote object id.","$ref":"HeapSnapshotObjectId"}]},{"name":"getObjectByHeapObjectId","parameters":[{"name":"objectId","$ref":"HeapSnapshotObjectId"},{"name":"objectGroup","description":"Symbolic group name that can be used to release multiple objects.","optional":true,"type":"string"}],"returns":[{"name":"result","description":"Evaluation result.","$ref":"Runtime.RemoteObject"}]},{"name":"getSamplingProfile","returns":[{"name":"profile","description":"Return the sampling profile being collected.","$ref":"SamplingHeapProfile"}]},{"name":"startSampling","parameters":[{"name":"samplingInterval","description":"Average sample interval in bytes. Poisson distribution is used for the intervals. The\\ndefault value is 32768 bytes.","optional":true,"type":"number"}]},{"name":"startTrackingHeapObjects","parameters":[{"name":"trackAllocations","optional":true,"type":"boolean"}]},{"name":"stopSampling","returns":[{"name":"profile","description":"Recorded sampling heap profile.","$ref":"SamplingHeapProfile"}]},{"name":"stopTrackingHeapObjects","parameters":[{"name":"reportProgress","description":"If true \'reportHeapSnapshotProgress\' events will be generated while snapshot is being taken\\nwhen the tracking is stopped.","optional":true,"type":"boolean"}]},{"name":"takeHeapSnapshot","parameters":[{"name":"reportProgress","description":"If true \'reportHeapSnapshotProgress\' events will be generated while snapshot is being taken.","optional":true,"type":"boolean"}]}],"events":[{"name":"addHeapSnapshotChunk","parameters":[{"name":"chunk","type":"string"}]},{"name":"heapStatsUpdate","description":"If heap objects tracking has been started then backend may send update for one or more fragments","parameters":[{"name":"statsUpdate","description":"An array of triplets. Each triplet describes a fragment. The first integer is the fragment\\nindex, the second integer is a total count of objects for the fragment, the third integer is\\na total size of the objects for the fragment.","type":"array","items":{"type":"integer"}}]},{"name":"lastSeenObjectId","description":"If heap objects tracking has been started then backend regularly sends a current value for last\\nseen object id and corresponding timestamp. If the were changes in the heap since last event\\nthen one or more heapStatsUpdate events will be sent before a new lastSeenObjectId event.","parameters":[{"name":"lastSeenObjectId","type":"integer"},{"name":"timestamp","type":"number"}]},{"name":"reportHeapSnapshotProgress","parameters":[{"name":"done","type":"integer"},{"name":"total","type":"integer"},{"name":"finished","optional":true,"type":"boolean"}]},{"name":"resetProfiles"}]},{"domain":"Profiler","dependencies":["Runtime","Debugger"],"types":[{"id":"ProfileNode","description":"Profile node. Holds callsite information, execution statistics and child nodes.","type":"object","properties":[{"name":"id","description":"Unique id of the node.","type":"integer"},{"name":"callFrame","description":"Function location.","$ref":"Runtime.CallFrame"},{"name":"hitCount","description":"Number of samples where this node was on top of the call stack.","optional":true,"type":"integer"},{"name":"children","description":"Child node ids.","optional":true,"type":"array","items":{"type":"integer"}},{"name":"deoptReason","description":"The reason of being not optimized. The function may be deoptimized or marked as don\'t\\noptimize.","optional":true,"type":"string"},{"name":"positionTicks","description":"An array of source position ticks.","optional":true,"type":"array","items":{"$ref":"PositionTickInfo"}}]},{"id":"Profile","description":"Profile.","type":"object","properties":[{"name":"nodes","description":"The list of profile nodes. First item is the root node.","type":"array","items":{"$ref":"ProfileNode"}},{"name":"startTime","description":"Profiling start timestamp in microseconds.","type":"number"},{"name":"endTime","description":"Profiling end timestamp in microseconds.","type":"number"},{"name":"samples","description":"Ids of samples top nodes.","optional":true,"type":"array","items":{"type":"integer"}},{"name":"timeDeltas","description":"Time intervals between adjacent samples in microseconds. The first delta is relative to the\\nprofile startTime.","optional":true,"type":"array","items":{"type":"integer"}}]},{"id":"PositionTickInfo","description":"Specifies a number of samples attributed to a certain source position.","type":"object","properties":[{"name":"line","description":"Source line number (1-based).","type":"integer"},{"name":"ticks","description":"Number of samples attributed to the source line.","type":"integer"}]},{"id":"CoverageRange","description":"Coverage data for a source range.","type":"object","properties":[{"name":"startOffset","description":"JavaScript script source offset for the range start.","type":"integer"},{"name":"endOffset","description":"JavaScript script source offset for the range end.","type":"integer"},{"name":"count","description":"Collected execution count of the source range.","type":"integer"}]},{"id":"FunctionCoverage","description":"Coverage data for a JavaScript function.","type":"object","properties":[{"name":"functionName","description":"JavaScript function name.","type":"string"},{"name":"ranges","description":"Source ranges inside the function with coverage data.","type":"array","items":{"$ref":"CoverageRange"}},{"name":"isBlockCoverage","description":"Whether coverage data for this function has block granularity.","type":"boolean"}]},{"id":"ScriptCoverage","description":"Coverage data for a JavaScript script.","type":"object","properties":[{"name":"scriptId","description":"JavaScript script id.","$ref":"Runtime.ScriptId"},{"name":"url","description":"JavaScript script name or url.","type":"string"},{"name":"functions","description":"Functions contained in the script that has coverage data.","type":"array","items":{"$ref":"FunctionCoverage"}}]},{"id":"TypeObject","description":"Describes a type collected during runtime.","experimental":true,"type":"object","properties":[{"name":"name","description":"Name of a type collected with type profiling.","type":"string"}]},{"id":"TypeProfileEntry","description":"Source offset and types for a parameter or return value.","experimental":true,"type":"object","properties":[{"name":"offset","description":"Source offset of the parameter or end of function for return values.","type":"integer"},{"name":"types","description":"The types for this parameter or return value.","type":"array","items":{"$ref":"TypeObject"}}]},{"id":"ScriptTypeProfile","description":"Type profile data collected during runtime for a JavaScript script.","experimental":true,"type":"object","properties":[{"name":"scriptId","description":"JavaScript script id.","$ref":"Runtime.ScriptId"},{"name":"url","description":"JavaScript script name or url.","type":"string"},{"name":"entries","description":"Type profile entries for parameters and return values of the functions in the script.","type":"array","items":{"$ref":"TypeProfileEntry"}}]}],"commands":[{"name":"disable"},{"name":"enable"},{"name":"getBestEffortCoverage","description":"Collect coverage data for the current isolate. The coverage data may be incomplete due to\\ngarbage collection.","returns":[{"name":"result","description":"Coverage data for the current isolate.","type":"array","items":{"$ref":"ScriptCoverage"}}]},{"name":"setSamplingInterval","description":"Changes CPU profiler sampling interval. Must be called before CPU profiles recording started.","parameters":[{"name":"interval","description":"New sampling interval in microseconds.","type":"integer"}]},{"name":"start"},{"name":"startPreciseCoverage","description":"Enable precise code coverage. Coverage data for JavaScript executed before enabling precise code\\ncoverage may be incomplete. Enabling prevents running optimized code and resets execution\\ncounters.","parameters":[{"name":"callCount","description":"Collect accurate call counts beyond simple \'covered\' or \'not covered\'.","optional":true,"type":"boolean"},{"name":"detailed","description":"Collect block-based coverage.","optional":true,"type":"boolean"}]},{"name":"startTypeProfile","description":"Enable type profile.","experimental":true},{"name":"stop","returns":[{"name":"profile","description":"Recorded profile.","$ref":"Profile"}]},{"name":"stopPreciseCoverage","description":"Disable precise code coverage. Disabling releases unnecessary execution count records and allows\\nexecuting optimized code."},{"name":"stopTypeProfile","description":"Disable type profile. Disabling releases type profile data collected so far.","experimental":true},{"name":"takePreciseCoverage","description":"Collect coverage data for the current isolate, and resets execution counters. Precise code\\ncoverage needs to have started.","returns":[{"name":"result","description":"Coverage data for the current isolate.","type":"array","items":{"$ref":"ScriptCoverage"}}]},{"name":"takeTypeProfile","description":"Collect type profile.","experimental":true,"returns":[{"name":"result","description":"Type profile for all scripts since startTypeProfile() was turned on.","type":"array","items":{"$ref":"ScriptTypeProfile"}}]}],"events":[{"name":"consoleProfileFinished","parameters":[{"name":"id","type":"string"},{"name":"location","description":"Location of console.profileEnd().","$ref":"Debugger.Location"},{"name":"profile","$ref":"Profile"},{"name":"title","description":"Profile title passed as an argument to console.profile().","optional":true,"type":"string"}]},{"name":"consoleProfileStarted","description":"Sent when new profile recording is started using console.profile() call.","parameters":[{"name":"id","type":"string"},{"name":"location","description":"Location of console.profile().","$ref":"Debugger.Location"},{"name":"title","description":"Profile title passed as an argument to console.profile().","optional":true,"type":"string"}]}]},{"domain":"Runtime","description":"Runtime domain exposes JavaScript runtime by means of remote evaluation and mirror objects.\\nEvaluation results are returned as mirror object that expose object type, string representation\\nand unique identifier that can be used for further object reference. Original objects are\\nmaintained in memory unless they are either explicitly released or are released along with the\\nother objects in their object group.","types":[{"id":"ScriptId","description":"Unique script identifier.","type":"string"},{"id":"RemoteObjectId","description":"Unique object identifier.","type":"string"},{"id":"UnserializableValue","description":"Primitive value which cannot be JSON-stringified. Includes values `-0`, `NaN`, `Infinity`,\\n`-Infinity`, and bigint literals.","type":"string"},{"id":"RemoteObject","description":"Mirror object referencing original JavaScript object.","type":"object","properties":[{"name":"type","description":"Object type.","type":"string","enum":["object","function","undefined","string","number","boolean","symbol","bigint"]},{"name":"subtype","description":"Object subtype hint. Specified for `object` type values only.","optional":true,"type":"string","enum":["array","null","node","regexp","date","map","set","weakmap","weakset","iterator","generator","error","proxy","promise","typedarray","arraybuffer","dataview"]},{"name":"className","description":"Object class (constructor) name. Specified for `object` type values only.","optional":true,"type":"string"},{"name":"value","description":"Remote object value in case of primitive values or JSON values (if it was requested).","optional":true,"type":"any"},{"name":"unserializableValue","description":"Primitive value which can not be JSON-stringified does not have `value`, but gets this\\nproperty.","optional":true,"$ref":"UnserializableValue"},{"name":"description","description":"String representation of the object.","optional":true,"type":"string"},{"name":"objectId","description":"Unique object identifier (for non-primitive values).","optional":true,"$ref":"RemoteObjectId"},{"name":"preview","description":"Preview containing abbreviated property values. Specified for `object` type values only.","experimental":true,"optional":true,"$ref":"ObjectPreview"},{"name":"customPreview","experimental":true,"optional":true,"$ref":"CustomPreview"}]},{"id":"CustomPreview","experimental":true,"type":"object","properties":[{"name":"header","description":"The JSON-stringified result of formatter.header(object, config) call.\\nIt contains json ML array that represents RemoteObject.","type":"string"},{"name":"bodyGetterId","description":"If formatter returns true as a result of formatter.hasBody call then bodyGetterId will\\ncontain RemoteObjectId for the function that returns result of formatter.body(object, config) call.\\nThe result value is json ML array.","optional":true,"$ref":"RemoteObjectId"}]},{"id":"ObjectPreview","description":"Object containing abbreviated remote object value.","experimental":true,"type":"object","properties":[{"name":"type","description":"Object type.","type":"string","enum":["object","function","undefined","string","number","boolean","symbol","bigint"]},{"name":"subtype","description":"Object subtype hint. Specified for `object` type values only.","optional":true,"type":"string","enum":["array","null","node","regexp","date","map","set","weakmap","weakset","iterator","generator","error"]},{"name":"description","description":"String representation of the object.","optional":true,"type":"string"},{"name":"overflow","description":"True iff some of the properties or entries of the original object did not fit.","type":"boolean"},{"name":"properties","description":"List of the properties.","type":"array","items":{"$ref":"PropertyPreview"}},{"name":"entries","description":"List of the entries. Specified for `map` and `set` subtype values only.","optional":true,"type":"array","items":{"$ref":"EntryPreview"}}]},{"id":"PropertyPreview","experimental":true,"type":"object","properties":[{"name":"name","description":"Property name.","type":"string"},{"name":"type","description":"Object type. Accessor means that the property itself is an accessor property.","type":"string","enum":["object","function","undefined","string","number","boolean","symbol","accessor","bigint"]},{"name":"value","description":"User-friendly property value string.","optional":true,"type":"string"},{"name":"valuePreview","description":"Nested value preview.","optional":true,"$ref":"ObjectPreview"},{"name":"subtype","description":"Object subtype hint. Specified for `object` type values only.","optional":true,"type":"string","enum":["array","null","node","regexp","date","map","set","weakmap","weakset","iterator","generator","error"]}]},{"id":"EntryPreview","experimental":true,"type":"object","properties":[{"name":"key","description":"Preview of the key. Specified for map-like collection entries.","optional":true,"$ref":"ObjectPreview"},{"name":"value","description":"Preview of the value.","$ref":"ObjectPreview"}]},{"id":"PropertyDescriptor","description":"Object property descriptor.","type":"object","properties":[{"name":"name","description":"Property name or symbol description.","type":"string"},{"name":"value","description":"The value associated with the property.","optional":true,"$ref":"RemoteObject"},{"name":"writable","description":"True if the value associated with the property may be changed (data descriptors only).","optional":true,"type":"boolean"},{"name":"get","description":"A function which serves as a getter for the property, or `undefined` if there is no getter\\n(accessor descriptors only).","optional":true,"$ref":"RemoteObject"},{"name":"set","description":"A function which serves as a setter for the property, or `undefined` if there is no setter\\n(accessor descriptors only).","optional":true,"$ref":"RemoteObject"},{"name":"configurable","description":"True if the type of this property descriptor may be changed and if the property may be\\ndeleted from the corresponding object.","type":"boolean"},{"name":"enumerable","description":"True if this property shows up during enumeration of the properties on the corresponding\\nobject.","type":"boolean"},{"name":"wasThrown","description":"True if the result was thrown during the evaluation.","optional":true,"type":"boolean"},{"name":"isOwn","description":"True if the property is owned for the object.","optional":true,"type":"boolean"},{"name":"symbol","description":"Property symbol object, if the property is of the `symbol` type.","optional":true,"$ref":"RemoteObject"}]},{"id":"InternalPropertyDescriptor","description":"Object internal property descriptor. This property isn\'t normally visible in JavaScript code.","type":"object","properties":[{"name":"name","description":"Conventional property name.","type":"string"},{"name":"value","description":"The value associated with the property.","optional":true,"$ref":"RemoteObject"}]},{"id":"PrivatePropertyDescriptor","description":"Object private field descriptor.","experimental":true,"type":"object","properties":[{"name":"name","description":"Private property name.","type":"string"},{"name":"value","description":"The value associated with the private property.","$ref":"RemoteObject"}]},{"id":"CallArgument","description":"Represents function call argument. Either remote object id `objectId`, primitive `value`,\\nunserializable primitive value or neither of (for undefined) them should be specified.","type":"object","properties":[{"name":"value","description":"Primitive value or serializable javascript object.","optional":true,"type":"any"},{"name":"unserializableValue","description":"Primitive value which can not be JSON-stringified.","optional":true,"$ref":"UnserializableValue"},{"name":"objectId","description":"Remote object handle.","optional":true,"$ref":"RemoteObjectId"}]},{"id":"ExecutionContextId","description":"Id of an execution context.","type":"integer"},{"id":"ExecutionContextDescription","description":"Description of an isolated world.","type":"object","properties":[{"name":"id","description":"Unique id of the execution context. It can be used to specify in which execution context\\nscript evaluation should be performed.","$ref":"ExecutionContextId"},{"name":"origin","description":"Execution context origin.","type":"string"},{"name":"name","description":"Human readable name describing given context.","type":"string"},{"name":"auxData","description":"Embedder-specific auxiliary data.","optional":true,"type":"object"}]},{"id":"ExceptionDetails","description":"Detailed information about exception (or error) that was thrown during script compilation or\\nexecution.","type":"object","properties":[{"name":"exceptionId","description":"Exception id.","type":"integer"},{"name":"text","description":"Exception text, which should be used together with exception object when available.","type":"string"},{"name":"lineNumber","description":"Line number of the exception location (0-based).","type":"integer"},{"name":"columnNumber","description":"Column number of the exception location (0-based).","type":"integer"},{"name":"scriptId","description":"Script ID of the exception location.","optional":true,"$ref":"ScriptId"},{"name":"url","description":"URL of the exception location, to be used when the script was not reported.","optional":true,"type":"string"},{"name":"stackTrace","description":"JavaScript stack trace if available.","optional":true,"$ref":"StackTrace"},{"name":"exception","description":"Exception object if available.","optional":true,"$ref":"RemoteObject"},{"name":"executionContextId","description":"Identifier of the context where exception happened.","optional":true,"$ref":"ExecutionContextId"}]},{"id":"Timestamp","description":"Number of milliseconds since epoch.","type":"number"},{"id":"TimeDelta","description":"Number of milliseconds.","type":"number"},{"id":"CallFrame","description":"Stack entry for runtime errors and assertions.","type":"object","properties":[{"name":"functionName","description":"JavaScript function name.","type":"string"},{"name":"scriptId","description":"JavaScript script id.","$ref":"ScriptId"},{"name":"url","description":"JavaScript script name or url.","type":"string"},{"name":"lineNumber","description":"JavaScript script line number (0-based).","type":"integer"},{"name":"columnNumber","description":"JavaScript script column number (0-based).","type":"integer"}]},{"id":"StackTrace","description":"Call frames for assertions or error messages.","type":"object","properties":[{"name":"description","description":"String label of this stack trace. For async traces this may be a name of the function that\\ninitiated the async call.","optional":true,"type":"string"},{"name":"callFrames","description":"JavaScript function name.","type":"array","items":{"$ref":"CallFrame"}},{"name":"parent","description":"Asynchronous JavaScript stack trace that preceded this stack, if available.","optional":true,"$ref":"StackTrace"},{"name":"parentId","description":"Asynchronous JavaScript stack trace that preceded this stack, if available.","experimental":true,"optional":true,"$ref":"StackTraceId"}]},{"id":"UniqueDebuggerId","description":"Unique identifier of current debugger.","experimental":true,"type":"string"},{"id":"StackTraceId","description":"If `debuggerId` is set stack trace comes from another debugger and can be resolved there. This\\nallows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.paused` for usages.","experimental":true,"type":"object","properties":[{"name":"id","type":"string"},{"name":"debuggerId","optional":true,"$ref":"UniqueDebuggerId"}]}],"commands":[{"name":"awaitPromise","description":"Add handler to promise with given promise object id.","parameters":[{"name":"promiseObjectId","description":"Identifier of the promise.","$ref":"RemoteObjectId"},{"name":"returnByValue","description":"Whether the result is expected to be a JSON object that should be sent by value.","optional":true,"type":"boolean"},{"name":"generatePreview","description":"Whether preview should be generated for the result.","optional":true,"type":"boolean"}],"returns":[{"name":"result","description":"Promise result. Will contain rejected value if promise was rejected.","$ref":"RemoteObject"},{"name":"exceptionDetails","description":"Exception details if stack strace is available.","optional":true,"$ref":"ExceptionDetails"}]},{"name":"callFunctionOn","description":"Calls function with given declaration on the given object. Object group of the result is\\ninherited from the target object.","parameters":[{"name":"functionDeclaration","description":"Declaration of the function to call.","type":"string"},{"name":"objectId","description":"Identifier of the object to call function on. Either objectId or executionContextId should\\nbe specified.","optional":true,"$ref":"RemoteObjectId"},{"name":"arguments","description":"Call arguments. All call arguments must belong to the same JavaScript world as the target\\nobject.","optional":true,"type":"array","items":{"$ref":"CallArgument"}},{"name":"silent","description":"In silent mode exceptions thrown during evaluation are not reported and do not pause\\nexecution. Overrides `setPauseOnException` state.","optional":true,"type":"boolean"},{"name":"returnByValue","description":"Whether the result is expected to be a JSON object which should be sent by value.","optional":true,"type":"boolean"},{"name":"generatePreview","description":"Whether preview should be generated for the result.","experimental":true,"optional":true,"type":"boolean"},{"name":"userGesture","description":"Whether execution should be treated as initiated by user in the UI.","optional":true,"type":"boolean"},{"name":"awaitPromise","description":"Whether execution should `await` for resulting value and return once awaited promise is\\nresolved.","optional":true,"type":"boolean"},{"name":"executionContextId","description":"Specifies execution context which global object will be used to call function on. Either\\nexecutionContextId or objectId should be specified.","optional":true,"$ref":"ExecutionContextId"},{"name":"objectGroup","description":"Symbolic group name that can be used to release multiple objects. If objectGroup is not\\nspecified and objectId is, objectGroup will be inherited from object.","optional":true,"type":"string"}],"returns":[{"name":"result","description":"Call result.","$ref":"RemoteObject"},{"name":"exceptionDetails","description":"Exception details.","optional":true,"$ref":"ExceptionDetails"}]},{"name":"compileScript","description":"Compiles expression.","parameters":[{"name":"expression","description":"Expression to compile.","type":"string"},{"name":"sourceURL","description":"Source url to be set for the script.","type":"string"},{"name":"persistScript","description":"Specifies whether the compiled script should be persisted.","type":"boolean"},{"name":"executionContextId","description":"Specifies in which execution context to perform script run. If the parameter is omitted the\\nevaluation will be performed in the context of the inspected page.","optional":true,"$ref":"ExecutionContextId"}],"returns":[{"name":"scriptId","description":"Id of the script.","optional":true,"$ref":"ScriptId"},{"name":"exceptionDetails","description":"Exception details.","optional":true,"$ref":"ExceptionDetails"}]},{"name":"disable","description":"Disables reporting of execution contexts creation."},{"name":"discardConsoleEntries","description":"Discards collected exceptions and console API calls."},{"name":"enable","description":"Enables reporting of execution contexts creation by means of `executionContextCreated` event.\\nWhen the reporting gets enabled the event will be sent immediately for each existing execution\\ncontext."},{"name":"evaluate","description":"Evaluates expression on global object.","parameters":[{"name":"expression","description":"Expression to evaluate.","type":"string"},{"name":"objectGroup","description":"Symbolic group name that can be used to release multiple objects.","optional":true,"type":"string"},{"name":"includeCommandLineAPI","description":"Determines whether Command Line API should be available during the evaluation.","optional":true,"type":"boolean"},{"name":"silent","description":"In silent mode exceptions thrown during evaluation are not reported and do not pause\\nexecution. Overrides `setPauseOnException` state.","optional":true,"type":"boolean"},{"name":"contextId","description":"Specifies in which execution context to perform evaluation. If the parameter is omitted the\\nevaluation will be performed in the context of the inspected page.","optional":true,"$ref":"ExecutionContextId"},{"name":"returnByValue","description":"Whether the result is expected to be a JSON object that should be sent by value.","optional":true,"type":"boolean"},{"name":"generatePreview","description":"Whether preview should be generated for the result.","experimental":true,"optional":true,"type":"boolean"},{"name":"userGesture","description":"Whether execution should be treated as initiated by user in the UI.","optional":true,"type":"boolean"},{"name":"awaitPromise","description":"Whether execution should `await` for resulting value and return once awaited promise is\\nresolved.","optional":true,"type":"boolean"},{"name":"throwOnSideEffect","description":"Whether to throw an exception if side effect cannot be ruled out during evaluation.","experimental":true,"optional":true,"type":"boolean"},{"name":"timeout","description":"Terminate execution after timing out (number of milliseconds).","experimental":true,"optional":true,"$ref":"TimeDelta"}],"returns":[{"name":"result","description":"Evaluation result.","$ref":"RemoteObject"},{"name":"exceptionDetails","description":"Exception details.","optional":true,"$ref":"ExceptionDetails"}]},{"name":"getIsolateId","description":"Returns the isolate id.","experimental":true,"returns":[{"name":"id","description":"The isolate id.","type":"string"}]},{"name":"getHeapUsage","description":"Returns the JavaScript heap usage.\\nIt is the total usage of the corresponding isolate not scoped to a particular Runtime.","experimental":true,"returns":[{"name":"usedSize","description":"Used heap size in bytes.","type":"number"},{"name":"totalSize","description":"Allocated heap size in bytes.","type":"number"}]},{"name":"getProperties","description":"Returns properties of a given object. Object group of the result is inherited from the target\\nobject.","parameters":[{"name":"objectId","description":"Identifier of the object to return properties for.","$ref":"RemoteObjectId"},{"name":"ownProperties","description":"If true, returns properties belonging only to the element itself, not to its prototype\\nchain.","optional":true,"type":"boolean"},{"name":"accessorPropertiesOnly","description":"If true, returns accessor properties (with getter/setter) only; internal properties are not\\nreturned either.","experimental":true,"optional":true,"type":"boolean"},{"name":"generatePreview","description":"Whether preview should be generated for the results.","experimental":true,"optional":true,"type":"boolean"}],"returns":[{"name":"result","description":"Object properties.","type":"array","items":{"$ref":"PropertyDescriptor"}},{"name":"internalProperties","description":"Internal object properties (only of the element itself).","optional":true,"type":"array","items":{"$ref":"InternalPropertyDescriptor"}},{"name":"privateProperties","description":"Object private properties.","experimental":true,"optional":true,"type":"array","items":{"$ref":"PrivatePropertyDescriptor"}},{"name":"exceptionDetails","description":"Exception details.","optional":true,"$ref":"ExceptionDetails"}]},{"name":"globalLexicalScopeNames","description":"Returns all let, const and class variables from global scope.","parameters":[{"name":"executionContextId","description":"Specifies in which execution context to lookup global scope variables.","optional":true,"$ref":"ExecutionContextId"}],"returns":[{"name":"names","type":"array","items":{"type":"string"}}]},{"name":"queryObjects","parameters":[{"name":"prototypeObjectId","description":"Identifier of the prototype to return objects for.","$ref":"RemoteObjectId"},{"name":"objectGroup","description":"Symbolic group name that can be used to release the results.","optional":true,"type":"string"}],"returns":[{"name":"objects","description":"Array with objects.","$ref":"RemoteObject"}]},{"name":"releaseObject","description":"Releases remote object with given id.","parameters":[{"name":"objectId","description":"Identifier of the object to release.","$ref":"RemoteObjectId"}]},{"name":"releaseObjectGroup","description":"Releases all remote objects that belong to a given group.","parameters":[{"name":"objectGroup","description":"Symbolic object group name.","type":"string"}]},{"name":"runIfWaitingForDebugger","description":"Tells inspected instance to run if it was waiting for debugger to attach."},{"name":"runScript","description":"Runs script with given id in a given context.","parameters":[{"name":"scriptId","description":"Id of the script to run.","$ref":"ScriptId"},{"name":"executionContextId","description":"Specifies in which execution context to perform script run. If the parameter is omitted the\\nevaluation will be performed in the context of the inspected page.","optional":true,"$ref":"ExecutionContextId"},{"name":"objectGroup","description":"Symbolic group name that can be used to release multiple objects.","optional":true,"type":"string"},{"name":"silent","description":"In silent mode exceptions thrown during evaluation are not reported and do not pause\\nexecution. Overrides `setPauseOnException` state.","optional":true,"type":"boolean"},{"name":"includeCommandLineAPI","description":"Determines whether Command Line API should be available during the evaluation.","optional":true,"type":"boolean"},{"name":"returnByValue","description":"Whether the result is expected to be a JSON object which should be sent by value.","optional":true,"type":"boolean"},{"name":"generatePreview","description":"Whether preview should be generated for the result.","optional":true,"type":"boolean"},{"name":"awaitPromise","description":"Whether execution should `await` for resulting value and return once awaited promise is\\nresolved.","optional":true,"type":"boolean"}],"returns":[{"name":"result","description":"Run result.","$ref":"RemoteObject"},{"name":"exceptionDetails","description":"Exception details.","optional":true,"$ref":"ExceptionDetails"}]},{"name":"setAsyncCallStackDepth","description":"Enables or disables async call stacks tracking.","redirect":"Debugger","parameters":[{"name":"maxDepth","description":"Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async\\ncall stacks (default).","type":"integer"}]},{"name":"setCustomObjectFormatterEnabled","experimental":true,"parameters":[{"name":"enabled","type":"boolean"}]},{"name":"setMaxCallStackSizeToCapture","experimental":true,"parameters":[{"name":"size","type":"integer"}]},{"name":"terminateExecution","description":"Terminate current or next JavaScript execution.\\nWill cancel the termination when the outer-most script execution ends.","experimental":true},{"name":"addBinding","description":"If executionContextId is empty, adds binding with the given name on the\\nglobal objects of all inspected contexts, including those created later,\\nbindings survive reloads.\\nIf executionContextId is specified, adds binding only on global object of\\ngiven execution context.\\nBinding function takes exactly one argument, this argument should be string,\\nin case of any other input, function throws an exception.\\nEach binding function call produces Runtime.bindingCalled notification.","experimental":true,"parameters":[{"name":"name","type":"string"},{"name":"executionContextId","optional":true,"$ref":"ExecutionContextId"}]},{"name":"removeBinding","description":"This method does not remove binding function from global object but\\nunsubscribes current runtime agent from Runtime.bindingCalled notifications.","experimental":true,"parameters":[{"name":"name","type":"string"}]}],"events":[{"name":"bindingCalled","description":"Notification is issued every time when binding is called.","experimental":true,"parameters":[{"name":"name","type":"string"},{"name":"payload","type":"string"},{"name":"executionContextId","description":"Identifier of the context where the call was made.","$ref":"ExecutionContextId"}]},{"name":"consoleAPICalled","description":"Issued when console API was called.","parameters":[{"name":"type","description":"Type of the call.","type":"string","enum":["log","debug","info","error","warning","dir","dirxml","table","trace","clear","startGroup","startGroupCollapsed","endGroup","assert","profile","profileEnd","count","timeEnd"]},{"name":"args","description":"Call arguments.","type":"array","items":{"$ref":"RemoteObject"}},{"name":"executionContextId","description":"Identifier of the context where the call was made.","$ref":"ExecutionContextId"},{"name":"timestamp","description":"Call timestamp.","$ref":"Timestamp"},{"name":"stackTrace","description":"Stack trace captured when the call was made. The async stack chain is automatically reported for\\nthe following call types: `assert`, `error`, `trace`, `warning`. For other types the async call\\nchain can be retrieved using `Debugger.getStackTrace` and `stackTrace.parentId` field.","optional":true,"$ref":"StackTrace"},{"name":"context","description":"Console context descriptor for calls on non-default console context (not console.*):\\n\'anonymous#unique-logger-id\' for call on unnamed context, \'name#unique-logger-id\' for call\\non named context.","experimental":true,"optional":true,"type":"string"}]},{"name":"exceptionRevoked","description":"Issued when unhandled exception was revoked.","parameters":[{"name":"reason","description":"Reason describing why exception was revoked.","type":"string"},{"name":"exceptionId","description":"The id of revoked exception, as reported in `exceptionThrown`.","type":"integer"}]},{"name":"exceptionThrown","description":"Issued when exception was thrown and unhandled.","parameters":[{"name":"timestamp","description":"Timestamp of the exception.","$ref":"Timestamp"},{"name":"exceptionDetails","$ref":"ExceptionDetails"}]},{"name":"executionContextCreated","description":"Issued when new execution context is created.","parameters":[{"name":"context","description":"A newly created execution context.","$ref":"ExecutionContextDescription"}]},{"name":"executionContextDestroyed","description":"Issued when execution context is destroyed.","parameters":[{"name":"executionContextId","description":"Id of the destroyed context","$ref":"ExecutionContextId"}]},{"name":"executionContextsCleared","description":"Issued when all executionContexts were cleared in browser"},{"name":"inspectRequested","description":"Issued when object should be inspected (for example, as a result of inspect() command line API\\ncall).","parameters":[{"name":"object","$ref":"RemoteObject"},{"name":"hints","type":"object"}]}]},{"domain":"Schema","description":"This domain is deprecated.","deprecated":true,"types":[{"id":"Domain","description":"Description of the protocol domain.","type":"object","properties":[{"name":"name","description":"Domain name.","type":"string"},{"name":"version","description":"Domain version.","type":"string"}]}],"commands":[{"name":"getDomains","description":"Returns supported domains.","returns":[{"name":"domains","description":"List of supported domains.","type":"array","items":{"$ref":"Domain"}}]}]}]}');},5529:(e,t,n)=>{n=n(7187);e.exports=class extends n{constructor(e){super(),this._ws=new WebSocket(e),this._ws.onopen=()=>{this.emit("open");},this._ws.onclose=()=>{this.emit("close");},this._ws.onmessage=e=>{this.emit("message",e.data);},this._ws.onerror=()=>{this.emit("error",new Error("WebSocket error"));};}close(){this._ws.close();}send(e,t){try{this._ws.send(e),t();}catch(e){t(e);}}};},1910:(e,t,n)=>{var r=["BigInt64Array","BigUint64Array","Float32Array","Float64Array","Int16Array","Int32Array","Int8Array","Uint16Array","Uint32Array","Uint8Array","Uint8ClampedArray"];e.exports=function(){for(var e=[],t=0;t<r.length;t++)"function"==typeof n.g[r[t]]&&(e[e.length]=r[t]);return e};},6124:(e,t,n)=>{if(n(1934),n(5666),n(7694),n.g._babelPolyfill)throw new Error("only one instance of babel-polyfill is allowed");function r(e,t,n){e[t]||Object.defineProperty(e,t,{writable:!0,configurable:!0,value:n});}n.g._babelPolyfill=!0,r(String.prototype,"padLeft","".padStart),r(String.prototype,"padRight","".padEnd),"pop,reverse,shift,keys,values,entries,indexOf,every,some,forEach,map,filter,find,findIndex,includes,join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill".split(",").forEach(function(e){[][e]&&r(Array,e,Function.call.bind([][e]));});},1924:(e,t,n)=>{var r=n(210),i=n(5559),o=i(r("String.prototype.indexOf"));e.exports=function(e,t){t=r(e,!!t);return "function"==typeof t&&-1<o(e,".prototype.")?i(t):t};},5559:(e,t,n)=>{var r=n(8612),n=n(210),i=n("%Function.prototype.apply%"),o=n("%Function.prototype.call%"),a=n("%Reflect.apply%",!0)||r.call(o,i),s=n("%Object.getOwnPropertyDescriptor%",!0),c=n("%Object.defineProperty%",!0),p=n("%Math.max%");if(c)try{c({},"a",{value:1});}catch(e){c=null;}e.exports=function(e){var t=a(r,o,arguments);return s&&c&&s(t,"length").configurable&&c(t,"length",{value:1+p(0,e.length-(arguments.length-1))}),t};n=function(){return a(r,i,arguments)};c?c(e.exports,"apply",{value:n}):e.exports.apply=n;},7694:(e,t,n)=>{n(1761),e.exports=n(5645).RegExp.escape;},4963:e=>{e.exports=function(e){if("function"!=typeof e)throw TypeError(e+" is not a function!");return e};},3365:(e,t,n)=>{var r=n(2032);e.exports=function(e,t){if("number"!=typeof e&&"Number"!=r(e))throw TypeError(t);return +e};},7722:(e,t,n)=>{var r=n(6314)("unscopables"),i=Array.prototype;null==i[r]&&n(7728)(i,r,{}),e.exports=function(e){i[r][e]=!0;};},6793:(e,t,n)=>{var r=n(4496)(!0);e.exports=function(e,t,n){return t+(n?r(e,t).length:1)};},3328:e=>{e.exports=function(e,t,n,r){if(!(e instanceof t)||void 0!==r&&r in e)throw TypeError(n+": incorrect invocation!");return e};},7007:(e,t,n)=>{var r=n(5286);e.exports=function(e){if(!r(e))throw TypeError(e+" is not an object!");return e};},5216:(e,t,n)=>{var p=n(508),d=n(2337),u=n(875);e.exports=[].copyWithin||function(e,t){var n=p(this),r=u(n.length),i=d(e,r),o=d(t,r),a=2<arguments.length?arguments[2]:void 0,s=Math.min((void 0===a?r:d(a,r))-o,r-i),c=1;for(o<i&&i<o+s&&(c=-1,o+=s-1,i+=s-1);0<s--;)o in n?n[i]=n[o]:delete n[i],i+=c,o+=c;return n};},6852:(e,t,n)=>{var a=n(508),s=n(2337),c=n(875);e.exports=function(e){for(var t=a(this),n=c(t.length),r=arguments.length,i=s(1<r?arguments[1]:void 0,n),r=2<r?arguments[2]:void 0,o=void 0===r?n:s(r,n);i<o;)t[i++]=e;return t};},9490:(e,t,n)=>{var r=n(3531);e.exports=function(e,t){var n=[];return r(e,!1,n.push,n,t),n};},9315:(e,t,n)=>{var c=n(2110),p=n(875),d=n(2337);e.exports=function(s){return function(e,t,n){var r,i=c(e),o=p(i.length),a=d(n,o);if(s&&t!=t){for(;a<o;)if((r=i[a++])!=r)return !0}else for(;a<o;a++)if((s||a in i)&&i[a]===t)return s||a||0;return !s&&-1}};},50:(e,t,n)=>{var v=n(741),w=n(9797),S=n(508),x=n(875),r=n(6886);e.exports=function(u,e){var l=1==u,m=2==u,f=3==u,h=4==u,y=6==u,g=5==u||y,b=e||r;return function(e,t,n){for(var r,i,o=S(e),a=w(o),s=v(t,n,3),c=x(a.length),p=0,d=l?b(e,c):m?b(e,0):void 0;p<c;p++)if((g||p in a)&&(i=s(r=a[p],p,o),u))if(l)d[p]=i;else if(i)switch(u){case 3:return !0;case 5:return r;case 6:return p;case 2:d.push(r);}else if(h)return !1;return y?-1:f||h?h:d}};},7628:(e,t,n)=>{var d=n(4963),u=n(508),l=n(9797),m=n(875);e.exports=function(e,t,n,r,i){d(t);var o=u(e),a=l(o),s=m(o.length),c=i?s-1:0,p=i?-1:1;if(n<2)for(;;){if(c in a){r=a[c],c+=p;break}if(c+=p,i?c<0:s<=c)throw TypeError("Reduce of empty array with no initial value")}for(;i?0<=c:c<s;c+=p)c in a&&(r=t(r,a[c],c,o));return r};},2736:(e,t,n)=>{var r=n(5286),i=n(4302),o=n(6314)("species");e.exports=function(e){var t;return i(e)&&("function"!=typeof(t=e.constructor)||t!==Array&&!i(t.prototype)||(t=void 0),r(t)&&null===(t=t[o])&&(t=void 0)),void 0===t?Array:t};},6886:(e,t,n)=>{var r=n(2736);e.exports=function(e,t){return new(r(e))(t)};},4398:(e,t,n)=>{var o=n(4963),a=n(5286),s=n(7242),c=[].slice,p={};e.exports=Function.bind||function(t){var n=o(this),r=c.call(arguments,1),i=function(){var e=r.concat(c.call(arguments));return this instanceof i?function(e,t,n){if(!(t in p)){for(var r=[],i=0;i<t;i++)r[i]="a["+i+"]";p[t]=Function("F,a","return new F("+r.join(",")+")");}return p[t](e,n)}(n,e.length,e):s(n,e,t)};return a(n.prototype)&&(i.prototype=n.prototype),i};},1488:(e,t,n)=>{var r=n(2032),i=n(6314)("toStringTag"),o="Arguments"==r(function(){return arguments}());e.exports=function(e){var t;return void 0===e?"Undefined":null===e?"Null":"string"==typeof(e=function(e,t){try{return e[t]}catch(e){}}(t=Object(e),i))?e:o?r(t):"Object"==(e=r(t))&&"function"==typeof t.callee?"Arguments":e};},2032:e=>{var t={}.toString;e.exports=function(e){return t.call(e).slice(8,-1)};},9824:(e,t,n)=>{function a(e,t){var n,r=f(t);if("F"!==r)return e._i[r];for(n=e._f;n;n=n.n)if(n.k==t)return n}var s=n(9275).f,c=n(2503),p=n(4408),d=n(741),u=n(3328),l=n(3531),r=n(2923),i=n(5436),o=n(2974),m=n(7057),f=n(4728).fastKey,h=n(1616),y=m?"_s":"size";e.exports={getConstructor:function(e,i,n,r){var o=e(function(e,t){u(e,o,i,"_i"),e._t=i,e._i=c(null),e._f=void 0,e._l=void 0,e[y]=0,null!=t&&l(t,n,e[r],e);});return p(o.prototype,{clear:function(){for(var e=h(this,i),t=e._i,n=e._f;n;n=n.n)n.r=!0,n.p&&(n.p=n.p.n=void 0),delete t[n.i];e._f=e._l=void 0,e[y]=0;},delete:function(e){var t,n=h(this,i),r=a(n,e);return r&&(t=r.n,e=r.p,delete n._i[r.i],r.r=!0,e&&(e.n=t),t&&(t.p=e),n._f==r&&(n._f=t),n._l==r&&(n._l=e),n[y]--),!!r},forEach:function(e){h(this,i);for(var t,n=d(e,1<arguments.length?arguments[1]:void 0,3);t=t?t.n:this._f;)for(n(t.v,t.k,this);t&&t.r;)t=t.p;},has:function(e){return !!a(h(this,i),e)}}),m&&s(o.prototype,"size",{get:function(){return h(this,i)[y]}}),o},def:function(e,t,n){var r,i=a(e,t);return i?i.v=n:(e._l=i={i:r=f(t,!0),k:t,v:n,p:n=e._l,n:void 0,r:!1},e._f||(e._f=i),n&&(n.n=i),e[y]++,"F"!==r&&(e._i[r]=i)),e},getEntry:a,setStrong:function(e,n,t){r(e,n,function(e,t){this._t=h(e,n),this._k=t,this._l=void 0;},function(){for(var e=this,t=e._k,n=e._l;n&&n.r;)n=n.p;return e._t&&(e._l=n=n?n.n:e._t._f)?i(0,"keys"==t?n.k:"values"==t?n.v:[n.k,n.v]):(e._t=void 0,i(1))},t?"entries":"values",!t,!0),o(n);}};},6132:(e,t,n)=>{var r=n(1488),i=n(9490);e.exports=function(e){return function(){if(r(this)!=e)throw TypeError(e+"#toJSON isn't generic");return i(this)}};},3657:(e,t,n)=>{function a(e){return e._l||(e._l=new g)}function r(e,t){return f(e.a,function(e){return e[0]===t})}var s=n(4408),c=n(4728).getWeak,i=n(7007),p=n(5286),d=n(3328),u=n(3531),o=n(50),l=n(9181),m=n(1616),f=o(5),h=o(6),y=0,g=function(){this.a=[];};g.prototype={get:function(e){e=r(this,e);if(e)return e[1]},has:function(e){return !!r(this,e)},set:function(e,t){var n=r(this,e);n?n[1]=t:this.a.push([e,t]);},delete:function(t){var e=h(this.a,function(e){return e[0]===t});return ~e&&this.a.splice(e,1),!!~e}},e.exports={getConstructor:function(e,n,r,i){var o=e(function(e,t){d(e,o,n,"_i"),e._t=n,e._i=y++,e._l=void 0,null!=t&&u(t,r,e[i],e);});return s(o.prototype,{delete:function(e){if(!p(e))return !1;var t=c(e);return !0===t?a(m(this,n)).delete(e):t&&l(t,this._i)&&delete t[this._i]},has:function(e){if(!p(e))return !1;var t=c(e);return !0===t?a(m(this,n)).has(e):t&&l(t,this._i)}}),o},def:function(e,t,n){var r=c(i(t),!0);return !0===r?a(e).set(t,n):r[e._i]=n,e},ufstore:a};},5795:(e,t,n)=>{var g=n(3816),b=n(2985),v=n(7234),w=n(4408),S=n(4728),x=n(3531),I=n(3328),k=n(5286),T=n(4253),R=n(7462),C=n(2943),O=n(266);e.exports=function(n,e,t,r,i,o){function a(e){var n=h[e];v(h,e,"delete"==e||"has"==e?function(e){return !(o&&!k(e))&&n.call(this,0===e?0:e)}:"get"==e?function(e){return o&&!k(e)?void 0:n.call(this,0===e?0:e)}:"add"==e?function(e){return n.call(this,0===e?0:e),this}:function(e,t){return n.call(this,0===e?0:e,t),this});}var s,c,p,d,u,l=g[n],m=l,f=i?"set":"add",h=m&&m.prototype,y={};return "function"==typeof m&&(o||h.forEach&&!T(function(){(new m).entries().next();}))?(c=(s=new m)[f](o?{}:-0,1)!=s,p=T(function(){s.has(1);}),d=R(function(e){new m(e);}),u=!o&&T(function(){for(var e=new m,t=5;t--;)e[f](t,t);return !e.has(-0)}),d||(((m=e(function(e,t){I(e,m,n);e=O(new l,e,m);return null!=t&&x(t,i,e[f],e),e})).prototype=h).constructor=m),(p||u)&&(a("delete"),a("has"),i&&a("get")),(u||c)&&a(f),o&&h.clear&&delete h.clear):(m=r.getConstructor(e,n,i,f),w(m.prototype,t),S.NEED=!0),C(m,n),y[n]=m,b(b.G+b.W+b.F*(m!=l),y),o||r.setStrong(m,n,i),m};},5645:e=>{e=e.exports={version:"2.6.12"};"number"==typeof __e&&(__e=e);},2811:(e,t,n)=>{var r=n(9275),i=n(681);e.exports=function(e,t,n){t in e?r.f(e,t,i(0,n)):e[t]=n;};},741:(e,t,n)=>{var o=n(4963);e.exports=function(r,i,e){if(o(r),void 0===i)return r;switch(e){case 1:return function(e){return r.call(i,e)};case 2:return function(e,t){return r.call(i,e,t)};case 3:return function(e,t,n){return r.call(i,e,t,n)}}return function(){return r.apply(i,arguments)}};},3537:(e,t,n)=>{function i(e){return 9<e?e:"0"+e}var n=n(4253),o=Date.prototype.getTime,r=Date.prototype.toISOString;e.exports=n(function(){return "0385-07-25T07:06:39.999Z"!=r.call(new Date(-50000000000001))})||!n(function(){r.call(new Date(NaN));})?function(){if(!isFinite(o.call(this)))throw RangeError("Invalid time value");var e=this,t=e.getUTCFullYear(),n=e.getUTCMilliseconds(),r=t<0?"-":9999<t?"+":"";return r+("00000"+Math.abs(t)).slice(r?-6:-4)+"-"+i(e.getUTCMonth()+1)+"-"+i(e.getUTCDate())+"T"+i(e.getUTCHours())+":"+i(e.getUTCMinutes())+":"+i(e.getUTCSeconds())+"."+(99<n?n:"0"+i(n))+"Z"}:r;},870:(e,t,n)=>{var r=n(7007),i=n(1689);e.exports=function(e){if("string"!==e&&"number"!==e&&"default"!==e)throw TypeError("Incorrect hint");return i(r(this),"number"!=e)};},1355:e=>{e.exports=function(e){if(null==e)throw TypeError("Can't call method on  "+e);return e};},7057:(e,t,n)=>{e.exports=!n(4253)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a});},2457:(e,t,n)=>{var r=n(5286),i=n(3816).document,o=r(i)&&r(i.createElement);e.exports=function(e){return o?i.createElement(e):{}};},4430:e=>{e.exports="constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(",");},5541:(e,t,n)=>{var s=n(7184),c=n(4548),p=n(4682);e.exports=function(e){var t=s(e),n=c.f;if(n)for(var r,i=n(e),o=p.f,a=0;i.length>a;)o.call(e,r=i[a++])&&t.push(r);return t};},2985:(e,t,n)=>{var f=n(3816),h=n(5645),y=n(7728),g=n(7234),b=n(741),v=function(e,t,n){var r,i,o,a=e&v.F,s=e&v.G,c=e&v.S,p=e&v.P,d=e&v.B,u=s?f:c?f[t]||(f[t]={}):(f[t]||{}).prototype,l=s?h:h[t]||(h[t]={}),m=l.prototype||(l.prototype={});for(r in n=s?t:n)i=((o=!a&&u&&void 0!==u[r])?u:n)[r],o=d&&o?b(i,f):p&&"function"==typeof i?b(Function.call,i):i,u&&g(u,r,i,e&v.U),l[r]!=i&&y(l,r,o),p&&m[r]!=i&&(m[r]=i);};f.core=h,v.F=1,v.G=2,v.S=4,v.P=8,v.B=16,v.W=32,v.U=64,v.R=128,e.exports=v;},8852:(e,t,n)=>{var r=n(6314)("match");e.exports=function(t){var n=/./;try{"/./"[t](n);}catch(e){try{return n[r]=!1,!"/./"[t](n)}catch(t){}}return !0};},4253:e=>{e.exports=function(e){try{return !!e()}catch(e){return !0}};},8082:(e,t,n)=>{n(8269);var c=n(7234),p=n(7728),d=n(4253),u=n(1355),l=n(6314),m=n(1165),f=l("species"),h=!d(function(){var e=/./;return e.exec=function(){var e=[];return e.groups={a:"7"},e},"7"!=="".replace(e,"$<a>")}),y=function(){var e=/(?:)/,t=e.exec;e.exec=function(){return t.apply(this,arguments)};e="ab".split(e);return 2===e.length&&"a"===e[0]&&"b"===e[1]}();e.exports=function(n,e,t){var o,r,i=l(n),a=!d(function(){var e={};return e[i]=function(){return 7},7!=""[n](e)}),s=a?!d(function(){var e=!1,t=/a/;return t.exec=function(){return e=!0,null},"split"===n&&(t.constructor={},t.constructor[f]=function(){return t}),t[i](""),!e}):void 0;a&&s&&("replace"!==n||h)&&("split"!==n||y)||(o=/./[i],t=(s=t(u,i,""[n],function(e,t,n,r,i){return t.exec===m?a&&!i?{done:!0,value:o.call(t,n,r)}:{done:!0,value:e.call(n,t,r)}:{done:!1}}))[0],r=s[1],c(String.prototype,n,t),p(RegExp.prototype,i,2==e?function(e,t){return r.call(e,this,t)}:function(e){return r.call(e,this)}));};},3218:(e,t,n)=>{var r=n(7007);e.exports=function(){var e=r(this),t="";return e.global&&(t+="g"),e.ignoreCase&&(t+="i"),e.multiline&&(t+="m"),e.unicode&&(t+="u"),e.sticky&&(t+="y"),t};},3325:(e,t,n)=>{var f=n(4302),h=n(5286),y=n(875),g=n(741),b=n(6314)("isConcatSpreadable");e.exports=function e(t,n,r,i,o,a,s,c){for(var p,d,u=o,l=0,m=!!s&&g(s,c,3);l<i;){if(l in r){if(p=m?m(r[l],l,n):r[l],d=!1,(d=h(p)?void 0!==(d=p[b])?!!d:f(p):d)&&0<a)u=e(t,n,p,y(p.length),u,a-1)-1;else {if(9007199254740991<=u)throw TypeError();t[u]=p;}u++;}l++;}return u};},3531:(e,t,n)=>{var u=n(741),l=n(8851),m=n(6555),f=n(7007),h=n(875),y=n(9002),g={},b={},e=e.exports=function(e,t,n,r,i){var o,a,s,c,i=i?function(){return e}:y(e),p=u(n,r,t?2:1),d=0;if("function"!=typeof i)throw TypeError(e+" is not iterable!");if(m(i)){for(o=h(e.length);d<o;d++)if((c=t?p(f(a=e[d])[0],a[1]):p(e[d]))===g||c===b)return c}else for(s=i.call(e);!(a=s.next()).done;)if((c=l(s,p,a.value,t))===g||c===b)return c};e.BREAK=g,e.RETURN=b;},18:(e,t,n)=>{e.exports=n(3825)("native-function-to-string",Function.toString);},3816:e=>{e=e.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=e);},9181:e=>{var n={}.hasOwnProperty;e.exports=function(e,t){return n.call(e,t)};},7728:(e,t,n)=>{var r=n(9275),i=n(681);e.exports=n(7057)?function(e,t,n){return r.f(e,t,i(1,n))}:function(e,t,n){return e[t]=n,e};},639:(e,t,n)=>{n=n(3816).document;e.exports=n&&n.documentElement;},1734:(e,t,n)=>{e.exports=!n(7057)&&!n(4253)(function(){return 7!=Object.defineProperty(n(2457)("div"),"a",{get:function(){return 7}}).a});},266:(e,t,n)=>{var i=n(5286),o=n(7375).set;e.exports=function(e,t,n){var r,t=t.constructor;return t!==n&&"function"==typeof t&&(r=t.prototype)!==n.prototype&&i(r)&&o&&o(e,r),e};},7242:e=>{e.exports=function(e,t,n){var r=void 0===n;switch(t.length){case 0:return r?e():e.call(n);case 1:return r?e(t[0]):e.call(n,t[0]);case 2:return r?e(t[0],t[1]):e.call(n,t[0],t[1]);case 3:return r?e(t[0],t[1],t[2]):e.call(n,t[0],t[1],t[2]);case 4:return r?e(t[0],t[1],t[2],t[3]):e.call(n,t[0],t[1],t[2],t[3])}return e.apply(n,t)};},9797:(e,t,n)=>{var r=n(2032);e.exports=Object("z").propertyIsEnumerable(0)?Object:function(e){return "String"==r(e)?e.split(""):Object(e)};},6555:(e,t,n)=>{var r=n(2803),i=n(6314)("iterator"),o=Array.prototype;e.exports=function(e){return void 0!==e&&(r.Array===e||o[i]===e)};},4302:(e,t,n)=>{var r=n(2032);e.exports=Array.isArray||function(e){return "Array"==r(e)};},8367:(e,t,n)=>{var r=n(5286),i=Math.floor;e.exports=function(e){return !r(e)&&isFinite(e)&&i(e)===e};},5286:e=>{e.exports=function(e){return "object"==typeof e?null!==e:"function"==typeof e};},5364:(e,t,n)=>{var r=n(5286),i=n(2032),o=n(6314)("match");e.exports=function(e){var t;return r(e)&&(void 0!==(t=e[o])?!!t:"RegExp"==i(e))};},8851:(e,t,n)=>{var i=n(7007);e.exports=function(e,t,n,r){try{return r?t(i(n)[0],n[1]):t(n)}catch(t){n=e.return;throw void 0!==n&&i(n.call(e)),t}};},9988:(e,t,n)=>{var r=n(2503),i=n(681),o=n(2943),a={};n(7728)(a,n(6314)("iterator"),function(){return this}),e.exports=function(e,t,n){e.prototype=r(a,{next:i(1,n)}),o(e,t+" Iterator");};},2923:(e,t,n)=>{function b(){return this}var v=n(4461),w=n(2985),S=n(7234),x=n(7728),I=n(2803),k=n(9988),T=n(2943),R=n(468),C=n(6314)("iterator"),O=!([].keys&&"next"in[].keys()),j="values";e.exports=function(e,t,n,r,i,o,a){k(n,t,r);function s(e){if(!O&&e in f)return f[e];switch(e){case"keys":case j:return function(){return new n(this,e)}}return function(){return new n(this,e)}}var c,p,d,u=t+" Iterator",l=i==j,m=!1,f=e.prototype,h=f[C]||f["@@iterator"]||i&&f[i],y=h||s(i),g=i?l?s("entries"):y:void 0,r="Array"==t&&f.entries||h;if(r&&(d=R(r.call(new e)))!==Object.prototype&&d.next&&(T(d,u,!0),v||"function"==typeof d[C]||x(d,C,b)),l&&h&&h.name!==j&&(m=!0,y=function(){return h.call(this)}),v&&!a||!O&&!m&&f[C]||x(f,C,y),I[t]=y,I[u]=b,i)if(c={values:l?y:s(j),keys:o?y:s("keys"),entries:g},a)for(p in c)p in f||S(f,p,c[p]);else w(w.P+w.F*(O||m),t,c);return c};},7462:(e,t,n)=>{var o=n(6314)("iterator"),a=!1;try{var r=[7][o]();r.return=function(){a=!0;},Array.from(r,function(){throw 2});}catch(e){}e.exports=function(e,t){if(!t&&!a)return !1;var n=!1;try{var r=[7],i=r[o]();i.next=function(){return {done:n=!0}},r[o]=function(){return i},e(r);}catch(e){}return n};},5436:e=>{e.exports=function(e,t){return {value:t,done:!!e}};},2803:e=>{e.exports={};},4461:e=>{e.exports=!1;},3086:e=>{var t=Math.expm1;e.exports=!t||22025.465794806718<t(10)||t(10)<22025.465794806718||-2e-17!=t(-2e-17)?function(e){return 0==(e=+e)?e:-1e-6<e&&e<1e-6?e+e*e/2:Math.exp(e)-1}:t;},4934:(e,t,n)=>{var r=n(1801),n=Math.pow,i=n(2,-52),o=n(2,-23),a=n(2,127)*(2-o),s=n(2,-126);e.exports=Math.fround||function(e){var t=Math.abs(e),n=r(e);return t<s?n*(t/s/o+1/i-1/i)*s*o:(t=(e=(1+o/i)*t)-(e-t))>a||t!=t?n*(1/0):n*t};},6206:e=>{e.exports=Math.log1p||function(e){return -1e-8<(e=+e)&&e<1e-8?e-e*e/2:Math.log(1+e)};},8757:e=>{e.exports=Math.scale||function(e,t,n,r,i){return 0===arguments.length||e!=e||t!=t||n!=n||r!=r||i!=i?NaN:e===1/0||e===-1/0?e:(e-t)*(i-r)/(n-t)+r};},1801:e=>{e.exports=Math.sign||function(e){return 0==(e=+e)||e!=e?e:e<0?-1:1};},4728:(e,t,n)=>{function r(e){s(e,i,{value:{i:"O"+ ++c,w:{}}});}var i=n(3953)("meta"),o=n(5286),a=n(9181),s=n(9275).f,c=0,p=Object.isExtensible||function(){return !0},d=!n(4253)(function(){return p(Object.preventExtensions({}))}),u=e.exports={KEY:i,NEED:!1,fastKey:function(e,t){if(!o(e))return "symbol"==typeof e?e:("string"==typeof e?"S":"P")+e;if(!a(e,i)){if(!p(e))return "F";if(!t)return "E";r(e);}return e[i].i},getWeak:function(e,t){if(!a(e,i)){if(!p(e))return !0;if(!t)return !1;r(e);}return e[i].w},onFreeze:function(e){return d&&u.NEED&&p(e)&&!a(e,i)&&r(e),e}};},133:(e,t,n)=>{function i(e,t,n){var r=s.get(e);if(!r){if(!n)return;s.set(e,r=new o);}if(!(e=r.get(t))){if(!n)return;r.set(t,e=new o);}return e}var o=n(8416),r=n(2985),a=n(3825)("metadata"),s=a.store||(a.store=new(n(147)));e.exports={store:s,map:i,has:function(e,t,n){n=i(t,n,!1);return void 0!==n&&n.has(e)},get:function(e,t,n){n=i(t,n,!1);return void 0===n?void 0:n.get(e)},set:function(e,t,n,r){i(n,r,!0).set(e,t);},keys:function(e,t){var t=i(e,t,!1),n=[];return t&&t.forEach(function(e,t){n.push(t);}),n},key:function(e){return void 0===e||"symbol"==typeof e?e:String(e)},exp:function(e){r(r.S,"Reflect",e);}};},4351:(e,t,n)=>{var s=n(3816),c=n(4193).set,p=s.MutationObserver||s.WebKitMutationObserver,d=s.process,u=s.Promise,l="process"==n(2032)(d);e.exports=function(){function e(){var e,t;for(l&&(e=d.domain)&&e.exit();n;){t=n.fn,n=n.next;try{t();}catch(e){throw n?i():r=void 0,e}}r=void 0,e&&e.enter();}var n,r,t,i,o,a;return i=l?function(){d.nextTick(e);}:!p||s.navigator&&s.navigator.standalone?u&&u.resolve?(t=u.resolve(void 0),function(){t.then(e);}):function(){c.call(s,e);}:(o=!0,a=document.createTextNode(""),new p(e).observe(a,{characterData:!0}),function(){a.data=o=!o;}),function(e){e={fn:e,next:void 0};r&&(r.next=e),n||(n=e,i()),r=e;}};},3499:(e,t,n)=>{var i=n(4963);function r(e){var n,r;this.promise=new e(function(e,t){if(void 0!==n||void 0!==r)throw TypeError("Bad Promise constructor");n=e,r=t;}),this.resolve=i(n),this.reject=i(r);}e.exports.f=function(e){return new r(e)};},5345:(e,t,n)=>{var l=n(7057),m=n(7184),f=n(4548),h=n(4682),y=n(508),g=n(9797),i=Object.assign;e.exports=!i||n(4253)(function(){var e={},t={},n=Symbol(),r="abcdefghijklmnopqrst";return e[n]=7,r.split("").forEach(function(e){t[e]=e;}),7!=i({},e)[n]||Object.keys(i({},t)).join("")!=r})?function(e,t){for(var n=y(e),r=arguments.length,i=1,o=f.f,a=h.f;i<r;)for(var s,c=g(arguments[i++]),p=o?m(c).concat(o(c)):m(c),d=p.length,u=0;u<d;)s=p[u++],l&&!a.call(c,s)||(n[s]=c[s]);return n}:i;},2503:(e,t,n)=>{function r(){}var i=n(7007),o=n(5588),a=n(4430),s=n(9335)("IE_PROTO"),c=function(){var e=n(2457)("iframe"),t=a.length;for(e.style.display="none",n(639).appendChild(e),e.src="javascript:",(e=e.contentWindow.document).open(),e.write("<script>document.F=Object<\/script>"),e.close(),c=e.F;t--;)delete c.prototype[a[t]];return c()};e.exports=Object.create||function(e,t){var n;return null!==e?(r.prototype=i(e),n=new r,r.prototype=null,n[s]=e):n=c(),void 0===t?n:o(n,t)};},9275:(e,t,n)=>{var r=n(7007),i=n(1734),o=n(1689),a=Object.defineProperty;t.f=n(7057)?Object.defineProperty:function(e,t,n){if(r(e),t=o(t,!0),r(n),i)try{return a(e,t,n)}catch(e){}if("get"in n||"set"in n)throw TypeError("Accessors not supported!");return "value"in n&&(e[t]=n.value),e};},5588:(e,t,n)=>{var a=n(9275),s=n(7007),c=n(7184);e.exports=n(7057)?Object.defineProperties:function(e,t){s(e);for(var n,r=c(t),i=r.length,o=0;o<i;)a.f(e,n=r[o++],t[n]);return e};},1670:(e,t,n)=>{e.exports=n(4461)||!n(4253)(function(){var e=Math.random();__defineSetter__.call(null,e,function(){}),delete n(3816)[e];});},8693:(e,t,n)=>{var r=n(4682),i=n(681),o=n(2110),a=n(1689),s=n(9181),c=n(1734),p=Object.getOwnPropertyDescriptor;t.f=n(7057)?p:function(e,t){if(e=o(e),t=a(t,!0),c)try{return p(e,t)}catch(e){}if(s(e,t))return i(!r.f.call(e,t),e[t])};},9327:(e,t,n)=>{var r=n(2110),i=n(616).f,o={}.toString,a="object"==typeof window&&window&&Object.getOwnPropertyNames?Object.getOwnPropertyNames(window):[];e.exports.f=function(e){return a&&"[object Window]"==o.call(e)?function(e){try{return i(e)}catch(e){return a.slice()}}(e):i(r(e))};},616:(e,t,n)=>{var r=n(189),i=n(4430).concat("length","prototype");t.f=Object.getOwnPropertyNames||function(e){return r(e,i)};},4548:(e,t)=>{t.f=Object.getOwnPropertySymbols;},468:(e,t,n)=>{var r=n(9181),i=n(508),o=n(9335)("IE_PROTO"),a=Object.prototype;e.exports=Object.getPrototypeOf||function(e){return e=i(e),r(e,o)?e[o]:"function"==typeof e.constructor&&e instanceof e.constructor?e.constructor.prototype:e instanceof Object?a:null};},189:(e,t,n)=>{var a=n(9181),s=n(2110),c=n(9315)(!1),p=n(9335)("IE_PROTO");e.exports=function(e,t){var n,r=s(e),i=0,o=[];for(n in r)n!=p&&a(r,n)&&o.push(n);for(;t.length>i;)a(r,n=t[i++])&&(~c(o,n)||o.push(n));return o};},7184:(e,t,n)=>{var r=n(189),i=n(4430);e.exports=Object.keys||function(e){return r(e,i)};},4682:(e,t)=>{t.f={}.propertyIsEnumerable;},3160:(e,t,n)=>{var i=n(2985),o=n(5645),a=n(4253);e.exports=function(e,t){var n=(o.Object||{})[e]||Object[e],r={};r[e]=t(n),i(i.S+i.F*a(function(){n(1);}),"Object",r);};},1131:(e,t,n)=>{var c=n(7057),p=n(7184),d=n(2110),u=n(4682).f;e.exports=function(s){return function(e){for(var t,n=d(e),r=p(n),i=r.length,o=0,a=[];o<i;)t=r[o++],c&&!u.call(n,t)||a.push(s?[t,n[t]]:n[t]);return a}};},7643:(e,t,n)=>{var r=n(616),i=n(4548),o=n(7007),n=n(3816).Reflect;e.exports=n&&n.ownKeys||function(e){var t=r.f(o(e)),n=i.f;return n?t.concat(n(e)):t};},7743:(e,t,n)=>{var r=n(3816).parseFloat,i=n(9599).trim;e.exports=1/r(n(4644)+"-0")!=-1/0?function(e){var t=i(String(e),3),e=r(t);return 0===e&&"-"==t.charAt(0)?-0:e}:r;},5960:(e,t,n)=>{var r=n(3816).parseInt,i=n(9599).trim,n=n(4644),o=/^[-+]?0[xX]/;e.exports=8!==r(n+"08")||22!==r(n+"0x16")?function(e,t){e=i(String(e),3);return r(e,t>>>0||(o.test(e)?16:10))}:r;},188:e=>{e.exports=function(e){try{return {e:!1,v:e()}}catch(e){return {e:!0,v:e}}};},94:(e,t,n)=>{var r=n(7007),i=n(5286),o=n(3499);e.exports=function(e,t){if(r(e),i(t)&&t.constructor===e)return t;e=o.f(e);return (0, e.resolve)(t),e.promise};},681:e=>{e.exports=function(e,t){return {enumerable:!(1&e),configurable:!(2&e),writable:!(4&e),value:t}};},4408:(e,t,n)=>{var i=n(7234);e.exports=function(e,t,n){for(var r in t)i(e,r,t[r],n);return e};},7234:(e,t,n)=>{var o=n(3816),a=n(7728),s=n(9181),c=n(3953)("src"),r=n(18),i="toString",p=(""+r).split(i);n(5645).inspectSource=function(e){return r.call(e)},(e.exports=function(e,t,n,r){var i="function"==typeof n;i&&(s(n,"name")||a(n,"name",t)),e[t]!==n&&(i&&(s(n,c)||a(n,c,e[t]?""+e[t]:p.join(String(t)))),e===o?e[t]=n:r?e[t]?e[t]=n:a(e,t,n):(delete e[t],a(e,t,n)));})(Function.prototype,i,function(){return "function"==typeof this&&this[c]||r.call(this)});},7787:(e,t,n)=>{var r=n(1488),i=RegExp.prototype.exec;e.exports=function(e,t){var n=e.exec;if("function"==typeof n){n=n.call(e,t);if("object"!=typeof n)throw new TypeError("RegExp exec method returned something other than an Object or null");return n}if("RegExp"!==r(e))throw new TypeError("RegExp#exec called on incompatible receiver");return i.call(e,t)};},1165:(e,t,n)=>{var r,a=n(3218),s=RegExp.prototype.exec,c=String.prototype.replace,i=s,p=(r=/b*/g,s.call(n=/a/,"a"),s.call(r,"a"),0!==n.lastIndex||0!==r.lastIndex),d=void 0!==/()??/.exec("")[1];(p||d)&&(i=function(e){var t,n,r,i,o=this;return d&&(n=new RegExp("^"+o.source+"$(?!\\s)",a.call(o))),p&&(t=o.lastIndex),r=s.call(o,e),p&&r&&(o.lastIndex=o.global?r.index+r[0].length:t),d&&r&&1<r.length&&c.call(r[0],n,function(){for(i=1;i<arguments.length-2;i++)void 0===arguments[i]&&(r[i]=void 0);}),r}),e.exports=i;},5496:e=>{e.exports=function(t,n){var r=n===Object(n)?function(e){return n[e]}:n;return function(e){return String(e).replace(t,r)}};},7195:e=>{e.exports=Object.is||function(e,t){return e===t?0!==e||1/e==1/t:e!=e&&t!=t};},1024:(e,t,n)=>{var r=n(2985),a=n(4963),s=n(741),c=n(3531);e.exports=function(e){r(r.S,e,{from:function(e){var t,n,r,i,o=arguments[1];return a(this),(t=void 0!==o)&&a(o),null==e?new this:(n=[],t?(r=0,i=s(o,arguments[2],2),c(e,!1,function(e){n.push(i(e,r++));})):c(e,!1,n.push,n),new this(n))}});};},4881:(e,t,n)=>{var r=n(2985);e.exports=function(e){r(r.S,e,{of:function(){for(var e=arguments.length,t=new Array(e);e--;)t[e]=arguments[e];return new this(t)}});};},7375:(e,t,i)=>{function o(e,t){if(r(e),!n(t)&&null!==t)throw TypeError(t+": can't set as prototype!")}var n=i(5286),r=i(7007);e.exports={set:Object.setPrototypeOf||("__proto__"in{}?function(e,n,r){try{(r=i(741)(Function.call,i(8693).f(Object.prototype,"__proto__").set,2))(e,[]),n=!(e instanceof Array);}catch(e){n=!0;}return function(e,t){return o(e,t),n?e.__proto__=t:r(e,t),e}}({},!1):void 0),check:o};},2974:(e,t,n)=>{var r=n(3816),i=n(9275),o=n(7057),a=n(6314)("species");e.exports=function(e){e=r[e];o&&e&&!e[a]&&i.f(e,a,{configurable:!0,get:function(){return this}});};},2943:(e,t,n)=>{var r=n(9275).f,i=n(9181),o=n(6314)("toStringTag");e.exports=function(e,t,n){e&&!i(e=n?e:e.prototype,o)&&r(e,o,{configurable:!0,value:t});};},9335:(e,t,n)=>{var r=n(3825)("keys"),i=n(3953);e.exports=function(e){return r[e]||(r[e]=i(e))};},3825:(e,t,n)=>{var r=n(5645),i=n(3816),o="__core-js_shared__",a=i[o]||(i[o]={});(e.exports=function(e,t){return a[e]||(a[e]=void 0!==t?t:{})})("versions",[]).push({version:r.version,mode:n(4461)?"pure":"global",copyright:"© 2020 Denis Pushkarev (zloirock.ru)"});},8364:(e,t,n)=>{var r=n(7007),i=n(4963),o=n(6314)("species");e.exports=function(e,t){var n,e=r(e).constructor;return void 0===e||null==(n=r(e)[o])?t:i(n)};},7717:(e,t,n)=>{var r=n(4253);e.exports=function(e,t){return !!e&&r(function(){t?e.call(null,function(){},1):e.call(null);})};},4496:(e,t,n)=>{var a=n(1467),s=n(1355);e.exports=function(o){return function(e,t){var n,r=String(s(e)),i=a(t),e=r.length;return i<0||e<=i?o?"":void 0:(t=r.charCodeAt(i))<55296||56319<t||i+1===e||(n=r.charCodeAt(i+1))<56320||57343<n?o?r.charAt(i):t:o?r.slice(i,i+2):n-56320+(t-55296<<10)+65536}};},2094:(e,t,n)=>{var r=n(5364),i=n(1355);e.exports=function(e,t,n){if(r(t))throw TypeError("String#"+n+" doesn't accept regex!");return String(i(e))};},9395:(e,t,n)=>{function r(e,t,n,r){var i=String(a(e)),e="<"+t;return ""!==n&&(e+=" "+n+'="'+String(r).replace(s,"&quot;")+'"'),e+">"+i+"</"+t+">"}var i=n(2985),o=n(4253),a=n(1355),s=/"/g;e.exports=function(t,e){var n={};n[t]=e(r),i(i.P+i.F*o(function(){var e=""[t]('"');return e!==e.toLowerCase()||3<e.split('"').length}),"String",n);};},5442:(e,t,n)=>{var o=n(875),a=n(8595),s=n(1355);e.exports=function(e,t,n,r){var i=String(s(e)),e=i.length,n=void 0===n?" ":String(n),t=o(t);if(t<=e||""==n)return i;e=t-e,n=a.call(n,Math.ceil(e/n.length));return n.length>e&&(n=n.slice(0,e)),r?n+i:i+n};},8595:(e,t,n)=>{var i=n(1467),o=n(1355);e.exports=function(e){var t=String(o(this)),n="",r=i(e);if(r<0||r==1/0)throw RangeError("Count can't be negative");for(;0<r;(r>>>=1)&&(t+=t))1&r&&(n+=t);return n};},9599:(e,t,n)=>{var o=n(2985),r=n(1355),a=n(4253),s=n(4644),n="["+s+"]",i=RegExp("^"+n+n+"*"),c=RegExp(n+n+"*$"),n=function(e,t,n){var r={},i=a(function(){return !!s[e]()||"​"!="​"[e]()}),t=r[e]=i?t(p):s[e];n&&(r[n]=t),o(o.P+o.F*i,"String",r);},p=n.trim=function(e,t){return e=String(r(e)),1&t&&(e=e.replace(i,"")),e=2&t?e.replace(c,""):e};e.exports=n;},4644:e=>{e.exports="\t\n\v\f\r   ᠎             　\u2028\u2029\ufeff";},4193:(e,t,n)=>{function r(){var e,t=+this;g.hasOwnProperty(t)&&(e=g[t],delete g[t],e());}function i(e){r.call(e.data);}var o,a=n(741),s=n(7242),c=n(639),p=n(2457),d=n(3816),u=d.process,l=d.setImmediate,m=d.clearImmediate,f=d.MessageChannel,h=d.Dispatch,y=0,g={};l&&m||(l=function(e){for(var t=[],n=1;n<arguments.length;)t.push(arguments[n++]);return g[++y]=function(){s("function"==typeof e?e:Function(e),t);},o(y),y},m=function(e){delete g[e];},"process"==n(2032)(u)?o=function(e){u.nextTick(a(r,e,1));}:h&&h.now?o=function(e){h.now(a(r,e,1));}:f?(f=(n=new f).port2,n.port1.onmessage=i,o=a(f.postMessage,f,1)):d.addEventListener&&"function"==typeof postMessage&&!d.importScripts?(o=function(e){d.postMessage(e+"","*");},d.addEventListener("message",i,!1)):o="onreadystatechange"in p("script")?function(e){c.appendChild(p("script")).onreadystatechange=function(){c.removeChild(this),r.call(e);};}:function(e){setTimeout(a(r,e,1),0);}),e.exports={set:l,clear:m};},2337:(e,t,n)=>{var r=n(1467),i=Math.max,o=Math.min;e.exports=function(e,t){return (e=r(e))<0?i(e+t,0):o(e,t)};},4843:(e,t,n)=>{var r=n(1467),i=n(875);e.exports=function(e){if(void 0===e)return 0;var t=r(e),e=i(t);if(t!==e)throw RangeError("Wrong length!");return e};},1467:e=>{var t=Math.ceil,n=Math.floor;e.exports=function(e){return isNaN(e=+e)?0:(0<e?n:t)(e)};},2110:(e,t,n)=>{var r=n(9797),i=n(1355);e.exports=function(e){return r(i(e))};},875:(e,t,n)=>{var r=n(1467),i=Math.min;e.exports=function(e){return 0<e?i(r(e),9007199254740991):0};},508:(e,t,n)=>{var r=n(1355);e.exports=function(e){return Object(r(e))};},1689:(e,t,n)=>{var i=n(5286);e.exports=function(e,t){if(!i(e))return e;var n,r;if(t&&"function"==typeof(n=e.toString)&&!i(r=n.call(e)))return r;if("function"==typeof(n=e.valueOf)&&!i(r=n.call(e)))return r;if(!t&&"function"==typeof(n=e.toString)&&!i(r=n.call(e)))return r;throw TypeError("Can't convert object to primitive value")};},8440:(e,t,n)=>{var a,s,c,h,y,r,l,g,i,b,o,p,v,w,d,u,m,S,x,f,I,k,T,R,C,O,j,E,A,P,$,D,N,_,M,F,q,L,B,U,W,H,z,V,G,J,X,K,Y,Q,Z,ee,te,ne,re,ie,oe,ae,se,ce,pe,de,ue,le,me,fe,he,ye,ge,be,ve,we,Se,xe,Ie,ke,Te,Re,Ce,Oe,je,Ee,Ae,Pe,$e,De,Ne,_e,Me,Fe,qe,Le;n(7057)?(a=n(4461),s=n(3816),c=n(4253),h=n(2985),y=n(9383),r=n(1125),l=n(741),g=n(3328),i=n(681),b=n(7728),o=n(4408),p=n(1467),v=n(875),w=n(4843),d=n(2337),u=n(1689),m=n(9181),S=n(1488),x=n(5286),f=n(508),I=n(6555),k=n(2503),T=n(468),R=n(616).f,C=n(9002),Fe=n(3953),Oe=n(6314),qe=n(50),O=n(9315),j=n(8364),E=n(6997),A=n(2803),P=n(7462),$=n(2974),D=n(6852),N=n(5216),_=n(9275),M=n(8693),F=_.f,q=M.f,L=s.RangeError,B=s.TypeError,U=s.Uint8Array,W="ArrayBuffer",H="SharedArrayBuffer",z="BYTES_PER_ELEMENT",n=Array.prototype,V=r.ArrayBuffer,G=r.DataView,J=qe(0),X=qe(2),K=qe(3),Y=qe(4),Q=qe(5),Z=qe(6),ee=O(!0),te=O(!1),ne=E.values,re=E.keys,ie=E.entries,oe=n.lastIndexOf,ae=n.reduce,se=n.reduceRight,ce=n.join,pe=n.sort,de=n.slice,ue=n.toString,le=n.toLocaleString,me=Oe("iterator"),fe=Oe("toStringTag"),he=Fe("typed_constructor"),ye=Fe("def_constructor"),n=y.CONSTR,ge=y.TYPED,be=y.VIEW,ve="Wrong length!",we=qe(1,function(e,t){return Te(j(e,e[ye]),t)}),Se=c(function(){return 1===new U(new Uint16Array([1]).buffer)[0]}),xe=!!U&&!!U.prototype.set&&c(function(){new U(1).set({});}),Ie=function(e,t){e=p(e);if(e<0||e%t)throw L("Wrong offset!");return e},ke=function(e){if(x(e)&&ge in e)return e;throw B(e+" is not a typed array!")},Te=function(e,t){if(!(x(e)&&he in e))throw B("It is not a typed array constructor!");return new e(t)},Re=function(e,t){return Ce(j(e,e[ye]),t)},Ce=function(e,t){for(var n=0,r=t.length,i=Te(e,r);n<r;)i[n]=t[n++];return i},Oe=function(e,t,n){F(e,t,{get:function(){return this._d[n]}});},je=function(e){var t,n,r,i,o,a,s=f(e),c=arguments.length,p=1<c?arguments[1]:void 0,d=void 0!==p,u=C(s);if(null!=u&&!I(u)){for(a=u.call(s),r=[],t=0;!(o=a.next()).done;t++)r.push(o.value);s=r;}for(d&&2<c&&(p=l(p,arguments[2],2)),t=0,n=v(s.length),i=Te(this,n);t<n;t++)i[t]=d?p(s[t],t):s[t];return i},Ee=function(){for(var e=0,t=arguments.length,n=Te(this,t);e<t;)n[e]=arguments[e++];return n},Ae=!!U&&c(function(){le.call(new U(1));}),Pe=function(){return le.apply(Ae?de.call(ke(this)):ke(this),arguments)},$e={copyWithin:function(e,t){return N.call(ke(this),e,t,2<arguments.length?arguments[2]:void 0)},every:function(e){return Y(ke(this),e,1<arguments.length?arguments[1]:void 0)},fill:function(e){return D.apply(ke(this),arguments)},filter:function(e){return Re(this,X(ke(this),e,1<arguments.length?arguments[1]:void 0))},find:function(e){return Q(ke(this),e,1<arguments.length?arguments[1]:void 0)},findIndex:function(e){return Z(ke(this),e,1<arguments.length?arguments[1]:void 0)},forEach:function(e){J(ke(this),e,1<arguments.length?arguments[1]:void 0);},indexOf:function(e){return te(ke(this),e,1<arguments.length?arguments[1]:void 0)},includes:function(e){return ee(ke(this),e,1<arguments.length?arguments[1]:void 0)},join:function(e){return ce.apply(ke(this),arguments)},lastIndexOf:function(e){return oe.apply(ke(this),arguments)},map:function(e){return we(ke(this),e,1<arguments.length?arguments[1]:void 0)},reduce:function(e){return ae.apply(ke(this),arguments)},reduceRight:function(e){return se.apply(ke(this),arguments)},reverse:function(){for(var e,t=this,n=ke(t).length,r=Math.floor(n/2),i=0;i<r;)e=t[i],t[i++]=t[--n],t[n]=e;return t},some:function(e){return K(ke(this),e,1<arguments.length?arguments[1]:void 0)},sort:function(e){return pe.call(ke(this),e)},subarray:function(e,t){var n=ke(this),r=n.length,e=d(e,r);return new(j(n,n[ye]))(n.buffer,n.byteOffset+e*n.BYTES_PER_ELEMENT,v((void 0===t?r:d(t,r))-e))}},De=function(e,t){return Re(this,de.call(ke(this),e,t))},Ne=function(e){ke(this);var t=Ie(arguments[1],1),n=this.length,r=f(e),i=v(r.length),o=0;if(n<i+t)throw L(ve);for(;o<i;)this[t+o]=r[o++];},_e={entries:function(){return ie.call(ke(this))},keys:function(){return re.call(ke(this))},values:function(){return ne.call(ke(this))}},Me=function(e,t){return x(e)&&e[ge]&&"symbol"!=typeof t&&t in e&&String(+t)==String(t)},Fe=function(e,t){return Me(e,t=u(t,!0))?i(2,e[t]):q(e,t)},qe=function(e,t,n){return !(Me(e,t=u(t,!0))&&x(n)&&m(n,"value"))||m(n,"get")||m(n,"set")||n.configurable||m(n,"writable")&&!n.writable||m(n,"enumerable")&&!n.enumerable?F(e,t,n):(e[t]=n.value,e)},n||(M.f=Fe,_.f=qe),h(h.S+h.F*!n,"Object",{getOwnPropertyDescriptor:Fe,defineProperty:qe}),c(function(){ue.call({});})&&(ue=le=function(){return ce.call(this)}),Le=o({},$e),o(Le,_e),b(Le,me,_e.values),o(Le,{slice:De,set:Ne,constructor:function(){},toString:ue,toLocaleString:Pe}),Oe(Le,"buffer","b"),Oe(Le,"byteOffset","o"),Oe(Le,"byteLength","l"),Oe(Le,"length","e"),F(Le,fe,{get:function(){return this[ge]}}),e.exports=function(e,p,t,d){var u=e+((d=!!d)?"Clamped":"")+"Array",l="get"+e,m="set"+e,f=s[u],o=f||{},n=f&&T(f),r=!f||!y.ABV,e={},i=f&&f.prototype;r?(f=t(function(e,t,n,r){g(e,f,u,"_d");var i,o,a=0,s=0;if(x(t)){if(!(t instanceof V||(c=S(t))==W||c==H))return ge in t?Ce(f,t):je.call(f,t);var c=t,s=Ie(n,p),n=t.byteLength;if(void 0===r){if(n%p)throw L(ve);if((i=n-s)<0)throw L(ve)}else if((i=v(r)*p)+s>n)throw L(ve);o=i/p;}else o=w(t),c=new V(i=o*p);for(b(e,"_d",{b:c,o:s,l:i,e:o,v:new G(c)});a<o;)!function(e,t){F(e,t,{get:function(){return function(e){e=e._d;return e.v[l](t*p+e.o,Se)}(this)},set:function(e){return function(e,t,n){e=e._d;d&&(n=(n=Math.round(n))<0?0:255<n?255:255&n),e.v[m](t*p+e.o,n,Se);}(this,t,e)},enumerable:!0});}(e,a++);}),i=f.prototype=k(Le),b(i,"constructor",f)):c(function(){f(1);})&&c(function(){new f(-1);})&&P(function(e){new f,new f(null),new f(1.5),new f(e);},!0)||(f=t(function(e,t,n,r){var i;return g(e,f,u),x(t)?t instanceof V||(i=S(t))==W||i==H?void 0!==r?new o(t,Ie(n,p),r):void 0!==n?new o(t,Ie(n,p)):new o(t):ge in t?Ce(f,t):je.call(f,t):new o(w(t))}),J(n!==Function.prototype?R(o).concat(R(n)):R(o),function(e){e in f||b(f,e,o[e]);}),f.prototype=i,a||(i.constructor=f));r=i[me],t=!!r&&("values"==r.name||null==r.name),n=_e.values;b(f,he,!0),b(i,ge,u),b(i,be,!0),b(i,ye,f),(d?new f(1)[fe]==u:fe in i)||F(i,fe,{get:function(){return u}}),e[u]=f,h(h.G+h.W+h.F*(f!=o),e),h(h.S,u,{BYTES_PER_ELEMENT:p}),h(h.S+h.F*c(function(){o.of.call(f,1);}),u,{from:je,of:Ee}),z in i||b(i,z,p),h(h.P,u,$e),$(u),h(h.P+h.F*xe,u,{set:Ne}),h(h.P+h.F*!t,u,_e),a||i.toString==ue||(i.toString=ue),h(h.P+h.F*c(function(){new f(1).slice();}),u,{slice:De}),h(h.P+h.F*(c(function(){return [1,2].toLocaleString()!=new f([1,2]).toLocaleString()})||!c(function(){i.toLocaleString.call([1,2]);})),u,{toLocaleString:Pe}),A[u]=t?r:n,a||t||b(i,me,n);}):e.exports=function(){};},1125:(e,t,n)=>{var r=n(3816),i=n(7057),o=n(4461),a=n(9383),s=n(7728),c=n(4408),p=n(4253),d=n(3328),u=n(1467),l=n(875),m=n(4843),f=n(616).f,h=n(9275).f,y=n(6852),g=n(2943),b="ArrayBuffer",v="DataView",w="Wrong index!",S=r.ArrayBuffer,x=r.DataView,n=r.Math,I=r.RangeError,k=r.Infinity,T=S,R=n.abs,C=n.pow,O=n.floor,j=n.log,E=n.LN2,r="byteLength",n="byteOffset",A=i?"_b":"buffer",P=i?"_l":r,$=i?"_o":n;function D(e,t,n){var r,i,o=new Array(n),a=8*n-t-1,s=(1<<a)-1,c=s>>1,p=23===t?C(2,-24)-C(2,-77):0,d=0,u=e<0||0===e&&1/e<0?1:0;for((e=R(e))!=e||e===k?(i=e!=e?1:0,r=s):(r=O(j(e)/E),e*(n=C(2,-r))<1&&(r--,n*=2),2<=(e+=1<=r+c?p/n:p*C(2,1-c))*n&&(r++,n/=2),s<=r+c?(i=0,r=s):1<=r+c?(i=(e*n-1)*C(2,t),r+=c):(i=e*C(2,c-1)*C(2,t),r=0));8<=t;o[d++]=255&i,i/=256,t-=8);for(r=r<<t|i,a+=t;0<a;o[d++]=255&r,r/=256,a-=8);return o[--d]|=128*u,o}function N(e,t,n){var r,i=8*n-t-1,o=(1<<i)-1,a=o>>1,s=i-7,c=n-1,n=e[c--],p=127&n;for(n>>=7;0<s;p=256*p+e[c],c--,s-=8);for(r=p&(1<<-s)-1,p>>=-s,s+=t;0<s;r=256*r+e[c],c--,s-=8);if(0===p)p=1-a;else {if(p===o)return r?NaN:n?-k:k;r+=C(2,t),p-=a;}return (n?-1:1)*r*C(2,p-t)}function _(e){return e[3]<<24|e[2]<<16|e[1]<<8|e[0]}function M(e){return [255&e]}function F(e){return [255&e,e>>8&255]}function q(e){return [255&e,e>>8&255,e>>16&255,e>>24&255]}function L(e){return D(e,52,8)}function B(e){return D(e,23,4)}function U(e,t,n){h(e.prototype,t,{get:function(){return this[n]}});}function W(e,t,n,r){var i=m(+n);if(i+t>e[P])throw I(w);n=e[A]._b,e=i+e[$],t=n.slice(e,e+t);return r?t:t.reverse()}function H(e,t,n,r,i,o){n=m(+n);if(n+t>e[P])throw I(w);for(var a=e[A]._b,s=n+e[$],c=r(+i),p=0;p<t;p++)a[s+p]=c[o?p:t-p-1];}if(a.ABV){if(!p(function(){S(1);})||!p(function(){new S(-1);})||p(function(){return new S,new S(1.5),new S(NaN),S.name!=b})){for(var z,V=(S=function(e){return d(this,S),new T(m(e))}).prototype=T.prototype,G=f(T),J=0;G.length>J;)(z=G[J++])in S||s(S,z,T[z]);o||(V.constructor=S);}var V=new x(new S(2)),X=x.prototype.setInt8;V.setInt8(0,2147483648),V.setInt8(1,2147483649),!V.getInt8(0)&&V.getInt8(1)||c(x.prototype,{setInt8:function(e,t){X.call(this,e,t<<24>>24);},setUint8:function(e,t){X.call(this,e,t<<24>>24);}},!0);}else S=function(e){d(this,S,b);e=m(e);this._b=y.call(new Array(e),0),this[P]=e;},x=function(e,t,n){d(this,x,v),d(e,S,v);var r=e[P],t=u(t);if(t<0||r<t)throw I("Wrong offset!");if(t+(n=void 0===n?r-t:l(n))>r)throw I("Wrong length!");this[A]=e,this[$]=t,this[P]=n;},i&&(U(S,r,"_l"),U(x,"buffer","_b"),U(x,r,"_l"),U(x,n,"_o")),c(x.prototype,{getInt8:function(e){return W(this,1,e)[0]<<24>>24},getUint8:function(e){return W(this,1,e)[0]},getInt16:function(e){var t=W(this,2,e,arguments[1]);return (t[1]<<8|t[0])<<16>>16},getUint16:function(e){var t=W(this,2,e,arguments[1]);return t[1]<<8|t[0]},getInt32:function(e){return _(W(this,4,e,arguments[1]))},getUint32:function(e){return _(W(this,4,e,arguments[1]))>>>0},getFloat32:function(e){return N(W(this,4,e,arguments[1]),23,4)},getFloat64:function(e){return N(W(this,8,e,arguments[1]),52,8)},setInt8:function(e,t){H(this,1,e,M,t);},setUint8:function(e,t){H(this,1,e,M,t);},setInt16:function(e,t){H(this,2,e,F,t,arguments[2]);},setUint16:function(e,t){H(this,2,e,F,t,arguments[2]);},setInt32:function(e,t){H(this,4,e,q,t,arguments[2]);},setUint32:function(e,t){H(this,4,e,q,t,arguments[2]);},setFloat32:function(e,t){H(this,4,e,B,t,arguments[2]);},setFloat64:function(e,t){H(this,8,e,L,t,arguments[2]);}});g(S,b),g(x,v),s(x.prototype,a.VIEW,!0),t.ArrayBuffer=S,t.DataView=x;},9383:(e,t,n)=>{for(var r,i=n(3816),o=n(7728),n=n(3953),a=n("typed_array"),s=n("view"),n=!(!i.ArrayBuffer||!i.DataView),c=n,p=0,d="Int8Array,Uint8Array,Uint8ClampedArray,Int16Array,Uint16Array,Int32Array,Uint32Array,Float32Array,Float64Array".split(",");p<9;)(r=i[d[p++]])?(o(r.prototype,a,!0),o(r.prototype,s,!0)):c=!1;e.exports={ABV:n,CONSTR:c,TYPED:a,VIEW:s};},3953:e=>{var t=0,n=Math.random();e.exports=function(e){return "Symbol(".concat(void 0===e?"":e,")_",(++t+n).toString(36))};},575:(e,t,n)=>{n=n(3816).navigator;e.exports=n&&n.userAgent||"";},1616:(e,t,n)=>{var r=n(5286);e.exports=function(e,t){if(!r(e)||e._t!==t)throw TypeError("Incompatible receiver, "+t+" required!");return e};},6074:(e,t,n)=>{var r=n(3816),i=n(5645),o=n(4461),a=n(8787),s=n(9275).f;e.exports=function(e){var t=i.Symbol||(i.Symbol=!o&&r.Symbol||{});"_"==e.charAt(0)||e in t||s(t,e,{value:a.f(e)});};},8787:(e,t,n)=>{t.f=n(6314);},6314:(e,t,n)=>{var r=n(3825)("wks"),i=n(3953),o=n(3816).Symbol,a="function"==typeof o;(e.exports=function(e){return r[e]||(r[e]=a&&o[e]||(a?o:i)("Symbol."+e))}).store=r;},9002:(e,t,n)=>{var r=n(1488),i=n(6314)("iterator"),o=n(2803);e.exports=n(5645).getIteratorMethod=function(e){if(null!=e)return e[i]||e["@@iterator"]||o[r(e)]};},1761:(e,t,n)=>{var r=n(2985),i=n(5496)(/[\\^$*+?.()|[\]{}]/g,"\\$&");r(r.S,"RegExp",{escape:function(e){return i(e)}});},2e3:(e,t,n)=>{var r=n(2985);r(r.P,"Array",{copyWithin:n(5216)}),n(7722)("copyWithin");},5745:(e,t,n)=>{var r=n(2985),i=n(50)(4);r(r.P+r.F*!n(7717)([].every,!0),"Array",{every:function(e){return i(this,e,arguments[1])}});},8977:(e,t,n)=>{var r=n(2985);r(r.P,"Array",{fill:n(6852)}),n(7722)("fill");},8837:(e,t,n)=>{var r=n(2985),i=n(50)(2);r(r.P+r.F*!n(7717)([].filter,!0),"Array",{filter:function(e){return i(this,e,arguments[1])}});},4899:(e,t,n)=>{var r=n(2985),i=n(50)(6),o="findIndex",a=!0;o in[]&&Array(1)[o](function(){a=!1;}),r(r.P+r.F*a,"Array",{findIndex:function(e){return i(this,e,1<arguments.length?arguments[1]:void 0)}}),n(7722)(o);},2310:(e,t,n)=>{var r=n(2985),i=n(50)(5),o=!0;"find"in[]&&Array(1).find(function(){o=!1;}),r(r.P+r.F*o,"Array",{find:function(e){return i(this,e,1<arguments.length?arguments[1]:void 0)}}),n(7722)("find");},4336:(e,t,n)=>{var r=n(2985),i=n(50)(0),n=n(7717)([].forEach,!0);r(r.P+r.F*!n,"Array",{forEach:function(e){return i(this,e,arguments[1])}});},522:(e,t,n)=>{var l=n(741),r=n(2985),m=n(508),f=n(8851),h=n(6555),y=n(875),g=n(2811),b=n(9002);r(r.S+r.F*!n(7462)(function(e){}),"Array",{from:function(e){var t,n,r,i,o=m(e),a="function"==typeof this?this:Array,s=arguments.length,c=1<s?arguments[1]:void 0,p=void 0!==c,d=0,u=b(o);if(p&&(c=l(c,2<s?arguments[2]:void 0,2)),null==u||a==Array&&h(u))for(n=new a(t=y(o.length));d<t;d++)g(n,d,p?c(o[d],d):o[d]);else for(i=u.call(o),n=new a;!(r=i.next()).done;d++)g(n,d,p?f(i,c,[r.value,d],!0):r.value);return n.length=d,n}});},3369:(e,t,n)=>{var r=n(2985),i=n(9315)(!1),o=[].indexOf,a=!!o&&1/[1].indexOf(1,-0)<0;r(r.P+r.F*(a||!n(7717)(o)),"Array",{indexOf:function(e){return a?o.apply(this,arguments)||0:i(this,e,arguments[1])}});},774:(e,t,n)=>{var r=n(2985);r(r.S,"Array",{isArray:n(4302)});},6997:(e,t,n)=>{var r=n(7722),i=n(5436),o=n(2803),a=n(2110);e.exports=n(2923)(Array,"Array",function(e,t){this._t=a(e),this._i=0,this._k=t;},function(){var e=this._t,t=this._k,n=this._i++;return !e||n>=e.length?(this._t=void 0,i(1)):i(0,"keys"==t?n:"values"==t?e[n]:[n,e[n]])},"values"),o.Arguments=o.Array,r("keys"),r("values"),r("entries");},7842:(e,t,n)=>{var r=n(2985),i=n(2110),o=[].join;r(r.P+r.F*(n(9797)!=Object||!n(7717)(o)),"Array",{join:function(e){return o.call(i(this),void 0===e?",":e)}});},9564:(e,t,n)=>{var r=n(2985),i=n(2110),o=n(1467),a=n(875),s=[].lastIndexOf,c=!!s&&1/[1].lastIndexOf(1,-0)<0;r(r.P+r.F*(c||!n(7717)(s)),"Array",{lastIndexOf:function(e){if(c)return s.apply(this,arguments)||0;var t=i(this),n=a(t.length),r=n-1;for((r=1<arguments.length?Math.min(r,o(arguments[1])):r)<0&&(r=n+r);0<=r;r--)if(r in t&&t[r]===e)return r||0;return -1}});},1802:(e,t,n)=>{var r=n(2985),i=n(50)(1);r(r.P+r.F*!n(7717)([].map,!0),"Array",{map:function(e){return i(this,e,arguments[1])}});},8295:(e,t,n)=>{var r=n(2985),i=n(2811);r(r.S+r.F*n(4253)(function(){function e(){}return !(Array.of.call(e)instanceof e)}),"Array",{of:function(){for(var e=0,t=arguments.length,n=new("function"==typeof this?this:Array)(t);e<t;)i(n,e,arguments[e++]);return n.length=t,n}});},3750:(e,t,n)=>{var r=n(2985),i=n(7628);r(r.P+r.F*!n(7717)([].reduceRight,!0),"Array",{reduceRight:function(e){return i(this,e,arguments.length,arguments[1],!0)}});},3057:(e,t,n)=>{var r=n(2985),i=n(7628);r(r.P+r.F*!n(7717)([].reduce,!0),"Array",{reduce:function(e){return i(this,e,arguments.length,arguments[1],!1)}});},110:(e,t,n)=>{var r=n(2985),i=n(639),c=n(2032),p=n(2337),d=n(875),u=[].slice;r(r.P+r.F*n(4253)(function(){i&&u.call(i);}),"Array",{slice:function(e,t){var n=d(this.length),r=c(this);if(t=void 0===t?n:t,"Array"==r)return u.call(this,e,t);for(var i=p(e,n),n=p(t,n),o=d(n-i),a=new Array(o),s=0;s<o;s++)a[s]="String"==r?this.charAt(i+s):this[i+s];return a}});},6773:(e,t,n)=>{var r=n(2985),i=n(50)(3);r(r.P+r.F*!n(7717)([].some,!0),"Array",{some:function(e){return i(this,e,arguments[1])}});},75:(e,t,n)=>{var r=n(2985),i=n(4963),o=n(508),a=n(4253),s=[].sort,c=[1,2,3];r(r.P+r.F*(a(function(){c.sort(void 0);})||!a(function(){c.sort(null);})||!n(7717)(s)),"Array",{sort:function(e){return void 0===e?s.call(o(this)):s.call(o(this),i(e))}});},1842:(e,t,n)=>{n(2974)("Array");},1822:(e,t,n)=>{n=n(2985);n(n.S,"Date",{now:function(){return (new Date).getTime()}});},1031:(e,t,n)=>{var r=n(2985),n=n(3537);r(r.P+r.F*(Date.prototype.toISOString!==n),"Date",{toISOString:n});},9977:(e,t,n)=>{var r=n(2985),i=n(508),o=n(1689);r(r.P+r.F*n(4253)(function(){return null!==new Date(NaN).toJSON()||1!==Date.prototype.toJSON.call({toISOString:function(){return 1}})}),"Date",{toJSON:function(e){var t=i(this),n=o(t);return "number"!=typeof n||isFinite(n)?t.toISOString():null}});},1560:(e,t,n)=>{var r=n(6314)("toPrimitive"),i=Date.prototype;r in i||n(7728)(i,r,n(870));},6331:(e,t,n)=>{var r=Date.prototype,i="Invalid Date",o=r.toString,a=r.getTime;new Date(NaN)+""!=i&&n(7234)(r,"toString",function(){var e=a.call(this);return e==e?o.call(this):i});},9730:(e,t,n)=>{var r=n(2985);r(r.P,"Function",{bind:n(4398)});},8377:(e,t,n)=>{var r=n(5286),i=n(468),o=n(6314)("hasInstance"),a=Function.prototype;o in a||n(9275).f(a,o,{value:function(e){if("function"!=typeof this||!r(e))return !1;if(!r(this.prototype))return e instanceof this;for(;e=i(e);)if(this.prototype===e)return !0;return !1}});},6059:(e,t,n)=>{var r=n(9275).f,i=Function.prototype,o=/^\s*function ([^ (]*)/;"name"in i||n(7057)&&r(i,"name",{configurable:!0,get:function(){try{return (""+this).match(o)[1]}catch(e){return ""}}});},8416:(e,t,n)=>{var r=n(9824),i=n(1616);e.exports=n(5795)("Map",function(e){return function(){return e(this,0<arguments.length?arguments[0]:void 0)}},{get:function(e){e=r.getEntry(i(this,"Map"),e);return e&&e.v},set:function(e,t){return r.def(i(this,"Map"),0===e?0:e,t)}},r,!0);},6503:(e,t,n)=>{var r=n(2985),i=n(6206),o=Math.sqrt,n=Math.acosh;r(r.S+r.F*!(n&&710==Math.floor(n(Number.MAX_VALUE))&&n(1/0)==1/0),"Math",{acosh:function(e){return (e=+e)<1?NaN:94906265.62425156<e?Math.log(e)+Math.LN2:i(e-1+o(e-1)*o(e+1))}});},6786:(e,t,n)=>{var r=n(2985),n=Math.asinh;r(r.S+r.F*!(n&&0<1/n(0)),"Math",{asinh:function e(t){return isFinite(t=+t)&&0!=t?t<0?-e(-t):Math.log(t+Math.sqrt(t*t+1)):t}});},932:(e,t,n)=>{var r=n(2985),n=Math.atanh;r(r.S+r.F*!(n&&1/n(-0)<0),"Math",{atanh:function(e){return 0==(e=+e)?e:Math.log((1+e)/(1-e))/2}});},7526:(e,t,n)=>{var r=n(2985),i=n(1801);r(r.S,"Math",{cbrt:function(e){return i(e=+e)*Math.pow(Math.abs(e),1/3)}});},1591:(e,t,n)=>{n=n(2985);n(n.S,"Math",{clz32:function(e){return (e>>>=0)?31-Math.floor(Math.log(e+.5)*Math.LOG2E):32}});},9073:(e,t,n)=>{var n=n(2985),r=Math.exp;n(n.S,"Math",{cosh:function(e){return (r(e=+e)+r(-e))/2}});},347:(e,t,n)=>{var r=n(2985),n=n(3086);r(r.S+r.F*(n!=Math.expm1),"Math",{expm1:n});},579:(e,t,n)=>{var r=n(2985);r(r.S,"Math",{fround:n(4934)});},4669:(e,t,n)=>{var n=n(2985),c=Math.abs;n(n.S,"Math",{hypot:function(e,t){for(var n,r,i=0,o=0,a=arguments.length,s=0;o<a;)s<(n=c(arguments[o++]))?(i=i*(r=s/n)*r+1,s=n):i+=0<n?(r=n/s)*r:n;return s===1/0?1/0:s*Math.sqrt(i)}});},7710:(e,t,n)=>{var r=n(2985),i=Math.imul;r(r.S+r.F*n(4253)(function(){return -5!=i(4294967295,5)||2!=i.length}),"Math",{imul:function(e,t){var n=+e,r=+t,e=65535&n,t=65535&r;return 0|e*t+((65535&n>>>16)*t+e*(65535&r>>>16)<<16>>>0)}});},5789:(e,t,n)=>{n=n(2985);n(n.S,"Math",{log10:function(e){return Math.log(e)*Math.LOG10E}});},3514:(e,t,n)=>{var r=n(2985);r(r.S,"Math",{log1p:n(6206)});},9978:(e,t,n)=>{n=n(2985);n(n.S,"Math",{log2:function(e){return Math.log(e)/Math.LN2}});},8472:(e,t,n)=>{var r=n(2985);r(r.S,"Math",{sign:n(1801)});},6946:(e,t,n)=>{var r=n(2985),i=n(3086),o=Math.exp;r(r.S+r.F*n(4253)(function(){return -2e-17!=!Math.sinh(-2e-17)}),"Math",{sinh:function(e){return Math.abs(e=+e)<1?(i(e)-i(-e))/2:(o(e-1)-o(-e-1))*(Math.E/2)}});},5068:(e,t,n)=>{var r=n(2985),i=n(3086),o=Math.exp;r(r.S,"Math",{tanh:function(e){var t=i(e=+e),n=i(-e);return t==1/0?1:n==1/0?-1:(t-n)/(o(e)+o(-e))}});},413:(e,t,n)=>{n=n(2985);n(n.S,"Math",{trunc:function(e){return (0<e?Math.floor:Math.ceil)(e)}});},1246:(e,t,n)=>{function r(e){var t=p(e,!1);if("string"==typeof t&&2<t.length){var n,r,i=(t=b?t.trim():m(t,3)).charCodeAt(0);if(43===i||45===i){if(88===(e=t.charCodeAt(2))||120===e)return NaN}else if(48===i){switch(t.charCodeAt(1)){case 66:case 98:n=2,r=49;break;case 79:case 111:n=8,r=55;break;default:return +t}for(var o,a=t.slice(2),s=0,c=a.length;s<c;s++)if((o=a.charCodeAt(s))<48||r<o)return NaN;return parseInt(a,n)}}return +t}var i=n(3816),o=n(9181),a=n(2032),s=n(266),p=n(1689),c=n(4253),d=n(616).f,u=n(8693).f,l=n(9275).f,m=n(9599).trim,f="Number",h=w=i.Number,y=w.prototype,g=a(n(2503)(y))==f,b="trim"in String.prototype;if(!w(" 0o1")||!w("0b1")||w("+0x1")){for(var v,w=function(e){var t=arguments.length<1?0:e,n=this;return n instanceof w&&(g?c(function(){y.valueOf.call(n);}):a(n)!=f)?s(new h(r(t)),n,w):r(t)},S=n(7057)?d(h):"MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger".split(","),x=0;S.length>x;x++)o(h,v=S[x])&&!o(w,v)&&l(w,v,u(h,v));(w.prototype=y).constructor=w,n(7234)(i,f,w);}},5972:(e,t,n)=>{n=n(2985);n(n.S,"Number",{EPSILON:Math.pow(2,-52)});},3403:(e,t,n)=>{var r=n(2985),i=n(3816).isFinite;r(r.S,"Number",{isFinite:function(e){return "number"==typeof e&&i(e)}});},2516:(e,t,n)=>{var r=n(2985);r(r.S,"Number",{isInteger:n(8367)});},9371:(e,t,n)=>{n=n(2985);n(n.S,"Number",{isNaN:function(e){return e!=e}});},6479:(e,t,n)=>{var r=n(2985),i=n(8367),o=Math.abs;r(r.S,"Number",{isSafeInteger:function(e){return i(e)&&o(e)<=9007199254740991}});},1736:(e,t,n)=>{n=n(2985);n(n.S,"Number",{MAX_SAFE_INTEGER:9007199254740991});},1889:(e,t,n)=>{n=n(2985);n(n.S,"Number",{MIN_SAFE_INTEGER:-9007199254740991});},5177:(e,t,n)=>{var r=n(2985),n=n(7743);r(r.S+r.F*(Number.parseFloat!=n),"Number",{parseFloat:n});},6943:(e,t,n)=>{var r=n(2985),n=n(5960);r(r.S+r.F*(Number.parseInt!=n),"Number",{parseInt:n});},726:(e,t,n)=>{function s(e,t){for(var n=-1,r=t;++n<6;)r+=e*a[n],a[n]=r%1e7,r=o(r/1e7);}function c(e){for(var t=6,n=0;0<=--t;)n+=a[t],a[t]=o(n/e),n=n%e*1e7;}function p(){for(var e,t=6,n="";0<=--t;)""===n&&0!==t&&0===a[t]||(e=String(a[t]),n=""===n?e:n+l.call("0",7-e.length)+e);return n}var r=n(2985),d=n(1467),u=n(3365),l=n(8595),i=1..toFixed,o=Math.floor,a=[0,0,0,0,0,0],m="Number.toFixed: incorrect invocation!",f=function(e,t,n){return 0===t?n:t%2==1?f(e,t-1,n*e):f(e*e,t/2,n)};r(r.P+r.F*(!!i&&("0.000"!==8e-5.toFixed(3)||"1"!==.9.toFixed(0)||"1.25"!==1.255.toFixed(2)||"1000000000000000128"!==0xde0b6b3a7640080.toFixed(0))||!n(4253)(function(){i.call({});})),"Number",{toFixed:function(e){var t,n,r=u(this,m),i=d(e),o="",a="0";if(i<0||20<i)throw RangeError(m);if(r!=r)return "NaN";if(r<=-1e21||1e21<=r)return String(r);if(r<0&&(o="-",r=-r),1e-21<r)if(e=(n=function(){for(var e=0,t=r*f(2,69,1);4096<=t;)e+=12,t/=4096;for(;2<=t;)e+=1,t/=2;return e}()-69)<0?r*f(2,-n,1):r/f(2,n,1),e*=4503599627370496,0<(n=52-n)){for(s(0,e),t=i;7<=t;)s(1e7,0),t-=7;for(s(f(10,t,1),0),t=n-1;23<=t;)c(1<<23),t-=23;c(1<<t),s(1,1),c(2),a=p();}else s(0,e),s(1<<-n,0),a=p()+l.call("0",i);return 0<i?o+((n=a.length)<=i?"0."+l.call("0",i-n)+a:a.slice(0,n-i)+"."+a.slice(n-i)):o+a}});},1901:(e,t,n)=>{var r=n(2985),i=n(4253),o=n(3365),a=1..toPrecision;r(r.P+r.F*(i(function(){return "1"!==a.call(1,void 0)})||!i(function(){a.call({});})),"Number",{toPrecision:function(e){var t=o(this,"Number#toPrecision: incorrect invocation!");return void 0===e?a.call(t):a.call(t,e)}});},5115:(e,t,n)=>{var r=n(2985);r(r.S+r.F,"Object",{assign:n(5345)});},8132:(e,t,n)=>{var r=n(2985);r(r.S,"Object",{create:n(2503)});},7470:(e,t,n)=>{var r=n(2985);r(r.S+r.F*!n(7057),"Object",{defineProperties:n(5588)});},8388:(e,t,n)=>{var r=n(2985);r(r.S+r.F*!n(7057),"Object",{defineProperty:n(9275).f});},9375:(e,t,n)=>{var r=n(5286),i=n(4728).onFreeze;n(3160)("freeze",function(t){return function(e){return t&&r(e)?t(i(e)):e}});},4882:(e,t,n)=>{var r=n(2110),i=n(8693).f;n(3160)("getOwnPropertyDescriptor",function(){return function(e,t){return i(r(e),t)}});},9622:(e,t,n)=>{n(3160)("getOwnPropertyNames",function(){return n(9327).f});},1520:(e,t,n)=>{var r=n(508),i=n(468);n(3160)("getPrototypeOf",function(){return function(e){return i(r(e))}});},9892:(e,t,n)=>{var r=n(5286);n(3160)("isExtensible",function(t){return function(e){return !!r(e)&&(!t||t(e))}});},4157:(e,t,n)=>{var r=n(5286);n(3160)("isFrozen",function(t){return function(e){return !r(e)||!!t&&t(e)}});},5095:(e,t,n)=>{var r=n(5286);n(3160)("isSealed",function(t){return function(e){return !r(e)||!!t&&t(e)}});},9176:(e,t,n)=>{var r=n(2985);r(r.S,"Object",{is:n(7195)});},7476:(e,t,n)=>{var r=n(508),i=n(7184);n(3160)("keys",function(){return function(e){return i(r(e))}});},4672:(e,t,n)=>{var r=n(5286),i=n(4728).onFreeze;n(3160)("preventExtensions",function(t){return function(e){return t&&r(e)?t(i(e)):e}});},3533:(e,t,n)=>{var r=n(5286),i=n(4728).onFreeze;n(3160)("seal",function(t){return function(e){return t&&r(e)?t(i(e)):e}});},8838:(e,t,n)=>{var r=n(2985);r(r.S,"Object",{setPrototypeOf:n(7375).set});},6253:(e,t,n)=>{var r=n(1488),i={};i[n(6314)("toStringTag")]="z",i+""!="[object z]"&&n(7234)(Object.prototype,"toString",function(){return "[object "+r(this)+"]"},!0);},4299:(e,t,n)=>{var r=n(2985),n=n(7743);r(r.G+r.F*(parseFloat!=n),{parseFloat:n});},1084:(e,t,n)=>{var r=n(2985),n=n(5960);r(r.G+r.F*(parseInt!=n),{parseInt:n});},851:(e,t,n)=>{function r(){}function u(e){var t;return !(!y(e)||"function"!=typeof(t=e.then))&&t}function i(d,t){var n;d._n||(d._n=!0,n=d._c,x(function(){for(var c=d._v,p=1==d._s,e=0;n.length>e;)!function(e){var t,n,r,i=p?e.ok:e.fail,o=e.resolve,a=e.reject,s=e.domain;try{i?(p||(2==d._h&&M(d),d._h=1),!0===i?t=c:(s&&s.enter(),t=i(c),s&&(s.exit(),r=!0)),t===e.promise?a(O("Promise-chain cycle")):(n=u(t))?n.call(t,o,a):o(t)):a(c);}catch(e){s&&!r&&s.exit(),a(e);}}(n[e++]);d._c=[],d._n=!1,t&&!d._h&&N(d);}));}function o(e){var t=this;t._d||(t._d=!0,(t=t._w||t)._v=e,t._s=2,t._a||(t._a=t._c.slice()),i(t,!0));}var a,s,c,p,d=n(4461),l=n(3816),m=n(741),f=n(1488),h=n(2985),y=n(5286),g=n(4963),b=n(3328),v=n(3531),w=n(8364),S=n(4193).set,x=n(4351)(),I=n(3499),k=n(188),T=n(575),R=n(94),C="Promise",O=l.TypeError,j=l.process,E=j&&j.versions,A=E&&E.v8||"",P=l.Promise,$="process"==f(j),D=s=I.f,f=!!function(){try{var e=P.resolve(1),t=(e.constructor={})[n(6314)("species")]=function(e){e(r,r);};return ($||"function"==typeof PromiseRejectionEvent)&&e.then(r)instanceof t&&0!==A.indexOf("6.6")&&-1===T.indexOf("Chrome/66")}catch(e){}}(),N=function(i){S.call(l,function(){var e,t,n=i._v,r=_(i);if(r&&(e=k(function(){$?j.emit("unhandledRejection",n,i):(t=l.onunhandledrejection)?t({promise:i,reason:n}):(t=l.console)&&t.error&&t.error("Unhandled promise rejection",n);}),i._h=$||_(i)?2:1),i._a=void 0,r&&e.e)throw e.v});},_=function(e){return 1!==e._h&&0===(e._a||e._c).length},M=function(t){S.call(l,function(){var e;$?j.emit("rejectionHandled",t):(e=l.onrejectionhandled)&&e({promise:t,reason:t._v});});},F=function(e){var n,r=this;if(!r._d){r._d=!0,r=r._w||r;try{if(r===e)throw O("Promise can't be resolved itself");(n=u(e))?x(function(){var t={_w:r,_d:!1};try{n.call(e,m(F,t,1),m(o,t,1));}catch(e){o.call(t,e);}}):(r._v=e,r._s=1,i(r,!1));}catch(e){o.call({_w:r,_d:!1},e);}}};f||(P=function(e){b(this,P,C,"_h"),g(e),a.call(this);try{e(m(F,this,1),m(o,this,1));}catch(e){o.call(this,e);}},(a=function(e){this._c=[],this._a=void 0,this._s=0,this._d=!1,this._v=void 0,this._h=0,this._n=!1;}).prototype=n(4408)(P.prototype,{then:function(e,t){var n=D(w(this,P));return n.ok="function"!=typeof e||e,n.fail="function"==typeof t&&t,n.domain=$?j.domain:void 0,this._c.push(n),this._a&&this._a.push(n),this._s&&i(this,!1),n.promise},catch:function(e){return this.then(void 0,e)}}),c=function(){var e=new a;this.promise=e,this.resolve=m(F,e,1),this.reject=m(o,e,1);},I.f=D=function(e){return e===P||e===p?new c:s(e)}),h(h.G+h.W+h.F*!f,{Promise:P}),n(2943)(P,C),n(2974)(C),p=n(5645).Promise,h(h.S+h.F*!f,C,{reject:function(e){var t=D(this);return (0, t.reject)(e),t.promise}}),h(h.S+h.F*(d||!f),C,{resolve:function(e){return R(d&&this===p?P:this,e)}}),h(h.S+h.F*!(f&&n(7462)(function(e){P.all(e).catch(r);})),C,{all:function(e){var a=this,t=D(a),s=t.resolve,c=t.reject,n=k(function(){var r=[],i=0,o=1;v(e,!1,function(e){var t=i++,n=!1;r.push(void 0),o++,a.resolve(e).then(function(e){n||(n=!0,r[t]=e,--o||s(r));},c);}),--o||s(r);});return n.e&&c(n.v),t.promise},race:function(e){var t=this,n=D(t),r=n.reject,i=k(function(){v(e,!1,function(e){t.resolve(e).then(n.resolve,r);});});return i.e&&r(i.v),n.promise}});},1572:(e,t,n)=>{var r=n(2985),i=n(4963),o=n(7007),a=(n(3816).Reflect||{}).apply,s=Function.apply;r(r.S+r.F*!n(4253)(function(){a(function(){});}),"Reflect",{apply:function(e,t,n){e=i(e),n=o(n);return a?a(e,t,n):s.call(e,t,n)}});},2139:(e,t,n)=>{var r=n(2985),i=n(2503),o=n(4963),a=n(7007),s=n(5286),c=n(4253),p=n(4398),d=(n(3816).Reflect||{}).construct,u=c(function(){function e(){}return !(d(function(){},[],e)instanceof e)}),l=!c(function(){d(function(){});});r(r.S+r.F*(u||l),"Reflect",{construct:function(e,t){o(e),a(t);var n=arguments.length<3?e:o(arguments[2]);if(l&&!u)return d(e,t,n);if(e==n){switch(t.length){case 0:return new e;case 1:return new e(t[0]);case 2:return new e(t[0],t[1]);case 3:return new e(t[0],t[1],t[2]);case 4:return new e(t[0],t[1],t[2],t[3])}var r=[null];return r.push.apply(r,t),new(p.apply(e,r))}r=n.prototype,n=i(s(r)?r:Object.prototype),r=Function.apply.call(e,n,t);return s(r)?r:n}});},685:(e,t,n)=>{var r=n(9275),i=n(2985),o=n(7007),a=n(1689);i(i.S+i.F*n(4253)(function(){Reflect.defineProperty(r.f({},1,{value:1}),1,{value:2});}),"Reflect",{defineProperty:function(e,t,n){o(e),t=a(t,!0),o(n);try{return r.f(e,t,n),!0}catch(e){return !1}}});},5535:(e,t,n)=>{var r=n(2985),i=n(8693).f,o=n(7007);r(r.S,"Reflect",{deleteProperty:function(e,t){var n=i(o(e),t);return !(n&&!n.configurable)&&delete e[t]}});},7347:(e,t,n)=>{function r(e){this._t=o(e),this._i=0;var t,n=this._k=[];for(t in e)n.push(t);}var i=n(2985),o=n(7007);n(9988)(r,"Object",function(){var e,t=this._k;do{if(this._i>=t.length)return {value:void 0,done:!0}}while(!((e=t[this._i++])in this._t));return {value:e,done:!1}}),i(i.S,"Reflect",{enumerate:function(e){return new r(e)}});},6633:(e,t,n)=>{var r=n(8693),i=n(2985),o=n(7007);i(i.S,"Reflect",{getOwnPropertyDescriptor:function(e,t){return r.f(o(e),t)}});},8989:(e,t,n)=>{var r=n(2985),i=n(468),o=n(7007);r(r.S,"Reflect",{getPrototypeOf:function(e){return i(o(e))}});},3049:(e,t,n)=>{var o=n(8693),a=n(468),s=n(9181),r=n(2985),c=n(5286),p=n(7007);r(r.S,"Reflect",{get:function e(t,n){var r,i=arguments.length<3?t:arguments[2];return p(t)===i?t[n]:(r=o.f(t,n))?s(r,"value")?r.value:void 0!==r.get?r.get.call(i):void 0:c(r=a(t))?e(r,n,i):void 0}});},8270:(e,t,n)=>{n=n(2985);n(n.S,"Reflect",{has:function(e,t){return t in e}});},4510:(e,t,n)=>{var r=n(2985),i=n(7007),o=Object.isExtensible;r(r.S,"Reflect",{isExtensible:function(e){return i(e),!o||o(e)}});},3984:(e,t,n)=>{var r=n(2985);r(r.S,"Reflect",{ownKeys:n(7643)});},5769:(e,t,n)=>{var r=n(2985),i=n(7007),o=Object.preventExtensions;r(r.S,"Reflect",{preventExtensions:function(e){i(e);try{return o&&o(e),!0}catch(e){return !1}}});},6014:(e,t,n)=>{var r=n(2985),i=n(7375);i&&r(r.S,"Reflect",{setPrototypeOf:function(e,t){i.check(e,t);try{return i.set(e,t),!0}catch(e){return !1}}});},55:(e,t,n)=>{var s=n(9275),c=n(8693),p=n(468),d=n(9181),r=n(2985),u=n(681),l=n(7007),m=n(5286);r(r.S,"Reflect",{set:function e(t,n,r){var i,o=arguments.length<4?t:arguments[3],a=c.f(l(t),n);if(!a){if(m(i=p(t)))return e(i,n,r,o);a=u(0);}if(d(a,"value")){if(!1===a.writable||!m(o))return !1;if(i=c.f(o,n)){if(i.get||i.set||!1===i.writable)return !1;i.value=r,s.f(o,n,i);}else s.f(o,n,u(0,r));return !0}return void 0!==a.set&&(a.set.call(o,r),!0)}});},3946:(e,t,n)=>{var r=n(3816),o=n(266),i=n(9275).f,a=n(616).f,s=n(5364),c=n(3218),p=f=r.RegExp,d=f.prototype,u=/a/g,l=/a/g,m=new f(u)!==u;if(n(7057)&&(!m||n(4253)(function(){return l[n(6314)("match")]=!1,f(u)!=u||f(l)==l||"/a/i"!=f(u,"i")}))){for(var f=function(e,t){var n=this instanceof f,r=s(e),i=void 0===t;return !n&&r&&e.constructor===f&&i?e:o(m?new p(r&&!i?e.source:e,t):p((r=e instanceof f)?e.source:e,r&&i?c.call(e):t),n?this:d,f)},h=a(p),y=0;h.length>y;)!function(t){t in f||i(f,t,{configurable:!0,get:function(){return p[t]},set:function(e){p[t]=e;}});}(h[y++]);(d.constructor=f).prototype=d,n(7234)(r,"RegExp",f);}n(2974)("RegExp");},8269:(e,t,n)=>{var r=n(1165);n(2985)({target:"RegExp",proto:!0,forced:r!==/./.exec},{exec:r});},6774:(e,t,n)=>{n(7057)&&"g"!=/./g.flags&&n(9275).f(RegExp.prototype,"flags",{configurable:!0,get:n(3218)});},1466:(e,t,n)=>{var d=n(7007),u=n(875),l=n(6793),m=n(7787);n(8082)("match",1,function(r,i,c,p){return [function(e){var t=r(this),n=null==e?void 0:e[i];return void 0!==n?n.call(e,t):new RegExp(e)[i](String(t))},function(e){var t=p(c,e,this);if(t.done)return t.value;var n=d(e),r=String(this);if(!n.global)return m(n,r);for(var i=n.unicode,o=[],a=n.lastIndex=0;null!==(s=m(n,r));){var s=String(s[0]);""===(o[a]=s)&&(n.lastIndex=l(r,u(n.lastIndex),i)),a++;}return 0===a?null:o}]});},9357:(e,t,n)=>{var x=n(7007),I=n(508),k=n(875),T=n(1467),R=n(6793),C=n(7787),O=Math.max,j=Math.min,E=Math.floor,A=/\$([$&`']|\d\d?|<[^>]*>)/g,P=/\$([$&`']|\d\d?)/g;n(8082)("replace",2,function(i,o,w,S){return [function(e,t){var n=i(this),r=null==e?void 0:e[o];return void 0!==r?r.call(e,n,t):w.call(String(n),e,t)},function(e,t){var n=S(w,e,this,t);if(n.done)return n.value;var r=x(e),i=String(this),o="function"==typeof t;o||(t=String(t));var a,s=r.global;s&&(a=r.unicode,r.lastIndex=0);for(var c=[];;){var p=C(r,i);if(null===p)break;if(c.push(p),!s)break;""===String(p[0])&&(r.lastIndex=R(i,k(r.lastIndex),a));}for(var d,u="",l=0,m=0;m<c.length;m++){for(var p=c[m],f=String(p[0]),h=O(j(T(p.index),i.length),0),y=[],g=1;g<p.length;g++)y.push(void 0===(d=p[g])?d:String(d));var b,v=p.groups,v=o?(b=[f].concat(y,h,i),void 0!==v&&b.push(v),String(t.apply(void 0,b))):function(o,a,s,c,p,e){var d=s+o.length,u=c.length,t=P;return void 0!==p&&(p=I(p),t=A),w.call(e,t,function(e,t){var n;switch(t.charAt(0)){case"$":return "$";case"&":return o;case"`":return a.slice(0,s);case"'":return a.slice(d);case"<":n=p[t.slice(1,-1)];break;default:var r=+t;if(0==r)return e;if(u<r){var i=E(r/10);return 0!==i&&i<=u?void 0===c[i-1]?t.charAt(1):c[i-1]+t.charAt(1):e}n=c[r-1];}return void 0===n?"":n})}(f,i,h,y,v,t);l<=h&&(u+=i.slice(l,h)+v,l=h+f.length);}return u+i.slice(l)}]});},6142:(e,t,n)=>{var s=n(7007),c=n(7195),p=n(7787);n(8082)("search",1,function(r,i,o,a){return [function(e){var t=r(this),n=null==e?void 0:e[i];return void 0!==n?n.call(e,t):new RegExp(e)[i](String(t))},function(e){var t=a(o,e,this);if(t.done)return t.value;var n=s(e),t=String(this),e=n.lastIndex;c(e,0)||(n.lastIndex=0);t=p(n,t);return c(n.lastIndex,e)||(n.lastIndex=e),null===t?-1:t.index}]});},1876:(e,t,n)=>{var u=n(5364),g=n(7007),b=n(8364),v=n(6793),w=n(875),S=n(7787),l=n(1165),r=n(4253),x=Math.min,m=[].push,I=!r(function(){});n(8082)("split",2,function(i,o,f,h){var y="c"=="abbc".split(/(b)*/)[1]||4!="test".split(/(?:)/,-1).length||2!="ab".split(/(?:ab)*/).length||4!=".".split(/(.?)(.?)/).length||1<".".split(/()()/).length||"".split(/.?/).length?function(e,t){var n=String(this);if(void 0===e&&0===t)return [];if(!u(e))return f.call(n,e,t);for(var r,i,o,a=[],s=(e.ignoreCase?"i":"")+(e.multiline?"m":"")+(e.unicode?"u":"")+(e.sticky?"y":""),c=0,p=void 0===t?4294967295:t>>>0,d=new RegExp(e.source,s+"g");(r=l.call(d,n))&&!((i=d.lastIndex)>c&&(a.push(n.slice(c,r.index)),1<r.length&&r.index<n.length&&m.apply(a,r.slice(1)),o=r[0].length,c=i,a.length>=p));)d.lastIndex===r.index&&d.lastIndex++;return c===n.length?!o&&d.test("")||a.push(""):a.push(n.slice(c)),a.length>p?a.slice(0,p):a}:"0".split(void 0,0).length?function(e,t){return void 0===e&&0===t?[]:f.call(this,e,t)}:f;return [function(e,t){var n=i(this),r=null==e?void 0:e[o];return void 0!==r?r.call(e,n,t):y.call(String(n),e,t)},function(e,t){var n=h(y,e,this,t,y!==f);if(n.done)return n.value;var r=g(e),i=String(this),n=b(r,RegExp),o=r.unicode,e=(r.ignoreCase?"i":"")+(r.multiline?"m":"")+(r.unicode?"u":"")+(I?"y":"g"),a=new n(I?r:"^(?:"+r.source+")",e),s=void 0===t?4294967295:t>>>0;if(0==s)return [];if(0===i.length)return null===S(a,i)?[i]:[];for(var c=0,p=0,d=[];p<i.length;){a.lastIndex=I?p:0;var u,l=S(a,I?i:i.slice(p));if(null===l||(u=x(w(a.lastIndex+(I?0:p)),i.length))===c)p=v(i,p,o);else {if(d.push(i.slice(c,p)),d.length===s)return d;for(var m=1;m<=l.length-1;m++)if(d.push(l[m]),d.length===s)return d;p=c=u;}}return d.push(i.slice(c)),d}]});},6108:(e,t,n)=>{n(6774);function r(e){n(7234)(RegExp.prototype,"toString",e,!0);}var i=n(7007),o=n(3218),a=n(7057),s=/./.toString;n(4253)(function(){return "/a/b"!=s.call({source:"a",flags:"b"})})?r(function(){var e=i(this);return "/".concat(e.source,"/","flags"in e?e.flags:!a&&e instanceof RegExp?o.call(e):void 0)}):"toString"!=s.name&&r(function(){return s.call(this)});},8184:(e,t,n)=>{var r=n(9824),i=n(1616);e.exports=n(5795)("Set",function(e){return function(){return e(this,0<arguments.length?arguments[0]:void 0)}},{add:function(e){return r.def(i(this,"Set"),e=0===e?0:e,e)}},r);},856:(e,t,n)=>{n(9395)("anchor",function(t){return function(e){return t(this,"a","name",e)}});},703:(e,t,n)=>{n(9395)("big",function(e){return function(){return e(this,"big","","")}});},1539:(e,t,n)=>{n(9395)("blink",function(e){return function(){return e(this,"blink","","")}});},5292:(e,t,n)=>{n(9395)("bold",function(e){return function(){return e(this,"b","","")}});},9539:(e,t,n)=>{var r=n(2985),i=n(4496)(!1);r(r.P,"String",{codePointAt:function(e){return i(this,e)}});},6620:(e,t,n)=>{var r=n(2985),i=n(875),o=n(2094),a="".endsWith;r(r.P+r.F*n(8852)("endsWith"),"String",{endsWith:function(e){var t=o(this,e,"endsWith"),n=1<arguments.length?arguments[1]:void 0,r=i(t.length),n=void 0===n?r:Math.min(i(n),r),r=String(e);return a?a.call(t,r,n):t.slice(n-r.length,n)===r}});},6629:(e,t,n)=>{n(9395)("fixed",function(e){return function(){return e(this,"tt","","")}});},3694:(e,t,n)=>{n(9395)("fontcolor",function(t){return function(e){return t(this,"font","color",e)}});},7648:(e,t,n)=>{n(9395)("fontsize",function(t){return function(e){return t(this,"font","size",e)}});},191:(e,t,n)=>{var r=n(2985),o=n(2337),a=String.fromCharCode,n=String.fromCodePoint;r(r.S+r.F*(!!n&&1!=n.length),"String",{fromCodePoint:function(e){for(var t,n=[],r=arguments.length,i=0;i<r;){if(t=+arguments[i++],o(t,1114111)!==t)throw RangeError(t+" is not a valid code point");n.push(t<65536?a(t):a(55296+((t-=65536)>>10),t%1024+56320));}return n.join("")}});},2850:(e,t,n)=>{var r=n(2985),i=n(2094);r(r.P+r.F*n(8852)("includes"),"String",{includes:function(e){return !!~i(this,e,"includes").indexOf(e,1<arguments.length?arguments[1]:void 0)}});},7795:(e,t,n)=>{n(9395)("italics",function(e){return function(){return e(this,"i","","")}});},9115:(e,t,n)=>{var r=n(4496)(!0);n(2923)(String,"String",function(e){this._t=String(e),this._i=0;},function(){var e=this._t,t=this._i;return t>=e.length?{value:void 0,done:!0}:(t=r(e,t),this._i+=t.length,{value:t,done:!1})});},4531:(e,t,n)=>{n(9395)("link",function(t){return function(e){return t(this,"a","href",e)}});},8306:(e,t,n)=>{var r=n(2985),a=n(2110),s=n(875);r(r.S,"String",{raw:function(e){for(var t=a(e.raw),n=s(t.length),r=arguments.length,i=[],o=0;o<n;)i.push(String(t[o++])),o<r&&i.push(String(arguments[o]));return i.join("")}});},823:(e,t,n)=>{var r=n(2985);r(r.P,"String",{repeat:n(8595)});},3605:(e,t,n)=>{n(9395)("small",function(e){return function(){return e(this,"small","","")}});},7732:(e,t,n)=>{var r=n(2985),i=n(875),o=n(2094),a="startsWith",s="".startsWith;r(r.P+r.F*n(8852)(a),"String",{startsWith:function(e){var t=o(this,e,a),n=i(Math.min(1<arguments.length?arguments[1]:void 0,t.length)),r=String(e);return s?s.call(t,r,n):t.slice(n,n+r.length)===r}});},6780:(e,t,n)=>{n(9395)("strike",function(e){return function(){return e(this,"strike","","")}});},9937:(e,t,n)=>{n(9395)("sub",function(e){return function(){return e(this,"sub","","")}});},511:(e,t,n)=>{n(9395)("sup",function(e){return function(){return e(this,"sup","","")}});},4564:(e,t,n)=>{n(9599)("trim",function(e){return function(){return e(this,3)}});},5767:(e,t,n)=>{function r(e){var t=H[e]=O(M.prototype);return t._k=e,t}function i(e,t){x(e);for(var n,r=w(t=T(t)),i=0,o=r.length;i<o;)Q(e,n=r[i++],t[n]);return e}function o(e){var t=U.call(this,e=R(e,!0));return !(this===V&&c(H,e)&&!c(z,e))&&(!(t||!c(this,e)||!c(H,e)||c(this,L)&&this[L][e])||t)}function a(e,t){if(e=T(e),t=R(t,!0),e!==V||!c(H,t)||c(z,t)){var n=D(e,t);return !n||!c(H,t)||c(e,L)&&e[L][t]||(n.enumerable=!0),n}}var s=n(3816),c=n(9181),p=n(7057),d=n(2985),u=n(7234),l=n(4728).KEY,m=n(4253),f=n(3825),h=n(2943),y=n(3953),g=n(6314),b=n(8787),v=n(6074),w=n(5541),S=n(4302),x=n(7007),I=n(5286),k=n(508),T=n(2110),R=n(1689),C=n(681),O=n(2503),j=n(9327),E=n(8693),A=n(4548),P=n(9275),$=n(7184),D=E.f,N=P.f,_=j.f,M=s.Symbol,F=s.JSON,q=F&&F.stringify,L=g("_hidden"),B=g("toPrimitive"),U={}.propertyIsEnumerable,W=f("symbol-registry"),H=f("symbols"),z=f("op-symbols"),V=Object.prototype,G="function"==typeof M&&!!A.f,J=s.QObject,X=!J||!J.prototype||!J.prototype.findChild,K=p&&m(function(){return 7!=O(N({},"a",{get:function(){return N(this,"a",{value:7}).a}})).a})?function(e,t,n){var r=D(V,t);r&&delete V[t],N(e,t,n),r&&e!==V&&N(V,t,r);}:N,Y=G&&"symbol"==typeof M.iterator?function(e){return "symbol"==typeof e}:function(e){return e instanceof M},Q=function(e,t,n){return e===V&&Q(z,t,n),x(e),t=R(t,!0),x(n),c(H,t)?(n.enumerable?(c(e,L)&&e[L][t]&&(e[L][t]=!1),n=O(n,{enumerable:C(0,!1)})):(c(e,L)||N(e,L,C(1,{})),e[L][t]=!0),K(e,t,n)):N(e,t,n)},f=function(e){for(var t,n=_(T(e)),r=[],i=0;n.length>i;)c(H,t=n[i++])||t==L||t==l||r.push(t);return r},J=function(e){for(var t,n=e===V,r=_(n?z:T(e)),i=[],o=0;r.length>o;)!c(H,t=r[o++])||n&&!c(V,t)||i.push(H[t]);return i};G||(u((M=function(){if(this instanceof M)throw TypeError("Symbol is not a constructor!");var t=y(0<arguments.length?arguments[0]:void 0),n=function(e){this===V&&n.call(z,e),c(this,L)&&c(this[L],t)&&(this[L][t]=!1),K(this,t,C(1,e));};return p&&X&&K(V,t,{configurable:!0,set:n}),r(t)}).prototype,"toString",function(){return this._k}),E.f=a,P.f=Q,n(616).f=j.f=f,n(4682).f=o,A.f=J,p&&!n(4461)&&u(V,"propertyIsEnumerable",o,!0),b.f=function(e){return r(g(e))}),d(d.G+d.W+d.F*!G,{Symbol:M});for(var Z="hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables".split(","),ee=0;Z.length>ee;)g(Z[ee++]);for(var te=$(g.store),ne=0;te.length>ne;)v(te[ne++]);d(d.S+d.F*!G,"Symbol",{for:function(e){return c(W,e+="")?W[e]:W[e]=M(e)},keyFor:function(e){if(!Y(e))throw TypeError(e+" is not a symbol!");for(var t in W)if(W[t]===e)return t},useSetter:function(){X=!0;},useSimple:function(){X=!1;}}),d(d.S+d.F*!G,"Object",{create:function(e,t){return void 0===t?O(e):i(O(e),t)},defineProperty:Q,defineProperties:i,getOwnPropertyDescriptor:a,getOwnPropertyNames:f,getOwnPropertySymbols:J});J=m(function(){A.f(1);});d(d.S+d.F*J,"Object",{getOwnPropertySymbols:function(e){return A.f(k(e))}}),F&&d(d.S+d.F*(!G||m(function(){var e=M();return "[null]"!=q([e])||"{}"!=q({a:e})||"{}"!=q(Object(e))})),"JSON",{stringify:function(e){for(var t,n,r=[e],i=1;i<arguments.length;)r.push(arguments[i++]);if(n=t=r[1],(I(t)||void 0!==e)&&!Y(e))return S(t)||(t=function(e,t){if("function"==typeof n&&(t=n.call(this,e,t)),!Y(t))return t}),r[1]=t,q.apply(F,r)}}),M.prototype[B]||n(7728)(M.prototype,B,M.prototype.valueOf),h(M,"Symbol"),h(Math,"Math",!0),h(s.JSON,"JSON",!0);},142:(e,t,n)=>{var r=n(2985),i=n(9383),o=n(1125),c=n(7007),p=n(2337),d=n(875),a=n(5286),s=n(3816).ArrayBuffer,u=n(8364),l=o.ArrayBuffer,m=o.DataView,f=i.ABV&&s.isView,h=l.prototype.slice,y=i.VIEW,o="ArrayBuffer";r(r.G+r.W+r.F*(s!==l),{ArrayBuffer:l}),r(r.S+r.F*!i.CONSTR,o,{isView:function(e){return f&&f(e)||a(e)&&y in e}}),r(r.P+r.U+r.F*n(4253)(function(){return !new l(2).slice(1,void 0).byteLength}),o,{slice:function(e,t){if(void 0!==h&&void 0===t)return h.call(c(this),e);for(var n=c(this).byteLength,r=p(e,n),i=p(void 0===t?n:t,n),n=new(u(this,l))(d(i-r)),o=new m(this),a=new m(n),s=0;r<i;)a.setUint8(s++,o.getUint8(r++));return n}}),n(2974)(o);},1786:(e,t,n)=>{var r=n(2985);r(r.G+r.W+r.F*!n(9383).ABV,{DataView:n(1125).DataView});},162:(e,t,n)=>{n(8440)("Float32",4,function(r){return function(e,t,n){return r(this,e,t,n)}});},3834:(e,t,n)=>{n(8440)("Float64",8,function(r){return function(e,t,n){return r(this,e,t,n)}});},4821:(e,t,n)=>{n(8440)("Int16",2,function(r){return function(e,t,n){return r(this,e,t,n)}});},1303:(e,t,n)=>{n(8440)("Int32",4,function(r){return function(e,t,n){return r(this,e,t,n)}});},5368:(e,t,n)=>{n(8440)("Int8",1,function(r){return function(e,t,n){return r(this,e,t,n)}});},9103:(e,t,n)=>{n(8440)("Uint16",2,function(r){return function(e,t,n){return r(this,e,t,n)}});},3318:(e,t,n)=>{n(8440)("Uint32",4,function(r){return function(e,t,n){return r(this,e,t,n)}});},6964:(e,t,n)=>{n(8440)("Uint8",1,function(r){return function(e,t,n){return r(this,e,t,n)}});},2152:(e,t,n)=>{n(8440)("Uint8",1,function(r){return function(e,t,n){return r(this,e,t,n)}},!0);},147:(e,t,n)=>{function r(e){return function(){return e(this,0<arguments.length?arguments[0]:void 0)}}var i,o=n(3816),a=n(50)(0),s=n(7234),c=n(4728),p=n(5345),d=n(3657),u=n(5286),l=n(1616),m=n(1616),f=!o.ActiveXObject&&"ActiveXObject"in o,h="WeakMap",y=c.getWeak,g=Object.isExtensible,b=d.ufstore,o={get:function(e){if(u(e)){var t=y(e);return !0===t?b(l(this,h)).get(e):t?t[this._i]:void 0}},set:function(e,t){return d.def(l(this,h),e,t)}},v=e.exports=n(5795)(h,r,o,d,!0,!0);m&&f&&(p((i=d.getConstructor(r,h)).prototype,o),c.NEED=!0,a(["delete","has","get","set"],function(n){var e=v.prototype,r=e[n];s(e,n,function(e,t){if(!u(e)||g(e))return r.call(this,e,t);this._f||(this._f=new i);t=this._f[n](e,t);return "set"==n?this:t});}));},9192:(e,t,n)=>{var r=n(3657),i=n(1616);n(5795)("WeakSet",function(e){return function(){return e(this,0<arguments.length?arguments[0]:void 0)}},{add:function(e){return r.def(i(this,"WeakSet"),e,!0)}},r,!1,!0);},1268:(e,t,n)=>{var r=n(2985),i=n(3325),o=n(508),a=n(875),s=n(4963),c=n(6886);r(r.P,"Array",{flatMap:function(e){var t,n,r=o(this);return s(e),t=a(r.length),n=c(r,0),i(n,r,r,t,0,1,e,arguments[1]),n}}),n(7722)("flatMap");},4692:(e,t,n)=>{var r=n(2985),i=n(3325),o=n(508),a=n(875),s=n(1467),c=n(6886);r(r.P,"Array",{flatten:function(){var e=arguments[0],t=o(this),n=a(t.length),r=c(t,0);return i(r,t,t,n,0,void 0===e?1:s(e)),r}}),n(7722)("flatten");},2773:(e,t,n)=>{var r=n(2985),i=n(9315)(!0);r(r.P,"Array",{includes:function(e){return i(this,e,1<arguments.length?arguments[1]:void 0)}}),n(7722)("includes");},8267:(e,t,n)=>{var r=n(2985),i=n(4351)(),o=n(3816).process,a="process"==n(2032)(o);r(r.G,{asap:function(e){var t=a&&o.domain;i(t?t.bind(e):e);}});},2559:(e,t,n)=>{var r=n(2985),i=n(2032);r(r.S,"Error",{isError:function(e){return "Error"===i(e)}});},5575:(e,t,n)=>{var r=n(2985);r(r.G,{global:n(3816)});},525:(e,t,n)=>{n(1024)("Map");},8211:(e,t,n)=>{n(4881)("Map");},7698:(e,t,n)=>{var r=n(2985);r(r.P+r.R,"Map",{toJSON:n(6132)("Map")});},8865:(e,t,n)=>{n=n(2985);n(n.S,"Math",{clamp:function(e,t,n){return Math.min(n,Math.max(t,e))}});},368:(e,t,n)=>{n=n(2985);n(n.S,"Math",{DEG_PER_RAD:Math.PI/180});},6427:(e,t,n)=>{var n=n(2985),r=180/Math.PI;n(n.S,"Math",{degrees:function(e){return e*r}});},286:(e,t,n)=>{var r=n(2985),o=n(8757),a=n(4934);r(r.S,"Math",{fscale:function(e,t,n,r,i){return a(o(e,t,n,r,i))}});},2816:(e,t,n)=>{n=n(2985);n(n.S,"Math",{iaddh:function(e,t,n,r){e>>>=0,n>>>=0;return (t>>>0)+(r>>>0)+((e&n|(e|n)&~(e+n>>>0))>>>31)|0}});},2082:(e,t,n)=>{n=n(2985);n(n.S,"Math",{imulh:function(e,t){var n=+e,r=+t,e=65535&n,t=65535&r,n=n>>16,r=r>>16,t=(n*t>>>0)+(e*t>>>16);return n*r+(t>>16)+((e*r>>>0)+(65535&t)>>16)}});},5986:(e,t,n)=>{n=n(2985);n(n.S,"Math",{isubh:function(e,t,n,r){e>>>=0,n>>>=0;return (t>>>0)-(r>>>0)-((~e&n|~(e^n)&e-n>>>0)>>>31)|0}});},6308:(e,t,n)=>{n=n(2985);n(n.S,"Math",{RAD_PER_DEG:180/Math.PI});},9221:(e,t,n)=>{var n=n(2985),r=Math.PI/180;n(n.S,"Math",{radians:function(e){return e*r}});},3570:(e,t,n)=>{var r=n(2985);r(r.S,"Math",{scale:n(8757)});},3776:(e,t,n)=>{n=n(2985);n(n.S,"Math",{signbit:function(e){return (e=+e)!=e?e:0==e?1/e==1/0:0<e}});},6754:(e,t,n)=>{n=n(2985);n(n.S,"Math",{umulh:function(e,t){var n=+e,r=+t,e=65535&n,t=65535&r,n=n>>>16,r=r>>>16,t=(n*t>>>0)+(e*t>>>16);return n*r+(t>>>16)+((e*r>>>0)+(65535&t)>>>16)}});},8646:(e,t,n)=>{var r=n(2985),i=n(508),o=n(4963),a=n(9275);n(7057)&&r(r.P+n(1670),"Object",{__defineGetter__:function(e,t){a.f(i(this),e,{get:o(t),enumerable:!0,configurable:!0});}});},2658:(e,t,n)=>{var r=n(2985),i=n(508),o=n(4963),a=n(9275);n(7057)&&r(r.P+n(1670),"Object",{__defineSetter__:function(e,t){a.f(i(this),e,{set:o(t),enumerable:!0,configurable:!0});}});},3276:(e,t,n)=>{var r=n(2985),i=n(1131)(!0);r(r.S,"Object",{entries:function(e){return i(e)}});},8351:(e,t,n)=>{var r=n(2985),c=n(7643),p=n(2110),d=n(8693),u=n(2811);r(r.S,"Object",{getOwnPropertyDescriptors:function(e){for(var t,n,r=p(e),i=d.f,o=c(r),a={},s=0;o.length>s;)void 0!==(n=i(r,t=o[s++]))&&u(a,t,n);return a}});},6917:(e,t,n)=>{var r=n(2985),i=n(508),o=n(1689),a=n(468),s=n(8693).f;n(7057)&&r(r.P+n(1670),"Object",{__lookupGetter__:function(e){var t,n=i(this),r=o(e,!0);do{if(t=s(n,r))return t.get}while(n=a(n))}});},372:(e,t,n)=>{var r=n(2985),i=n(508),o=n(1689),a=n(468),s=n(8693).f;n(7057)&&r(r.P+n(1670),"Object",{__lookupSetter__:function(e){var t,n=i(this),r=o(e,!0);do{if(t=s(n,r))return t.set}while(n=a(n))}});},6409:(e,t,n)=>{var r=n(2985),i=n(1131)(!1);r(r.S,"Object",{values:function(e){return i(e)}});},6534:(e,t,n)=>{function i(e){return null==e?void 0:m(e)}function o(e){var t=e._c;t&&(e._c=void 0,t());}function a(e){return void 0===e._o}function s(e){a(e)||(e._o=void 0,o(e));}function r(e,t){f(e),this._c=void 0,this._o=e,e=new w(this);try{var n=t(e),r=n;null!=n&&("function"==typeof n.unsubscribe?n=function(){r.unsubscribe();}:m(n),this._c=n);}catch(t){return void e.error(t)}a(this)&&o(this);}var c=n(2985),p=n(3816),d=n(5645),u=n(4351)(),l=n(6314)("observable"),m=n(4963),f=n(7007),h=n(3328),y=n(4408),g=n(7728),b=n(3531),v=b.RETURN;r.prototype=y({},{unsubscribe:function(){s(this);}});var w=function(e){this._s=e;};w.prototype=y({},{next:function(e){var t=this._s;if(!a(t)){var n=t._o;try{var r=i(n.next);if(r)return r.call(n,e)}catch(e){try{s(t);}finally{throw e}}}},error:function(e){var t=this._s;if(a(t))throw e;var n=t._o;t._o=void 0;try{var r=i(n.error);if(!r)throw e;e=r.call(n,e);}catch(e){try{o(t);}finally{throw e}}return o(t),e},complete:function(e){var t=this._s;if(!a(t)){var n=t._o;t._o=void 0;try{var r=i(n.complete);e=r?r.call(n,e):void 0;}catch(e){try{o(t);}finally{throw e}}return o(t),e}}});var S=function(e){h(this,S,"Observable","_f")._f=m(e);};y(S.prototype,{subscribe:function(e){return new r(e,this._f)},forEach:function(r){var i=this;return new(d.Promise||p.Promise)(function(e,t){m(r);var n=i.subscribe({next:function(e){try{return r(e)}catch(e){t(e),n.unsubscribe();}},error:t,complete:e});})}}),y(S,{from:function(e){var t="function"==typeof this?this:S,n=i(f(e)[l]);if(n){var r=f(n.call(e));return r.constructor===t?r:new t(function(e){return r.subscribe(e)})}return new t(function(t){var n=!1;return u(function(){if(!n){try{if(b(e,!1,function(e){if(t.next(e),n)return v})===v)return}catch(e){if(n)throw e;return void t.error(e)}t.complete();}}),function(){n=!0;}})},of:function(){for(var e=0,t=arguments.length,r=new Array(t);e<t;)r[e]=arguments[e++];return new("function"==typeof this?this:S)(function(t){var n=!1;return u(function(){if(!n){for(var e=0;e<r.length;++e)if(t.next(r[e]),n)return;t.complete();}}),function(){n=!0;}})}}),g(S.prototype,l,function(){return this}),c(c.G,{Observable:S}),n(2974)("Observable");},9865:(e,t,n)=>{var r=n(2985),i=n(5645),o=n(3816),a=n(8364),s=n(94);r(r.P+r.R,"Promise",{finally:function(t){var n=a(this,i.Promise||o.Promise),e="function"==typeof t;return this.then(e?function(e){return s(n,t()).then(function(){return e})}:t,e?function(e){return s(n,t()).then(function(){throw e})}:t)}});},1898:(e,t,n)=>{var r=n(2985),i=n(3499),o=n(188);r(r.S,"Promise",{try:function(e){var t=i.f(this),e=o(e);return (e.e?t.reject:t.resolve)(e.v),t.promise}});},3364:(e,t,n)=>{var r=n(133),i=n(7007),o=r.key,a=r.set;r.exp({defineMetadata:function(e,t,n,r){a(e,t,i(n),o(r));}});},1432:(e,t,n)=>{var r=n(133),i=n(7007),o=r.key,a=r.map,s=r.store;r.exp({deleteMetadata:function(e,t){var n=arguments.length<3?void 0:o(arguments[2]),r=a(i(t),n,!1);if(void 0===r||!r.delete(e))return !1;if(r.size)return !0;r=s.get(t);return r.delete(n),!!r.size||s.delete(t)}});},4416:(e,t,n)=>{var r=n(8184),i=n(9490),o=n(133),a=n(7007),s=n(468),c=o.keys,p=o.key,d=function(e,t){var n=c(e,t),e=s(e);if(null===e)return n;t=d(e,t);return t.length?n.length?i(new r(n.concat(t))):t:n};o.exp({getMetadataKeys:function(e){return d(a(e),arguments.length<2?void 0:p(arguments[1]))}});},6562:(e,t,n)=>{var r=n(133),i=n(7007),o=n(468),a=r.has,s=r.get,c=r.key,p=function(e,t,n){if(a(e,t,n))return s(e,t,n);t=o(t);return null!==t?p(e,t,n):void 0};r.exp({getMetadata:function(e,t){return p(e,i(t),arguments.length<3?void 0:c(arguments[2]))}});},2213:(e,t,n)=>{var r=n(133),i=n(7007),o=r.keys,a=r.key;r.exp({getOwnMetadataKeys:function(e){return o(i(e),arguments.length<2?void 0:a(arguments[1]))}});},8681:(e,t,n)=>{var r=n(133),i=n(7007),o=r.get,a=r.key;r.exp({getOwnMetadata:function(e,t){return o(e,i(t),arguments.length<3?void 0:a(arguments[2]))}});},3471:(e,t,n)=>{var r=n(133),i=n(7007),o=n(468),a=r.has,s=r.key,c=function(e,t,n){if(a(e,t,n))return !0;t=o(t);return null!==t&&c(e,t,n)};r.exp({hasMetadata:function(e,t){return c(e,i(t),arguments.length<3?void 0:s(arguments[2]))}});},4329:(e,t,n)=>{var r=n(133),i=n(7007),o=r.has,a=r.key;r.exp({hasOwnMetadata:function(e,t){return o(e,i(t),arguments.length<3?void 0:a(arguments[2]))}});},5159:(e,t,n)=>{var r=n(133),i=n(7007),o=n(4963),a=r.key,s=r.set;r.exp({metadata:function(n,r){return function(e,t){s(n,r,(void 0!==t?i:o)(e),a(t));}}});},9467:(e,t,n)=>{n(1024)("Set");},4837:(e,t,n)=>{n(4881)("Set");},8739:(e,t,n)=>{var r=n(2985);r(r.P+r.R,"Set",{toJSON:n(6132)("Set")});},7220:(e,t,n)=>{var r=n(2985),i=n(4496)(!0),n=n(4253)(function(){return "𠮷"!=="𠮷".at(0)});r(r.P+r.F*n,"String",{at:function(e){return i(this,e)}});},4208:(e,t,n)=>{function r(e,t){this._r=e,this._s=t;}var i=n(2985),o=n(1355),a=n(875),s=n(5364),c=n(3218),p=RegExp.prototype;n(9988)(r,"RegExp String",function(){var e=this._r.exec(this._s);return {value:e,done:null===e}}),i(i.P,"String",{matchAll:function(e){if(o(this),!s(e))throw TypeError(e+" is not a regexp!");var t=String(this),n="flags"in p?String(e.flags):c.call(e),n=new RegExp(e.source,~n.indexOf("g")?n:"g"+n);return n.lastIndex=a(e.lastIndex),new r(n,t)}});},2770:(e,t,n)=>{var r=n(2985),i=n(5442),n=n(575),n=/Version\/10\.\d+(\.\d+)?( Mobile\/\w+)? Safari\//.test(n);r(r.P+r.F*n,"String",{padEnd:function(e){return i(this,e,1<arguments.length?arguments[1]:void 0,!1)}});},1784:(e,t,n)=>{var r=n(2985),i=n(5442),n=n(575),n=/Version\/10\.\d+(\.\d+)?( Mobile\/\w+)? Safari\//.test(n);r(r.P+r.F*n,"String",{padStart:function(e){return i(this,e,1<arguments.length?arguments[1]:void 0,!0)}});},5869:(e,t,n)=>{n(9599)("trimLeft",function(e){return function(){return e(this,1)}},"trimStart");},4325:(e,t,n)=>{n(9599)("trimRight",function(e){return function(){return e(this,2)}},"trimEnd");},9665:(e,t,n)=>{n(6074)("asyncIterator");},9593:(e,t,n)=>{n(6074)("observable");},8967:(e,t,n)=>{var r=n(2985);r(r.S,"System",{global:n(3816)});},4188:(e,t,n)=>{n(1024)("WeakMap");},7594:(e,t,n)=>{n(4881)("WeakMap");},3495:(e,t,n)=>{n(1024)("WeakSet");},9550:(e,t,n)=>{n(4881)("WeakSet");},1181:(e,t,n)=>{for(var r=n(6997),i=n(7184),o=n(7234),a=n(3816),s=n(7728),c=n(2803),n=n(6314),p=n("iterator"),d=n("toStringTag"),u=c.Array,l={CSSRuleList:!0,CSSStyleDeclaration:!1,CSSValueList:!1,ClientRectList:!1,DOMRectList:!1,DOMStringList:!1,DOMTokenList:!0,DataTransferItemList:!1,FileList:!1,HTMLAllCollection:!1,HTMLCollection:!1,HTMLFormElement:!1,HTMLSelectElement:!1,MediaList:!0,MimeTypeArray:!1,NamedNodeMap:!1,NodeList:!0,PaintRequestList:!1,Plugin:!1,PluginArray:!1,SVGLengthList:!1,SVGNumberList:!1,SVGPathSegList:!1,SVGPointList:!1,SVGStringList:!1,SVGTransformList:!1,SourceBufferList:!1,StyleSheetList:!0,TextTrackCueList:!1,TextTrackList:!1,TouchList:!1},m=i(l),f=0;f<m.length;f++){var h,y=m[f],g=l[y],b=a[y],v=b&&b.prototype;if(v&&(v[p]||s(v,p,u),v[d]||s(v,d,y),c[y]=u,g))for(h in r)v[h]||o(v,h,r[h],!0);}},4633:(e,t,n)=>{var r=n(2985),n=n(4193);r(r.G+r.B,{setImmediate:n.set,clearImmediate:n.clear});},2564:(e,t,n)=>{var r=n(3816),i=n(2985),o=n(575),a=[].slice,n=/MSIE .\./.test(o),o=function(i){return function(e,t){var n=2<arguments.length,r=!!n&&a.call(arguments,2);return i(n?function(){("function"==typeof e?e:Function(e)).apply(this,r);}:e,t)}};i(i.G+i.B+i.F*n,{setTimeout:o(r.setTimeout),setInterval:o(r.setInterval)});},1934:(e,t,n)=>{n(5767),n(8132),n(8388),n(7470),n(4882),n(1520),n(7476),n(9622),n(9375),n(3533),n(4672),n(4157),n(5095),n(9892),n(5115),n(9176),n(8838),n(6253),n(9730),n(6059),n(8377),n(1084),n(4299),n(1246),n(726),n(1901),n(5972),n(3403),n(2516),n(9371),n(6479),n(1736),n(1889),n(5177),n(6943),n(6503),n(6786),n(932),n(7526),n(1591),n(9073),n(347),n(579),n(4669),n(7710),n(5789),n(3514),n(9978),n(8472),n(6946),n(5068),n(413),n(191),n(8306),n(4564),n(9115),n(9539),n(6620),n(2850),n(823),n(7732),n(856),n(703),n(1539),n(5292),n(6629),n(3694),n(7648),n(7795),n(4531),n(3605),n(6780),n(9937),n(511),n(1822),n(9977),n(1031),n(6331),n(1560),n(774),n(522),n(8295),n(7842),n(110),n(75),n(4336),n(1802),n(8837),n(6773),n(5745),n(3057),n(3750),n(3369),n(9564),n(2e3),n(8977),n(2310),n(4899),n(1842),n(6997),n(3946),n(8269),n(6108),n(6774),n(1466),n(9357),n(6142),n(1876),n(851),n(8416),n(8184),n(147),n(9192),n(142),n(1786),n(5368),n(6964),n(2152),n(4821),n(9103),n(1303),n(3318),n(162),n(3834),n(1572),n(2139),n(685),n(5535),n(7347),n(3049),n(6633),n(8989),n(8270),n(4510),n(3984),n(5769),n(55),n(6014),n(2773),n(1268),n(4692),n(7220),n(1784),n(2770),n(5869),n(4325),n(4208),n(9665),n(9593),n(8351),n(6409),n(3276),n(8646),n(2658),n(6917),n(372),n(7698),n(8739),n(8211),n(4837),n(7594),n(9550),n(525),n(9467),n(4188),n(3495),n(5575),n(8967),n(2559),n(8865),n(368),n(6427),n(286),n(2816),n(5986),n(2082),n(6308),n(9221),n(3570),n(6754),n(3776),n(9865),n(1898),n(3364),n(1432),n(6562),n(4416),n(8681),n(2213),n(3471),n(4329),n(5159),n(8267),n(6534),n(2564),n(4633),n(1181),e.exports=n(5645);},4079:(e,t,n)=>{n=n(210)("%Object.getOwnPropertyDescriptor%");if(n)try{n([],"length");}catch(e){n=null;}e.exports=n;},7187:e=>{var t="object"==typeof Reflect?Reflect:null,c=t&&"function"==typeof t.apply?t.apply:function(e,t,n){return Function.prototype.apply.call(e,t,n)},n=t&&"function"==typeof t.ownKeys?t.ownKeys:Object.getOwnPropertySymbols?function(e){return Object.getOwnPropertyNames(e).concat(Object.getOwnPropertySymbols(e))}:function(e){return Object.getOwnPropertyNames(e)},r=Number.isNaN||function(e){return e!=e};function i(){i.init.call(this);}e.exports=i,e.exports.once=function(i,o){return new Promise(function(e,t){function n(e){i.removeListener(o,r),t(e);}function r(){"function"==typeof i.removeListener&&i.removeListener("error",n),e([].slice.call(arguments));}f(i,o,r,{once:!0}),"error"===o||"function"==typeof i.on&&f(i,"error",n,{once:!0});})},(i.EventEmitter=i).prototype._events=void 0,i.prototype._eventsCount=0,i.prototype._maxListeners=void 0;var o=10;function s(e){if("function"!=typeof e)throw new TypeError('The "listener" argument must be of type Function. Received type '+typeof e)}function a(e){return void 0===e._maxListeners?i.defaultMaxListeners:e._maxListeners}function p(e,t,n,r){var i,o;return s(n),void 0===(i=e._events)?(i=e._events=Object.create(null),e._eventsCount=0):(void 0!==i.newListener&&(e.emit("newListener",t,n.listener||n),i=e._events),o=i[t]),void 0===o?(o=i[t]=n,++e._eventsCount):("function"==typeof o?o=i[t]=r?[n,o]:[o,n]:r?o.unshift(n):o.push(n),0<(n=a(e))&&o.length>n&&!o.warned&&(o.warned=!0,(n=new Error("Possible EventEmitter memory leak detected. "+o.length+" "+String(t)+" listeners added. Use emitter.setMaxListeners() to increase limit")).name="MaxListenersExceededWarning",n.emitter=e,n.type=t,n.count=o.length,console&&console.warn&&console.warn(n))),e}function d(e,t,n){e={fired:!1,wrapFn:void 0,target:e,type:t,listener:n},t=function(){if(!this.fired)return this.target.removeListener(this.type,this.wrapFn),this.fired=!0,0===arguments.length?this.listener.call(this.target):this.listener.apply(this.target,arguments)}.bind(e);return t.listener=n,e.wrapFn=t}function u(e,t,n){e=e._events;if(void 0===e)return [];t=e[t];return void 0===t?[]:"function"==typeof t?n?[t.listener||t]:[t]:n?function(e){for(var t=new Array(e.length),n=0;n<t.length;++n)t[n]=e[n].listener||e[n];return t}(t):m(t,t.length)}function l(e){var t=this._events;if(void 0!==t){e=t[e];if("function"==typeof e)return 1;if(void 0!==e)return e.length}return 0}function m(e,t){for(var n=new Array(t),r=0;r<t;++r)n[r]=e[r];return n}function f(n,r,i,o){if("function"==typeof n.on)o.once?n.once(r,i):n.on(r,i);else {if("function"!=typeof n.addEventListener)throw new TypeError('The "emitter" argument must be of type EventEmitter. Received type '+typeof n);n.addEventListener(r,function e(t){o.once&&n.removeEventListener(r,e),i(t);});}}Object.defineProperty(i,"defaultMaxListeners",{enumerable:!0,get:function(){return o},set:function(e){if("number"!=typeof e||e<0||r(e))throw new RangeError('The value of "defaultMaxListeners" is out of range. It must be a non-negative number. Received '+e+".");o=e;}}),i.init=function(){void 0!==this._events&&this._events!==Object.getPrototypeOf(this)._events||(this._events=Object.create(null),this._eventsCount=0),this._maxListeners=this._maxListeners||void 0;},i.prototype.setMaxListeners=function(e){if("number"!=typeof e||e<0||r(e))throw new RangeError('The value of "n" is out of range. It must be a non-negative number. Received '+e+".");return this._maxListeners=e,this},i.prototype.getMaxListeners=function(){return a(this)},i.prototype.emit=function(e){for(var t=[],n=1;n<arguments.length;n++)t.push(arguments[n]);var r,i="error"===e,o=this._events;if(void 0!==o)i=i&&void 0===o.error;else if(!i)return !1;if(i){if((r=0<t.length?t[0]:r)instanceof Error)throw r;i=new Error("Unhandled error."+(r?" ("+r.message+")":""));throw i.context=r,i}o=o[e];if(void 0===o)return !1;if("function"==typeof o)c(o,this,t);else for(var a=o.length,s=m(o,a),n=0;n<a;++n)c(s[n],this,t);return !0},i.prototype.addListener=function(e,t){return p(this,e,t,!1)},i.prototype.on=i.prototype.addListener,i.prototype.prependListener=function(e,t){return p(this,e,t,!0)},i.prototype.once=function(e,t){return s(t),this.on(e,d(this,e,t)),this},i.prototype.prependOnceListener=function(e,t){return s(t),this.prependListener(e,d(this,e,t)),this},i.prototype.removeListener=function(e,t){var n,r,i,o,a;if(s(t),void 0===(r=this._events))return this;if(void 0===(n=r[e]))return this;if(n===t||n.listener===t)0==--this._eventsCount?this._events=Object.create(null):(delete r[e],r.removeListener&&this.emit("removeListener",e,n.listener||t));else if("function"!=typeof n){for(i=-1,o=n.length-1;0<=o;o--)if(n[o]===t||n[o].listener===t){a=n[o].listener,i=o;break}if(i<0)return this;0===i?n.shift():function(e,t){for(;t+1<e.length;t++)e[t]=e[t+1];e.pop();}(n,i),1===n.length&&(r[e]=n[0]),void 0!==r.removeListener&&this.emit("removeListener",e,a||t);}return this},i.prototype.off=i.prototype.removeListener,i.prototype.removeAllListeners=function(e){var t,n;if(void 0===(n=this._events))return this;if(void 0===n.removeListener)return 0===arguments.length?(this._events=Object.create(null),this._eventsCount=0):void 0!==n[e]&&(0==--this._eventsCount?this._events=Object.create(null):delete n[e]),this;if(0===arguments.length){for(var r,i=Object.keys(n),o=0;o<i.length;++o)"removeListener"!==(r=i[o])&&this.removeAllListeners(r);return this.removeAllListeners("removeListener"),this._events=Object.create(null),this._eventsCount=0,this}if("function"==typeof(t=n[e]))this.removeListener(e,t);else if(void 0!==t)for(o=t.length-1;0<=o;o--)this.removeListener(e,t[o]);return this},i.prototype.listeners=function(e){return u(this,e,!0)},i.prototype.rawListeners=function(e){return u(this,e,!1)},i.listenerCount=function(e,t){return "function"==typeof e.listenerCount?e.listenerCount(t):l.call(e,t)},i.prototype.listenerCount=l,i.prototype.eventNames=function(){return 0<this._eventsCount?n(this._events):[]};},9804:e=>{var a=Object.prototype.hasOwnProperty,s=Object.prototype.toString;e.exports=function(e,t,n){if("[object Function]"!==s.call(t))throw new TypeError("iterator must be a function");var r=e.length;if(r===+r)for(var i=0;i<r;i++)t.call(n,e[i],i,e);else for(var o in e)a.call(e,o)&&t.call(n,e[o],o,e);};},9092:e=>{var c=Array.prototype.slice,p=Object.prototype.toString;e.exports=function(t){var n=this;if("function"!=typeof n||"[object Function]"!==p.call(n))throw new TypeError("Function.prototype.bind called on incompatible "+n);for(var r=c.call(arguments,1),e=Math.max(0,n.length-r.length),i=[],o=0;o<e;o++)i.push("$"+o);var a,s=Function("binder","return function ("+i.join(",")+"){ return binder.apply(this,arguments); }")(function(){if(this instanceof s){var e=n.apply(this,r.concat(c.call(arguments)));return Object(e)===e?e:this}return n.apply(t,r.concat(c.call(arguments)))});return n.prototype&&((a=function(){}).prototype=n.prototype,s.prototype=new a,a.prototype=null),s};},8612:(e,t,n)=>{n=n(9092);e.exports=Function.prototype.bind||n;},210:(e,t,n)=>{function r(e){try{return i('"use strict"; return ('+e+").constructor;")()}catch(e){}}var m=SyntaxError,i=Function,f=TypeError,h=Object.getOwnPropertyDescriptor;if(h)try{h({},"");}catch(e){h=null;}function o(){throw new f}function y(e){var t,n;return "%AsyncFunction%"===e?t=r("async function () {}"):"%GeneratorFunction%"===e?t=r("function* () {}"):"%AsyncGeneratorFunction%"===e?t=r("async function* () {}"):"%AsyncGenerator%"===e?(n=y("%AsyncGeneratorFunction%"))&&(t=n.prototype):"%AsyncIteratorPrototype%"!==e||(n=y("%AsyncGenerator%"))&&(t=c(n.prototype)),b[e]=t}var a=h?function(){try{return o}catch(e){try{return h(arguments,"callee").get}catch(e){return o}}}():o,s=n(1405)(),c=Object.getPrototypeOf||function(e){return e.__proto__},g={},p="undefined"==typeof Uint8Array?d:c(Uint8Array),b={"%AggregateError%":"undefined"==typeof AggregateError?d:AggregateError,"%Array%":Array,"%ArrayBuffer%":"undefined"==typeof ArrayBuffer?d:ArrayBuffer,"%ArrayIteratorPrototype%":s?c([][Symbol.iterator]()):d,"%AsyncFromSyncIteratorPrototype%":d,"%AsyncFunction%":g,"%AsyncGenerator%":g,"%AsyncGeneratorFunction%":g,"%AsyncIteratorPrototype%":g,"%Atomics%":"undefined"==typeof Atomics?d:Atomics,"%BigInt%":"undefined"==typeof BigInt?d:BigInt,"%Boolean%":Boolean,"%DataView%":"undefined"==typeof DataView?d:DataView,"%Date%":Date,"%decodeURI%":decodeURI,"%decodeURIComponent%":decodeURIComponent,"%encodeURI%":encodeURI,"%encodeURIComponent%":encodeURIComponent,"%Error%":Error,"%eval%":eval,"%EvalError%":EvalError,"%Float32Array%":"undefined"==typeof Float32Array?d:Float32Array,"%Float64Array%":"undefined"==typeof Float64Array?d:Float64Array,"%FinalizationRegistry%":"undefined"==typeof FinalizationRegistry?d:FinalizationRegistry,"%Function%":i,"%GeneratorFunction%":g,"%Int8Array%":"undefined"==typeof Int8Array?d:Int8Array,"%Int16Array%":"undefined"==typeof Int16Array?d:Int16Array,"%Int32Array%":"undefined"==typeof Int32Array?d:Int32Array,"%isFinite%":isFinite,"%isNaN%":isNaN,"%IteratorPrototype%":s?c(c([][Symbol.iterator]())):d,"%JSON%":"object"==typeof JSON?JSON:d,"%Map%":"undefined"==typeof Map?d:Map,"%MapIteratorPrototype%":"undefined"!=typeof Map&&s?c((new Map)[Symbol.iterator]()):d,"%Math%":Math,"%Number%":Number,"%Object%":Object,"%parseFloat%":parseFloat,"%parseInt%":parseInt,"%Promise%":"undefined"==typeof Promise?d:Promise,"%Proxy%":"undefined"==typeof Proxy?d:Proxy,"%RangeError%":RangeError,"%ReferenceError%":ReferenceError,"%Reflect%":"undefined"==typeof Reflect?d:Reflect,"%RegExp%":RegExp,"%Set%":"undefined"==typeof Set?d:Set,"%SetIteratorPrototype%":"undefined"!=typeof Set&&s?c((new Set)[Symbol.iterator]()):d,"%SharedArrayBuffer%":"undefined"==typeof SharedArrayBuffer?d:SharedArrayBuffer,"%String%":String,"%StringIteratorPrototype%":s?c(""[Symbol.iterator]()):d,"%Symbol%":s?Symbol:d,"%SyntaxError%":m,"%ThrowTypeError%":a,"%TypedArray%":p,"%TypeError%":f,"%Uint8Array%":"undefined"==typeof Uint8Array?d:Uint8Array,"%Uint8ClampedArray%":"undefined"==typeof Uint8ClampedArray?d:Uint8ClampedArray,"%Uint16Array%":"undefined"==typeof Uint16Array?d:Uint16Array,"%Uint32Array%":"undefined"==typeof Uint32Array?d:Uint32Array,"%URIError%":URIError,"%WeakMap%":"undefined"==typeof WeakMap?d:WeakMap,"%WeakRef%":"undefined"==typeof WeakRef?d:WeakRef,"%WeakSet%":"undefined"==typeof WeakSet?d:WeakSet},v={"%ArrayBufferPrototype%":["ArrayBuffer","prototype"],"%ArrayPrototype%":["Array","prototype"],"%ArrayProto_entries%":["Array","prototype","entries"],"%ArrayProto_forEach%":["Array","prototype","forEach"],"%ArrayProto_keys%":["Array","prototype","keys"],"%ArrayProto_values%":["Array","prototype","values"],"%AsyncFunctionPrototype%":["AsyncFunction","prototype"],"%AsyncGenerator%":["AsyncGeneratorFunction","prototype"],"%AsyncGeneratorPrototype%":["AsyncGeneratorFunction","prototype","prototype"],"%BooleanPrototype%":["Boolean","prototype"],"%DataViewPrototype%":["DataView","prototype"],"%DatePrototype%":["Date","prototype"],"%ErrorPrototype%":["Error","prototype"],"%EvalErrorPrototype%":["EvalError","prototype"],"%Float32ArrayPrototype%":["Float32Array","prototype"],"%Float64ArrayPrototype%":["Float64Array","prototype"],"%FunctionPrototype%":["Function","prototype"],"%Generator%":["GeneratorFunction","prototype"],"%GeneratorPrototype%":["GeneratorFunction","prototype","prototype"],"%Int8ArrayPrototype%":["Int8Array","prototype"],"%Int16ArrayPrototype%":["Int16Array","prototype"],"%Int32ArrayPrototype%":["Int32Array","prototype"],"%JSONParse%":["JSON","parse"],"%JSONStringify%":["JSON","stringify"],"%MapPrototype%":["Map","prototype"],"%NumberPrototype%":["Number","prototype"],"%ObjectPrototype%":["Object","prototype"],"%ObjProto_toString%":["Object","prototype","toString"],"%ObjProto_valueOf%":["Object","prototype","valueOf"],"%PromisePrototype%":["Promise","prototype"],"%PromiseProto_then%":["Promise","prototype","then"],"%Promise_all%":["Promise","all"],"%Promise_reject%":["Promise","reject"],"%Promise_resolve%":["Promise","resolve"],"%RangeErrorPrototype%":["RangeError","prototype"],"%ReferenceErrorPrototype%":["ReferenceError","prototype"],"%RegExpPrototype%":["RegExp","prototype"],"%SetPrototype%":["Set","prototype"],"%SharedArrayBufferPrototype%":["SharedArrayBuffer","prototype"],"%StringPrototype%":["String","prototype"],"%SymbolPrototype%":["Symbol","prototype"],"%SyntaxErrorPrototype%":["SyntaxError","prototype"],"%TypedArrayPrototype%":["TypedArray","prototype"],"%TypeErrorPrototype%":["TypeError","prototype"],"%Uint8ArrayPrototype%":["Uint8Array","prototype"],"%Uint8ClampedArrayPrototype%":["Uint8ClampedArray","prototype"],"%Uint16ArrayPrototype%":["Uint16Array","prototype"],"%Uint32ArrayPrototype%":["Uint32Array","prototype"],"%URIErrorPrototype%":["URIError","prototype"],"%WeakMapPrototype%":["WeakMap","prototype"],"%WeakSetPrototype%":["WeakSet","prototype"]},d=n(8612),w=n(7642),S=d.call(Function.call,Array.prototype.concat),x=d.call(Function.apply,Array.prototype.splice),I=d.call(Function.call,String.prototype.replace),k=d.call(Function.call,String.prototype.slice),T=/[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g,R=/\\(\\)?/g;e.exports=function(e,t){if("string"!=typeof e||0===e.length)throw new f("intrinsic name must be a non-empty string");if(1<arguments.length&&"boolean"!=typeof t)throw new f('"allowMissing" argument must be a boolean');var n,r=function(e){var t=k(e,0,1),n=k(e,-1);if("%"===t&&"%"!==n)throw new m("invalid intrinsic syntax, expected closing `%`");if("%"===n&&"%"!==t)throw new m("invalid intrinsic syntax, expected opening `%`");var i=[];return I(e,T,function(e,t,n,r){i[i.length]=n?I(r,R,"$1"):t||e;}),i}(e),i=0<r.length?r[0]:"",o=function(e,t){var n,r=e;if(w(v,r)&&(r="%"+(n=v[r])[0]+"%"),w(b,r)){var i=b[r];if(void 0===(i=i===g?y(r):i)&&!t)throw new f("intrinsic "+e+" exists, but is not available. Please file an issue!");return {alias:n,name:r,value:i}}throw new m("intrinsic "+e+" does not exist!")}("%"+i+"%",t),a=(o.name,o.value),s=!1,o=o.alias;o&&(i=o[0],x(r,S([0,1],o)));for(var c=1,p=!0;c<r.length;c+=1){var d=r[c],u=k(d,0,1),l=k(d,-1);if(('"'===u||"'"===u||"`"===u||'"'===l||"'"===l||"`"===l)&&u!==l)throw new m("property names with quotes must have matching quotes");if("constructor"!==d&&p||(s=!0),w(b,n="%"+(i+="."+d)+"%"))a=b[n];else if(null!=a){if(!(d in a)){if(!t)throw new f("base intrinsic for "+e+" exists, but the property is not available.");return}a=h&&c+1>=r.length?(p=!!(l=h(a,d)))&&"get"in l&&!("originalValue"in l.get)?l.get:a[d]:(p=w(a,d),a[d]),p&&!s&&(b[n]=a);}}return a};},1405:(e,t,n)=>{var r="undefined"!=typeof Symbol&&Symbol,i=n(5419);e.exports=function(){return "function"==typeof r&&"function"==typeof Symbol&&"symbol"==typeof r("foo")&&"symbol"==typeof Symbol("bar")&&i()};},5419:e=>{e.exports=function(){if("function"!=typeof Symbol||"function"!=typeof Object.getOwnPropertySymbols)return !1;if("symbol"==typeof Symbol.iterator)return !0;var e={},t=Symbol("test"),n=Object(t);if("string"==typeof t)return !1;if("[object Symbol]"!==Object.prototype.toString.call(t))return !1;if("[object Symbol]"!==Object.prototype.toString.call(n))return !1;for(t in e[t]=42,e)return !1;if("function"==typeof Object.keys&&0!==Object.keys(e).length)return !1;if("function"==typeof Object.getOwnPropertyNames&&0!==Object.getOwnPropertyNames(e).length)return !1;n=Object.getOwnPropertySymbols(e);if(1!==n.length||n[0]!==t)return !1;if(!Object.prototype.propertyIsEnumerable.call(e,t))return !1;if("function"==typeof Object.getOwnPropertyDescriptor){e=Object.getOwnPropertyDescriptor(e,t);if(42!==e.value||!0!==e.enumerable)return !1}return !0};},7642:(e,t,n)=>{n=n(8612);e.exports=n.call(Function.call,Object.prototype.hasOwnProperty);},5717:e=>{"function"==typeof Object.create?e.exports=function(e,t){t&&(e.super_=t,e.prototype=Object.create(t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}));}:e.exports=function(e,t){var n;t&&(e.super_=t,(n=function(){}).prototype=t.prototype,e.prototype=new n,e.prototype.constructor=e);};},2584:(e,t,n)=>{function r(e){return !(o&&e&&"object"==typeof e&&Symbol.toStringTag in e)&&"[object Arguments]"===a(e)}function i(e){return !!r(e)||null!==e&&"object"==typeof e&&"number"==typeof e.length&&0<=e.length&&"[object Array]"!==a(e)&&"[object Function]"===a(e.callee)}var o="function"==typeof Symbol&&"symbol"==typeof Symbol.toStringTag,a=n(1924)("Object.prototype.toString"),n=function(){return r(arguments)}();r.isLegacyArguments=i,e.exports=n?r:i;},8662:e=>{var n,r=Object.prototype.toString,i=Function.prototype.toString,o=/^\s*(?:function)?\*/,a="function"==typeof Symbol&&"symbol"==typeof Symbol.toStringTag,s=Object.getPrototypeOf;e.exports=function(e){return "function"==typeof e&&(!!o.test(i.call(e))||(a?!!s&&(void 0===n&&(t=function(){if(!a)return !1;try{return Function("return function*() {}")()}catch(e){}}(),n=!!t&&s(t)),s(e)===n):"[object GeneratorFunction]"===r.call(e)));var t;};},5692:(e,t,r)=>{var i=r(9804),n=r(1910),o=r(1924),a=o("Object.prototype.toString"),s=r(1405)()&&"symbol"==typeof Symbol.toStringTag,c=n(),p=o("Array.prototype.indexOf",!0)||function(e,t){for(var n=0;n<e.length;n+=1)if(e[n]===t)return n;return -1},d=o("String.prototype.slice"),u={},l=r(4079),m=Object.getPrototypeOf;s&&l&&m&&i(c,function(e){var t=new r.g[e];if(!(Symbol.toStringTag in t))throw new EvalError("this engine has support for Symbol.toStringTag, but "+e+" does not have the property! Please report this.");var n=m(t),t=l(n,Symbol.toStringTag);t||(n=m(n),t=l(n,Symbol.toStringTag)),u[e]=t.get;}),e.exports=function(e){if(!e||"object"!=typeof e)return !1;if(s)return !!l&&(n=e,r=!1,i(u,function(e,t){if(!r)try{r=e.call(n)===t;}catch(e){}}),r);var n,r,e=d(a(e),8,-1);return -1<p(c,e)};},4155:e=>{var n,r,e=e.exports={};function i(){throw new Error("setTimeout has not been defined")}function o(){throw new Error("clearTimeout has not been defined")}function a(t){if(n===setTimeout)return setTimeout(t,0);if((n===i||!n)&&setTimeout)return n=setTimeout,setTimeout(t,0);try{return n(t,0)}catch(e){try{return n.call(null,t,0)}catch(e){return n.call(this,t,0)}}}!function(){try{n="function"==typeof setTimeout?setTimeout:i;}catch(e){n=i;}try{r="function"==typeof clearTimeout?clearTimeout:o;}catch(e){r=o;}}();var s,c=[],p=!1,d=-1;function u(){p&&s&&(p=!1,s.length?c=s.concat(c):d=-1,c.length&&l());}function l(){if(!p){var e=a(u);p=!0;for(var t=c.length;t;){for(s=c,c=[];++d<t;)s&&s[d].run();d=-1,t=c.length;}s=null,p=!1,function(t){if(r===clearTimeout)return clearTimeout(t);if((r===o||!r)&&clearTimeout)return r=clearTimeout,clearTimeout(t);try{r(t);}catch(e){try{return r.call(null,t)}catch(e){return r.call(this,t)}}}(e);}}function m(e,t){this.fun=e,this.array=t;}function t(){}e.nextTick=function(e){var t=new Array(arguments.length-1);if(1<arguments.length)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];c.push(new m(e,t)),1!==c.length||p||a(l);},m.prototype.run=function(){this.fun.apply(null,this.array);},e.title="browser",e.browser=!0,e.env={},e.argv=[],e.version="",e.versions={},e.on=t,e.addListener=t,e.once=t,e.off=t,e.removeListener=t,e.removeAllListeners=t,e.emit=t,e.prependListener=t,e.prependOnceListener=t,e.listeners=function(e){return []},e.binding=function(e){throw new Error("process.binding is not supported")},e.cwd=function(){return "/"},e.chdir=function(e){throw new Error("process.chdir is not supported")},e.umask=function(){return 0};},4971:function(d,u,l){var m;d=l.nmd(d),function(){u&&u.nodeType,d&&d.nodeType;var e="object"==typeof l.g&&l.g;e.global!==e&&e.window!==e&&e.self;var t,y=2147483647,g=36,n=/^xn--/,r=/[^\x20-\x7E]/,i=/[\x2E\u3002\uFF0E\uFF61]/g,o={overflow:"Overflow: input needs wider integers to process","not-basic":"Illegal input >= 0x80 (not a basic code point)","invalid-input":"Invalid input"},b=Math.floor,v=String.fromCharCode;function w(e){throw RangeError(o[e])}function a(e,t){for(var n=e.length,r=[];n--;)r[n]=t(e[n]);return r}function s(e,t){var n=e.split("@"),r="";return 1<n.length&&(r=n[0]+"@",e=n[1]),r+a((e=e.replace(i,".")).split("."),t).join(".")}function S(e){for(var t,n,r=[],i=0,o=e.length;i<o;)55296<=(t=e.charCodeAt(i++))&&t<=56319&&i<o?56320==(64512&(n=e.charCodeAt(i++)))?r.push(((1023&t)<<10)+(1023&n)+65536):(r.push(t),i--):r.push(t);return r}function f(e){return a(e,function(e){var t="";return 65535<e&&(t+=v((e-=65536)>>>10&1023|55296),e=56320|1023&e),t+v(e)}).join("")}function x(e,t){return e+22+75*(e<26)-((0!=t)<<5)}function I(e,t,n){var r=0;for(e=n?b(e/700):e>>1,e+=b(e/t);455<e;r+=g)e=b(e/35);return b(r+36*e/(e+38))}function c(e){var t,n,r,i,o,a,s,c,p=[],d=e.length,u=0,l=128,m=72;for((n=e.lastIndexOf("-"))<0&&(n=0),r=0;r<n;++r)128<=e.charCodeAt(r)&&w("not-basic"),p.push(e.charCodeAt(r));for(i=0<n?n+1:0;i<d;){for(o=u,a=1,s=g;d<=i&&w("invalid-input"),((c=(c=e.charCodeAt(i++))-48<10?c-22:c-65<26?c-65:c-97<26?c-97:g)>=g||c>b((y-u)/a))&&w("overflow"),u+=c*a,!(c<(c=s<=m?1:m+26<=s?26:s-m));s+=g)a>b(y/(c=g-c))&&w("overflow"),a*=c;m=I(u-o,t=p.length+1,0==o),b(u/t)>y-l&&w("overflow"),l+=b(u/t),u%=t,p.splice(u++,0,l);}return f(p)}function p(e){for(var t,n,r,i,o,a,s,c,p,d=[],u=(e=S(e)).length,l=128,m=0,f=72,h=0;h<u;++h)(a=e[h])<128&&d.push(v(a));for(t=n=d.length,n&&d.push("-");t<u;){for(r=y,h=0;h<u;++h)(a=e[h])>=l&&a<r&&(r=a);for(r-l>b((y-m)/(s=t+1))&&w("overflow"),m+=(r-l)*s,l=r,h=0;h<u;++h)if((a=e[h])<l&&++m>y&&w("overflow"),a==l){for(i=m,o=g;!(i<(c=o<=f?1:f+26<=o?26:o-f));o+=g)d.push(v(x(c+(p=i-c)%(c=g-c),0))),i=b(p/c);d.push(v(x(i,0))),f=I(m,s,t==n),m=0,++t;}++m,++l;}return d.join("")}t={version:"1.3.2",ucs2:{decode:S,encode:f},decode:c,encode:p,toASCII:function(e){return s(e,function(e){return r.test(e)?"xn--"+p(e):e})},toUnicode:function(e){return s(e,function(e){return n.test(e)?c(e.slice(4).toLowerCase()):e})}},void 0===(m=function(){return t}.call(u,l,u,d))||(d.exports=m);}();},2587:e=>{e.exports=function(e,t,n,r){n=n||"=";var i={};if("string"!=typeof e||0===e.length)return i;var o=/\+/g;e=e.split(t=t||"&");t=1e3;r&&"number"==typeof r.maxKeys&&(t=r.maxKeys);var a=e.length;0<t&&t<a&&(a=t);for(var s=0;s<a;++s){var c,p=e[s].replace(o,"%20"),d=p.indexOf(n),d=0<=d?(c=p.substr(0,d),p.substr(d+1)):(c=p,""),p=decodeURIComponent(c),d=decodeURIComponent(d);Object.prototype.hasOwnProperty.call(i,p)?Array.isArray(i[p])?i[p].push(d):i[p]=[i[p],d]:i[p]=d;}return i};},2361:e=>{function o(e){switch(typeof e){case"string":return e;case"boolean":return e?"true":"false";case"number":return isFinite(e)?e:"";default:return ""}}e.exports=function(n,r,i,e){return r=r||"&",i=i||"=","object"==typeof(n=null===n?void 0:n)?Object.keys(n).map(function(e){var t=encodeURIComponent(o(e))+i;return Array.isArray(n[e])?n[e].map(function(e){return t+encodeURIComponent(o(e))}).join(r):t+encodeURIComponent(o(n[e]))}).join(r):e?encodeURIComponent(o(e))+i+encodeURIComponent(o(n)):""};},7673:(e,t,n)=>{t.decode=t.parse=n(2587),t.encode=t.stringify=n(2361);},5666:function(e,t,n){function o(e,t,n,r){var i,o,a,s,t=t&&t.prototype instanceof p?t:p,t=Object.create(t.prototype),r=new l(r||[]);return t._invoke=(i=e,o=n,a=r,s=g,function(e,t){if(s===v)throw new Error("Generator is already running");if(s===w){if("throw"===e)throw t;return f()}for(a.method=e,a.arg=t;;){var n=a.delegate;if(n){var r=function e(t,n){var r=t.iterator[n.method];if(r===y){if(n.delegate=null,"throw"===n.method){if(t.iterator.return&&(n.method="return",n.arg=y,e(t,n),"throw"===n.method))return S;n.method="throw",n.arg=new TypeError("The iterator does not provide a 'throw' method");}return S}var r=c(r,t.iterator,n.arg);if("throw"===r.type)return n.method="throw",n.arg=r.arg,n.delegate=null,S;r=r.arg;return r?r.done?(n[t.resultName]=r.value,n.next=t.nextLoc,"return"!==n.method&&(n.method="next",n.arg=y),n.delegate=null,S):r:(n.method="throw",n.arg=new TypeError("iterator result is not an object"),n.delegate=null,S)}(n,a);if(r){if(r===S)continue;return r}}if("next"===a.method)a.sent=a._sent=a.arg;else if("throw"===a.method){if(s===g)throw s=w,a.arg;a.dispatchException(a.arg);}else "return"===a.method&&a.abrupt("return",a.arg);s=v;r=c(i,o,a);if("normal"===r.type){if(s=a.done?w:b,r.arg===S)continue;return {value:r.arg,done:a.done}}"throw"===r.type&&(s=w,a.method="throw",a.arg=r.arg);}}),t}function c(e,t,n){try{return {type:"normal",arg:e.call(t,n)}}catch(e){return {type:"throw",arg:e}}}function p(){}function r(){}function i(){}function a(e){["next","throw","return"].forEach(function(t){e[t]=function(e){return this._invoke(t,e)};});}function s(o){function a(e,t,n,r){e=c(o[e],o,t);if("throw"!==e.type){var i=e.arg,t=i.value;return t&&"object"==typeof t&&k.call(t,"__await")?Promise.resolve(t.__await).then(function(e){a("next",e,n,r);},function(e){a("throw",e,n,r);}):Promise.resolve(t).then(function(e){i.value=e,n(i);},r)}r(e.arg);}var t;"object"==typeof h.process&&h.process.domain&&(a=h.process.domain.bind(a)),this._invoke=function(n,r){function e(){return new Promise(function(e,t){a(n,r,e,t);})}return t=t?t.then(e,e):e()};}function d(e){var t={tryLoc:e[0]};1 in e&&(t.catchLoc=e[1]),2 in e&&(t.finallyLoc=e[2],t.afterLoc=e[3]),this.tryEntries.push(t);}function u(e){var t=e.completion||{};t.type="normal",delete t.arg,e.completion=t;}function l(e){this.tryEntries=[{tryLoc:"root"}],e.forEach(d,this),this.reset(!0);}function m(t){if(t){var e=t[R];if(e)return e.call(t);if("function"==typeof t.next)return t;if(!isNaN(t.length)){var n=-1,e=function e(){for(;++n<t.length;)if(k.call(t,n))return e.value=t[n],e.done=!1,e;return e.value=y,e.done=!0,e};return e.next=e}}return {next:f}}function f(){return {value:y,done:!0}}var h,y,g,b,v,w,S,x,I,k,T,R,C,O;h="object"==typeof n.g?n.g:"object"==typeof window?window:"object"==typeof self?self:this,I=Object.prototype,k=I.hasOwnProperty,T="function"==typeof Symbol?Symbol:{},R=T.iterator||"@@iterator",n=T.asyncIterator||"@@asyncIterator",C=T.toStringTag||"@@toStringTag",(O=h.regeneratorRuntime)?e.exports=O:((O=h.regeneratorRuntime=e.exports).wrap=o,g="suspendedStart",b="suspendedYield",v="executing",w="completed",S={},(e={})[R]=function(){return this},(T=(T=Object.getPrototypeOf)&&T(T(m([]))))&&T!==I&&k.call(T,R)&&(e=T),x=i.prototype=p.prototype=Object.create(e),(r.prototype=x.constructor=i).constructor=r,i[C]=r.displayName="GeneratorFunction",O.isGeneratorFunction=function(e){e="function"==typeof e&&e.constructor;return !!e&&(e===r||"GeneratorFunction"===(e.displayName||e.name))},O.mark=function(e){return Object.setPrototypeOf?Object.setPrototypeOf(e,i):(e.__proto__=i,C in e||(e[C]="GeneratorFunction")),e.prototype=Object.create(x),e},O.awrap=function(e){return {__await:e}},a(s.prototype),s.prototype[n]=function(){return this},O.AsyncIterator=s,O.async=function(e,t,n,r){var i=new s(o(e,t,n,r));return O.isGeneratorFunction(t)?i:i.next().then(function(e){return e.done?e.value:i.next()})},a(x),x[C]="Generator",x[R]=function(){return this},x.toString=function(){return "[object Generator]"},O.keys=function(n){var e,r=[];for(e in n)r.push(e);return r.reverse(),function e(){for(;r.length;){var t=r.pop();if(t in n)return e.value=t,e.done=!1,e}return e.done=!0,e}},O.values=m,l.prototype={constructor:l,reset:function(e){if(this.prev=0,this.next=0,this.sent=this._sent=y,this.done=!1,this.delegate=null,this.method="next",this.arg=y,this.tryEntries.forEach(u),!e)for(var t in this)"t"===t.charAt(0)&&k.call(this,t)&&!isNaN(+t.slice(1))&&(this[t]=y);},stop:function(){this.done=!0;var e=this.tryEntries[0].completion;if("throw"===e.type)throw e.arg;return this.rval},dispatchException:function(n){if(this.done)throw n;var r=this;function e(e,t){return o.type="throw",o.arg=n,r.next=e,t&&(r.method="next",r.arg=y),!!t}for(var t=this.tryEntries.length-1;0<=t;--t){var i=this.tryEntries[t],o=i.completion;if("root"===i.tryLoc)return e("end");if(i.tryLoc<=this.prev){var a=k.call(i,"catchLoc"),s=k.call(i,"finallyLoc");if(a&&s){if(this.prev<i.catchLoc)return e(i.catchLoc,!0);if(this.prev<i.finallyLoc)return e(i.finallyLoc)}else if(a){if(this.prev<i.catchLoc)return e(i.catchLoc,!0)}else {if(!s)throw new Error("try statement without catch or finally");if(this.prev<i.finallyLoc)return e(i.finallyLoc)}}}},abrupt:function(e,t){for(var n=this.tryEntries.length-1;0<=n;--n){var r=this.tryEntries[n];if(r.tryLoc<=this.prev&&k.call(r,"finallyLoc")&&this.prev<r.finallyLoc){var i=r;break}}var o=(i=i&&("break"===e||"continue"===e)&&i.tryLoc<=t&&t<=i.finallyLoc?null:i)?i.completion:{};return o.type=e,o.arg=t,i?(this.method="next",this.next=i.finallyLoc,S):this.complete(o)},complete:function(e,t){if("throw"===e.type)throw e.arg;return "break"===e.type||"continue"===e.type?this.next=e.arg:"return"===e.type?(this.rval=this.arg=e.arg,this.method="return",this.next="end"):"normal"===e.type&&t&&(this.next=t),S},finish:function(e){for(var t=this.tryEntries.length-1;0<=t;--t){var n=this.tryEntries[t];if(n.finallyLoc===e)return this.complete(n.completion,n.afterLoc),u(n),S}},catch:function(e){for(var t=this.tryEntries.length-1;0<=t;--t){var n=this.tryEntries[t];if(n.tryLoc===e){var r,i=n.completion;return "throw"===i.type&&(r=i.arg,u(n)),r}}throw new Error("illegal catch attempt")},delegateYield:function(e,t,n){return this.delegate={iterator:m(e),resultName:t,nextLoc:n},"next"===this.method&&(this.arg=y),S}});},8575:(e,t,n)=>{var R=n(4971),C=n(2502);function S(){this.protocol=null,this.slashes=null,this.auth=null,this.host=null,this.port=null,this.hostname=null,this.hash=null,this.search=null,this.query=null,this.pathname=null,this.path=null,this.href=null;}t.Qc=i,t.WU=function(e){return (e=C.isString(e)?i(e):e)instanceof S?e.format():S.prototype.format.call(e)};var O=/^([a-z0-9.+-]+:)/i,r=/:[0-9]*$/,j=/^(\/\/?(?!\/)[^\?\s]*)(\?[^\s]*)?$/,t=["{","}","|","\\","^","`"].concat(["<",">",'"',"`"," ","\r","\n","\t"]),E=["'"].concat(t),A=["%","/","?",";","#"].concat(E),P=["/","?","#"],$=/^[+a-z0-9A-Z_-]{0,63}$/,D=/^([+a-z0-9A-Z_-]{0,63})(.*)$/,N={javascript:!0,"javascript:":!0},_={javascript:!0,"javascript:":!0},M={http:!0,https:!0,ftp:!0,gopher:!0,file:!0,"http:":!0,"https:":!0,"ftp:":!0,"gopher:":!0,"file:":!0},F=n(7673);function i(e,t,n){if(e&&C.isObject(e)&&e instanceof S)return e;var r=new S;return r.parse(e,t,n),r}S.prototype.parse=function(e,t,n){if(!C.isString(e))throw new TypeError("Parameter 'url' must be a string, not "+typeof e);var r=e.indexOf("?"),i=-1!==r&&r<e.indexOf("#")?"?":"#",r=e.split(i);r[0]=r[0].replace(/\\/g,"/");var o=(o=e=r.join(i)).trim();if(!n&&1===e.split("#").length){var a=j.exec(o);if(a)return this.path=o,this.href=o,this.pathname=a[1],a[2]?(this.search=a[2],this.query=t?F.parse(this.search.substr(1)):this.search.substr(1)):t&&(this.search="",this.query={}),this}var s,a=O.exec(o);if(a&&(T=(a=a[0]).toLowerCase(),this.protocol=T,o=o.substr(a.length)),(n||a||o.match(/^\/\/[^@\/]+@[^@\/]+/))&&(!(s="//"===o.substr(0,2))||a&&_[a]||(o=o.substr(2),this.slashes=!0)),!_[a]&&(s||a&&!M[a])){for(var c,p=-1,d=0;d<P.length;d++)-1!==(c=o.indexOf(P[d]))&&(-1===p||c<p)&&(p=c);for(-1!==(S=-1===p?o.lastIndexOf("@"):o.lastIndexOf("@",p))&&(x=o.slice(0,S),o=o.slice(S+1),this.auth=decodeURIComponent(x)),p=-1,d=0;d<A.length;d++)-1!==(c=o.indexOf(A[d]))&&(-1===p||c<p)&&(p=c);-1===p&&(p=o.length),this.host=o.slice(0,p),o=o.slice(p),this.parseHost(),this.hostname=this.hostname||"";var u="["===this.hostname[0]&&"]"===this.hostname[this.hostname.length-1];if(!u)for(var l=this.hostname.split(/\./),m=(d=0,l.length);d<m;d++){var f=l[d];if(f&&!f.match($)){for(var h="",y=0,g=f.length;y<g;y++)127<f.charCodeAt(y)?h+="x":h+=f[y];if(!h.match($)){var b=l.slice(0,d),v=l.slice(d+1),w=f.match(D);w&&(b.push(w[1]),v.unshift(w[2])),v.length&&(o="/"+v.join(".")+o),this.hostname=b.join(".");break}}}255<this.hostname.length?this.hostname="":this.hostname=this.hostname.toLowerCase(),u||(this.hostname=R.toASCII(this.hostname));var S=this.port?":"+this.port:"",x=this.hostname||"";this.host=x+S,this.href+=this.host,u&&(this.hostname=this.hostname.substr(1,this.hostname.length-2),"/"!==o[0]&&(o="/"+o));}if(!N[T])for(d=0,m=E.length;d<m;d++){var I,k=E[d];-1!==o.indexOf(k)&&((I=encodeURIComponent(k))===k&&(I=escape(k)),o=o.split(k).join(I));}u=o.indexOf("#");-1!==u&&(this.hash=o.substr(u),o=o.slice(0,u));var T,u=o.indexOf("?");return -1!==u?(this.search=o.substr(u),this.query=o.substr(u+1),t&&(this.query=F.parse(this.query)),o=o.slice(0,u)):t&&(this.search="",this.query={}),o&&(this.pathname=o),M[T]&&this.hostname&&!this.pathname&&(this.pathname="/"),(this.pathname||this.search)&&(S=this.pathname||"",T=this.search||"",this.path=S+T),this.href=this.format(),this},S.prototype.format=function(){var e=this.auth||"";e&&(e=(e=encodeURIComponent(e)).replace(/%3A/i,":"),e+="@");var t=this.protocol||"",n=this.pathname||"",r=this.hash||"",i=!1,o="";this.host?i=e+this.host:this.hostname&&(i=e+(-1===this.hostname.indexOf(":")?this.hostname:"["+this.hostname+"]"),this.port&&(i+=":"+this.port)),this.query&&C.isObject(this.query)&&Object.keys(this.query).length&&(o=F.stringify(this.query));o=this.search||o&&"?"+o||"";return t&&":"!==t.substr(-1)&&(t+=":"),this.slashes||(!t||M[t])&&!1!==i?(i="//"+(i||""),n&&"/"!==n.charAt(0)&&(n="/"+n)):i=i||"",r&&"#"!==r.charAt(0)&&(r="#"+r),o&&"?"!==o.charAt(0)&&(o="?"+o),t+i+(n=n.replace(/[?#]/g,function(e){return encodeURIComponent(e)}))+(o=o.replace("#","%23"))+r},S.prototype.resolve=function(e){return this.resolveObject(i(e,!1,!0)).format()},S.prototype.resolveObject=function(e){C.isString(e)&&((m=new S).parse(e,!1,!0),e=m);for(var t=new S,n=Object.keys(this),r=0;r<n.length;r++){var i=n[r];t[i]=this[i];}if(t.hash=e.hash,""===e.href)return t.href=t.format(),t;if(e.slashes&&!e.protocol){for(var o=Object.keys(e),a=0;a<o.length;a++){var s=o[a];"protocol"!==s&&(t[s]=e[s]);}return M[t.protocol]&&t.hostname&&!t.pathname&&(t.path=t.pathname="/"),t.href=t.format(),t}if(e.protocol&&e.protocol!==t.protocol){if(!M[e.protocol]){for(var c=Object.keys(e),p=0;p<c.length;p++){var d=c[p];t[d]=e[d];}return t.href=t.format(),t}if(t.protocol=e.protocol,e.host||_[e.protocol])t.pathname=e.pathname;else {for(var u=(e.pathname||"").split("/");u.length&&!(e.host=u.shift()););e.host||(e.host=""),e.hostname||(e.hostname=""),""!==u[0]&&u.unshift(""),u.length<2&&u.unshift(""),t.pathname=u.join("/");}return t.search=e.search,t.query=e.query,t.host=e.host||"",t.auth=e.auth,t.hostname=e.hostname||e.host,t.port=e.port,(t.pathname||t.search)&&(f=t.pathname||"",h=t.search||"",t.path=f+h),t.slashes=t.slashes||e.slashes,t.href=t.format(),t}var l=t.pathname&&"/"===t.pathname.charAt(0),m=e.host||e.pathname&&"/"===e.pathname.charAt(0),f=m||l||t.host&&e.pathname,h=f,y=t.pathname&&t.pathname.split("/")||[],l=(u=e.pathname&&e.pathname.split("/")||[],t.protocol&&!M[t.protocol]);if(l&&(t.hostname="",t.port=null,t.host&&(""===y[0]?y[0]=t.host:y.unshift(t.host)),t.host="",e.protocol&&(e.hostname=null,e.port=null,e.host&&(""===u[0]?u[0]=e.host:u.unshift(e.host)),e.host=null),f=f&&(""===u[0]||""===y[0])),m)t.host=(e.host||""===e.host?e:t).host,t.hostname=(e.hostname||""===e.hostname?e:t).hostname,t.search=e.search,t.query=e.query,y=u;else if(u.length)(y=y||[]).pop(),y=y.concat(u),t.search=e.search,t.query=e.query;else if(!C.isNullOrUndefined(e.search))return l&&(t.hostname=t.host=y.shift(),(w=!!(t.host&&0<t.host.indexOf("@"))&&t.host.split("@"))&&(t.auth=w.shift(),t.host=t.hostname=w.shift())),t.search=e.search,t.query=e.query,C.isNull(t.pathname)&&C.isNull(t.search)||(t.path=(t.pathname||"")+(t.search||"")),t.href=t.format(),t;if(!y.length)return t.pathname=null,t.search?t.path="/"+t.search:t.path=null,t.href=t.format(),t;for(var g=y.slice(-1)[0],m=(t.host||e.host||1<y.length)&&("."===g||".."===g)||""===g,b=0,v=y.length;0<=v;v--)"."===(g=y[v])?y.splice(v,1):".."===g?(y.splice(v,1),b++):b&&(y.splice(v,1),b--);if(!f&&!h)for(;b--;)y.unshift("..");!f||""===y[0]||y[0]&&"/"===y[0].charAt(0)||y.unshift(""),m&&"/"!==y.join("/").substr(-1)&&y.push("");var w,m=""===y[0]||y[0]&&"/"===y[0].charAt(0);return l&&(t.hostname=t.host=!m&&y.length?y.shift():"",(w=!!(t.host&&0<t.host.indexOf("@"))&&t.host.split("@"))&&(t.auth=w.shift(),t.host=t.hostname=w.shift())),(f=f||t.host&&y.length)&&!m&&y.unshift(""),y.length?t.pathname=y.join("/"):(t.pathname=null,t.path=null),C.isNull(t.pathname)&&C.isNull(t.search)||(t.path=(t.pathname||"")+(t.search||"")),t.auth=e.auth||t.auth,t.slashes=t.slashes||e.slashes,t.href=t.format(),t},S.prototype.parseHost=function(){var e=this.host,t=r.exec(e);t&&(":"!==(t=t[0])&&(this.port=t.substr(1)),e=e.substr(0,e.length-t.length)),e&&(this.hostname=e);};},2502:e=>{e.exports={isString:function(e){return "string"==typeof e},isObject:function(e){return "object"==typeof e&&null!==e},isNull:function(e){return null===e},isNullOrUndefined:function(e){return null==e}};},384:e=>{e.exports=function(e){return e&&"object"==typeof e&&"function"==typeof e.copy&&"function"==typeof e.fill&&"function"==typeof e.readUInt8};},5955:(e,t,n)=>{var r=n(2584),i=n(8662),o=n(6430),a=n(5692);function s(e){return e.call.bind(e)}var c,p,d="undefined"!=typeof BigInt,u="undefined"!=typeof Symbol,l=s(Object.prototype.toString),m=s(Number.prototype.valueOf),f=s(String.prototype.valueOf),h=s(Boolean.prototype.valueOf);function y(e,t){if("object"!=typeof e)return !1;try{return t(e),!0}catch(e){return !1}}function g(e){return "[object Map]"===l(e)}function b(e){return "[object Set]"===l(e)}function v(e){return "[object WeakMap]"===l(e)}function w(e){return "[object WeakSet]"===l(e)}function S(e){return "[object ArrayBuffer]"===l(e)}function x(e){return "undefined"!=typeof ArrayBuffer&&(S.working?S(e):e instanceof ArrayBuffer)}function I(e){return "[object DataView]"===l(e)}function k(e){return "undefined"!=typeof DataView&&(I.working?I(e):e instanceof DataView)}d&&(c=s(BigInt.prototype.valueOf)),u&&(p=s(Symbol.prototype.valueOf)),t.isArgumentsObject=r,t.isGeneratorFunction=i,t.isTypedArray=a,t.isPromise=function(e){return "undefined"!=typeof Promise&&e instanceof Promise||null!==e&&"object"==typeof e&&"function"==typeof e.then&&"function"==typeof e.catch},t.isArrayBufferView=function(e){return "undefined"!=typeof ArrayBuffer&&ArrayBuffer.isView?ArrayBuffer.isView(e):a(e)||k(e)},t.isUint8Array=function(e){return "Uint8Array"===o(e)},t.isUint8ClampedArray=function(e){return "Uint8ClampedArray"===o(e)},t.isUint16Array=function(e){return "Uint16Array"===o(e)},t.isUint32Array=function(e){return "Uint32Array"===o(e)},t.isInt8Array=function(e){return "Int8Array"===o(e)},t.isInt16Array=function(e){return "Int16Array"===o(e)},t.isInt32Array=function(e){return "Int32Array"===o(e)},t.isFloat32Array=function(e){return "Float32Array"===o(e)},t.isFloat64Array=function(e){return "Float64Array"===o(e)},t.isBigInt64Array=function(e){return "BigInt64Array"===o(e)},t.isBigUint64Array=function(e){return "BigUint64Array"===o(e)},g.working="undefined"!=typeof Map&&g(new Map),t.isMap=function(e){return "undefined"!=typeof Map&&(g.working?g(e):e instanceof Map)},b.working="undefined"!=typeof Set&&b(new Set),t.isSet=function(e){return "undefined"!=typeof Set&&(b.working?b(e):e instanceof Set)},v.working="undefined"!=typeof WeakMap&&v(new WeakMap),t.isWeakMap=function(e){return "undefined"!=typeof WeakMap&&(v.working?v(e):e instanceof WeakMap)},w.working="undefined"!=typeof WeakSet&&w(new WeakSet),t.isWeakSet=w,S.working="undefined"!=typeof ArrayBuffer&&S(new ArrayBuffer),t.isArrayBuffer=x,I.working="undefined"!=typeof ArrayBuffer&&"undefined"!=typeof DataView&&I(new DataView(new ArrayBuffer(1),0,1)),t.isDataView=k;var T="undefined"!=typeof SharedArrayBuffer?SharedArrayBuffer:void 0;function R(e){return "[object SharedArrayBuffer]"===l(e)}function C(e){return void 0!==T&&((R.working=void 0===R.working?R(new T):R.working)?R(e):e instanceof T)}function O(e){return y(e,m)}function j(e){return y(e,f)}function E(e){return y(e,h)}function A(e){return d&&y(e,c)}function P(e){return u&&y(e,p)}t.isSharedArrayBuffer=C,t.isAsyncFunction=function(e){return "[object AsyncFunction]"===l(e)},t.isMapIterator=function(e){return "[object Map Iterator]"===l(e)},t.isSetIterator=function(e){return "[object Set Iterator]"===l(e)},t.isGeneratorObject=function(e){return "[object Generator]"===l(e)},t.isWebAssemblyCompiledModule=function(e){return "[object WebAssembly.Module]"===l(e)},t.isNumberObject=O,t.isStringObject=j,t.isBooleanObject=E,t.isBigIntObject=A,t.isSymbolObject=P,t.isBoxedPrimitive=function(e){return O(e)||j(e)||E(e)||A(e)||P(e)},t.isAnyArrayBuffer=function(e){return "undefined"!=typeof Uint8Array&&(x(e)||C(e))},["isProxy","isExternal","isModuleNamespaceObject"].forEach(function(e){Object.defineProperty(t,e,{enumerable:!1,value:function(){throw new Error(e+" is not supported in userland")}});});},1588:(e,u,t)=>{var a=t(4155),n=Object.getOwnPropertyDescriptors||function(e){for(var t=Object.keys(e),n={},r=0;r<t.length;r++)n[t[r]]=Object.getOwnPropertyDescriptor(e,t[r]);return n},s=/%[sdj%]/g;u.format=function(e){if(!v(e)){for(var t=[],n=0;n<arguments.length;n++)t.push(c(arguments[n]));return t.join(" ")}for(var n=1,r=arguments,i=r.length,o=String(e).replace(s,function(e){if("%%"===e)return "%";if(i<=n)return e;switch(e){case"%s":return String(r[n++]);case"%d":return Number(r[n++]);case"%j":try{return JSON.stringify(r[n++])}catch(e){return "[Circular]"}default:return e}}),a=r[n];n<i;a=r[++n])g(a)||!x(a)?o+=" "+a:o+=" "+c(a);return o},u.deprecate=function(e,t){if(void 0!==a&&!0===a.noDeprecation)return e;if(void 0===a)return function(){return u.deprecate(e,t).apply(this,arguments)};var n=!1;return function(){if(!n){if(a.throwDeprecation)throw new Error(t);a.traceDeprecation?console.trace(t):console.error(t),n=!0;}return e.apply(this,arguments)}};var r,i={},o=/^$/;function c(e,t){var n={seen:[],stylize:d};return 3<=arguments.length&&(n.depth=arguments[2]),4<=arguments.length&&(n.colors=arguments[3]),y(t)?n.showHidden=t:t&&u._extend(n,t),w(n.showHidden)&&(n.showHidden=!1),w(n.depth)&&(n.depth=2),w(n.colors)&&(n.colors=!1),w(n.customInspect)&&(n.customInspect=!0),n.colors&&(n.stylize=p),l(n,e,n.depth)}function p(e,t){t=c.styles[t];return t?"["+c.colors[t][0]+"m"+e+"["+c.colors[t][1]+"m":e}function d(e,t){return e}function l(t,n,r){if(t.customInspect&&n&&T(n.inspect)&&n.inspect!==u.inspect&&(!n.constructor||n.constructor.prototype!==n)){var e=n.inspect(r,t);return e=!v(e)?l(t,e,r):e}var i=function(e,t){if(w(t))return e.stylize("undefined","undefined");if(v(t)){var n="'"+JSON.stringify(t).replace(/^"|"$/g,"").replace(/'/g,"\\'").replace(/\\"/g,'"')+"'";return e.stylize(n,"string")}return b(t)?e.stylize(""+t,"number"):y(t)?e.stylize(""+t,"boolean"):g(t)?e.stylize("null","null"):void 0}(t,n);if(i)return i;var o,a=Object.keys(n),s=(o={},a.forEach(function(e,t){o[e]=!0;}),o);if(t.showHidden&&(a=Object.getOwnPropertyNames(n)),k(n)&&(0<=a.indexOf("message")||0<=a.indexOf("description")))return m(n);if(0===a.length){if(T(n)){var c=n.name?": "+n.name:"";return t.stylize("[Function"+c+"]","special")}if(S(n))return t.stylize(RegExp.prototype.toString.call(n),"regexp");if(I(n))return t.stylize(Date.prototype.toString.call(n),"date");if(k(n))return m(n)}var p="",d=!1,e=["{","}"];return h(n)&&(d=!0,e=["[","]"]),T(n)&&(p=" [Function"+(n.name?": "+n.name:"")+"]"),S(n)&&(p=" "+RegExp.prototype.toString.call(n)),I(n)&&(p=" "+Date.prototype.toUTCString.call(n)),k(n)&&(p=" "+m(n)),0!==a.length||d&&0!=n.length?r<0?S(n)?t.stylize(RegExp.prototype.toString.call(n),"regexp"):t.stylize("[Object]","special"):(t.seen.push(n),i=d?function(t,n,r,i,e){for(var o=[],a=0,s=n.length;a<s;++a)j(n,String(a))?o.push(f(t,n,r,i,String(a),!0)):o.push("");return e.forEach(function(e){e.match(/^\d+$/)||o.push(f(t,n,r,i,e,!0));}),o}(t,n,r,s,a):a.map(function(e){return f(t,n,r,s,e,d)}),t.seen.pop(),c=p,a=e,60<(i=i).reduce(function(e,t){return t.indexOf("\n"),e+t.replace(/\u001b\[\d\d?m/g,"").length+1},0)?a[0]+(""===c?"":c+"\n ")+" "+i.join(",\n  ")+" "+a[1]:a[0]+c+" "+i.join(", ")+" "+a[1]):e[0]+p+e[1]}function m(e){return "["+Error.prototype.toString.call(e)+"]"}function f(e,t,n,r,i,o){var a,s;if((t=Object.getOwnPropertyDescriptor(t,i)||{value:t[i]}).get?s=t.set?e.stylize("[Getter/Setter]","special"):e.stylize("[Getter]","special"):t.set&&(s=e.stylize("[Setter]","special")),j(r,i)||(a="["+i+"]"),s||(e.seen.indexOf(t.value)<0?-1<(s=g(n)?l(e,t.value,null):l(e,t.value,n-1)).indexOf("\n")&&(s=o?s.split("\n").map(function(e){return "  "+e}).join("\n").substr(2):"\n"+s.split("\n").map(function(e){return "   "+e}).join("\n")):s=e.stylize("[Circular]","special")),w(a)){if(o&&i.match(/^\d+$/))return s;a=(a=JSON.stringify(""+i)).match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)?(a=a.substr(1,a.length-2),e.stylize(a,"name")):(a=a.replace(/'/g,"\\'").replace(/\\"/g,'"').replace(/(^"|"$)/g,"'"),e.stylize(a,"string"));}return a+": "+s}function h(e){return Array.isArray(e)}function y(e){return "boolean"==typeof e}function g(e){return null===e}function b(e){return "number"==typeof e}function v(e){return "string"==typeof e}function w(e){return void 0===e}function S(e){return x(e)&&"[object RegExp]"===R(e)}function x(e){return "object"==typeof e&&null!==e}function I(e){return x(e)&&"[object Date]"===R(e)}function k(e){return x(e)&&("[object Error]"===R(e)||e instanceof Error)}function T(e){return "function"==typeof e}function R(e){return Object.prototype.toString.call(e)}function C(e){return e<10?"0"+e.toString(10):e.toString(10)}a.env.NODE_DEBUG&&(r=(r=a.env.NODE_DEBUG).replace(/[|\\{}()[\]^$+?.]/g,"\\$&").replace(/\*/g,".*").replace(/,/g,"$|^").toUpperCase(),o=new RegExp("^"+r+"$","i")),u.debuglog=function(t){var n;return t=t.toUpperCase(),i[t]||(o.test(t)?(n=a.pid,i[t]=function(){var e=u.format.apply(u,arguments);console.error("%s %d: %s",t,n,e);}):i[t]=function(){}),i[t]},(u.inspect=c).colors={bold:[1,22],italic:[3,23],underline:[4,24],inverse:[7,27],white:[37,39],grey:[90,39],black:[30,39],blue:[34,39],cyan:[36,39],green:[32,39],magenta:[35,39],red:[31,39],yellow:[33,39]},c.styles={special:"cyan",number:"yellow",boolean:"yellow",undefined:"grey",null:"bold",string:"green",date:"magenta",regexp:"red"},u.types=t(5955),u.isArray=h,u.isBoolean=y,u.isNull=g,u.isNullOrUndefined=function(e){return null==e},u.isNumber=b,u.isString=v,u.isSymbol=function(e){return "symbol"==typeof e},u.isUndefined=w,u.isRegExp=S,u.types.isRegExp=S,u.isObject=x,u.isDate=I,u.types.isDate=I,u.isError=k,u.types.isNativeError=k,u.isFunction=T,u.isPrimitive=function(e){return null===e||"boolean"==typeof e||"number"==typeof e||"string"==typeof e||"symbol"==typeof e||void 0===e},u.isBuffer=t(384);var O=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];function j(e,t){return Object.prototype.hasOwnProperty.call(e,t)}u.log=function(){var e,t;console.log("%s - %s",(e=new Date,t=[C(e.getHours()),C(e.getMinutes()),C(e.getSeconds())].join(":"),[e.getDate(),O[e.getMonth()],t].join(" ")),u.format.apply(u,arguments));},u.inherits=t(5717),u._extend=function(e,t){if(!t||!x(t))return e;for(var n=Object.keys(t),r=n.length;r--;)e[n[r]]=t[n[r]];return e};var E="undefined"!=typeof Symbol?Symbol("util.promisify.custom"):void 0;u.promisify=function(o){if("function"!=typeof o)throw new TypeError('The "original" argument must be of type Function');if(E&&o[E]){var e;if("function"!=typeof(e=o[E]))throw new TypeError('The "util.promisify.custom" argument must be of type Function');return Object.defineProperty(e,E,{value:e,enumerable:!1,writable:!1,configurable:!0}),e}function e(){for(var n,r,e=new Promise(function(e,t){n=e,r=t;}),t=[],i=0;i<arguments.length;i++)t.push(arguments[i]);t.push(function(e,t){e?r(e):n(t);});try{o.apply(this,t);}catch(e){r(e);}return e}return Object.setPrototypeOf(e,Object.getPrototypeOf(o)),E&&Object.defineProperty(e,E,{value:e,enumerable:!1,writable:!1,configurable:!0}),Object.defineProperties(e,n(o))},u.promisify.custom=E,u.callbackify=function(o){if("function"!=typeof o)throw new TypeError('The "original" argument must be of type Function');function e(){for(var e=[],t=0;t<arguments.length;t++)e.push(arguments[t]);var n=e.pop();if("function"!=typeof n)throw new TypeError("The last argument must be of type Function");function r(){return n.apply(i,arguments)}var i=this;o.apply(this,e).then(function(e){a.nextTick(r.bind(null,null,e));},function(e){a.nextTick(function(e,t){var n;return e||((n=new Error("Promise was rejected with a falsy value")).reason=e,e=n),t(e)}.bind(null,e,r));});}return Object.setPrototypeOf(e,Object.getPrototypeOf(o)),Object.defineProperties(e,n(o)),e};},6430:(e,t,r)=>{var n=r(9804),i=r(1910),o=r(1924),a=o("Object.prototype.toString"),s=r(1405)()&&"symbol"==typeof Symbol.toStringTag,i=i(),c=o("String.prototype.slice"),p={},d=r(4079),u=Object.getPrototypeOf;s&&d&&u&&n(i,function(e){if("function"==typeof r.g[e]){var t=new r.g[e];if(!(Symbol.toStringTag in t))throw new EvalError("this engine has support for Symbol.toStringTag, but "+e+" does not have the property! Please report this.");var n=u(t),t=d(n,Symbol.toStringTag);t||(n=u(n),t=d(n,Symbol.toStringTag)),p[e]=t.get;}});var l=r(5692);e.exports=function(e){return !!l(e)&&(s?(r=e,i=!1,n(p,function(e,t){if(!i)try{var n=e.call(r);n===t&&(i=n);}catch(e){}}),i):c(a(e),8,-1));var r,i;};},1057:e=>{e.exports=function(e,t,n){window.criRequest(t,n);};},3423:()=>{},8532:()=>{}},r={};function i(e){var t=r[e];if(void 0!==t)return t.exports;t=r[e]={id:e,loaded:!1,exports:{}};return n[e].call(t.exports,t,t.exports,i),t.loaded=!0,t.exports}i.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),i.nmd=e=>(e.paths=[],e.children||(e.children=[]),e),i(6124);var e=i(6010);t.exports.CDP=e;})();});chromeRemoteInterface(),void 0!==running_monitor?(console.log("CLEARING"),clearInterval(running_monitor)):console.log("No running monitor to clear");var[simple,complex]=get_nerd_elements(),running_monitor=setInterval(run_monitor,CONFIG.INTERVAL,simple,complex);chrome.storage.local.get(["ASSESSMENT_MODE"],e=>{new AssessmentController(e.ASSESSMENT_MODE).init();}),window.onbeforeunload=()=>{chrome.runtime.sendMessage({msg:"onbeforeunload"});},chrome.runtime.onMessage.addListener((e,t,n)=>{"stop"===e.msg&&void 0!==running_monitor&&clearInterval(running_monitor);});
+var CONFIG = {
+    "NERD_STAT_VISIBILITY": true,           // Show or hide nerd statistics popup
+    "INTERVAL": 500,                        // Monitor interval
+    "ASSESSMENT_PAUSE": false,              // Enable/disable playback pausing/resuming on video assessment
+};
+
+function get_nerd_elements(){
+    // Simulate rightclick on player to show menu list
+    document.getElementById("player");
+    document.getElementById("player-container-outer");
+    document.getElementById("player-container-inner");
+    document.getElementById("player-container");
+    document.getElementById("ytd-player");
+
+    // HTML element with id "movie_player" is the element that can be rightclicked in order to show menu list
+    const movie_player = document.getElementById("movie_player");
+
+
+    // Simulate right click on the movie_player element
+    var element = movie_player;
+    var e = element.ownerDocument.createEvent('MouseEvents');
+    e.initMouseEvent('contextmenu', true, true,
+        element.ownerDocument.defaultView, 1, 0, 0, 0, 0, false,
+        false, false, false, 2, null);
+    !element.dispatchEvent(e);
+
+
+    // Get through all the elements of the menu list and simulate click on the element that activates nerd statistics
+    const ytp_popup = document.getElementsByClassName("ytp-popup ytp-contextmenu").item(0);
+    const ytp_panel = ytp_popup.children.item(0);
+    const ytp_panel_menu = ytp_panel.children.item(0);
+    const menu_list = ytp_panel_menu.children;
+    const nerd_stats_button = menu_list.item(menu_list.length - 1);
+
+    /*
+    console.log(ytp_popup);
+    console.log(ytp_panel);
+    console.log(ytp_panel_menu);
+    console.log(menu_list);
+    console.log(menu_list.length);
+    console.log(nerd_stats_button);
+     */
+
+    // Now activate the nerd statistics calculations and popup window
+    nerd_stats_button.click();
+
+    // nerd_stats is the parent element for the nerd statistics popup window
+    const nerd_stats = document.getElementsByClassName("html5-video-info-panel").item(0);
+    const nerd_content = document.getElementsByClassName("html5-video-info-panel-content").item(0);
+
+    // nerd_data is a html element, it consist multiple items
+    const nerd_data = nerd_content.children;
+
+    // Extract data from the html elements
+    const videoId_sCPN = nerd_data.item(0);
+    const viewport_frames = nerd_data.item(1);
+    const current_optimalRes = nerd_data.item(2);
+    const volume_normalized = nerd_data.item(3);
+    const codecs = nerd_data.item(4);
+    const color = nerd_data.item(6);
+    const connectionSpeed = nerd_data.item(8);
+    const networkActivity = nerd_data.item(9);
+    const bufferHealth = nerd_data.item(10);
+    const mysteryText = nerd_data.item(14);
+
+    // Hide the statistics popup by setting opacity to 0 and making unclickable
+    {
+        nerd_stats.style.opacity = "100%";
+    }
+
+
+    // TAKE NOTE THAT mysteryText is first element in the array
+    const nerd_elements_simple = {
+        mysteryText: mysteryText,
+        videoId_sCPN: videoId_sCPN,
+        viewport_frames: viewport_frames,
+        current_optimalRes: current_optimalRes,
+        volume_normalized: volume_normalized,
+        codecs: codecs,
+        color: color
+    };
+    const nerd_elements_complex = {
+        connectionSpeed: connectionSpeed,
+        networkActivity: networkActivity,
+        bufferHealth: bufferHealth
+    };
+    return [nerd_elements_simple, nerd_elements_complex];
+}
+
+function run_monitor(simple, complex){
+    const data = {};
+    const timestamp = Date.now();
+
+    // Add timestamp to captured data
+    Object.assign(data, {timestamp: timestamp});
+
+    // Extract useful data from simple elements
+    for(const [key, val] of Object.entries(simple)){
+        const value = val.querySelector("span").innerText;
+
+        // Check if the video has ended by extracting and checking e value from mystery text
+        if(key === "mysteryText"){
+            const mode = value.match(/s:([a-z A-Z 0-9]{2})/)[1];
+            if(mode === "e "){
+                // Send onbeforeunload message with type video_end
+                const message = {
+                    msg: "onbeforeunload",
+                    type: "video_end"
+                };
+                chrome.runtime.sendMessage(message);
+                return true;
+            }
+        }
+        Object.assign(data, {[key]: value});
+    }
+    // Extract useful data from complex elements
+    for(const [key, val] of Object.entries(complex)){
+        const value = val.querySelector("span").querySelectorAll("span")[1].innerText;
+        Object.assign(data, {[key]: value});
+    }
+    // Send data to background script
+    hand_over_data(data);
+}
+
+
+function hand_over_data(data){
+    const message = {
+        msg: "data_handover",
+        data: data
+    };
+    chrome.runtime.sendMessage(message);
+}
+
+function middle_panel(){
+    // Create semi-transparent container covering whole screen
+    var container = document.createElement('div');
+    container.style.position = "absolute";
+    container.style.top = "0px";
+    container.style.left = "0px";
+    container.style.width = "100%";
+    container.style.height = "100%";
+    container.style.backgroundColor = "rgba(34,34,34,1)";
+    container.style.zIndex = "2077";
+    container.id = "acr-panel";
+    container.style.display = "flex";
+    container.style.justifyContent = "center";
+    container.style.alignItems = "flex-start";
+    container.style.visibility = "hidden";
+
+    // Create panel for ACR scale and header
+    var panel = document.createElement('div');
+    panel.style.backgroundColor = "rgba(34,34,34,1)";
+    panel.style.position = "sticky";
+    panel.style.top = "50vh";
+    panel.style.transform = "translateY(-25vh)";
+    panel.style.display = "flex";
+    panel.style.justifyContent = "center";
+    panel.style.alignItems = "center";
+    panel.style.flexDirection = "column";
+    panel.style.padding = "5em 5em";
+    panel.style.borderRadius = "1em";
+    panel.style.maxWidth = "300px";
+    container.appendChild(panel);
+
+    // Create panel header
+    var header = document.createElement('h1');
+    header.innerText = "Proszę ocenić dotychczasową jakość audio i video";
+    header.style.fontSize = "2rem";
+    header.style.fontWeight = "400";
+    header.style.color = "whitesmoke";
+    header.style.textAlign = "center";
+    header.style.userSelect = "none";
+    panel.appendChild(header);
+
+    // Create form
+    var form = document.createElement('form');
+    form.style.marginTop = "2em";
+    form.style.width = "100%";
+    form.style.display = "flex";
+    form.style.justifyContent = "center";
+    form.style.alignItems = "center";
+    form.style.flexDirection = "column";
+    panel.appendChild(form);
+
+    // Create assessment buttons
+    for(let i=5; i>=1; i--){
+        var button = document.createElement('button');
+        button.setAttribute("type", "submit");
+        button.setAttribute("assessment", i.toString());
+        button.innerText = i.toString();
+        button.style.width = "50%";
+        button.style.padding = "1em 1em";
+        button.style.margin = "0.5em 0em";
+        button.style.fontWeight = "bold";
+        button.style.border = "none";
+        button.style.borderRadius = "0.5em";
+        button.style.cursor = "pointer";
+
+        button.addEventListener("mouseenter", (e)=>{e.target.style.backgroundColor = "#8ecccc";});
+        button.addEventListener("mouseleave", (e)=>{e.target.style.backgroundColor = "whitesmoke";});
+        button.addEventListener("click", (e)=>{
+            // Get the selected assessment value
+            const assessment = e.target.getAttribute("assessment");
+            // Assign the selected assessment value to form's ID
+            form.setAttribute("assessment", assessment.toString());
+        });
+        form.appendChild(button);
+    }
+
+    // Add semi-transparent panel to ytd-app element
+    document.getElementsByTagName("ytd-app")[0].appendChild(container);
+    return [container, form];
+}
+
+function top_panel(){
+    // Create semi-transparent container covering whole screen
+    var container = document.createElement('div');
+    container.style.position = "absolute";
+    container.style.top = "0px";
+    container.style.left = "0px";
+    container.style.width = "100%";
+    container.style.height = "100%";
+    container.style.backgroundColor = "rgba(34,34,34,1)";
+    container.style.zIndex = "2077";
+    container.id = "acr-panel";
+    container.style.display = "flex";
+    container.style.justifyContent = "center";
+    container.style.alignItems = "flex-start";
+    container.style.visibility = "hidden";
+
+    // Create panel for ACR scale and header
+    var panel = document.createElement('div');
+    //panel.style.backgroundColor = "rgba(34,34,34,1)";
+    panel.style.position = "sticky";
+    panel.style.top = "8%";
+    panel.style.display = "flex";
+    panel.style.flexDirection = "column";
+    panel.style.justifyContent = "center";
+    panel.style.alignItems = "center";
+    panel.style.padding = "2em 5em";
+    panel.style.borderRadius = "1em";
+
+    container.appendChild(panel);
+
+    // Create panel header
+    var header = document.createElement('h1');
+    header.innerText = "Proszę ocenić dotychczasową jakość audio i video";
+    header.style.fontSize = "3rem";
+    header.style.fontWeight = "400";
+    header.style.color = "whitesmoke";
+    header.style.textAlign = "center";
+    header.style.userSelect = "none";
+    panel.appendChild(header);
+
+    // Create form
+    var form = document.createElement('form');
+    form.style.marginTop = "2em";
+    form.style.width = "100%";
+    form.style.display = "flex";
+    form.style.justifyContent = "space-between";
+    form.style.flexDirection = "row";
+    panel.appendChild(form);
+
+    // Create assessment buttons
+    for(let i=1; i<=5; i++){
+        var button = document.createElement('button');
+        button.setAttribute("type", "submit");
+        button.setAttribute("assessment", i.toString());
+        button.innerText = i.toString();
+        button.style.width = "50%";
+        button.style.padding = "1.2em 2em";
+        button.style.margin = "0.5em 0em";
+        button.style.fontWeight = "bold";
+        button.style.border = "none";
+        button.style.borderRadius = "0.5em";
+        button.style.margin = "0 2em";
+        button.style.cursor = "pointer";
+
+        button.addEventListener("mouseenter", (e)=>{e.target.style.backgroundColor = "#8ecccc";});
+        button.addEventListener("mouseleave", (e)=>{e.target.style.backgroundColor = "whitesmoke";});
+        button.addEventListener("click", (e)=>{
+            // Get the selected assessment value
+            const assessment = e.target.getAttribute("assessment");
+            // Assign the selected assessment value to form's ID
+            form.setAttribute("assessment", assessment.toString());
+        });
+        form.appendChild(button);
+    }
+
+    // Add semi-transparent panel to ytd-app element
+    document.getElementsByTagName("ytd-app")[0].appendChild(container);
+    return [container, form];
+}
+
+function bottom_panel(){
+    // Create semi-transparent container covering whole screen
+    var container = document.createElement('div');
+    container.style.position = "absolute";
+    container.style.top = "0px";
+    container.style.left = "0px";
+    container.style.width = "100%";
+    container.style.height = "100%";
+    container.style.backgroundColor = "rgba(34,34,34,1)";
+    container.style.zIndex = "2077";
+    container.id = "acr-panel";
+    container.style.display = "flex";
+    container.style.justifyContent = "center";
+    container.style.alignItems = "flex-start";
+    container.style.visibility = "hidden";
+
+    // Create panel for ACR scale and header
+    var panel = document.createElement('div');
+    //panel.style.backgroundColor = "rgba(34,34,34,1)";
+    panel.style.position = "sticky";
+    panel.style.top = "100vh";
+    panel.style.transform = "translateY(-20vh)";
+    panel.style.display = "flex";
+    panel.style.flexDirection = "column";
+    panel.style.justifyContent = "center";
+    panel.style.alignItems = "center";
+    panel.style.padding = "2em 5em";
+    panel.style.borderRadius = "1em";
+
+    container.appendChild(panel);
+
+    // Create panel header
+    var header = document.createElement('h1');
+    header.innerText = "Proszę ocenić dotychczasową jakość audio i video";
+    header.style.fontSize = "3rem";
+    header.style.fontWeight = "400";
+    header.style.color = "whitesmoke";
+    header.style.textAlign = "center";
+    header.style.userSelect = "none";
+    panel.appendChild(header);
+
+    // Create form
+    var form = document.createElement('form');
+    form.style.marginTop = "2em";
+    form.style.width = "100%";
+    form.style.display = "flex";
+    form.style.justifyContent = "space-between";
+    form.style.flexDirection = "row";
+    panel.appendChild(form);
+
+    // Create assessment buttons
+    for(let i=1; i<=5; i++){
+        var button = document.createElement('button');
+        button.setAttribute("type", "submit");
+        button.setAttribute("assessment", i.toString());
+        button.innerText = i.toString();
+        button.style.width = "50%";
+        button.style.padding = "1.2em 2em";
+        button.style.margin = "0.5em 0em";
+        button.style.fontWeight = "bold";
+        button.style.border = "none";
+        button.style.borderRadius = "0.5em";
+        button.style.margin = "0 2em";
+        button.style.cursor = "pointer";
+
+        button.addEventListener("mouseenter", (e)=>{e.target.style.backgroundColor = "#8ecccc";});
+        button.addEventListener("mouseleave", (e)=>{e.target.style.backgroundColor = "whitesmoke";});
+        button.addEventListener("click", (e)=>{
+            // Get the selected assessment value
+            const assessment = e.target.getAttribute("assessment");
+            // Assign the selected assessment value to form's ID
+            form.setAttribute("assessment", assessment.toString());
+        });
+        form.appendChild(button);
+    }
+
+    // Add semi-transparent panel to ytd-app element
+    document.getElementsByTagName("ytd-app")[0].appendChild(container);
+    return [container, form];
+}
+
+function createCommonjsModule(fn, basedir, module) {
+	return module = {
+		path: basedir,
+		exports: {},
+		require: function (path, base) {
+			return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
+		}
+	}, fn(module, module.exports), module.exports;
+}
+
+function commonjsRequire () {
+	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
+}
+
+var socketIoClient = createCommonjsModule(function (module, exports) {
+/*!
+ * Socket.IO v4.1.2
+ * (c) 2014-2021 Guillermo Rauch
+ * Released under the MIT License.
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+    module.exports = factory();
+})(self, function() {
+    return /******/ (function(modules) { // webpackBootstrap
+        /******/ 	// The module cache
+        /******/ 	var installedModules = {};
+        /******/
+        /******/ 	// The require function
+        /******/ 	function __webpack_require__(moduleId) {
+            /******/
+            /******/ 		// Check if module is in cache
+            /******/ 		if(installedModules[moduleId]) {
+                /******/ 			return installedModules[moduleId].exports;
+                /******/ 		}
+            /******/ 		// Create a new module (and put it into the cache)
+            /******/ 		var module = installedModules[moduleId] = {
+                /******/ 			i: moduleId,
+                /******/ 			l: false,
+                /******/ 			exports: {}
+                /******/ 		};
+            /******/
+            /******/ 		// Execute the module function
+            /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+            /******/
+            /******/ 		// Flag the module as loaded
+            /******/ 		module.l = true;
+            /******/
+            /******/ 		// Return the exports of the module
+            /******/ 		return module.exports;
+            /******/ 	}
+        /******/
+        /******/
+        /******/ 	// expose the modules object (__webpack_modules__)
+        /******/ 	__webpack_require__.m = modules;
+        /******/
+        /******/ 	// expose the module cache
+        /******/ 	__webpack_require__.c = installedModules;
+        /******/
+        /******/ 	// define getter function for harmony exports
+        /******/ 	__webpack_require__.d = function(exports, name, getter) {
+            /******/ 		if(!__webpack_require__.o(exports, name)) {
+                /******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+                /******/ 		}
+            /******/ 	};
+        /******/
+        /******/ 	// define __esModule on exports
+        /******/ 	__webpack_require__.r = function(exports) {
+            /******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+                /******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+                /******/ 		}
+            /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+            /******/ 	};
+        /******/
+        /******/ 	// create a fake namespace object
+        /******/ 	// mode & 1: value is a module id, require it
+        /******/ 	// mode & 2: merge all properties of value into the ns
+        /******/ 	// mode & 4: return value when already ns object
+        /******/ 	// mode & 8|1: behave like require
+        /******/ 	__webpack_require__.t = function(value, mode) {
+            /******/ 		if(mode & 1) value = __webpack_require__(value);
+            /******/ 		if(mode & 8) return value;
+            /******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+            /******/ 		var ns = Object.create(null);
+            /******/ 		__webpack_require__.r(ns);
+            /******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+            /******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+            /******/ 		return ns;
+            /******/ 	};
+        /******/
+        /******/ 	// getDefaultExport function for compatibility with non-harmony modules
+        /******/ 	__webpack_require__.n = function(module) {
+            /******/ 		var getter = module && module.__esModule ?
+                /******/ 			function getDefault() { return module['default']; } :
+                /******/ 			function getModuleExports() { return module; };
+            /******/ 		__webpack_require__.d(getter, 'a', getter);
+            /******/ 		return getter;
+            /******/ 	};
+        /******/
+        /******/ 	// Object.prototype.hasOwnProperty.call
+        /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+        /******/
+        /******/ 	// __webpack_public_path__
+        /******/ 	__webpack_require__.p = "";
+        /******/
+        /******/
+        /******/ 	// Load entry module and return exports
+        /******/ 	return __webpack_require__(__webpack_require__.s = "./build/index.js");
+        /******/ })
+        /************************************************************************/
+        /******/ ({
+
+            /***/ "./build/index.js":
+            /*!************************!*\
+  !*** ./build/index.js ***!
+  \************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+
+                function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+                Object.defineProperty(exports, "__esModule", {
+                    value: true
+                });
+                exports.io = exports.Socket = exports.Manager = exports.protocol = void 0;
+
+                var url_1 = __webpack_require__(/*! ./url */ "./build/url.js");
+
+                var manager_1 = __webpack_require__(/*! ./manager */ "./build/manager.js");
+
+                var debug = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js")("socket.io-client");
+                /**
+                 * Module exports.
+                 */
+
+
+                module.exports = exports = lookup;
+                /**
+                 * Managers cache.
+                 */
+
+                var cache = exports.managers = {};
+
+                function lookup(uri, opts) {
+                    if (_typeof(uri) === "object") {
+                        opts = uri;
+                        uri = undefined;
+                    }
+
+                    opts = opts || {};
+                    var parsed = url_1.url(uri, opts.path || "/socket.io");
+                    var source = parsed.source;
+                    var id = parsed.id;
+                    var path = parsed.path;
+                    var sameNamespace = cache[id] && path in cache[id]["nsps"];
+                    var newConnection = opts.forceNew || opts["force new connection"] || false === opts.multiplex || sameNamespace;
+                    var io;
+
+                    if (newConnection) {
+                        debug("ignoring socket cache for %s", source);
+                        io = new manager_1.Manager(source, opts);
+                    } else {
+                        if (!cache[id]) {
+                            debug("new io instance for %s", source);
+                            cache[id] = new manager_1.Manager(source, opts);
+                        }
+
+                        io = cache[id];
+                    }
+
+                    if (parsed.query && !opts.query) {
+                        opts.query = parsed.queryKey;
+                    }
+
+                    return io.socket(parsed.path, opts);
+                }
+
+                exports.io = lookup;
+                /**
+                 * Protocol version.
+                 *
+                 * @public
+                 */
+
+                var socket_io_parser_1 = __webpack_require__(/*! socket.io-parser */ "./node_modules/socket.io-parser/dist/index.js");
+
+                Object.defineProperty(exports, "protocol", {
+                    enumerable: true,
+                    get: function get() {
+                        return socket_io_parser_1.protocol;
+                    }
+                });
+                /**
+                 * `connect`.
+                 *
+                 * @param {String} uri
+                 * @public
+                 */
+
+                exports.connect = lookup;
+                /**
+                 * Expose constructors for standalone build.
+                 *
+                 * @public
+                 */
+
+                var manager_2 = __webpack_require__(/*! ./manager */ "./build/manager.js");
+
+                Object.defineProperty(exports, "Manager", {
+                    enumerable: true,
+                    get: function get() {
+                        return manager_2.Manager;
+                    }
+                });
+
+                var socket_1 = __webpack_require__(/*! ./socket */ "./build/socket.js");
+
+                Object.defineProperty(exports, "Socket", {
+                    enumerable: true,
+                    get: function get() {
+                        return socket_1.Socket;
+                    }
+                });
+                exports["default"] = lookup;
+
+                /***/ }),
+
+            /***/ "./build/manager.js":
+            /*!**************************!*\
+  !*** ./build/manager.js ***!
+  \**************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+
+                function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+                function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+                function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+                function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+                function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+                function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+                function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+                function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+                function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+                function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+                function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+                Object.defineProperty(exports, "__esModule", {
+                    value: true
+                });
+                exports.Manager = void 0;
+
+                var eio = __webpack_require__(/*! engine.io-client */ "./node_modules/engine.io-client/lib/index.js");
+
+                var socket_1 = __webpack_require__(/*! ./socket */ "./build/socket.js");
+
+                var parser = __webpack_require__(/*! socket.io-parser */ "./node_modules/socket.io-parser/dist/index.js");
+
+                var on_1 = __webpack_require__(/*! ./on */ "./build/on.js");
+
+                var Backoff = __webpack_require__(/*! backo2 */ "./node_modules/backo2/index.js");
+
+                var typed_events_1 = __webpack_require__(/*! ./typed-events */ "./build/typed-events.js");
+
+                var debug = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js")("socket.io-client:manager");
+
+                var Manager = /*#__PURE__*/function (_typed_events_1$Stric) {
+                    _inherits(Manager, _typed_events_1$Stric);
+
+                    var _super = _createSuper(Manager);
+
+                    function Manager(uri, opts) {
+                        var _this;
+
+                        _classCallCheck(this, Manager);
+
+                        _this = _super.call(this);
+                        _this.nsps = {};
+                        _this.subs = [];
+
+                        if (uri && "object" === _typeof(uri)) {
+                            opts = uri;
+                            uri = undefined;
+                        }
+
+                        opts = opts || {};
+                        opts.path = opts.path || "/socket.io";
+                        _this.opts = opts;
+
+                        _this.reconnection(opts.reconnection !== false);
+
+                        _this.reconnectionAttempts(opts.reconnectionAttempts || Infinity);
+
+                        _this.reconnectionDelay(opts.reconnectionDelay || 1000);
+
+                        _this.reconnectionDelayMax(opts.reconnectionDelayMax || 5000);
+
+                        _this.randomizationFactor(opts.randomizationFactor || 0.5);
+
+                        _this.backoff = new Backoff({
+                            min: _this.reconnectionDelay(),
+                            max: _this.reconnectionDelayMax(),
+                            jitter: _this.randomizationFactor()
+                        });
+
+                        _this.timeout(null == opts.timeout ? 20000 : opts.timeout);
+
+                        _this._readyState = "closed";
+                        _this.uri = uri;
+
+                        var _parser = opts.parser || parser;
+
+                        _this.encoder = new _parser.Encoder();
+                        _this.decoder = new _parser.Decoder();
+                        _this._autoConnect = opts.autoConnect !== false;
+                        if (_this._autoConnect) _this.open();
+                        return _this;
+                    }
+
+                    _createClass(Manager, [{
+                        key: "reconnection",
+                        value: function reconnection(v) {
+                            if (!arguments.length) return this._reconnection;
+                            this._reconnection = !!v;
+                            return this;
+                        }
+                    }, {
+                        key: "reconnectionAttempts",
+                        value: function reconnectionAttempts(v) {
+                            if (v === undefined) return this._reconnectionAttempts;
+                            this._reconnectionAttempts = v;
+                            return this;
+                        }
+                    }, {
+                        key: "reconnectionDelay",
+                        value: function reconnectionDelay(v) {
+                            var _a;
+
+                            if (v === undefined) return this._reconnectionDelay;
+                            this._reconnectionDelay = v;
+                            (_a = this.backoff) === null || _a === void 0 ? void 0 : _a.setMin(v);
+                            return this;
+                        }
+                    }, {
+                        key: "randomizationFactor",
+                        value: function randomizationFactor(v) {
+                            var _a;
+
+                            if (v === undefined) return this._randomizationFactor;
+                            this._randomizationFactor = v;
+                            (_a = this.backoff) === null || _a === void 0 ? void 0 : _a.setJitter(v);
+                            return this;
+                        }
+                    }, {
+                        key: "reconnectionDelayMax",
+                        value: function reconnectionDelayMax(v) {
+                            var _a;
+
+                            if (v === undefined) return this._reconnectionDelayMax;
+                            this._reconnectionDelayMax = v;
+                            (_a = this.backoff) === null || _a === void 0 ? void 0 : _a.setMax(v);
+                            return this;
+                        }
+                    }, {
+                        key: "timeout",
+                        value: function timeout(v) {
+                            if (!arguments.length) return this._timeout;
+                            this._timeout = v;
+                            return this;
+                        }
+                        /**
+                         * Starts trying to reconnect if reconnection is enabled and we have not
+                         * started reconnecting yet
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "maybeReconnectOnOpen",
+                        value: function maybeReconnectOnOpen() {
+                            // Only try to reconnect if it's the first time we're connecting
+                            if (!this._reconnecting && this._reconnection && this.backoff.attempts === 0) {
+                                // keeps reconnection from firing twice for the same reconnection loop
+                                this.reconnect();
+                            }
+                        }
+                        /**
+                         * Sets the current transport `socket`.
+                         *
+                         * @param {Function} fn - optional, callback
+                         * @return self
+                         * @public
+                         */
+
+                    }, {
+                        key: "open",
+                        value: function open(fn) {
+                            var _this2 = this;
+
+                            debug("readyState %s", this._readyState);
+                            if (~this._readyState.indexOf("open")) return this;
+                            debug("opening %s", this.uri);
+                            this.engine = eio(this.uri, this.opts);
+                            var socket = this.engine;
+                            var self = this;
+                            this._readyState = "opening";
+                            this.skipReconnect = false; // emit `open`
+
+                            var openSubDestroy = on_1.on(socket, "open", function () {
+                                self.onopen();
+                                fn && fn();
+                            }); // emit `error`
+
+                            var errorSub = on_1.on(socket, "error", function (err) {
+                                debug("error");
+                                self.cleanup();
+                                self._readyState = "closed";
+
+                                _this2.emitReserved("error", err);
+
+                                if (fn) {
+                                    fn(err);
+                                } else {
+                                    // Only do this if there is no fn to handle the error
+                                    self.maybeReconnectOnOpen();
+                                }
+                            });
+
+                            if (false !== this._timeout) {
+                                var timeout = this._timeout;
+                                debug("connect attempt will timeout after %d", timeout);
+
+                                if (timeout === 0) {
+                                    openSubDestroy(); // prevents a race condition with the 'open' event
+                                } // set timer
+
+
+                                var timer = setTimeout(function () {
+                                    debug("connect attempt timed out after %d", timeout);
+                                    openSubDestroy();
+                                    socket.close();
+                                    socket.emit("error", new Error("timeout"));
+                                }, timeout);
+
+                                if (this.opts.autoUnref) {
+                                    timer.unref();
+                                }
+
+                                this.subs.push(function subDestroy() {
+                                    clearTimeout(timer);
+                                });
+                            }
+
+                            this.subs.push(openSubDestroy);
+                            this.subs.push(errorSub);
+                            return this;
+                        }
+                        /**
+                         * Alias for open()
+                         *
+                         * @return self
+                         * @public
+                         */
+
+                    }, {
+                        key: "connect",
+                        value: function connect(fn) {
+                            return this.open(fn);
+                        }
+                        /**
+                         * Called upon transport open.
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "onopen",
+                        value: function onopen() {
+                            debug("open"); // clear old subs
+
+                            this.cleanup(); // mark as open
+
+                            this._readyState = "open";
+                            this.emitReserved("open"); // add new subs
+
+                            var socket = this.engine;
+                            this.subs.push(on_1.on(socket, "ping", this.onping.bind(this)), on_1.on(socket, "data", this.ondata.bind(this)), on_1.on(socket, "error", this.onerror.bind(this)), on_1.on(socket, "close", this.onclose.bind(this)), on_1.on(this.decoder, "decoded", this.ondecoded.bind(this)));
+                        }
+                        /**
+                         * Called upon a ping.
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "onping",
+                        value: function onping() {
+                            this.emitReserved("ping");
+                        }
+                        /**
+                         * Called with data.
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "ondata",
+                        value: function ondata(data) {
+                            this.decoder.add(data);
+                        }
+                        /**
+                         * Called when parser fully decodes a packet.
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "ondecoded",
+                        value: function ondecoded(packet) {
+                            this.emitReserved("packet", packet);
+                        }
+                        /**
+                         * Called upon socket error.
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "onerror",
+                        value: function onerror(err) {
+                            debug("error", err);
+                            this.emitReserved("error", err);
+                        }
+                        /**
+                         * Creates a new socket for the given `nsp`.
+                         *
+                         * @return {Socket}
+                         * @public
+                         */
+
+                    }, {
+                        key: "socket",
+                        value: function socket(nsp, opts) {
+                            var socket = this.nsps[nsp];
+
+                            if (!socket) {
+                                socket = new socket_1.Socket(this, nsp, opts);
+                                this.nsps[nsp] = socket;
+                            }
+
+                            return socket;
+                        }
+                        /**
+                         * Called upon a socket close.
+                         *
+                         * @param socket
+                         * @private
+                         */
+
+                    }, {
+                        key: "_destroy",
+                        value: function _destroy(socket) {
+                            var nsps = Object.keys(this.nsps);
+
+                            for (var _i = 0, _nsps = nsps; _i < _nsps.length; _i++) {
+                                var nsp = _nsps[_i];
+                                var _socket = this.nsps[nsp];
+
+                                if (_socket.active) {
+                                    debug("socket %s is still active, skipping close", nsp);
+                                    return;
+                                }
+                            }
+
+                            this._close();
+                        }
+                        /**
+                         * Writes a packet.
+                         *
+                         * @param packet
+                         * @private
+                         */
+
+                    }, {
+                        key: "_packet",
+                        value: function _packet(packet) {
+                            debug("writing packet %j", packet);
+                            var encodedPackets = this.encoder.encode(packet);
+
+                            for (var i = 0; i < encodedPackets.length; i++) {
+                                this.engine.write(encodedPackets[i], packet.options);
+                            }
+                        }
+                        /**
+                         * Clean up transport subscriptions and packet buffer.
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "cleanup",
+                        value: function cleanup() {
+                            debug("cleanup");
+                            this.subs.forEach(function (subDestroy) {
+                                return subDestroy();
+                            });
+                            this.subs.length = 0;
+                            this.decoder.destroy();
+                        }
+                        /**
+                         * Close the current socket.
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "_close",
+                        value: function _close() {
+                            debug("disconnect");
+                            this.skipReconnect = true;
+                            this._reconnecting = false;
+
+                            if ("opening" === this._readyState) {
+                                // `onclose` will not fire because
+                                // an open event never happened
+                                this.cleanup();
+                            }
+
+                            this.backoff.reset();
+                            this._readyState = "closed";
+                            if (this.engine) this.engine.close();
+                        }
+                        /**
+                         * Alias for close()
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "disconnect",
+                        value: function disconnect() {
+                            return this._close();
+                        }
+                        /**
+                         * Called upon engine close.
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "onclose",
+                        value: function onclose(reason) {
+                            debug("onclose");
+                            this.cleanup();
+                            this.backoff.reset();
+                            this._readyState = "closed";
+                            this.emitReserved("close", reason);
+
+                            if (this._reconnection && !this.skipReconnect) {
+                                this.reconnect();
+                            }
+                        }
+                        /**
+                         * Attempt a reconnection.
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "reconnect",
+                        value: function reconnect() {
+                            var _this3 = this;
+
+                            if (this._reconnecting || this.skipReconnect) return this;
+                            var self = this;
+
+                            if (this.backoff.attempts >= this._reconnectionAttempts) {
+                                debug("reconnect failed");
+                                this.backoff.reset();
+                                this.emitReserved("reconnect_failed");
+                                this._reconnecting = false;
+                            } else {
+                                var delay = this.backoff.duration();
+                                debug("will wait %dms before reconnect attempt", delay);
+                                this._reconnecting = true;
+                                var timer = setTimeout(function () {
+                                    if (self.skipReconnect) return;
+                                    debug("attempting reconnect");
+
+                                    _this3.emitReserved("reconnect_attempt", self.backoff.attempts); // check again for the case socket closed in above events
+
+
+                                    if (self.skipReconnect) return;
+                                    self.open(function (err) {
+                                        if (err) {
+                                            debug("reconnect attempt error");
+                                            self._reconnecting = false;
+                                            self.reconnect();
+
+                                            _this3.emitReserved("reconnect_error", err);
+                                        } else {
+                                            debug("reconnect success");
+                                            self.onreconnect();
+                                        }
+                                    });
+                                }, delay);
+
+                                if (this.opts.autoUnref) {
+                                    timer.unref();
+                                }
+
+                                this.subs.push(function subDestroy() {
+                                    clearTimeout(timer);
+                                });
+                            }
+                        }
+                        /**
+                         * Called upon successful reconnect.
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "onreconnect",
+                        value: function onreconnect() {
+                            var attempt = this.backoff.attempts;
+                            this._reconnecting = false;
+                            this.backoff.reset();
+                            this.emitReserved("reconnect", attempt);
+                        }
+                    }]);
+
+                    return Manager;
+                }(typed_events_1.StrictEventEmitter);
+
+                exports.Manager = Manager;
+
+                /***/ }),
+
+            /***/ "./build/on.js":
+            /*!*********************!*\
+  !*** ./build/on.js ***!
+  \*********************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+
+                Object.defineProperty(exports, "__esModule", {
+                    value: true
+                });
+                exports.on = void 0;
+
+                function on(obj, ev, fn) {
+                    obj.on(ev, fn);
+                    return function subDestroy() {
+                        obj.off(ev, fn);
+                    };
+                }
+
+                exports.on = on;
+
+                /***/ }),
+
+            /***/ "./build/socket.js":
+            /*!*************************!*\
+  !*** ./build/socket.js ***!
+  \*************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+
+                function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+                function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+                function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+                function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+                function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+                function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+                function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+                function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+                function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+                function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+                function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+                function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+                function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+                function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+                function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+                function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+                Object.defineProperty(exports, "__esModule", {
+                    value: true
+                });
+                exports.Socket = void 0;
+
+                var socket_io_parser_1 = __webpack_require__(/*! socket.io-parser */ "./node_modules/socket.io-parser/dist/index.js");
+
+                var on_1 = __webpack_require__(/*! ./on */ "./build/on.js");
+
+                var typed_events_1 = __webpack_require__(/*! ./typed-events */ "./build/typed-events.js");
+
+                var debug = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js")("socket.io-client:socket");
+                /**
+                 * Internal events.
+                 * These events can't be emitted by the user.
+                 */
+
+
+                var RESERVED_EVENTS = Object.freeze({
+                    connect: 1,
+                    connect_error: 1,
+                    disconnect: 1,
+                    disconnecting: 1,
+                    // EventEmitter reserved events: https://nodejs.org/api/events.html#events_event_newlistener
+                    newListener: 1,
+                    removeListener: 1
+                });
+
+                var Socket = /*#__PURE__*/function (_typed_events_1$Stric) {
+                    _inherits(Socket, _typed_events_1$Stric);
+
+                    var _super = _createSuper(Socket);
+
+                    /**
+                     * `Socket` constructor.
+                     *
+                     * @public
+                     */
+                    function Socket(io, nsp, opts) {
+                        var _this;
+
+                        _classCallCheck(this, Socket);
+
+                        _this = _super.call(this);
+                        _this.receiveBuffer = [];
+                        _this.sendBuffer = [];
+                        _this.ids = 0;
+                        _this.acks = {};
+                        _this.flags = {};
+                        _this.io = io;
+                        _this.nsp = nsp;
+                        _this.ids = 0;
+                        _this.acks = {};
+                        _this.receiveBuffer = [];
+                        _this.sendBuffer = [];
+                        _this.connected = false;
+                        _this.disconnected = true;
+                        _this.flags = {};
+
+                        if (opts && opts.auth) {
+                            _this.auth = opts.auth;
+                        }
+
+                        if (_this.io._autoConnect) _this.open();
+                        return _this;
+                    }
+                    /**
+                     * Subscribe to open, close and packet events
+                     *
+                     * @private
+                     */
+
+
+                    _createClass(Socket, [{
+                        key: "subEvents",
+                        value: function subEvents() {
+                            if (this.subs) return;
+                            var io = this.io;
+                            this.subs = [on_1.on(io, "open", this.onopen.bind(this)), on_1.on(io, "packet", this.onpacket.bind(this)), on_1.on(io, "error", this.onerror.bind(this)), on_1.on(io, "close", this.onclose.bind(this))];
+                        }
+                        /**
+                         * Whether the Socket will try to reconnect when its Manager connects or reconnects
+                         */
+
+                    }, {
+                        key: "connect",
+
+                        /**
+                         * "Opens" the socket.
+                         *
+                         * @public
+                         */
+                        value: function connect() {
+                            if (this.connected) return this;
+                            this.subEvents();
+                            if (!this.io["_reconnecting"]) this.io.open(); // ensure open
+
+                            if ("open" === this.io._readyState) this.onopen();
+                            return this;
+                        }
+                        /**
+                         * Alias for connect()
+                         */
+
+                    }, {
+                        key: "open",
+                        value: function open() {
+                            return this.connect();
+                        }
+                        /**
+                         * Sends a `message` event.
+                         *
+                         * @return self
+                         * @public
+                         */
+
+                    }, {
+                        key: "send",
+                        value: function send() {
+                            for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+                                args[_key] = arguments[_key];
+                            }
+
+                            args.unshift("message");
+                            this.emit.apply(this, args);
+                            return this;
+                        }
+                        /**
+                         * Override `emit`.
+                         * If the event is in `events`, it's emitted normally.
+                         *
+                         * @return self
+                         * @public
+                         */
+
+                    }, {
+                        key: "emit",
+                        value: function emit(ev) {
+                            if (RESERVED_EVENTS.hasOwnProperty(ev)) {
+                                throw new Error('"' + ev + '" is a reserved event name');
+                            }
+
+                            for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                                args[_key2 - 1] = arguments[_key2];
+                            }
+
+                            args.unshift(ev);
+                            var packet = {
+                                type: socket_io_parser_1.PacketType.EVENT,
+                                data: args
+                            };
+                            packet.options = {};
+                            packet.options.compress = this.flags.compress !== false; // event ack callback
+
+                            if ("function" === typeof args[args.length - 1]) {
+                                debug("emitting packet with ack id %d", this.ids);
+                                this.acks[this.ids] = args.pop();
+                                packet.id = this.ids++;
+                            }
+
+                            var isTransportWritable = this.io.engine && this.io.engine.transport && this.io.engine.transport.writable;
+                            var discardPacket = this.flags["volatile"] && (!isTransportWritable || !this.connected);
+
+                            if (discardPacket) {
+                                debug("discard packet as the transport is not currently writable");
+                            } else if (this.connected) {
+                                this.packet(packet);
+                            } else {
+                                this.sendBuffer.push(packet);
+                            }
+
+                            this.flags = {};
+                            return this;
+                        }
+                        /**
+                         * Sends a packet.
+                         *
+                         * @param packet
+                         * @private
+                         */
+
+                    }, {
+                        key: "packet",
+                        value: function packet(_packet) {
+                            _packet.nsp = this.nsp;
+
+                            this.io._packet(_packet);
+                        }
+                        /**
+                         * Called upon engine `open`.
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "onopen",
+                        value: function onopen() {
+                            var _this2 = this;
+
+                            debug("transport is open - connecting");
+
+                            if (typeof this.auth == "function") {
+                                this.auth(function (data) {
+                                    _this2.packet({
+                                        type: socket_io_parser_1.PacketType.CONNECT,
+                                        data: data
+                                    });
+                                });
+                            } else {
+                                this.packet({
+                                    type: socket_io_parser_1.PacketType.CONNECT,
+                                    data: this.auth
+                                });
+                            }
+                        }
+                        /**
+                         * Called upon engine or manager `error`.
+                         *
+                         * @param err
+                         * @private
+                         */
+
+                    }, {
+                        key: "onerror",
+                        value: function onerror(err) {
+                            if (!this.connected) {
+                                this.emitReserved("connect_error", err);
+                            }
+                        }
+                        /**
+                         * Called upon engine `close`.
+                         *
+                         * @param reason
+                         * @private
+                         */
+
+                    }, {
+                        key: "onclose",
+                        value: function onclose(reason) {
+                            debug("close (%s)", reason);
+                            this.connected = false;
+                            this.disconnected = true;
+                            delete this.id;
+                            this.emitReserved("disconnect", reason);
+                        }
+                        /**
+                         * Called with socket packet.
+                         *
+                         * @param packet
+                         * @private
+                         */
+
+                    }, {
+                        key: "onpacket",
+                        value: function onpacket(packet) {
+                            var sameNamespace = packet.nsp === this.nsp;
+                            if (!sameNamespace) return;
+
+                            switch (packet.type) {
+                                case socket_io_parser_1.PacketType.CONNECT:
+                                    if (packet.data && packet.data.sid) {
+                                        var id = packet.data.sid;
+                                        this.onconnect(id);
+                                    } else {
+                                        this.emitReserved("connect_error", new Error("It seems you are trying to reach a Socket.IO server in v2.x with a v3.x client, but they are not compatible (more information here: https://socket.io/docs/v3/migrating-from-2-x-to-3-0/)"));
+                                    }
+
+                                    break;
+
+                                case socket_io_parser_1.PacketType.EVENT:
+                                    this.onevent(packet);
+                                    break;
+
+                                case socket_io_parser_1.PacketType.BINARY_EVENT:
+                                    this.onevent(packet);
+                                    break;
+
+                                case socket_io_parser_1.PacketType.ACK:
+                                    this.onack(packet);
+                                    break;
+
+                                case socket_io_parser_1.PacketType.BINARY_ACK:
+                                    this.onack(packet);
+                                    break;
+
+                                case socket_io_parser_1.PacketType.DISCONNECT:
+                                    this.ondisconnect();
+                                    break;
+
+                                case socket_io_parser_1.PacketType.CONNECT_ERROR:
+                                    var err = new Error(packet.data.message); // @ts-ignore
+
+                                    err.data = packet.data.data;
+                                    this.emitReserved("connect_error", err);
+                                    break;
+                            }
+                        }
+                        /**
+                         * Called upon a server event.
+                         *
+                         * @param packet
+                         * @private
+                         */
+
+                    }, {
+                        key: "onevent",
+                        value: function onevent(packet) {
+                            var args = packet.data || [];
+                            debug("emitting event %j", args);
+
+                            if (null != packet.id) {
+                                debug("attaching ack callback to event");
+                                args.push(this.ack(packet.id));
+                            }
+
+                            if (this.connected) {
+                                this.emitEvent(args);
+                            } else {
+                                this.receiveBuffer.push(Object.freeze(args));
+                            }
+                        }
+                    }, {
+                        key: "emitEvent",
+                        value: function emitEvent(args) {
+                            if (this._anyListeners && this._anyListeners.length) {
+                                var listeners = this._anyListeners.slice();
+
+                                var _iterator = _createForOfIteratorHelper(listeners),
+                                    _step;
+
+                                try {
+                                    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                                        var listener = _step.value;
+                                        listener.apply(this, args);
+                                    }
+                                } catch (err) {
+                                    _iterator.e(err);
+                                } finally {
+                                    _iterator.f();
+                                }
+                            }
+
+                            _get(_getPrototypeOf(Socket.prototype), "emit", this).apply(this, args);
+                        }
+                        /**
+                         * Produces an ack callback to emit with an event.
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "ack",
+                        value: function ack(id) {
+                            var self = this;
+                            var sent = false;
+                            return function () {
+                                // prevent double callbacks
+                                if (sent) return;
+                                sent = true;
+
+                                for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                                    args[_key3] = arguments[_key3];
+                                }
+
+                                debug("sending ack %j", args);
+                                self.packet({
+                                    type: socket_io_parser_1.PacketType.ACK,
+                                    id: id,
+                                    data: args
+                                });
+                            };
+                        }
+                        /**
+                         * Called upon a server acknowlegement.
+                         *
+                         * @param packet
+                         * @private
+                         */
+
+                    }, {
+                        key: "onack",
+                        value: function onack(packet) {
+                            var ack = this.acks[packet.id];
+
+                            if ("function" === typeof ack) {
+                                debug("calling ack %s with %j", packet.id, packet.data);
+                                ack.apply(this, packet.data);
+                                delete this.acks[packet.id];
+                            } else {
+                                debug("bad ack %s", packet.id);
+                            }
+                        }
+                        /**
+                         * Called upon server connect.
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "onconnect",
+                        value: function onconnect(id) {
+                            debug("socket connected with id %s", id);
+                            this.id = id;
+                            this.connected = true;
+                            this.disconnected = false;
+                            this.emitBuffered();
+                            this.emitReserved("connect");
+                        }
+                        /**
+                         * Emit buffered events (received and emitted).
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "emitBuffered",
+                        value: function emitBuffered() {
+                            var _this3 = this;
+
+                            this.receiveBuffer.forEach(function (args) {
+                                return _this3.emitEvent(args);
+                            });
+                            this.receiveBuffer = [];
+                            this.sendBuffer.forEach(function (packet) {
+                                return _this3.packet(packet);
+                            });
+                            this.sendBuffer = [];
+                        }
+                        /**
+                         * Called upon server disconnect.
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "ondisconnect",
+                        value: function ondisconnect() {
+                            debug("server disconnect (%s)", this.nsp);
+                            this.destroy();
+                            this.onclose("io server disconnect");
+                        }
+                        /**
+                         * Called upon forced client/server side disconnections,
+                         * this method ensures the manager stops tracking us and
+                         * that reconnections don't get triggered for this.
+                         *
+                         * @private
+                         */
+
+                    }, {
+                        key: "destroy",
+                        value: function destroy() {
+                            if (this.subs) {
+                                // clean subscriptions to avoid reconnections
+                                this.subs.forEach(function (subDestroy) {
+                                    return subDestroy();
+                                });
+                                this.subs = undefined;
+                            }
+
+                            this.io["_destroy"](this);
+                        }
+                        /**
+                         * Disconnects the socket manually.
+                         *
+                         * @return self
+                         * @public
+                         */
+
+                    }, {
+                        key: "disconnect",
+                        value: function disconnect() {
+                            if (this.connected) {
+                                debug("performing disconnect (%s)", this.nsp);
+                                this.packet({
+                                    type: socket_io_parser_1.PacketType.DISCONNECT
+                                });
+                            } // remove socket from pool
+
+
+                            this.destroy();
+
+                            if (this.connected) {
+                                // fire events
+                                this.onclose("io client disconnect");
+                            }
+
+                            return this;
+                        }
+                        /**
+                         * Alias for disconnect()
+                         *
+                         * @return self
+                         * @public
+                         */
+
+                    }, {
+                        key: "close",
+                        value: function close() {
+                            return this.disconnect();
+                        }
+                        /**
+                         * Sets the compress flag.
+                         *
+                         * @param compress - if `true`, compresses the sending data
+                         * @return self
+                         * @public
+                         */
+
+                    }, {
+                        key: "compress",
+                        value: function compress(_compress) {
+                            this.flags.compress = _compress;
+                            return this;
+                        }
+                        /**
+                         * Sets a modifier for a subsequent event emission that the event message will be dropped when this socket is not
+                         * ready to send messages.
+                         *
+                         * @returns self
+                         * @public
+                         */
+
+                    }, {
+                        key: "onAny",
+
+                        /**
+                         * Adds a listener that will be fired when any event is emitted. The event name is passed as the first argument to the
+                         * callback.
+                         *
+                         * @param listener
+                         * @public
+                         */
+                        value: function onAny(listener) {
+                            this._anyListeners = this._anyListeners || [];
+
+                            this._anyListeners.push(listener);
+
+                            return this;
+                        }
+                        /**
+                         * Adds a listener that will be fired when any event is emitted. The event name is passed as the first argument to the
+                         * callback. The listener is added to the beginning of the listeners array.
+                         *
+                         * @param listener
+                         * @public
+                         */
+
+                    }, {
+                        key: "prependAny",
+                        value: function prependAny(listener) {
+                            this._anyListeners = this._anyListeners || [];
+
+                            this._anyListeners.unshift(listener);
+
+                            return this;
+                        }
+                        /**
+                         * Removes the listener that will be fired when any event is emitted.
+                         *
+                         * @param listener
+                         * @public
+                         */
+
+                    }, {
+                        key: "offAny",
+                        value: function offAny(listener) {
+                            if (!this._anyListeners) {
+                                return this;
+                            }
+
+                            if (listener) {
+                                var listeners = this._anyListeners;
+
+                                for (var i = 0; i < listeners.length; i++) {
+                                    if (listener === listeners[i]) {
+                                        listeners.splice(i, 1);
+                                        return this;
+                                    }
+                                }
+                            } else {
+                                this._anyListeners = [];
+                            }
+
+                            return this;
+                        }
+                        /**
+                         * Returns an array of listeners that are listening for any event that is specified. This array can be manipulated,
+                         * e.g. to remove listeners.
+                         *
+                         * @public
+                         */
+
+                    }, {
+                        key: "listenersAny",
+                        value: function listenersAny() {
+                            return this._anyListeners || [];
+                        }
+                    }, {
+                        key: "active",
+                        get: function get() {
+                            return !!this.subs;
+                        }
+                    }, {
+                        key: "volatile",
+                        get: function get() {
+                            this.flags["volatile"] = true;
+                            return this;
+                        }
+                    }]);
+
+                    return Socket;
+                }(typed_events_1.StrictEventEmitter);
+
+                exports.Socket = Socket;
+
+                /***/ }),
+
+            /***/ "./build/typed-events.js":
+            /*!*******************************!*\
+  !*** ./build/typed-events.js ***!
+  \*******************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+
+                function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+                function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+                function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+                function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+                function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+                function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+                function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+                function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+                function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+                function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+                function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+                function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+                function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+                Object.defineProperty(exports, "__esModule", {
+                    value: true
+                });
+                exports.StrictEventEmitter = void 0;
+
+                var Emitter = __webpack_require__(/*! component-emitter */ "./node_modules/component-emitter/index.js");
+                /**
+                 * Strictly typed version of an `EventEmitter`. A `TypedEventEmitter` takes type
+                 * parameters for mappings of event names to event data types, and strictly
+                 * types method calls to the `EventEmitter` according to these event maps.
+                 *
+                 * @typeParam ListenEvents - `EventsMap` of user-defined events that can be
+                 * listened to with `on` or `once`
+                 * @typeParam EmitEvents - `EventsMap` of user-defined events that can be
+                 * emitted with `emit`
+                 * @typeParam ReservedEvents - `EventsMap` of reserved events, that can be
+                 * emitted by socket.io with `emitReserved`, and can be listened to with
+                 * `listen`.
+                 */
+
+
+                var StrictEventEmitter = /*#__PURE__*/function (_Emitter) {
+                    _inherits(StrictEventEmitter, _Emitter);
+
+                    var _super = _createSuper(StrictEventEmitter);
+
+                    function StrictEventEmitter() {
+                        _classCallCheck(this, StrictEventEmitter);
+
+                        return _super.apply(this, arguments);
+                    }
+
+                    _createClass(StrictEventEmitter, [{
+                        key: "on",
+
+                        /**
+                         * Adds the `listener` function as an event listener for `ev`.
+                         *
+                         * @param ev Name of the event
+                         * @param listener Callback function
+                         */
+                        value: function on(ev, listener) {
+                            _get(_getPrototypeOf(StrictEventEmitter.prototype), "on", this).call(this, ev, listener);
+
+                            return this;
+                        }
+                        /**
+                         * Adds a one-time `listener` function as an event listener for `ev`.
+                         *
+                         * @param ev Name of the event
+                         * @param listener Callback function
+                         */
+
+                    }, {
+                        key: "once",
+                        value: function once(ev, listener) {
+                            _get(_getPrototypeOf(StrictEventEmitter.prototype), "once", this).call(this, ev, listener);
+
+                            return this;
+                        }
+                        /**
+                         * Emits an event.
+                         *
+                         * @param ev Name of the event
+                         * @param args Values to send to listeners of this event
+                         */
+
+                    }, {
+                        key: "emit",
+                        value: function emit(ev) {
+                            var _get2;
+
+                            for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                                args[_key - 1] = arguments[_key];
+                            }
+
+                            (_get2 = _get(_getPrototypeOf(StrictEventEmitter.prototype), "emit", this)).call.apply(_get2, [this, ev].concat(args));
+
+                            return this;
+                        }
+                        /**
+                         * Emits a reserved event.
+                         *
+                         * This method is `protected`, so that only a class extending
+                         * `StrictEventEmitter` can emit its own reserved events.
+                         *
+                         * @param ev Reserved event name
+                         * @param args Arguments to emit along with the event
+                         */
+
+                    }, {
+                        key: "emitReserved",
+                        value: function emitReserved(ev) {
+                            var _get3;
+
+                            for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                                args[_key2 - 1] = arguments[_key2];
+                            }
+
+                            (_get3 = _get(_getPrototypeOf(StrictEventEmitter.prototype), "emit", this)).call.apply(_get3, [this, ev].concat(args));
+
+                            return this;
+                        }
+                        /**
+                         * Returns the listeners listening to an event.
+                         *
+                         * @param event Event name
+                         * @returns Array of listeners subscribed to `event`
+                         */
+
+                    }, {
+                        key: "listeners",
+                        value: function listeners(event) {
+                            return _get(_getPrototypeOf(StrictEventEmitter.prototype), "listeners", this).call(this, event);
+                        }
+                    }]);
+
+                    return StrictEventEmitter;
+                }(Emitter);
+
+                exports.StrictEventEmitter = StrictEventEmitter;
+
+                /***/ }),
+
+            /***/ "./build/url.js":
+            /*!**********************!*\
+  !*** ./build/url.js ***!
+  \**********************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+
+                Object.defineProperty(exports, "__esModule", {
+                    value: true
+                });
+                exports.url = void 0;
+
+                var parseuri = __webpack_require__(/*! parseuri */ "./node_modules/parseuri/index.js");
+
+                var debug = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js")("socket.io-client:url");
+                /**
+                 * URL parser.
+                 *
+                 * @param uri - url
+                 * @param path - the request path of the connection
+                 * @param loc - An object meant to mimic window.location.
+                 *        Defaults to window.location.
+                 * @public
+                 */
+
+
+                function url(uri) {
+                    var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+                    var loc = arguments.length > 2 ? arguments[2] : undefined;
+                    var obj = uri; // default to window.location
+
+                    loc = loc || typeof location !== "undefined" && location;
+                    if (null == uri) uri = loc.protocol + "//" + loc.host; // relative path support
+
+                    if (typeof uri === "string") {
+                        if ("/" === uri.charAt(0)) {
+                            if ("/" === uri.charAt(1)) {
+                                uri = loc.protocol + uri;
+                            } else {
+                                uri = loc.host + uri;
+                            }
+                        }
+
+                        if (!/^(https?|wss?):\/\//.test(uri)) {
+                            debug("protocol-less url %s", uri);
+
+                            if ("undefined" !== typeof loc) {
+                                uri = loc.protocol + "//" + uri;
+                            } else {
+                                uri = "https://" + uri;
+                            }
+                        } // parse
+
+
+                        debug("parse %s", uri);
+                        obj = parseuri(uri);
+                    } // make sure we treat `localhost:80` and `localhost` equally
+
+
+                    if (!obj.port) {
+                        if (/^(http|ws)$/.test(obj.protocol)) {
+                            obj.port = "80";
+                        } else if (/^(http|ws)s$/.test(obj.protocol)) {
+                            obj.port = "443";
+                        }
+                    }
+
+                    obj.path = obj.path || "/";
+                    var ipv6 = obj.host.indexOf(":") !== -1;
+                    var host = ipv6 ? "[" + obj.host + "]" : obj.host; // define unique id
+
+                    obj.id = obj.protocol + "://" + host + ":" + obj.port + path; // define href
+
+                    obj.href = obj.protocol + "://" + host + (loc && loc.port === obj.port ? "" : ":" + obj.port);
+                    return obj;
+                }
+
+                exports.url = url;
+
+                /***/ }),
+
+            /***/ "./node_modules/backo2/index.js":
+            /*!**************************************!*\
+  !*** ./node_modules/backo2/index.js ***!
+  \**************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports) {
+
+                /**
+                 * Expose `Backoff`.
+                 */
+                module.exports = Backoff;
+                /**
+                 * Initialize backoff timer with `opts`.
+                 *
+                 * - `min` initial timeout in milliseconds [100]
+                 * - `max` max timeout [10000]
+                 * - `jitter` [0]
+                 * - `factor` [2]
+                 *
+                 * @param {Object} opts
+                 * @api public
+                 */
+
+                function Backoff(opts) {
+                    opts = opts || {};
+                    this.ms = opts.min || 100;
+                    this.max = opts.max || 10000;
+                    this.factor = opts.factor || 2;
+                    this.jitter = opts.jitter > 0 && opts.jitter <= 1 ? opts.jitter : 0;
+                    this.attempts = 0;
+                }
+                /**
+                 * Return the backoff duration.
+                 *
+                 * @return {Number}
+                 * @api public
+                 */
+
+
+                Backoff.prototype.duration = function () {
+                    var ms = this.ms * Math.pow(this.factor, this.attempts++);
+
+                    if (this.jitter) {
+                        var rand = Math.random();
+                        var deviation = Math.floor(rand * this.jitter * ms);
+                        ms = (Math.floor(rand * 10) & 1) == 0 ? ms - deviation : ms + deviation;
+                    }
+
+                    return Math.min(ms, this.max) | 0;
+                };
+                /**
+                 * Reset the number of attempts.
+                 *
+                 * @api public
+                 */
+
+
+                Backoff.prototype.reset = function () {
+                    this.attempts = 0;
+                };
+                /**
+                 * Set the minimum duration
+                 *
+                 * @api public
+                 */
+
+
+                Backoff.prototype.setMin = function (min) {
+                    this.ms = min;
+                };
+                /**
+                 * Set the maximum duration
+                 *
+                 * @api public
+                 */
+
+
+                Backoff.prototype.setMax = function (max) {
+                    this.max = max;
+                };
+                /**
+                 * Set the jitter
+                 *
+                 * @api public
+                 */
+
+
+                Backoff.prototype.setJitter = function (jitter) {
+                    this.jitter = jitter;
+                };
+
+                /***/ }),
+
+            /***/ "./node_modules/component-emitter/index.js":
+            /*!*************************************************!*\
+  !*** ./node_modules/component-emitter/index.js ***!
+  \*************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+                /**
+                 * Expose `Emitter`.
+                 */
+                {
+                    module.exports = Emitter;
+                }
+                /**
+                 * Initialize a new `Emitter`.
+                 *
+                 * @api public
+                 */
+
+
+                function Emitter(obj) {
+                    if (obj) return mixin(obj);
+                }
+                /**
+                 * Mixin the emitter properties.
+                 *
+                 * @param {Object} obj
+                 * @return {Object}
+                 * @api private
+                 */
+
+                function mixin(obj) {
+                    for (var key in Emitter.prototype) {
+                        obj[key] = Emitter.prototype[key];
+                    }
+
+                    return obj;
+                }
+                /**
+                 * Listen on the given `event` with `fn`.
+                 *
+                 * @param {String} event
+                 * @param {Function} fn
+                 * @return {Emitter}
+                 * @api public
+                 */
+
+
+                Emitter.prototype.on = Emitter.prototype.addEventListener = function (event, fn) {
+                    this._callbacks = this._callbacks || {};
+                    (this._callbacks['$' + event] = this._callbacks['$' + event] || []).push(fn);
+                    return this;
+                };
+                /**
+                 * Adds an `event` listener that will be invoked a single
+                 * time then automatically removed.
+                 *
+                 * @param {String} event
+                 * @param {Function} fn
+                 * @return {Emitter}
+                 * @api public
+                 */
+
+
+                Emitter.prototype.once = function (event, fn) {
+                    function on() {
+                        this.off(event, on);
+                        fn.apply(this, arguments);
+                    }
+
+                    on.fn = fn;
+                    this.on(event, on);
+                    return this;
+                };
+                /**
+                 * Remove the given callback for `event` or all
+                 * registered callbacks.
+                 *
+                 * @param {String} event
+                 * @param {Function} fn
+                 * @return {Emitter}
+                 * @api public
+                 */
+
+
+                Emitter.prototype.off = Emitter.prototype.removeListener = Emitter.prototype.removeAllListeners = Emitter.prototype.removeEventListener = function (event, fn) {
+                    this._callbacks = this._callbacks || {}; // all
+
+                    if (0 == arguments.length) {
+                        this._callbacks = {};
+                        return this;
+                    } // specific event
+
+
+                    var callbacks = this._callbacks['$' + event];
+                    if (!callbacks) return this; // remove all handlers
+
+                    if (1 == arguments.length) {
+                        delete this._callbacks['$' + event];
+                        return this;
+                    } // remove specific handler
+
+
+                    var cb;
+
+                    for (var i = 0; i < callbacks.length; i++) {
+                        cb = callbacks[i];
+
+                        if (cb === fn || cb.fn === fn) {
+                            callbacks.splice(i, 1);
+                            break;
+                        }
+                    } // Remove event specific arrays for event types that no
+                    // one is subscribed for to avoid memory leak.
+
+
+                    if (callbacks.length === 0) {
+                        delete this._callbacks['$' + event];
+                    }
+
+                    return this;
+                };
+                /**
+                 * Emit `event` with the given args.
+                 *
+                 * @param {String} event
+                 * @param {Mixed} ...
+                 * @return {Emitter}
+                 */
+
+
+                Emitter.prototype.emit = function (event) {
+                    this._callbacks = this._callbacks || {};
+                    var args = new Array(arguments.length - 1),
+                        callbacks = this._callbacks['$' + event];
+
+                    for (var i = 1; i < arguments.length; i++) {
+                        args[i - 1] = arguments[i];
+                    }
+
+                    if (callbacks) {
+                        callbacks = callbacks.slice(0);
+
+                        for (var i = 0, len = callbacks.length; i < len; ++i) {
+                            callbacks[i].apply(this, args);
+                        }
+                    }
+
+                    return this;
+                };
+                /**
+                 * Return array of callbacks for `event`.
+                 *
+                 * @param {String} event
+                 * @return {Array}
+                 * @api public
+                 */
+
+
+                Emitter.prototype.listeners = function (event) {
+                    this._callbacks = this._callbacks || {};
+                    return this._callbacks['$' + event] || [];
+                };
+                /**
+                 * Check if this emitter has `event` handlers.
+                 *
+                 * @param {String} event
+                 * @return {Boolean}
+                 * @api public
+                 */
+
+
+                Emitter.prototype.hasListeners = function (event) {
+                    return !!this.listeners(event).length;
+                };
+
+                /***/ }),
+
+            /***/ "./node_modules/debug/src/browser.js":
+            /*!*******************************************!*\
+  !*** ./node_modules/debug/src/browser.js ***!
+  \*******************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+                /* eslint-env browser */
+
+                /**
+                 * This is the web browser implementation of `debug()`.
+                 */
+                exports.formatArgs = formatArgs;
+                exports.save = save;
+                exports.load = load;
+                exports.useColors = useColors;
+                exports.storage = localstorage();
+
+                exports.destroy = function () {
+                    var warned = false;
+                    return function () {
+                        if (!warned) {
+                            warned = true;
+                            console.warn('Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.');
+                        }
+                    };
+                }();
+                /**
+                 * Colors.
+                 */
+
+
+                exports.colors = ['#0000CC', '#0000FF', '#0033CC', '#0033FF', '#0066CC', '#0066FF', '#0099CC', '#0099FF', '#00CC00', '#00CC33', '#00CC66', '#00CC99', '#00CCCC', '#00CCFF', '#3300CC', '#3300FF', '#3333CC', '#3333FF', '#3366CC', '#3366FF', '#3399CC', '#3399FF', '#33CC00', '#33CC33', '#33CC66', '#33CC99', '#33CCCC', '#33CCFF', '#6600CC', '#6600FF', '#6633CC', '#6633FF', '#66CC00', '#66CC33', '#9900CC', '#9900FF', '#9933CC', '#9933FF', '#99CC00', '#99CC33', '#CC0000', '#CC0033', '#CC0066', '#CC0099', '#CC00CC', '#CC00FF', '#CC3300', '#CC3333', '#CC3366', '#CC3399', '#CC33CC', '#CC33FF', '#CC6600', '#CC6633', '#CC9900', '#CC9933', '#CCCC00', '#CCCC33', '#FF0000', '#FF0033', '#FF0066', '#FF0099', '#FF00CC', '#FF00FF', '#FF3300', '#FF3333', '#FF3366', '#FF3399', '#FF33CC', '#FF33FF', '#FF6600', '#FF6633', '#FF9900', '#FF9933', '#FFCC00', '#FFCC33'];
+                /**
+                 * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+                 * and the Firebug extension (any Firefox version) are known
+                 * to support "%c" CSS customizations.
+                 *
+                 * TODO: add a `localStorage` variable to explicitly enable/disable colors
+                 */
+// eslint-disable-next-line complexity
+
+                function useColors() {
+                    // NB: In an Electron preload script, document will be defined but not fully
+                    // initialized. Since we know we're in Chrome, we'll just detect this case
+                    // explicitly
+                    if (typeof window !== 'undefined' && window.process && (window.process.type === 'renderer' || window.process.__nwjs)) {
+                        return true;
+                    } // Internet Explorer and Edge do not support colors.
+
+
+                    if (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/)) {
+                        return false;
+                    } // Is webkit? http://stackoverflow.com/a/16459606/376773
+                    // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+
+
+                    return typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance || // Is firebug? http://stackoverflow.com/a/398120/376773
+                        typeof window !== 'undefined' && window.console && (window.console.firebug || window.console.exception && window.console.table) || // Is firefox >= v31?
+                        // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+                        typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31 || // Double check webkit in userAgent just in case we are in a worker
+                        typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/);
+                }
+                /**
+                 * Colorize log arguments if enabled.
+                 *
+                 * @api public
+                 */
+
+
+                function formatArgs(args) {
+                    args[0] = (this.useColors ? '%c' : '') + this.namespace + (this.useColors ? ' %c' : ' ') + args[0] + (this.useColors ? '%c ' : ' ') + '+' + module.exports.humanize(this.diff);
+
+                    if (!this.useColors) {
+                        return;
+                    }
+
+                    var c = 'color: ' + this.color;
+                    args.splice(1, 0, c, 'color: inherit'); // The final "%c" is somewhat tricky, because there could be other
+                    // arguments passed either before or after the %c, so we need to
+                    // figure out the correct index to insert the CSS into
+
+                    var index = 0;
+                    var lastC = 0;
+                    args[0].replace(/%[a-zA-Z%]/g, function (match) {
+                        if (match === '%%') {
+                            return;
+                        }
+
+                        index++;
+
+                        if (match === '%c') {
+                            // We only are interested in the *last* %c
+                            // (the user may have provided their own)
+                            lastC = index;
+                        }
+                    });
+                    args.splice(lastC, 0, c);
+                }
+                /**
+                 * Invokes `console.debug()` when available.
+                 * No-op when `console.debug` is not a "function".
+                 * If `console.debug` is not available, falls back
+                 * to `console.log`.
+                 *
+                 * @api public
+                 */
+
+
+                exports.log = console.debug || console.log || function () {};
+                /**
+                 * Save `namespaces`.
+                 *
+                 * @param {String} namespaces
+                 * @api private
+                 */
+
+
+                function save(namespaces) {
+                    try {
+                        if (namespaces) {
+                            exports.storage.setItem('debug', namespaces);
+                        } else {
+                            exports.storage.removeItem('debug');
+                        }
+                    } catch (error) {// Swallow
+                        // XXX (@Qix-) should we be logging these?
+                    }
+                }
+                /**
+                 * Load `namespaces`.
+                 *
+                 * @return {String} returns the previously persisted debug modes
+                 * @api private
+                 */
+
+
+                function load() {
+                    var r;
+
+                    try {
+                        r = exports.storage.getItem('debug');
+                    } catch (error) {// Swallow
+                        // XXX (@Qix-) should we be logging these?
+                    } // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+
+
+                    if (!r && typeof process !== 'undefined' && 'env' in process) {
+                        r = process.env.DEBUG;
+                    }
+
+                    return r;
+                }
+                /**
+                 * Localstorage attempts to return the localstorage.
+                 *
+                 * This is necessary because safari throws
+                 * when a user disables cookies/localstorage
+                 * and you attempt to access it.
+                 *
+                 * @return {LocalStorage}
+                 * @api private
+                 */
+
+
+                function localstorage() {
+                    try {
+                        // TVMLKit (Apple TV JS Runtime) does not have a window object, just localStorage in the global context
+                        // The Browser also has localStorage in the global context.
+                        return localStorage;
+                    } catch (error) {// Swallow
+                        // XXX (@Qix-) should we be logging these?
+                    }
+                }
+
+                module.exports = __webpack_require__(/*! ./common */ "./node_modules/debug/src/common.js")(exports);
+                var formatters = module.exports.formatters;
+                /**
+                 * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+                 */
+
+                formatters.j = function (v) {
+                    try {
+                        return JSON.stringify(v);
+                    } catch (error) {
+                        return '[UnexpectedJSONParseError]: ' + error.message;
+                    }
+                };
+
+                /***/ }),
+
+            /***/ "./node_modules/debug/src/common.js":
+            /*!******************************************!*\
+  !*** ./node_modules/debug/src/common.js ***!
+  \******************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+                function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+                function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+                function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+                function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+                function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+                function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+                /**
+                 * This is the common logic for both the Node.js and web browser
+                 * implementations of `debug()`.
+                 */
+                function setup(env) {
+                    createDebug.debug = createDebug;
+                    createDebug["default"] = createDebug;
+                    createDebug.coerce = coerce;
+                    createDebug.disable = disable;
+                    createDebug.enable = enable;
+                    createDebug.enabled = enabled;
+                    createDebug.humanize = __webpack_require__(/*! ms */ "./node_modules/ms/index.js");
+                    createDebug.destroy = destroy;
+                    Object.keys(env).forEach(function (key) {
+                        createDebug[key] = env[key];
+                    });
+                    /**
+                     * The currently active debug mode names, and names to skip.
+                     */
+
+                    createDebug.names = [];
+                    createDebug.skips = [];
+                    /**
+                     * Map of special "%n" handling functions, for the debug "format" argument.
+                     *
+                     * Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
+                     */
+
+                    createDebug.formatters = {};
+                    /**
+                     * Selects a color for a debug namespace
+                     * @param {String} namespace The namespace string for the for the debug instance to be colored
+                     * @return {Number|String} An ANSI color code for the given namespace
+                     * @api private
+                     */
+
+                    function selectColor(namespace) {
+                        var hash = 0;
+
+                        for (var i = 0; i < namespace.length; i++) {
+                            hash = (hash << 5) - hash + namespace.charCodeAt(i);
+                            hash |= 0; // Convert to 32bit integer
+                        }
+
+                        return createDebug.colors[Math.abs(hash) % createDebug.colors.length];
+                    }
+
+                    createDebug.selectColor = selectColor;
+                    /**
+                     * Create a debugger with the given `namespace`.
+                     *
+                     * @param {String} namespace
+                     * @return {Function}
+                     * @api public
+                     */
+
+                    function createDebug(namespace) {
+                        var prevTime;
+                        var enableOverride = null;
+
+                        function debug() {
+                            for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+                                args[_key] = arguments[_key];
+                            }
+
+                            // Disabled?
+                            if (!debug.enabled) {
+                                return;
+                            }
+
+                            var self = debug; // Set `diff` timestamp
+
+                            var curr = Number(new Date());
+                            var ms = curr - (prevTime || curr);
+                            self.diff = ms;
+                            self.prev = prevTime;
+                            self.curr = curr;
+                            prevTime = curr;
+                            args[0] = createDebug.coerce(args[0]);
+
+                            if (typeof args[0] !== 'string') {
+                                // Anything else let's inspect with %O
+                                args.unshift('%O');
+                            } // Apply any `formatters` transformations
+
+
+                            var index = 0;
+                            args[0] = args[0].replace(/%([a-zA-Z%])/g, function (match, format) {
+                                // If we encounter an escaped % then don't increase the array index
+                                if (match === '%%') {
+                                    return '%';
+                                }
+
+                                index++;
+                                var formatter = createDebug.formatters[format];
+
+                                if (typeof formatter === 'function') {
+                                    var val = args[index];
+                                    match = formatter.call(self, val); // Now we need to remove `args[index]` since it's inlined in the `format`
+
+                                    args.splice(index, 1);
+                                    index--;
+                                }
+
+                                return match;
+                            }); // Apply env-specific formatting (colors, etc.)
+
+                            createDebug.formatArgs.call(self, args);
+                            var logFn = self.log || createDebug.log;
+                            logFn.apply(self, args);
+                        }
+
+                        debug.namespace = namespace;
+                        debug.useColors = createDebug.useColors();
+                        debug.color = createDebug.selectColor(namespace);
+                        debug.extend = extend;
+                        debug.destroy = createDebug.destroy; // XXX Temporary. Will be removed in the next major release.
+
+                        Object.defineProperty(debug, 'enabled', {
+                            enumerable: true,
+                            configurable: false,
+                            get: function get() {
+                                return enableOverride === null ? createDebug.enabled(namespace) : enableOverride;
+                            },
+                            set: function set(v) {
+                                enableOverride = v;
+                            }
+                        }); // Env-specific initialization logic for debug instances
+
+                        if (typeof createDebug.init === 'function') {
+                            createDebug.init(debug);
+                        }
+
+                        return debug;
+                    }
+
+                    function extend(namespace, delimiter) {
+                        var newDebug = createDebug(this.namespace + (typeof delimiter === 'undefined' ? ':' : delimiter) + namespace);
+                        newDebug.log = this.log;
+                        return newDebug;
+                    }
+                    /**
+                     * Enables a debug mode by namespaces. This can include modes
+                     * separated by a colon and wildcards.
+                     *
+                     * @param {String} namespaces
+                     * @api public
+                     */
+
+
+                    function enable(namespaces) {
+                        createDebug.save(namespaces);
+                        createDebug.names = [];
+                        createDebug.skips = [];
+                        var i;
+                        var split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
+                        var len = split.length;
+
+                        for (i = 0; i < len; i++) {
+                            if (!split[i]) {
+                                // ignore empty strings
+                                continue;
+                            }
+
+                            namespaces = split[i].replace(/\*/g, '.*?');
+
+                            if (namespaces[0] === '-') {
+                                createDebug.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+                            } else {
+                                createDebug.names.push(new RegExp('^' + namespaces + '$'));
+                            }
+                        }
+                    }
+                    /**
+                     * Disable debug output.
+                     *
+                     * @return {String} namespaces
+                     * @api public
+                     */
+
+
+                    function disable() {
+                        var namespaces = [].concat(_toConsumableArray(createDebug.names.map(toNamespace)), _toConsumableArray(createDebug.skips.map(toNamespace).map(function (namespace) {
+                            return '-' + namespace;
+                        }))).join(',');
+                        createDebug.enable('');
+                        return namespaces;
+                    }
+                    /**
+                     * Returns true if the given mode name is enabled, false otherwise.
+                     *
+                     * @param {String} name
+                     * @return {Boolean}
+                     * @api public
+                     */
+
+
+                    function enabled(name) {
+                        if (name[name.length - 1] === '*') {
+                            return true;
+                        }
+
+                        var i;
+                        var len;
+
+                        for (i = 0, len = createDebug.skips.length; i < len; i++) {
+                            if (createDebug.skips[i].test(name)) {
+                                return false;
+                            }
+                        }
+
+                        for (i = 0, len = createDebug.names.length; i < len; i++) {
+                            if (createDebug.names[i].test(name)) {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    }
+                    /**
+                     * Convert regexp to namespace
+                     *
+                     * @param {RegExp} regxep
+                     * @return {String} namespace
+                     * @api private
+                     */
+
+
+                    function toNamespace(regexp) {
+                        return regexp.toString().substring(2, regexp.toString().length - 2).replace(/\.\*\?$/, '*');
+                    }
+                    /**
+                     * Coerce `val`.
+                     *
+                     * @param {Mixed} val
+                     * @return {Mixed}
+                     * @api private
+                     */
+
+
+                    function coerce(val) {
+                        if (val instanceof Error) {
+                            return val.stack || val.message;
+                        }
+
+                        return val;
+                    }
+                    /**
+                     * XXX DO NOT USE. This is a temporary stub function.
+                     * XXX It WILL be removed in the next major release.
+                     */
+
+
+                    function destroy() {
+                        console.warn('Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.');
+                    }
+
+                    createDebug.enable(createDebug.load());
+                    return createDebug;
+                }
+
+                module.exports = setup;
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-client/lib/globalThis.browser.js":
+            /*!*****************************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/globalThis.browser.js ***!
+  \*****************************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports) {
+
+                module.exports = function () {
+                    if (typeof self !== "undefined") {
+                        return self;
+                    } else if (typeof window !== "undefined") {
+                        return window;
+                    } else {
+                        return Function("return this")();
+                    }
+                }();
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-client/lib/index.js":
+            /*!****************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/index.js ***!
+  \****************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+                var Socket = __webpack_require__(/*! ./socket */ "./node_modules/engine.io-client/lib/socket.js");
+
+                module.exports = function (uri, opts) {
+                    return new Socket(uri, opts);
+                };
+                /**
+                 * Expose deps for legacy compatibility
+                 * and standalone browser access.
+                 */
+
+
+                module.exports.Socket = Socket;
+                module.exports.protocol = Socket.protocol; // this is an int
+
+                module.exports.Transport = __webpack_require__(/*! ./transport */ "./node_modules/engine.io-client/lib/transport.js");
+                module.exports.transports = __webpack_require__(/*! ./transports/index */ "./node_modules/engine.io-client/lib/transports/index.js");
+                module.exports.parser = __webpack_require__(/*! engine.io-parser */ "./node_modules/engine.io-parser/lib/index.js");
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-client/lib/socket.js":
+            /*!*****************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/socket.js ***!
+  \*****************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+                function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+                function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+                function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+                function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+                function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+                function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+                function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+                function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+                function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+                function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+                function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+                function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+                var transports = __webpack_require__(/*! ./transports/index */ "./node_modules/engine.io-client/lib/transports/index.js");
+
+                var Emitter = __webpack_require__(/*! component-emitter */ "./node_modules/component-emitter/index.js");
+
+                var debug = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js")("engine.io-client:socket");
+
+                var parser = __webpack_require__(/*! engine.io-parser */ "./node_modules/engine.io-parser/lib/index.js");
+
+                var parseuri = __webpack_require__(/*! parseuri */ "./node_modules/parseuri/index.js");
+
+                var parseqs = __webpack_require__(/*! parseqs */ "./node_modules/parseqs/index.js");
+
+                var Socket = /*#__PURE__*/function (_Emitter) {
+                    _inherits(Socket, _Emitter);
+
+                    var _super = _createSuper(Socket);
+
+                    /**
+                     * Socket constructor.
+                     *
+                     * @param {String|Object} uri or options
+                     * @param {Object} options
+                     * @api public
+                     */
+                    function Socket(uri) {
+                        var _this;
+
+                        var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+                        _classCallCheck(this, Socket);
+
+                        _this = _super.call(this);
+
+                        if (uri && "object" === _typeof(uri)) {
+                            opts = uri;
+                            uri = null;
+                        }
+
+                        if (uri) {
+                            uri = parseuri(uri);
+                            opts.hostname = uri.host;
+                            opts.secure = uri.protocol === "https" || uri.protocol === "wss";
+                            opts.port = uri.port;
+                            if (uri.query) opts.query = uri.query;
+                        } else if (opts.host) {
+                            opts.hostname = parseuri(opts.host).host;
+                        }
+
+                        _this.secure = null != opts.secure ? opts.secure : typeof location !== "undefined" && "https:" === location.protocol;
+
+                        if (opts.hostname && !opts.port) {
+                            // if no port is specified manually, use the protocol default
+                            opts.port = _this.secure ? "443" : "80";
+                        }
+
+                        _this.hostname = opts.hostname || (typeof location !== "undefined" ? location.hostname : "localhost");
+                        _this.port = opts.port || (typeof location !== "undefined" && location.port ? location.port : _this.secure ? 443 : 80);
+                        _this.transports = opts.transports || ["polling", "websocket"];
+                        _this.readyState = "";
+                        _this.writeBuffer = [];
+                        _this.prevBufferLen = 0;
+                        _this.opts = _extends({
+                            path: "/engine.io",
+                            agent: false,
+                            withCredentials: false,
+                            upgrade: true,
+                            jsonp: true,
+                            timestampParam: "t",
+                            rememberUpgrade: false,
+                            rejectUnauthorized: true,
+                            perMessageDeflate: {
+                                threshold: 1024
+                            },
+                            transportOptions: {},
+                            closeOnBeforeunload: true
+                        }, opts);
+                        _this.opts.path = _this.opts.path.replace(/\/$/, "") + "/";
+
+                        if (typeof _this.opts.query === "string") {
+                            _this.opts.query = parseqs.decode(_this.opts.query);
+                        } // set on handshake
+
+
+                        _this.id = null;
+                        _this.upgrades = null;
+                        _this.pingInterval = null;
+                        _this.pingTimeout = null; // set on heartbeat
+
+                        _this.pingTimeoutTimer = null;
+
+                        if (typeof addEventListener === "function") {
+                            if (_this.opts.closeOnBeforeunload) {
+                                // Firefox closes the connection when the "beforeunload" event is emitted but not Chrome. This event listener
+                                // ensures every browser behaves the same (no "disconnect" event at the Socket.IO level when the page is
+                                // closed/reloaded)
+                                addEventListener("beforeunload", function () {
+                                    if (_this.transport) {
+                                        // silently close the transport
+                                        _this.transport.removeAllListeners();
+
+                                        _this.transport.close();
+                                    }
+                                }, false);
+                            }
+
+                            if (_this.hostname !== "localhost") {
+                                _this.offlineEventListener = function () {
+                                    _this.onClose("transport close");
+                                };
+
+                                addEventListener("offline", _this.offlineEventListener, false);
+                            }
+                        }
+
+                        _this.open();
+
+                        return _this;
+                    }
+                    /**
+                     * Creates transport of the given type.
+                     *
+                     * @param {String} transport name
+                     * @return {Transport}
+                     * @api private
+                     */
+
+
+                    _createClass(Socket, [{
+                        key: "createTransport",
+                        value: function createTransport(name) {
+                            debug('creating transport "%s"', name);
+                            var query = clone(this.opts.query); // append engine.io protocol identifier
+
+                            query.EIO = parser.protocol; // transport name
+
+                            query.transport = name; // session id if we already have one
+
+                            if (this.id) query.sid = this.id;
+
+                            var opts = _extends({}, this.opts.transportOptions[name], this.opts, {
+                                query: query,
+                                socket: this,
+                                hostname: this.hostname,
+                                secure: this.secure,
+                                port: this.port
+                            });
+
+                            debug("options: %j", opts);
+                            return new transports[name](opts);
+                        }
+                        /**
+                         * Initializes transport to use and starts probe.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "open",
+                        value: function open() {
+                            var _this2 = this;
+
+                            var transport;
+
+                            if (this.opts.rememberUpgrade && Socket.priorWebsocketSuccess && this.transports.indexOf("websocket") !== -1) {
+                                transport = "websocket";
+                            } else if (0 === this.transports.length) {
+                                // Emit error on next tick so it can be listened to
+                                setTimeout(function () {
+                                    _this2.emit("error", "No transports available");
+                                }, 0);
+                                return;
+                            } else {
+                                transport = this.transports[0];
+                            }
+
+                            this.readyState = "opening"; // Retry with the next transport if the transport is disabled (jsonp: false)
+
+                            try {
+                                transport = this.createTransport(transport);
+                            } catch (e) {
+                                debug("error while creating transport: %s", e);
+                                this.transports.shift();
+                                this.open();
+                                return;
+                            }
+
+                            transport.open();
+                            this.setTransport(transport);
+                        }
+                        /**
+                         * Sets the current transport. Disables the existing one (if any).
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "setTransport",
+                        value: function setTransport(transport) {
+                            var _this3 = this;
+
+                            debug("setting transport %s", transport.name);
+
+                            if (this.transport) {
+                                debug("clearing existing transport %s", this.transport.name);
+                                this.transport.removeAllListeners();
+                            } // set up transport
+
+
+                            this.transport = transport; // set up transport listeners
+
+                            transport.on("drain", this.onDrain.bind(this)).on("packet", this.onPacket.bind(this)).on("error", this.onError.bind(this)).on("close", function () {
+                                _this3.onClose("transport close");
+                            });
+                        }
+                        /**
+                         * Probes a transport.
+                         *
+                         * @param {String} transport name
+                         * @api private
+                         */
+
+                    }, {
+                        key: "probe",
+                        value: function probe(name) {
+                            var _this4 = this;
+
+                            debug('probing transport "%s"', name);
+                            var transport = this.createTransport(name, {
+                                probe: 1
+                            });
+                            var failed = false;
+                            Socket.priorWebsocketSuccess = false;
+
+                            var onTransportOpen = function onTransportOpen() {
+                                if (failed) return;
+                                debug('probe transport "%s" opened', name);
+                                transport.send([{
+                                    type: "ping",
+                                    data: "probe"
+                                }]);
+                                transport.once("packet", function (msg) {
+                                    if (failed) return;
+
+                                    if ("pong" === msg.type && "probe" === msg.data) {
+                                        debug('probe transport "%s" pong', name);
+                                        _this4.upgrading = true;
+
+                                        _this4.emit("upgrading", transport);
+
+                                        if (!transport) return;
+                                        Socket.priorWebsocketSuccess = "websocket" === transport.name;
+                                        debug('pausing current transport "%s"', _this4.transport.name);
+
+                                        _this4.transport.pause(function () {
+                                            if (failed) return;
+                                            if ("closed" === _this4.readyState) return;
+                                            debug("changing transport and sending upgrade packet");
+                                            cleanup();
+
+                                            _this4.setTransport(transport);
+
+                                            transport.send([{
+                                                type: "upgrade"
+                                            }]);
+
+                                            _this4.emit("upgrade", transport);
+
+                                            transport = null;
+                                            _this4.upgrading = false;
+
+                                            _this4.flush();
+                                        });
+                                    } else {
+                                        debug('probe transport "%s" failed', name);
+                                        var err = new Error("probe error");
+                                        err.transport = transport.name;
+
+                                        _this4.emit("upgradeError", err);
+                                    }
+                                });
+                            };
+
+                            function freezeTransport() {
+                                if (failed) return; // Any callback called by transport should be ignored since now
+
+                                failed = true;
+                                cleanup();
+                                transport.close();
+                                transport = null;
+                            } // Handle any error that happens while probing
+
+
+                            var onerror = function onerror(err) {
+                                var error = new Error("probe error: " + err);
+                                error.transport = transport.name;
+                                freezeTransport();
+                                debug('probe transport "%s" failed because of error: %s', name, err);
+
+                                _this4.emit("upgradeError", error);
+                            };
+
+                            function onTransportClose() {
+                                onerror("transport closed");
+                            } // When the socket is closed while we're probing
+
+
+                            function onclose() {
+                                onerror("socket closed");
+                            } // When the socket is upgraded while we're probing
+
+
+                            function onupgrade(to) {
+                                if (transport && to.name !== transport.name) {
+                                    debug('"%s" works - aborting "%s"', to.name, transport.name);
+                                    freezeTransport();
+                                }
+                            } // Remove all listeners on the transport and on self
+
+
+                            var cleanup = function cleanup() {
+                                transport.removeListener("open", onTransportOpen);
+                                transport.removeListener("error", onerror);
+                                transport.removeListener("close", onTransportClose);
+
+                                _this4.removeListener("close", onclose);
+
+                                _this4.removeListener("upgrading", onupgrade);
+                            };
+
+                            transport.once("open", onTransportOpen);
+                            transport.once("error", onerror);
+                            transport.once("close", onTransportClose);
+                            this.once("close", onclose);
+                            this.once("upgrading", onupgrade);
+                            transport.open();
+                        }
+                        /**
+                         * Called when connection is deemed open.
+                         *
+                         * @api public
+                         */
+
+                    }, {
+                        key: "onOpen",
+                        value: function onOpen() {
+                            debug("socket open");
+                            this.readyState = "open";
+                            Socket.priorWebsocketSuccess = "websocket" === this.transport.name;
+                            this.emit("open");
+                            this.flush(); // we check for `readyState` in case an `open`
+                            // listener already closed the socket
+
+                            if ("open" === this.readyState && this.opts.upgrade && this.transport.pause) {
+                                debug("starting upgrade probes");
+                                var i = 0;
+                                var l = this.upgrades.length;
+
+                                for (; i < l; i++) {
+                                    this.probe(this.upgrades[i]);
+                                }
+                            }
+                        }
+                        /**
+                         * Handles a packet.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "onPacket",
+                        value: function onPacket(packet) {
+                            if ("opening" === this.readyState || "open" === this.readyState || "closing" === this.readyState) {
+                                debug('socket receive: type "%s", data "%s"', packet.type, packet.data);
+                                this.emit("packet", packet); // Socket is live - any packet counts
+
+                                this.emit("heartbeat");
+
+                                switch (packet.type) {
+                                    case "open":
+                                        this.onHandshake(JSON.parse(packet.data));
+                                        break;
+
+                                    case "ping":
+                                        this.resetPingTimeout();
+                                        this.sendPacket("pong");
+                                        this.emit("pong");
+                                        break;
+
+                                    case "error":
+                                        var err = new Error("server error");
+                                        err.code = packet.data;
+                                        this.onError(err);
+                                        break;
+
+                                    case "message":
+                                        this.emit("data", packet.data);
+                                        this.emit("message", packet.data);
+                                        break;
+                                }
+                            } else {
+                                debug('packet received with socket readyState "%s"', this.readyState);
+                            }
+                        }
+                        /**
+                         * Called upon handshake completion.
+                         *
+                         * @param {Object} handshake obj
+                         * @api private
+                         */
+
+                    }, {
+                        key: "onHandshake",
+                        value: function onHandshake(data) {
+                            this.emit("handshake", data);
+                            this.id = data.sid;
+                            this.transport.query.sid = data.sid;
+                            this.upgrades = this.filterUpgrades(data.upgrades);
+                            this.pingInterval = data.pingInterval;
+                            this.pingTimeout = data.pingTimeout;
+                            this.onOpen(); // In case open handler closes socket
+
+                            if ("closed" === this.readyState) return;
+                            this.resetPingTimeout();
+                        }
+                        /**
+                         * Sets and resets ping timeout timer based on server pings.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "resetPingTimeout",
+                        value: function resetPingTimeout() {
+                            var _this5 = this;
+
+                            clearTimeout(this.pingTimeoutTimer);
+                            this.pingTimeoutTimer = setTimeout(function () {
+                                _this5.onClose("ping timeout");
+                            }, this.pingInterval + this.pingTimeout);
+
+                            if (this.opts.autoUnref) {
+                                this.pingTimeoutTimer.unref();
+                            }
+                        }
+                        /**
+                         * Called on `drain` event
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "onDrain",
+                        value: function onDrain() {
+                            this.writeBuffer.splice(0, this.prevBufferLen); // setting prevBufferLen = 0 is very important
+                            // for example, when upgrading, upgrade packet is sent over,
+                            // and a nonzero prevBufferLen could cause problems on `drain`
+
+                            this.prevBufferLen = 0;
+
+                            if (0 === this.writeBuffer.length) {
+                                this.emit("drain");
+                            } else {
+                                this.flush();
+                            }
+                        }
+                        /**
+                         * Flush write buffers.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "flush",
+                        value: function flush() {
+                            if ("closed" !== this.readyState && this.transport.writable && !this.upgrading && this.writeBuffer.length) {
+                                debug("flushing %d packets in socket", this.writeBuffer.length);
+                                this.transport.send(this.writeBuffer); // keep track of current length of writeBuffer
+                                // splice writeBuffer and callbackBuffer on `drain`
+
+                                this.prevBufferLen = this.writeBuffer.length;
+                                this.emit("flush");
+                            }
+                        }
+                        /**
+                         * Sends a message.
+                         *
+                         * @param {String} message.
+                         * @param {Function} callback function.
+                         * @param {Object} options.
+                         * @return {Socket} for chaining.
+                         * @api public
+                         */
+
+                    }, {
+                        key: "write",
+                        value: function write(msg, options, fn) {
+                            this.sendPacket("message", msg, options, fn);
+                            return this;
+                        }
+                    }, {
+                        key: "send",
+                        value: function send(msg, options, fn) {
+                            this.sendPacket("message", msg, options, fn);
+                            return this;
+                        }
+                        /**
+                         * Sends a packet.
+                         *
+                         * @param {String} packet type.
+                         * @param {String} data.
+                         * @param {Object} options.
+                         * @param {Function} callback function.
+                         * @api private
+                         */
+
+                    }, {
+                        key: "sendPacket",
+                        value: function sendPacket(type, data, options, fn) {
+                            if ("function" === typeof data) {
+                                fn = data;
+                                data = undefined;
+                            }
+
+                            if ("function" === typeof options) {
+                                fn = options;
+                                options = null;
+                            }
+
+                            if ("closing" === this.readyState || "closed" === this.readyState) {
+                                return;
+                            }
+
+                            options = options || {};
+                            options.compress = false !== options.compress;
+                            var packet = {
+                                type: type,
+                                data: data,
+                                options: options
+                            };
+                            this.emit("packetCreate", packet);
+                            this.writeBuffer.push(packet);
+                            if (fn) this.once("flush", fn);
+                            this.flush();
+                        }
+                        /**
+                         * Closes the connection.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "close",
+                        value: function close() {
+                            var _this6 = this;
+
+                            var close = function close() {
+                                _this6.onClose("forced close");
+
+                                debug("socket closing - telling transport to close");
+
+                                _this6.transport.close();
+                            };
+
+                            var cleanupAndClose = function cleanupAndClose() {
+                                _this6.removeListener("upgrade", cleanupAndClose);
+
+                                _this6.removeListener("upgradeError", cleanupAndClose);
+
+                                close();
+                            };
+
+                            var waitForUpgrade = function waitForUpgrade() {
+                                // wait for upgrade to finish since we can't send packets while pausing a transport
+                                _this6.once("upgrade", cleanupAndClose);
+
+                                _this6.once("upgradeError", cleanupAndClose);
+                            };
+
+                            if ("opening" === this.readyState || "open" === this.readyState) {
+                                this.readyState = "closing";
+
+                                if (this.writeBuffer.length) {
+                                    this.once("drain", function () {
+                                        if (_this6.upgrading) {
+                                            waitForUpgrade();
+                                        } else {
+                                            close();
+                                        }
+                                    });
+                                } else if (this.upgrading) {
+                                    waitForUpgrade();
+                                } else {
+                                    close();
+                                }
+                            }
+
+                            return this;
+                        }
+                        /**
+                         * Called upon transport error
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "onError",
+                        value: function onError(err) {
+                            debug("socket error %j", err);
+                            Socket.priorWebsocketSuccess = false;
+                            this.emit("error", err);
+                            this.onClose("transport error", err);
+                        }
+                        /**
+                         * Called upon transport close.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "onClose",
+                        value: function onClose(reason, desc) {
+                            if ("opening" === this.readyState || "open" === this.readyState || "closing" === this.readyState) {
+                                debug('socket close with reason: "%s"', reason); // clear timers
+
+                                clearTimeout(this.pingIntervalTimer);
+                                clearTimeout(this.pingTimeoutTimer); // stop event from firing again for transport
+
+                                this.transport.removeAllListeners("close"); // ensure transport won't stay open
+
+                                this.transport.close(); // ignore further transport communication
+
+                                this.transport.removeAllListeners();
+
+                                if (typeof removeEventListener === "function") {
+                                    removeEventListener("offline", this.offlineEventListener, false);
+                                } // set ready state
+
+
+                                this.readyState = "closed"; // clear session id
+
+                                this.id = null; // emit close event
+
+                                this.emit("close", reason, desc); // clean buffers after, so users can still
+                                // grab the buffers on `close` event
+
+                                this.writeBuffer = [];
+                                this.prevBufferLen = 0;
+                            }
+                        }
+                        /**
+                         * Filters upgrades, returning only those matching client transports.
+                         *
+                         * @param {Array} server upgrades
+                         * @api private
+                         *
+                         */
+
+                    }, {
+                        key: "filterUpgrades",
+                        value: function filterUpgrades(upgrades) {
+                            var filteredUpgrades = [];
+                            var i = 0;
+                            var j = upgrades.length;
+
+                            for (; i < j; i++) {
+                                if (~this.transports.indexOf(upgrades[i])) filteredUpgrades.push(upgrades[i]);
+                            }
+
+                            return filteredUpgrades;
+                        }
+                    }]);
+
+                    return Socket;
+                }(Emitter);
+
+                Socket.priorWebsocketSuccess = false;
+                /**
+                 * Protocol version.
+                 *
+                 * @api public
+                 */
+
+                Socket.protocol = parser.protocol; // this is an int
+
+                function clone(obj) {
+                    var o = {};
+
+                    for (var i in obj) {
+                        if (obj.hasOwnProperty(i)) {
+                            o[i] = obj[i];
+                        }
+                    }
+
+                    return o;
+                }
+
+                module.exports = Socket;
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-client/lib/transport.js":
+            /*!********************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/transport.js ***!
+  \********************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+                function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+                function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+                function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+                function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+                function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+                function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+                function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+                function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+                function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+                function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+                function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+                var parser = __webpack_require__(/*! engine.io-parser */ "./node_modules/engine.io-parser/lib/index.js");
+
+                var Emitter = __webpack_require__(/*! component-emitter */ "./node_modules/component-emitter/index.js");
+
+                var debug = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js")("engine.io-client:transport");
+
+                var Transport = /*#__PURE__*/function (_Emitter) {
+                    _inherits(Transport, _Emitter);
+
+                    var _super = _createSuper(Transport);
+
+                    /**
+                     * Transport abstract constructor.
+                     *
+                     * @param {Object} options.
+                     * @api private
+                     */
+                    function Transport(opts) {
+                        var _this;
+
+                        _classCallCheck(this, Transport);
+
+                        _this = _super.call(this);
+                        _this.opts = opts;
+                        _this.query = opts.query;
+                        _this.readyState = "";
+                        _this.socket = opts.socket;
+                        return _this;
+                    }
+                    /**
+                     * Emits an error.
+                     *
+                     * @param {String} str
+                     * @return {Transport} for chaining
+                     * @api public
+                     */
+
+
+                    _createClass(Transport, [{
+                        key: "onError",
+                        value: function onError(msg, desc) {
+                            var err = new Error(msg);
+                            err.type = "TransportError";
+                            err.description = desc;
+                            this.emit("error", err);
+                            return this;
+                        }
+                        /**
+                         * Opens the transport.
+                         *
+                         * @api public
+                         */
+
+                    }, {
+                        key: "open",
+                        value: function open() {
+                            if ("closed" === this.readyState || "" === this.readyState) {
+                                this.readyState = "opening";
+                                this.doOpen();
+                            }
+
+                            return this;
+                        }
+                        /**
+                         * Closes the transport.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "close",
+                        value: function close() {
+                            if ("opening" === this.readyState || "open" === this.readyState) {
+                                this.doClose();
+                                this.onClose();
+                            }
+
+                            return this;
+                        }
+                        /**
+                         * Sends multiple packets.
+                         *
+                         * @param {Array} packets
+                         * @api private
+                         */
+
+                    }, {
+                        key: "send",
+                        value: function send(packets) {
+                            if ("open" === this.readyState) {
+                                this.write(packets);
+                            } else {
+                                // this might happen if the transport was silently closed in the beforeunload event handler
+                                debug("transport is not open, discarding packets");
+                            }
+                        }
+                        /**
+                         * Called upon open
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "onOpen",
+                        value: function onOpen() {
+                            this.readyState = "open";
+                            this.writable = true;
+                            this.emit("open");
+                        }
+                        /**
+                         * Called with data.
+                         *
+                         * @param {String} data
+                         * @api private
+                         */
+
+                    }, {
+                        key: "onData",
+                        value: function onData(data) {
+                            var packet = parser.decodePacket(data, this.socket.binaryType);
+                            this.onPacket(packet);
+                        }
+                        /**
+                         * Called with a decoded packet.
+                         */
+
+                    }, {
+                        key: "onPacket",
+                        value: function onPacket(packet) {
+                            this.emit("packet", packet);
+                        }
+                        /**
+                         * Called upon close.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "onClose",
+                        value: function onClose() {
+                            this.readyState = "closed";
+                            this.emit("close");
+                        }
+                    }]);
+
+                    return Transport;
+                }(Emitter);
+
+                module.exports = Transport;
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-client/lib/transports/index.js":
+            /*!***************************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/transports/index.js ***!
+  \***************************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+                var XMLHttpRequest = __webpack_require__(/*! ../../contrib/xmlhttprequest-ssl/XMLHttpRequest */ "./node_modules/engine.io-client/lib/xmlhttprequest.js");
+
+                var XHR = __webpack_require__(/*! ./polling-xhr */ "./node_modules/engine.io-client/lib/transports/polling-xhr.js");
+
+                var JSONP = __webpack_require__(/*! ./polling-jsonp */ "./node_modules/engine.io-client/lib/transports/polling-jsonp.js");
+
+                var websocket = __webpack_require__(/*! ./websocket */ "./node_modules/engine.io-client/lib/transports/websocket.js");
+
+                exports.polling = polling;
+                exports.websocket = websocket;
+                /**
+                 * Polling transport polymorphic constructor.
+                 * Decides on xhr vs jsonp based on feature detection.
+                 *
+                 * @api private
+                 */
+
+                function polling(opts) {
+                    var xhr;
+                    var xd = false;
+                    var xs = false;
+                    var jsonp = false !== opts.jsonp;
+
+                    if (typeof location !== "undefined") {
+                        var isSSL = "https:" === location.protocol;
+                        var port = location.port; // some user agents have empty `location.port`
+
+                        if (!port) {
+                            port = isSSL ? 443 : 80;
+                        }
+
+                        xd = opts.hostname !== location.hostname || port !== opts.port;
+                        xs = opts.secure !== isSSL;
+                    }
+
+                    opts.xdomain = xd;
+                    opts.xscheme = xs;
+                    xhr = new XMLHttpRequest(opts);
+
+                    if ("open" in xhr && !opts.forceJSONP) {
+                        return new XHR(opts);
+                    } else {
+                        if (!jsonp) throw new Error("JSONP disabled");
+                        return new JSONP(opts);
+                    }
+                }
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-client/lib/transports/polling-jsonp.js":
+            /*!***********************************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/transports/polling-jsonp.js ***!
+  \***********************************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+                function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+                function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+                function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+                function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+                function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+                function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+                function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+                function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+                function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+                function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+                function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+                function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+                function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+                var Polling = __webpack_require__(/*! ./polling */ "./node_modules/engine.io-client/lib/transports/polling.js");
+
+                var globalThis = __webpack_require__(/*! ../globalThis */ "./node_modules/engine.io-client/lib/globalThis.browser.js");
+
+                var rNewline = /\n/g;
+                var rEscapedNewline = /\\n/g;
+                /**
+                 * Global JSONP callbacks.
+                 */
+
+                var callbacks;
+
+                var JSONPPolling = /*#__PURE__*/function (_Polling) {
+                    _inherits(JSONPPolling, _Polling);
+
+                    var _super = _createSuper(JSONPPolling);
+
+                    /**
+                     * JSONP Polling constructor.
+                     *
+                     * @param {Object} opts.
+                     * @api public
+                     */
+                    function JSONPPolling(opts) {
+                        var _this;
+
+                        _classCallCheck(this, JSONPPolling);
+
+                        _this = _super.call(this, opts);
+                        _this.query = _this.query || {}; // define global callbacks array if not present
+                        // we do this here (lazily) to avoid unneeded global pollution
+
+                        if (!callbacks) {
+                            // we need to consider multiple engines in the same page
+                            callbacks = globalThis.___eio = globalThis.___eio || [];
+                        } // callback identifier
+
+
+                        _this.index = callbacks.length; // add callback to jsonp global
+
+                        callbacks.push(_this.onData.bind(_assertThisInitialized(_this))); // append to query string
+
+                        _this.query.j = _this.index;
+                        return _this;
+                    }
+                    /**
+                     * JSONP only supports binary as base64 encoded strings
+                     */
+
+
+                    _createClass(JSONPPolling, [{
+                        key: "doClose",
+
+                        /**
+                         * Closes the socket.
+                         *
+                         * @api private
+                         */
+                        value: function doClose() {
+                            if (this.script) {
+                                // prevent spurious errors from being emitted when the window is unloaded
+                                this.script.onerror = function () {};
+
+                                this.script.parentNode.removeChild(this.script);
+                                this.script = null;
+                            }
+
+                            if (this.form) {
+                                this.form.parentNode.removeChild(this.form);
+                                this.form = null;
+                                this.iframe = null;
+                            }
+
+                            _get(_getPrototypeOf(JSONPPolling.prototype), "doClose", this).call(this);
+                        }
+                        /**
+                         * Starts a poll cycle.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "doPoll",
+                        value: function doPoll() {
+                            var _this2 = this;
+
+                            var script = document.createElement("script");
+
+                            if (this.script) {
+                                this.script.parentNode.removeChild(this.script);
+                                this.script = null;
+                            }
+
+                            script.async = true;
+                            script.src = this.uri();
+
+                            script.onerror = function (e) {
+                                _this2.onError("jsonp poll error", e);
+                            };
+
+                            var insertAt = document.getElementsByTagName("script")[0];
+
+                            if (insertAt) {
+                                insertAt.parentNode.insertBefore(script, insertAt);
+                            } else {
+                                (document.head || document.body).appendChild(script);
+                            }
+
+                            this.script = script;
+                            var isUAgecko = "undefined" !== typeof navigator && /gecko/i.test(navigator.userAgent);
+
+                            if (isUAgecko) {
+                                setTimeout(function () {
+                                    var iframe = document.createElement("iframe");
+                                    document.body.appendChild(iframe);
+                                    document.body.removeChild(iframe);
+                                }, 100);
+                            }
+                        }
+                        /**
+                         * Writes with a hidden iframe.
+                         *
+                         * @param {String} data to send
+                         * @param {Function} called upon flush.
+                         * @api private
+                         */
+
+                    }, {
+                        key: "doWrite",
+                        value: function doWrite(data, fn) {
+                            var _this3 = this;
+
+                            var iframe;
+
+                            if (!this.form) {
+                                var form = document.createElement("form");
+                                var area = document.createElement("textarea");
+                                var id = this.iframeId = "eio_iframe_" + this.index;
+                                form.className = "socketio";
+                                form.style.position = "absolute";
+                                form.style.top = "-1000px";
+                                form.style.left = "-1000px";
+                                form.target = id;
+                                form.method = "POST";
+                                form.setAttribute("accept-charset", "utf-8");
+                                area.name = "d";
+                                form.appendChild(area);
+                                document.body.appendChild(form);
+                                this.form = form;
+                                this.area = area;
+                            }
+
+                            this.form.action = this.uri();
+
+                            function complete() {
+                                initIframe();
+                                fn();
+                            }
+
+                            var initIframe = function initIframe() {
+                                if (_this3.iframe) {
+                                    try {
+                                        _this3.form.removeChild(_this3.iframe);
+                                    } catch (e) {
+                                        _this3.onError("jsonp polling iframe removal error", e);
+                                    }
+                                }
+
+                                try {
+                                    // ie6 dynamic iframes with target="" support (thanks Chris Lambacher)
+                                    var html = '<iframe src="javascript:0" name="' + _this3.iframeId + '">';
+                                    iframe = document.createElement(html);
+                                } catch (e) {
+                                    iframe = document.createElement("iframe");
+                                    iframe.name = _this3.iframeId;
+                                    iframe.src = "javascript:0";
+                                }
+
+                                iframe.id = _this3.iframeId;
+
+                                _this3.form.appendChild(iframe);
+
+                                _this3.iframe = iframe;
+                            };
+
+                            initIframe(); // escape \n to prevent it from being converted into \r\n by some UAs
+                            // double escaping is required for escaped new lines because unescaping of new lines can be done safely on server-side
+
+                            data = data.replace(rEscapedNewline, "\\\n");
+                            this.area.value = data.replace(rNewline, "\\n");
+
+                            try {
+                                this.form.submit();
+                            } catch (e) {}
+
+                            if (this.iframe.attachEvent) {
+                                this.iframe.onreadystatechange = function () {
+                                    if (_this3.iframe.readyState === "complete") {
+                                        complete();
+                                    }
+                                };
+                            } else {
+                                this.iframe.onload = complete;
+                            }
+                        }
+                    }, {
+                        key: "supportsBinary",
+                        get: function get() {
+                            return false;
+                        }
+                    }]);
+
+                    return JSONPPolling;
+                }(Polling);
+
+                module.exports = JSONPPolling;
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-client/lib/transports/polling-xhr.js":
+            /*!*********************************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/transports/polling-xhr.js ***!
+  \*********************************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+                function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+                function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+                function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+                function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+                function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+                function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+                function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+                function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+                function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+                function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+                function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+                function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+                /* global attachEvent */
+                var XMLHttpRequest = __webpack_require__(/*! ../../contrib/xmlhttprequest-ssl/XMLHttpRequest */ "./node_modules/engine.io-client/lib/xmlhttprequest.js");
+
+                var Polling = __webpack_require__(/*! ./polling */ "./node_modules/engine.io-client/lib/transports/polling.js");
+
+                var Emitter = __webpack_require__(/*! component-emitter */ "./node_modules/component-emitter/index.js");
+
+                var _require = __webpack_require__(/*! ../util */ "./node_modules/engine.io-client/lib/util.js"),
+                    pick = _require.pick;
+
+                var globalThis = __webpack_require__(/*! ../globalThis */ "./node_modules/engine.io-client/lib/globalThis.browser.js");
+
+                var debug = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js")("engine.io-client:polling-xhr");
+                /**
+                 * Empty function
+                 */
+
+
+                function empty() {}
+
+                var hasXHR2 = function () {
+                    var xhr = new XMLHttpRequest({
+                        xdomain: false
+                    });
+                    return null != xhr.responseType;
+                }();
+
+                var XHR = /*#__PURE__*/function (_Polling) {
+                    _inherits(XHR, _Polling);
+
+                    var _super = _createSuper(XHR);
+
+                    /**
+                     * XHR Polling constructor.
+                     *
+                     * @param {Object} opts
+                     * @api public
+                     */
+                    function XHR(opts) {
+                        var _this;
+
+                        _classCallCheck(this, XHR);
+
+                        _this = _super.call(this, opts);
+
+                        if (typeof location !== "undefined") {
+                            var isSSL = "https:" === location.protocol;
+                            var port = location.port; // some user agents have empty `location.port`
+
+                            if (!port) {
+                                port = isSSL ? 443 : 80;
+                            }
+
+                            _this.xd = typeof location !== "undefined" && opts.hostname !== location.hostname || port !== opts.port;
+                            _this.xs = opts.secure !== isSSL;
+                        }
+                        /**
+                         * XHR supports binary
+                         */
+
+
+                        var forceBase64 = opts && opts.forceBase64;
+                        _this.supportsBinary = hasXHR2 && !forceBase64;
+                        return _this;
+                    }
+                    /**
+                     * Creates a request.
+                     *
+                     * @param {String} method
+                     * @api private
+                     */
+
+
+                    _createClass(XHR, [{
+                        key: "request",
+                        value: function request() {
+                            var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+                            _extends(opts, {
+                                xd: this.xd,
+                                xs: this.xs
+                            }, this.opts);
+
+                            return new Request(this.uri(), opts);
+                        }
+                        /**
+                         * Sends data.
+                         *
+                         * @param {String} data to send.
+                         * @param {Function} called upon flush.
+                         * @api private
+                         */
+
+                    }, {
+                        key: "doWrite",
+                        value: function doWrite(data, fn) {
+                            var _this2 = this;
+
+                            var req = this.request({
+                                method: "POST",
+                                data: data
+                            });
+                            req.on("success", fn);
+                            req.on("error", function (err) {
+                                _this2.onError("xhr post error", err);
+                            });
+                        }
+                        /**
+                         * Starts a poll cycle.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "doPoll",
+                        value: function doPoll() {
+                            var _this3 = this;
+
+                            debug("xhr poll");
+                            var req = this.request();
+                            req.on("data", this.onData.bind(this));
+                            req.on("error", function (err) {
+                                _this3.onError("xhr poll error", err);
+                            });
+                            this.pollXhr = req;
+                        }
+                    }]);
+
+                    return XHR;
+                }(Polling);
+
+                var Request = /*#__PURE__*/function (_Emitter) {
+                    _inherits(Request, _Emitter);
+
+                    var _super2 = _createSuper(Request);
+
+                    /**
+                     * Request constructor
+                     *
+                     * @param {Object} options
+                     * @api public
+                     */
+                    function Request(uri, opts) {
+                        var _this4;
+
+                        _classCallCheck(this, Request);
+
+                        _this4 = _super2.call(this);
+                        _this4.opts = opts;
+                        _this4.method = opts.method || "GET";
+                        _this4.uri = uri;
+                        _this4.async = false !== opts.async;
+                        _this4.data = undefined !== opts.data ? opts.data : null;
+
+                        _this4.create();
+
+                        return _this4;
+                    }
+                    /**
+                     * Creates the XHR object and sends the request.
+                     *
+                     * @api private
+                     */
+
+
+                    _createClass(Request, [{
+                        key: "create",
+                        value: function create() {
+                            var _this5 = this;
+
+                            var opts = pick(this.opts, "agent", "enablesXDR", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "autoUnref");
+                            opts.xdomain = !!this.opts.xd;
+                            opts.xscheme = !!this.opts.xs;
+                            var xhr = this.xhr = new XMLHttpRequest(opts);
+
+                            try {
+                                debug("xhr open %s: %s", this.method, this.uri);
+                                xhr.open(this.method, this.uri, this.async);
+
+                                try {
+                                    if (this.opts.extraHeaders) {
+                                        xhr.setDisableHeaderCheck && xhr.setDisableHeaderCheck(true);
+
+                                        for (var i in this.opts.extraHeaders) {
+                                            if (this.opts.extraHeaders.hasOwnProperty(i)) {
+                                                xhr.setRequestHeader(i, this.opts.extraHeaders[i]);
+                                            }
+                                        }
+                                    }
+                                } catch (e) {}
+
+                                if ("POST" === this.method) {
+                                    try {
+                                        xhr.setRequestHeader("Content-type", "text/plain;charset=UTF-8");
+                                    } catch (e) {}
+                                }
+
+                                try {
+                                    xhr.setRequestHeader("Accept", "*/*");
+                                } catch (e) {} // ie6 check
+
+
+                                if ("withCredentials" in xhr) {
+                                    xhr.withCredentials = this.opts.withCredentials;
+                                }
+
+                                if (this.opts.requestTimeout) {
+                                    xhr.timeout = this.opts.requestTimeout;
+                                }
+
+                                if (this.hasXDR()) {
+                                    xhr.onload = function () {
+                                        _this5.onLoad();
+                                    };
+
+                                    xhr.onerror = function () {
+                                        _this5.onError(xhr.responseText);
+                                    };
+                                } else {
+                                    xhr.onreadystatechange = function () {
+                                        if (4 !== xhr.readyState) return;
+
+                                        if (200 === xhr.status || 1223 === xhr.status) {
+                                            _this5.onLoad();
+                                        } else {
+                                            // make sure the `error` event handler that's user-set
+                                            // does not throw in the same tick and gets caught here
+                                            setTimeout(function () {
+                                                _this5.onError(typeof xhr.status === "number" ? xhr.status : 0);
+                                            }, 0);
+                                        }
+                                    };
+                                }
+
+                                debug("xhr data %s", this.data);
+                                xhr.send(this.data);
+                            } catch (e) {
+                                // Need to defer since .create() is called directly from the constructor
+                                // and thus the 'error' event can only be only bound *after* this exception
+                                // occurs.  Therefore, also, we cannot throw here at all.
+                                setTimeout(function () {
+                                    _this5.onError(e);
+                                }, 0);
+                                return;
+                            }
+
+                            if (typeof document !== "undefined") {
+                                this.index = Request.requestsCount++;
+                                Request.requests[this.index] = this;
+                            }
+                        }
+                        /**
+                         * Called upon successful response.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "onSuccess",
+                        value: function onSuccess() {
+                            this.emit("success");
+                            this.cleanup();
+                        }
+                        /**
+                         * Called if we have data.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "onData",
+                        value: function onData(data) {
+                            this.emit("data", data);
+                            this.onSuccess();
+                        }
+                        /**
+                         * Called upon error.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "onError",
+                        value: function onError(err) {
+                            this.emit("error", err);
+                            this.cleanup(true);
+                        }
+                        /**
+                         * Cleans up house.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "cleanup",
+                        value: function cleanup(fromError) {
+                            if ("undefined" === typeof this.xhr || null === this.xhr) {
+                                return;
+                            } // xmlhttprequest
+
+
+                            if (this.hasXDR()) {
+                                this.xhr.onload = this.xhr.onerror = empty;
+                            } else {
+                                this.xhr.onreadystatechange = empty;
+                            }
+
+                            if (fromError) {
+                                try {
+                                    this.xhr.abort();
+                                } catch (e) {}
+                            }
+
+                            if (typeof document !== "undefined") {
+                                delete Request.requests[this.index];
+                            }
+
+                            this.xhr = null;
+                        }
+                        /**
+                         * Called upon load.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "onLoad",
+                        value: function onLoad() {
+                            var data = this.xhr.responseText;
+
+                            if (data !== null) {
+                                this.onData(data);
+                            }
+                        }
+                        /**
+                         * Check if it has XDomainRequest.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "hasXDR",
+                        value: function hasXDR() {
+                            return typeof XDomainRequest !== "undefined" && !this.xs && this.enablesXDR;
+                        }
+                        /**
+                         * Aborts the request.
+                         *
+                         * @api public
+                         */
+
+                    }, {
+                        key: "abort",
+                        value: function abort() {
+                            this.cleanup();
+                        }
+                    }]);
+
+                    return Request;
+                }(Emitter);
+                /**
+                 * Aborts pending requests when unloading the window. This is needed to prevent
+                 * memory leaks (e.g. when using IE) and to ensure that no spurious error is
+                 * emitted.
+                 */
+
+
+                Request.requestsCount = 0;
+                Request.requests = {};
+
+                if (typeof document !== "undefined") {
+                    if (typeof attachEvent === "function") {
+                        attachEvent("onunload", unloadHandler);
+                    } else if (typeof addEventListener === "function") {
+                        var terminationEvent = "onpagehide" in globalThis ? "pagehide" : "unload";
+                        addEventListener(terminationEvent, unloadHandler, false);
+                    }
+                }
+
+                function unloadHandler() {
+                    for (var i in Request.requests) {
+                        if (Request.requests.hasOwnProperty(i)) {
+                            Request.requests[i].abort();
+                        }
+                    }
+                }
+
+                module.exports = XHR;
+                module.exports.Request = Request;
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-client/lib/transports/polling.js":
+            /*!*****************************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/transports/polling.js ***!
+  \*****************************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+                function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+                function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+                function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+                function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+                function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+                function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+                function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+                function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+                function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+                function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+                function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+                var Transport = __webpack_require__(/*! ../transport */ "./node_modules/engine.io-client/lib/transport.js");
+
+                var parseqs = __webpack_require__(/*! parseqs */ "./node_modules/parseqs/index.js");
+
+                var parser = __webpack_require__(/*! engine.io-parser */ "./node_modules/engine.io-parser/lib/index.js");
+
+                var yeast = __webpack_require__(/*! yeast */ "./node_modules/yeast/index.js");
+
+                var debug = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js")("engine.io-client:polling");
+
+                var Polling = /*#__PURE__*/function (_Transport) {
+                    _inherits(Polling, _Transport);
+
+                    var _super = _createSuper(Polling);
+
+                    function Polling() {
+                        _classCallCheck(this, Polling);
+
+                        return _super.apply(this, arguments);
+                    }
+
+                    _createClass(Polling, [{
+                        key: "doOpen",
+
+                        /**
+                         * Opens the socket (triggers polling). We write a PING message to determine
+                         * when the transport is open.
+                         *
+                         * @api private
+                         */
+                        value: function doOpen() {
+                            this.poll();
+                        }
+                        /**
+                         * Pauses polling.
+                         *
+                         * @param {Function} callback upon buffers are flushed and transport is paused
+                         * @api private
+                         */
+
+                    }, {
+                        key: "pause",
+                        value: function pause(onPause) {
+                            var _this = this;
+
+                            this.readyState = "pausing";
+
+                            var pause = function pause() {
+                                debug("paused");
+                                _this.readyState = "paused";
+                                onPause();
+                            };
+
+                            if (this.polling || !this.writable) {
+                                var total = 0;
+
+                                if (this.polling) {
+                                    debug("we are currently polling - waiting to pause");
+                                    total++;
+                                    this.once("pollComplete", function () {
+                                        debug("pre-pause polling complete");
+                                        --total || pause();
+                                    });
+                                }
+
+                                if (!this.writable) {
+                                    debug("we are currently writing - waiting to pause");
+                                    total++;
+                                    this.once("drain", function () {
+                                        debug("pre-pause writing complete");
+                                        --total || pause();
+                                    });
+                                }
+                            } else {
+                                pause();
+                            }
+                        }
+                        /**
+                         * Starts polling cycle.
+                         *
+                         * @api public
+                         */
+
+                    }, {
+                        key: "poll",
+                        value: function poll() {
+                            debug("polling");
+                            this.polling = true;
+                            this.doPoll();
+                            this.emit("poll");
+                        }
+                        /**
+                         * Overloads onData to detect payloads.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "onData",
+                        value: function onData(data) {
+                            var _this2 = this;
+
+                            debug("polling got data %s", data);
+
+                            var callback = function callback(packet) {
+                                // if its the first message we consider the transport open
+                                if ("opening" === _this2.readyState && packet.type === "open") {
+                                    _this2.onOpen();
+                                } // if its a close packet, we close the ongoing requests
+
+
+                                if ("close" === packet.type) {
+                                    _this2.onClose();
+
+                                    return false;
+                                } // otherwise bypass onData and handle the message
+
+
+                                _this2.onPacket(packet);
+                            }; // decode payload
+
+
+                            parser.decodePayload(data, this.socket.binaryType).forEach(callback); // if an event did not trigger closing
+
+                            if ("closed" !== this.readyState) {
+                                // if we got data we're not polling
+                                this.polling = false;
+                                this.emit("pollComplete");
+
+                                if ("open" === this.readyState) {
+                                    this.poll();
+                                } else {
+                                    debug('ignoring poll - transport state "%s"', this.readyState);
+                                }
+                            }
+                        }
+                        /**
+                         * For polling, send a close packet.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "doClose",
+                        value: function doClose() {
+                            var _this3 = this;
+
+                            var close = function close() {
+                                debug("writing close packet");
+
+                                _this3.write([{
+                                    type: "close"
+                                }]);
+                            };
+
+                            if ("open" === this.readyState) {
+                                debug("transport open - closing");
+                                close();
+                            } else {
+                                // in case we're trying to close while
+                                // handshaking is in progress (GH-164)
+                                debug("transport not open - deferring close");
+                                this.once("open", close);
+                            }
+                        }
+                        /**
+                         * Writes a packets payload.
+                         *
+                         * @param {Array} data packets
+                         * @param {Function} drain callback
+                         * @api private
+                         */
+
+                    }, {
+                        key: "write",
+                        value: function write(packets) {
+                            var _this4 = this;
+
+                            this.writable = false;
+                            parser.encodePayload(packets, function (data) {
+                                _this4.doWrite(data, function () {
+                                    _this4.writable = true;
+
+                                    _this4.emit("drain");
+                                });
+                            });
+                        }
+                        /**
+                         * Generates uri for connection.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "uri",
+                        value: function uri() {
+                            var query = this.query || {};
+                            var schema = this.opts.secure ? "https" : "http";
+                            var port = ""; // cache busting is forced
+
+                            if (false !== this.opts.timestampRequests) {
+                                query[this.opts.timestampParam] = yeast();
+                            }
+
+                            if (!this.supportsBinary && !query.sid) {
+                                query.b64 = 1;
+                            }
+
+                            query = parseqs.encode(query); // avoid port if default for schema
+
+                            if (this.opts.port && ("https" === schema && Number(this.opts.port) !== 443 || "http" === schema && Number(this.opts.port) !== 80)) {
+                                port = ":" + this.opts.port;
+                            } // prepend ? to query
+
+
+                            if (query.length) {
+                                query = "?" + query;
+                            }
+
+                            var ipv6 = this.opts.hostname.indexOf(":") !== -1;
+                            return schema + "://" + (ipv6 ? "[" + this.opts.hostname + "]" : this.opts.hostname) + port + this.opts.path + query;
+                        }
+                    }, {
+                        key: "name",
+
+                        /**
+                         * Transport name.
+                         */
+                        get: function get() {
+                            return "polling";
+                        }
+                    }]);
+
+                    return Polling;
+                }(Transport);
+
+                module.exports = Polling;
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-client/lib/transports/websocket-constructor.browser.js":
+            /*!***************************************************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/transports/websocket-constructor.browser.js ***!
+  \***************************************************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+                var globalThis = __webpack_require__(/*! ../globalThis */ "./node_modules/engine.io-client/lib/globalThis.browser.js");
+
+                module.exports = {
+                    WebSocket: globalThis.WebSocket || globalThis.MozWebSocket,
+                    usingBrowserWebSocket: true,
+                    defaultBinaryType: "arraybuffer"
+                };
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-client/lib/transports/websocket.js":
+            /*!*******************************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/transports/websocket.js ***!
+  \*******************************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+                function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+                function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+                function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+                function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+                function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+                function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+                function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+                function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+                function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+                function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+                function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+                var Transport = __webpack_require__(/*! ../transport */ "./node_modules/engine.io-client/lib/transport.js");
+
+                var parser = __webpack_require__(/*! engine.io-parser */ "./node_modules/engine.io-parser/lib/index.js");
+
+                var parseqs = __webpack_require__(/*! parseqs */ "./node_modules/parseqs/index.js");
+
+                var yeast = __webpack_require__(/*! yeast */ "./node_modules/yeast/index.js");
+
+                var _require = __webpack_require__(/*! ../util */ "./node_modules/engine.io-client/lib/util.js"),
+                    pick = _require.pick;
+
+                var _require2 = __webpack_require__(/*! ./websocket-constructor */ "./node_modules/engine.io-client/lib/transports/websocket-constructor.browser.js"),
+                    WebSocket = _require2.WebSocket,
+                    usingBrowserWebSocket = _require2.usingBrowserWebSocket,
+                    defaultBinaryType = _require2.defaultBinaryType;
+
+                var debug = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js")("engine.io-client:websocket"); // detect ReactNative environment
+
+
+                var isReactNative = typeof navigator !== "undefined" && typeof navigator.product === "string" && navigator.product.toLowerCase() === "reactnative";
+
+                var WS = /*#__PURE__*/function (_Transport) {
+                    _inherits(WS, _Transport);
+
+                    var _super = _createSuper(WS);
+
+                    /**
+                     * WebSocket transport constructor.
+                     *
+                     * @api {Object} connection options
+                     * @api public
+                     */
+                    function WS(opts) {
+                        var _this;
+
+                        _classCallCheck(this, WS);
+
+                        _this = _super.call(this, opts);
+                        _this.supportsBinary = !opts.forceBase64;
+                        return _this;
+                    }
+                    /**
+                     * Transport name.
+                     *
+                     * @api public
+                     */
+
+
+                    _createClass(WS, [{
+                        key: "doOpen",
+
+                        /**
+                         * Opens socket.
+                         *
+                         * @api private
+                         */
+                        value: function doOpen() {
+                            if (!this.check()) {
+                                // let probe timeout
+                                return;
+                            }
+
+                            var uri = this.uri();
+                            var protocols = this.opts.protocols; // React Native only supports the 'headers' option, and will print a warning if anything else is passed
+
+                            var opts = isReactNative ? {} : pick(this.opts, "agent", "perMessageDeflate", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "localAddress", "protocolVersion", "origin", "maxPayload", "family", "checkServerIdentity");
+
+                            if (this.opts.extraHeaders) {
+                                opts.headers = this.opts.extraHeaders;
+                            }
+
+                            try {
+                                this.ws = usingBrowserWebSocket && !isReactNative ? protocols ? new WebSocket(uri, protocols) : new WebSocket(uri) : new WebSocket(uri, protocols, opts);
+                            } catch (err) {
+                                return this.emit("error", err);
+                            }
+
+                            this.ws.binaryType = this.socket.binaryType || defaultBinaryType;
+                            this.addEventListeners();
+                        }
+                        /**
+                         * Adds event listeners to the socket
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "addEventListeners",
+                        value: function addEventListeners() {
+                            var _this2 = this;
+
+                            this.ws.onopen = function () {
+                                if (_this2.opts.autoUnref) {
+                                    _this2.ws._socket.unref();
+                                }
+
+                                _this2.onOpen();
+                            };
+
+                            this.ws.onclose = this.onClose.bind(this);
+
+                            this.ws.onmessage = function (ev) {
+                                return _this2.onData(ev.data);
+                            };
+
+                            this.ws.onerror = function (e) {
+                                return _this2.onError("websocket error", e);
+                            };
+                        }
+                        /**
+                         * Writes data to socket.
+                         *
+                         * @param {Array} array of packets.
+                         * @api private
+                         */
+
+                    }, {
+                        key: "write",
+                        value: function write(packets) {
+                            var _this3 = this;
+
+                            this.writable = false; // encodePacket efficient as it uses WS framing
+                            // no need for encodePayload
+
+                            var _loop = function _loop(i) {
+                                var packet = packets[i];
+                                var lastPacket = i === packets.length - 1;
+                                parser.encodePacket(packet, _this3.supportsBinary, function (data) {
+                                    // always create a new object (GH-437)
+                                    var opts = {};
+
+                                    if (!usingBrowserWebSocket) {
+                                        if (packet.options) {
+                                            opts.compress = packet.options.compress;
+                                        }
+
+                                        if (_this3.opts.perMessageDeflate) {
+                                            var len = "string" === typeof data ? Buffer.byteLength(data) : data.length;
+
+                                            if (len < _this3.opts.perMessageDeflate.threshold) {
+                                                opts.compress = false;
+                                            }
+                                        }
+                                    } // Sometimes the websocket has already been closed but the browser didn't
+                                    // have a chance of informing us about it yet, in that case send will
+                                    // throw an error
+
+
+                                    try {
+                                        if (usingBrowserWebSocket) {
+                                            // TypeError is thrown when passing the second argument on Safari
+                                            _this3.ws.send(data);
+                                        } else {
+                                            _this3.ws.send(data, opts);
+                                        }
+                                    } catch (e) {
+                                        debug("websocket closed before onclose event");
+                                    }
+
+                                    if (lastPacket) {
+                                        // fake drain
+                                        // defer to next tick to allow Socket to clear writeBuffer
+                                        setTimeout(function () {
+                                            _this3.writable = true;
+
+                                            _this3.emit("drain");
+                                        }, 0);
+                                    }
+                                });
+                            };
+
+                            for (var i = 0; i < packets.length; i++) {
+                                _loop(i);
+                            }
+                        }
+                        /**
+                         * Called upon close
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "onClose",
+                        value: function onClose() {
+                            Transport.prototype.onClose.call(this);
+                        }
+                        /**
+                         * Closes socket.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "doClose",
+                        value: function doClose() {
+                            if (typeof this.ws !== "undefined") {
+                                this.ws.close();
+                                this.ws = null;
+                            }
+                        }
+                        /**
+                         * Generates uri for connection.
+                         *
+                         * @api private
+                         */
+
+                    }, {
+                        key: "uri",
+                        value: function uri() {
+                            var query = this.query || {};
+                            var schema = this.opts.secure ? "wss" : "ws";
+                            var port = ""; // avoid port if default for schema
+
+                            if (this.opts.port && ("wss" === schema && Number(this.opts.port) !== 443 || "ws" === schema && Number(this.opts.port) !== 80)) {
+                                port = ":" + this.opts.port;
+                            } // append timestamp to URI
+
+
+                            if (this.opts.timestampRequests) {
+                                query[this.opts.timestampParam] = yeast();
+                            } // communicate binary support capabilities
+
+
+                            if (!this.supportsBinary) {
+                                query.b64 = 1;
+                            }
+
+                            query = parseqs.encode(query); // prepend ? to query
+
+                            if (query.length) {
+                                query = "?" + query;
+                            }
+
+                            var ipv6 = this.opts.hostname.indexOf(":") !== -1;
+                            return schema + "://" + (ipv6 ? "[" + this.opts.hostname + "]" : this.opts.hostname) + port + this.opts.path + query;
+                        }
+                        /**
+                         * Feature detection for WebSocket.
+                         *
+                         * @return {Boolean} whether this transport is available.
+                         * @api public
+                         */
+
+                    }, {
+                        key: "check",
+                        value: function check() {
+                            return !!WebSocket && !("__initialize" in WebSocket && this.name === WS.prototype.name);
+                        }
+                    }, {
+                        key: "name",
+                        get: function get() {
+                            return "websocket";
+                        }
+                    }]);
+
+                    return WS;
+                }(Transport);
+
+                module.exports = WS;
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-client/lib/util.js":
+            /*!***************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/util.js ***!
+  \***************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports) {
+
+                module.exports.pick = function (obj) {
+                    for (var _len = arguments.length, attr = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                        attr[_key - 1] = arguments[_key];
+                    }
+
+                    return attr.reduce(function (acc, k) {
+                        if (obj.hasOwnProperty(k)) {
+                            acc[k] = obj[k];
+                        }
+
+                        return acc;
+                    }, {});
+                };
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-client/lib/xmlhttprequest.js":
+            /*!*************************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/xmlhttprequest.js ***!
+  \*************************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+// browser shim for xmlhttprequest module
+                var hasCORS = __webpack_require__(/*! has-cors */ "./node_modules/has-cors/index.js");
+
+                var globalThis = __webpack_require__(/*! ./globalThis */ "./node_modules/engine.io-client/lib/globalThis.browser.js");
+
+                module.exports = function (opts) {
+                    var xdomain = opts.xdomain; // scheme must be same when usign XDomainRequest
+                    // http://blogs.msdn.com/b/ieinternals/archive/2010/05/13/xdomainrequest-restrictions-limitations-and-workarounds.aspx
+
+                    var xscheme = opts.xscheme; // XDomainRequest has a flow of not sending cookie, therefore it should be disabled as a default.
+                    // https://github.com/Automattic/engine.io-client/pull/217
+
+                    var enablesXDR = opts.enablesXDR; // XMLHttpRequest can be disabled on IE
+
+                    try {
+                        if ("undefined" !== typeof XMLHttpRequest && (!xdomain || hasCORS)) {
+                            return new XMLHttpRequest();
+                        }
+                    } catch (e) {} // Use XDomainRequest for IE8 if enablesXDR is true
+                    // because loading bar keeps flashing when using jsonp-polling
+                    // https://github.com/yujiosaka/socke.io-ie8-loading-example
+
+
+                    try {
+                        if ("undefined" !== typeof XDomainRequest && !xscheme && enablesXDR) {
+                            return new XDomainRequest();
+                        }
+                    } catch (e) {}
+
+                    if (!xdomain) {
+                        try {
+                            return new globalThis[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP");
+                        } catch (e) {}
+                    }
+                };
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-parser/lib/commons.js":
+            /*!******************************************************!*\
+  !*** ./node_modules/engine.io-parser/lib/commons.js ***!
+  \******************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports) {
+
+                var PACKET_TYPES = Object.create(null); // no Map = no polyfill
+
+                PACKET_TYPES["open"] = "0";
+                PACKET_TYPES["close"] = "1";
+                PACKET_TYPES["ping"] = "2";
+                PACKET_TYPES["pong"] = "3";
+                PACKET_TYPES["message"] = "4";
+                PACKET_TYPES["upgrade"] = "5";
+                PACKET_TYPES["noop"] = "6";
+                var PACKET_TYPES_REVERSE = Object.create(null);
+                Object.keys(PACKET_TYPES).forEach(function (key) {
+                    PACKET_TYPES_REVERSE[PACKET_TYPES[key]] = key;
+                });
+                var ERROR_PACKET = {
+                    type: "error",
+                    data: "parser error"
+                };
+                module.exports = {
+                    PACKET_TYPES: PACKET_TYPES,
+                    PACKET_TYPES_REVERSE: PACKET_TYPES_REVERSE,
+                    ERROR_PACKET: ERROR_PACKET
+                };
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-parser/lib/decodePacket.browser.js":
+            /*!*******************************************************************!*\
+  !*** ./node_modules/engine.io-parser/lib/decodePacket.browser.js ***!
+  \*******************************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+                var _require = __webpack_require__(/*! ./commons */ "./node_modules/engine.io-parser/lib/commons.js"),
+                    PACKET_TYPES_REVERSE = _require.PACKET_TYPES_REVERSE,
+                    ERROR_PACKET = _require.ERROR_PACKET;
+
+                var withNativeArrayBuffer = typeof ArrayBuffer === "function";
+                var base64decoder;
+
+                if (withNativeArrayBuffer) {
+                    base64decoder = __webpack_require__(/*! base64-arraybuffer */ "./node_modules/engine.io-parser/node_modules/base64-arraybuffer/lib/base64-arraybuffer.js");
+                }
+
+                var decodePacket = function decodePacket(encodedPacket, binaryType) {
+                    if (typeof encodedPacket !== "string") {
+                        return {
+                            type: "message",
+                            data: mapBinary(encodedPacket, binaryType)
+                        };
+                    }
+
+                    var type = encodedPacket.charAt(0);
+
+                    if (type === "b") {
+                        return {
+                            type: "message",
+                            data: decodeBase64Packet(encodedPacket.substring(1), binaryType)
+                        };
+                    }
+
+                    var packetType = PACKET_TYPES_REVERSE[type];
+
+                    if (!packetType) {
+                        return ERROR_PACKET;
+                    }
+
+                    return encodedPacket.length > 1 ? {
+                        type: PACKET_TYPES_REVERSE[type],
+                        data: encodedPacket.substring(1)
+                    } : {
+                        type: PACKET_TYPES_REVERSE[type]
+                    };
+                };
+
+                var decodeBase64Packet = function decodeBase64Packet(data, binaryType) {
+                    if (base64decoder) {
+                        var decoded = base64decoder.decode(data);
+                        return mapBinary(decoded, binaryType);
+                    } else {
+                        return {
+                            base64: true,
+                            data: data
+                        }; // fallback for old browsers
+                    }
+                };
+
+                var mapBinary = function mapBinary(data, binaryType) {
+                    switch (binaryType) {
+                        case "blob":
+                            return data instanceof ArrayBuffer ? new Blob([data]) : data;
+
+                        case "arraybuffer":
+                        default:
+                            return data;
+                        // assuming the data is already an ArrayBuffer
+                    }
+                };
+
+                module.exports = decodePacket;
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-parser/lib/encodePacket.browser.js":
+            /*!*******************************************************************!*\
+  !*** ./node_modules/engine.io-parser/lib/encodePacket.browser.js ***!
+  \*******************************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+                var _require = __webpack_require__(/*! ./commons */ "./node_modules/engine.io-parser/lib/commons.js"),
+                    PACKET_TYPES = _require.PACKET_TYPES;
+
+                var withNativeBlob = typeof Blob === "function" || typeof Blob !== "undefined" && Object.prototype.toString.call(Blob) === "[object BlobConstructor]";
+                var withNativeArrayBuffer = typeof ArrayBuffer === "function"; // ArrayBuffer.isView method is not defined in IE10
+
+                var isView = function isView(obj) {
+                    return typeof ArrayBuffer.isView === "function" ? ArrayBuffer.isView(obj) : obj && obj.buffer instanceof ArrayBuffer;
+                };
+
+                var encodePacket = function encodePacket(_ref, supportsBinary, callback) {
+                    var type = _ref.type,
+                        data = _ref.data;
+
+                    if (withNativeBlob && data instanceof Blob) {
+                        if (supportsBinary) {
+                            return callback(data);
+                        } else {
+                            return encodeBlobAsBase64(data, callback);
+                        }
+                    } else if (withNativeArrayBuffer && (data instanceof ArrayBuffer || isView(data))) {
+                        if (supportsBinary) {
+                            return callback(data instanceof ArrayBuffer ? data : data.buffer);
+                        } else {
+                            return encodeBlobAsBase64(new Blob([data]), callback);
+                        }
+                    } // plain string
+
+
+                    return callback(PACKET_TYPES[type] + (data || ""));
+                };
+
+                var encodeBlobAsBase64 = function encodeBlobAsBase64(data, callback) {
+                    var fileReader = new FileReader();
+
+                    fileReader.onload = function () {
+                        var content = fileReader.result.split(",")[1];
+                        callback("b" + content);
+                    };
+
+                    return fileReader.readAsDataURL(data);
+                };
+
+                module.exports = encodePacket;
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-parser/lib/index.js":
+            /*!****************************************************!*\
+  !*** ./node_modules/engine.io-parser/lib/index.js ***!
+  \****************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+                var encodePacket = __webpack_require__(/*! ./encodePacket */ "./node_modules/engine.io-parser/lib/encodePacket.browser.js");
+
+                var decodePacket = __webpack_require__(/*! ./decodePacket */ "./node_modules/engine.io-parser/lib/decodePacket.browser.js");
+
+                var SEPARATOR = String.fromCharCode(30); // see https://en.wikipedia.org/wiki/Delimiter#ASCII_delimited_text
+
+                var encodePayload = function encodePayload(packets, callback) {
+                    // some packets may be added to the array while encoding, so the initial length must be saved
+                    var length = packets.length;
+                    var encodedPackets = new Array(length);
+                    var count = 0;
+                    packets.forEach(function (packet, i) {
+                        // force base64 encoding for binary packets
+                        encodePacket(packet, false, function (encodedPacket) {
+                            encodedPackets[i] = encodedPacket;
+
+                            if (++count === length) {
+                                callback(encodedPackets.join(SEPARATOR));
+                            }
+                        });
+                    });
+                };
+
+                var decodePayload = function decodePayload(encodedPayload, binaryType) {
+                    var encodedPackets = encodedPayload.split(SEPARATOR);
+                    var packets = [];
+
+                    for (var i = 0; i < encodedPackets.length; i++) {
+                        var decodedPacket = decodePacket(encodedPackets[i], binaryType);
+                        packets.push(decodedPacket);
+
+                        if (decodedPacket.type === "error") {
+                            break;
+                        }
+                    }
+
+                    return packets;
+                };
+
+                module.exports = {
+                    protocol: 4,
+                    encodePacket: encodePacket,
+                    encodePayload: encodePayload,
+                    decodePacket: decodePacket,
+                    decodePayload: decodePayload
+                };
+
+                /***/ }),
+
+            /***/ "./node_modules/engine.io-parser/node_modules/base64-arraybuffer/lib/base64-arraybuffer.js":
+            /*!*************************************************************************************************!*\
+  !*** ./node_modules/engine.io-parser/node_modules/base64-arraybuffer/lib/base64-arraybuffer.js ***!
+  \*************************************************************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports) {
+
+                /*
+ * base64-arraybuffer
+ * https://github.com/niklasvh/base64-arraybuffer
+ *
+ * Copyright (c) 2012 Niklas von Hertzen
+ * Licensed under the MIT license.
+ */
+                (function (chars) {
+
+                    exports.encode = function (arraybuffer) {
+                        var bytes = new Uint8Array(arraybuffer),
+                            i,
+                            len = bytes.length,
+                            base64 = "";
+
+                        for (i = 0; i < len; i += 3) {
+                            base64 += chars[bytes[i] >> 2];
+                            base64 += chars[(bytes[i] & 3) << 4 | bytes[i + 1] >> 4];
+                            base64 += chars[(bytes[i + 1] & 15) << 2 | bytes[i + 2] >> 6];
+                            base64 += chars[bytes[i + 2] & 63];
+                        }
+
+                        if (len % 3 === 2) {
+                            base64 = base64.substring(0, base64.length - 1) + "=";
+                        } else if (len % 3 === 1) {
+                            base64 = base64.substring(0, base64.length - 2) + "==";
+                        }
+
+                        return base64;
+                    };
+
+                    exports.decode = function (base64) {
+                        var bufferLength = base64.length * 0.75,
+                            len = base64.length,
+                            i,
+                            p = 0,
+                            encoded1,
+                            encoded2,
+                            encoded3,
+                            encoded4;
+
+                        if (base64[base64.length - 1] === "=") {
+                            bufferLength--;
+
+                            if (base64[base64.length - 2] === "=") {
+                                bufferLength--;
+                            }
+                        }
+
+                        var arraybuffer = new ArrayBuffer(bufferLength),
+                            bytes = new Uint8Array(arraybuffer);
+
+                        for (i = 0; i < len; i += 4) {
+                            encoded1 = chars.indexOf(base64[i]);
+                            encoded2 = chars.indexOf(base64[i + 1]);
+                            encoded3 = chars.indexOf(base64[i + 2]);
+                            encoded4 = chars.indexOf(base64[i + 3]);
+                            bytes[p++] = encoded1 << 2 | encoded2 >> 4;
+                            bytes[p++] = (encoded2 & 15) << 4 | encoded3 >> 2;
+                            bytes[p++] = (encoded3 & 3) << 6 | encoded4 & 63;
+                        }
+
+                        return arraybuffer;
+                    };
+                })("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/");
+
+                /***/ }),
+
+            /***/ "./node_modules/has-cors/index.js":
+            /*!****************************************!*\
+  !*** ./node_modules/has-cors/index.js ***!
+  \****************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports) {
+
+                /**
+                 * Module exports.
+                 *
+                 * Logic borrowed from Modernizr:
+                 *
+                 *   - https://github.com/Modernizr/Modernizr/blob/master/feature-detects/cors.js
+                 */
+                try {
+                    module.exports = typeof XMLHttpRequest !== 'undefined' && 'withCredentials' in new XMLHttpRequest();
+                } catch (err) {
+                    // if XMLHttp support is disabled in IE then it will throw
+                    // when trying to create
+                    module.exports = false;
+                }
+
+                /***/ }),
+
+            /***/ "./node_modules/ms/index.js":
+            /*!**********************************!*\
+  !*** ./node_modules/ms/index.js ***!
+  \**********************************/
+            /*! no static exports found */
+            /***/ (function(module, exports) {
+
+                function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+                /**
+                 * Helpers.
+                 */
+                var s = 1000;
+                var m = s * 60;
+                var h = m * 60;
+                var d = h * 24;
+                var w = d * 7;
+                var y = d * 365.25;
+                /**
+                 * Parse or format the given `val`.
+                 *
+                 * Options:
+                 *
+                 *  - `long` verbose formatting [false]
+                 *
+                 * @param {String|Number} val
+                 * @param {Object} [options]
+                 * @throws {Error} throw an error if val is not a non-empty string or a number
+                 * @return {String|Number}
+                 * @api public
+                 */
+
+                module.exports = function (val, options) {
+                    options = options || {};
+
+                    var type = _typeof(val);
+
+                    if (type === 'string' && val.length > 0) {
+                        return parse(val);
+                    } else if (type === 'number' && isFinite(val)) {
+                        return options["long"] ? fmtLong(val) : fmtShort(val);
+                    }
+
+                    throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val));
+                };
+                /**
+                 * Parse the given `str` and return milliseconds.
+                 *
+                 * @param {String} str
+                 * @return {Number}
+                 * @api private
+                 */
+
+
+                function parse(str) {
+                    str = String(str);
+
+                    if (str.length > 100) {
+                        return;
+                    }
+
+                    var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(str);
+
+                    if (!match) {
+                        return;
+                    }
+
+                    var n = parseFloat(match[1]);
+                    var type = (match[2] || 'ms').toLowerCase();
+
+                    switch (type) {
+                        case 'years':
+                        case 'year':
+                        case 'yrs':
+                        case 'yr':
+                        case 'y':
+                            return n * y;
+
+                        case 'weeks':
+                        case 'week':
+                        case 'w':
+                            return n * w;
+
+                        case 'days':
+                        case 'day':
+                        case 'd':
+                            return n * d;
+
+                        case 'hours':
+                        case 'hour':
+                        case 'hrs':
+                        case 'hr':
+                        case 'h':
+                            return n * h;
+
+                        case 'minutes':
+                        case 'minute':
+                        case 'mins':
+                        case 'min':
+                        case 'm':
+                            return n * m;
+
+                        case 'seconds':
+                        case 'second':
+                        case 'secs':
+                        case 'sec':
+                        case 's':
+                            return n * s;
+
+                        case 'milliseconds':
+                        case 'millisecond':
+                        case 'msecs':
+                        case 'msec':
+                        case 'ms':
+                            return n;
+
+                        default:
+                            return undefined;
+                    }
+                }
+                /**
+                 * Short format for `ms`.
+                 *
+                 * @param {Number} ms
+                 * @return {String}
+                 * @api private
+                 */
+
+
+                function fmtShort(ms) {
+                    var msAbs = Math.abs(ms);
+
+                    if (msAbs >= d) {
+                        return Math.round(ms / d) + 'd';
+                    }
+
+                    if (msAbs >= h) {
+                        return Math.round(ms / h) + 'h';
+                    }
+
+                    if (msAbs >= m) {
+                        return Math.round(ms / m) + 'm';
+                    }
+
+                    if (msAbs >= s) {
+                        return Math.round(ms / s) + 's';
+                    }
+
+                    return ms + 'ms';
+                }
+                /**
+                 * Long format for `ms`.
+                 *
+                 * @param {Number} ms
+                 * @return {String}
+                 * @api private
+                 */
+
+
+                function fmtLong(ms) {
+                    var msAbs = Math.abs(ms);
+
+                    if (msAbs >= d) {
+                        return plural(ms, msAbs, d, 'day');
+                    }
+
+                    if (msAbs >= h) {
+                        return plural(ms, msAbs, h, 'hour');
+                    }
+
+                    if (msAbs >= m) {
+                        return plural(ms, msAbs, m, 'minute');
+                    }
+
+                    if (msAbs >= s) {
+                        return plural(ms, msAbs, s, 'second');
+                    }
+
+                    return ms + ' ms';
+                }
+                /**
+                 * Pluralization helper.
+                 */
+
+
+                function plural(ms, msAbs, n, name) {
+                    var isPlural = msAbs >= n * 1.5;
+                    return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
+                }
+
+                /***/ }),
+
+            /***/ "./node_modules/parseqs/index.js":
+            /*!***************************************!*\
+  !*** ./node_modules/parseqs/index.js ***!
+  \***************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports) {
+
+                /**
+                 * Compiles a querystring
+                 * Returns string representation of the object
+                 *
+                 * @param {Object}
+                 * @api private
+                 */
+                exports.encode = function (obj) {
+                    var str = '';
+
+                    for (var i in obj) {
+                        if (obj.hasOwnProperty(i)) {
+                            if (str.length) str += '&';
+                            str += encodeURIComponent(i) + '=' + encodeURIComponent(obj[i]);
+                        }
+                    }
+
+                    return str;
+                };
+                /**
+                 * Parses a simple querystring into an object
+                 *
+                 * @param {String} qs
+                 * @api private
+                 */
+
+
+                exports.decode = function (qs) {
+                    var qry = {};
+                    var pairs = qs.split('&');
+
+                    for (var i = 0, l = pairs.length; i < l; i++) {
+                        var pair = pairs[i].split('=');
+                        qry[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+                    }
+
+                    return qry;
+                };
+
+                /***/ }),
+
+            /***/ "./node_modules/parseuri/index.js":
+            /*!****************************************!*\
+  !*** ./node_modules/parseuri/index.js ***!
+  \****************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports) {
+
+                /**
+                 * Parses an URI
+                 *
+                 * @author Steven Levithan <stevenlevithan.com> (MIT license)
+                 * @api private
+                 */
+                var re = /^(?:(?![^:@]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/;
+                var parts = ['source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'anchor'];
+
+                module.exports = function parseuri(str) {
+                    var src = str,
+                        b = str.indexOf('['),
+                        e = str.indexOf(']');
+
+                    if (b != -1 && e != -1) {
+                        str = str.substring(0, b) + str.substring(b, e).replace(/:/g, ';') + str.substring(e, str.length);
+                    }
+
+                    var m = re.exec(str || ''),
+                        uri = {},
+                        i = 14;
+
+                    while (i--) {
+                        uri[parts[i]] = m[i] || '';
+                    }
+
+                    if (b != -1 && e != -1) {
+                        uri.source = src;
+                        uri.host = uri.host.substring(1, uri.host.length - 1).replace(/;/g, ':');
+                        uri.authority = uri.authority.replace('[', '').replace(']', '').replace(/;/g, ':');
+                        uri.ipv6uri = true;
+                    }
+
+                    uri.pathNames = pathNames(uri, uri['path']);
+                    uri.queryKey = queryKey(uri, uri['query']);
+                    return uri;
+                };
+
+                function pathNames(obj, path) {
+                    var regx = /\/{2,9}/g,
+                        names = path.replace(regx, "/").split("/");
+
+                    if (path.substr(0, 1) == '/' || path.length === 0) {
+                        names.splice(0, 1);
+                    }
+
+                    if (path.substr(path.length - 1, 1) == '/') {
+                        names.splice(names.length - 1, 1);
+                    }
+
+                    return names;
+                }
+
+                function queryKey(uri, query) {
+                    var data = {};
+                    query.replace(/(?:^|&)([^&=]*)=?([^&]*)/g, function ($0, $1, $2) {
+                        if ($1) {
+                            data[$1] = $2;
+                        }
+                    });
+                    return data;
+                }
+
+                /***/ }),
+
+            /***/ "./node_modules/socket.io-parser/dist/binary.js":
+            /*!******************************************************!*\
+  !*** ./node_modules/socket.io-parser/dist/binary.js ***!
+  \******************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+
+                function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+                Object.defineProperty(exports, "__esModule", {
+                    value: true
+                });
+                exports.reconstructPacket = exports.deconstructPacket = void 0;
+
+                var is_binary_1 = __webpack_require__(/*! ./is-binary */ "./node_modules/socket.io-parser/dist/is-binary.js");
+                /**
+                 * Replaces every Buffer | ArrayBuffer | Blob | File in packet with a numbered placeholder.
+                 *
+                 * @param {Object} packet - socket.io event packet
+                 * @return {Object} with deconstructed packet and list of buffers
+                 * @public
+                 */
+
+
+                function deconstructPacket(packet) {
+                    var buffers = [];
+                    var packetData = packet.data;
+                    var pack = packet;
+                    pack.data = _deconstructPacket(packetData, buffers);
+                    pack.attachments = buffers.length; // number of binary 'attachments'
+
+                    return {
+                        packet: pack,
+                        buffers: buffers
+                    };
+                }
+
+                exports.deconstructPacket = deconstructPacket;
+
+                function _deconstructPacket(data, buffers) {
+                    if (!data) return data;
+
+                    if (is_binary_1.isBinary(data)) {
+                        var placeholder = {
+                            _placeholder: true,
+                            num: buffers.length
+                        };
+                        buffers.push(data);
+                        return placeholder;
+                    } else if (Array.isArray(data)) {
+                        var newData = new Array(data.length);
+
+                        for (var i = 0; i < data.length; i++) {
+                            newData[i] = _deconstructPacket(data[i], buffers);
+                        }
+
+                        return newData;
+                    } else if (_typeof(data) === "object" && !(data instanceof Date)) {
+                        var _newData = {};
+
+                        for (var key in data) {
+                            if (data.hasOwnProperty(key)) {
+                                _newData[key] = _deconstructPacket(data[key], buffers);
+                            }
+                        }
+
+                        return _newData;
+                    }
+
+                    return data;
+                }
+                /**
+                 * Reconstructs a binary packet from its placeholder packet and buffers
+                 *
+                 * @param {Object} packet - event packet with placeholders
+                 * @param {Array} buffers - binary buffers to put in placeholder positions
+                 * @return {Object} reconstructed packet
+                 * @public
+                 */
+
+
+                function reconstructPacket(packet, buffers) {
+                    packet.data = _reconstructPacket(packet.data, buffers);
+                    packet.attachments = undefined; // no longer useful
+
+                    return packet;
+                }
+
+                exports.reconstructPacket = reconstructPacket;
+
+                function _reconstructPacket(data, buffers) {
+                    if (!data) return data;
+
+                    if (data && data._placeholder) {
+                        return buffers[data.num]; // appropriate buffer (should be natural order anyway)
+                    } else if (Array.isArray(data)) {
+                        for (var i = 0; i < data.length; i++) {
+                            data[i] = _reconstructPacket(data[i], buffers);
+                        }
+                    } else if (_typeof(data) === "object") {
+                        for (var key in data) {
+                            if (data.hasOwnProperty(key)) {
+                                data[key] = _reconstructPacket(data[key], buffers);
+                            }
+                        }
+                    }
+
+                    return data;
+                }
+
+                /***/ }),
+
+            /***/ "./node_modules/socket.io-parser/dist/index.js":
+            /*!*****************************************************!*\
+  !*** ./node_modules/socket.io-parser/dist/index.js ***!
+  \*****************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+
+                function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+                function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+                function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+                function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+                function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+                function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+                function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+                function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+                function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+                function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+                function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+                function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+                function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+                Object.defineProperty(exports, "__esModule", {
+                    value: true
+                });
+                exports.Decoder = exports.Encoder = exports.PacketType = exports.protocol = void 0;
+
+                var Emitter = __webpack_require__(/*! component-emitter */ "./node_modules/component-emitter/index.js");
+
+                var binary_1 = __webpack_require__(/*! ./binary */ "./node_modules/socket.io-parser/dist/binary.js");
+
+                var is_binary_1 = __webpack_require__(/*! ./is-binary */ "./node_modules/socket.io-parser/dist/is-binary.js");
+
+                var debug = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js")("socket.io-parser");
+                /**
+                 * Protocol version.
+                 *
+                 * @public
+                 */
+
+
+                exports.protocol = 5;
+                var PacketType;
+
+                (function (PacketType) {
+                    PacketType[PacketType["CONNECT"] = 0] = "CONNECT";
+                    PacketType[PacketType["DISCONNECT"] = 1] = "DISCONNECT";
+                    PacketType[PacketType["EVENT"] = 2] = "EVENT";
+                    PacketType[PacketType["ACK"] = 3] = "ACK";
+                    PacketType[PacketType["CONNECT_ERROR"] = 4] = "CONNECT_ERROR";
+                    PacketType[PacketType["BINARY_EVENT"] = 5] = "BINARY_EVENT";
+                    PacketType[PacketType["BINARY_ACK"] = 6] = "BINARY_ACK";
+                })(PacketType = exports.PacketType || (exports.PacketType = {}));
+                /**
+                 * A socket.io Encoder instance
+                 */
+
+
+                var Encoder = /*#__PURE__*/function () {
+                    function Encoder() {
+                        _classCallCheck(this, Encoder);
+                    }
+
+                    _createClass(Encoder, [{
+                        key: "encode",
+
+                        /**
+                         * Encode a packet as a single string if non-binary, or as a
+                         * buffer sequence, depending on packet type.
+                         *
+                         * @param {Object} obj - packet object
+                         */
+                        value: function encode(obj) {
+                            debug("encoding packet %j", obj);
+
+                            if (obj.type === PacketType.EVENT || obj.type === PacketType.ACK) {
+                                if (is_binary_1.hasBinary(obj)) {
+                                    obj.type = obj.type === PacketType.EVENT ? PacketType.BINARY_EVENT : PacketType.BINARY_ACK;
+                                    return this.encodeAsBinary(obj);
+                                }
+                            }
+
+                            return [this.encodeAsString(obj)];
+                        }
+                        /**
+                         * Encode packet as string.
+                         */
+
+                    }, {
+                        key: "encodeAsString",
+                        value: function encodeAsString(obj) {
+                            // first is type
+                            var str = "" + obj.type; // attachments if we have them
+
+                            if (obj.type === PacketType.BINARY_EVENT || obj.type === PacketType.BINARY_ACK) {
+                                str += obj.attachments + "-";
+                            } // if we have a namespace other than `/`
+                            // we append it followed by a comma `,`
+
+
+                            if (obj.nsp && "/" !== obj.nsp) {
+                                str += obj.nsp + ",";
+                            } // immediately followed by the id
+
+
+                            if (null != obj.id) {
+                                str += obj.id;
+                            } // json data
+
+
+                            if (null != obj.data) {
+                                str += JSON.stringify(obj.data);
+                            }
+
+                            debug("encoded %j as %s", obj, str);
+                            return str;
+                        }
+                        /**
+                         * Encode packet as 'buffer sequence' by removing blobs, and
+                         * deconstructing packet into object with placeholders and
+                         * a list of buffers.
+                         */
+
+                    }, {
+                        key: "encodeAsBinary",
+                        value: function encodeAsBinary(obj) {
+                            var deconstruction = binary_1.deconstructPacket(obj);
+                            var pack = this.encodeAsString(deconstruction.packet);
+                            var buffers = deconstruction.buffers;
+                            buffers.unshift(pack); // add packet info to beginning of data list
+
+                            return buffers; // write all the buffers
+                        }
+                    }]);
+
+                    return Encoder;
+                }();
+
+                exports.Encoder = Encoder;
+                /**
+                 * A socket.io Decoder instance
+                 *
+                 * @return {Object} decoder
+                 */
+
+                var Decoder = /*#__PURE__*/function (_Emitter) {
+                    _inherits(Decoder, _Emitter);
+
+                    var _super = _createSuper(Decoder);
+
+                    function Decoder() {
+                        _classCallCheck(this, Decoder);
+
+                        return _super.call(this);
+                    }
+                    /**
+                     * Decodes an encoded packet string into packet JSON.
+                     *
+                     * @param {String} obj - encoded packet
+                     */
+
+
+                    _createClass(Decoder, [{
+                        key: "add",
+                        value: function add(obj) {
+                            var packet;
+
+                            if (typeof obj === "string") {
+                                packet = this.decodeString(obj);
+
+                                if (packet.type === PacketType.BINARY_EVENT || packet.type === PacketType.BINARY_ACK) {
+                                    // binary packet's json
+                                    this.reconstructor = new BinaryReconstructor(packet); // no attachments, labeled binary but no binary data to follow
+
+                                    if (packet.attachments === 0) {
+                                        _get(_getPrototypeOf(Decoder.prototype), "emit", this).call(this, "decoded", packet);
+                                    }
+                                } else {
+                                    // non-binary full packet
+                                    _get(_getPrototypeOf(Decoder.prototype), "emit", this).call(this, "decoded", packet);
+                                }
+                            } else if (is_binary_1.isBinary(obj) || obj.base64) {
+                                // raw binary data
+                                if (!this.reconstructor) {
+                                    throw new Error("got binary data when not reconstructing a packet");
+                                } else {
+                                    packet = this.reconstructor.takeBinaryData(obj);
+
+                                    if (packet) {
+                                        // received final buffer
+                                        this.reconstructor = null;
+
+                                        _get(_getPrototypeOf(Decoder.prototype), "emit", this).call(this, "decoded", packet);
+                                    }
+                                }
+                            } else {
+                                throw new Error("Unknown type: " + obj);
+                            }
+                        }
+                        /**
+                         * Decode a packet String (JSON data)
+                         *
+                         * @param {String} str
+                         * @return {Object} packet
+                         */
+
+                    }, {
+                        key: "decodeString",
+                        value: function decodeString(str) {
+                            var i = 0; // look up type
+
+                            var p = {
+                                type: Number(str.charAt(0))
+                            };
+
+                            if (PacketType[p.type] === undefined) {
+                                throw new Error("unknown packet type " + p.type);
+                            } // look up attachments if type binary
+
+
+                            if (p.type === PacketType.BINARY_EVENT || p.type === PacketType.BINARY_ACK) {
+                                var start = i + 1;
+
+                                while (str.charAt(++i) !== "-" && i != str.length) {}
+
+                                var buf = str.substring(start, i);
+
+                                if (buf != Number(buf) || str.charAt(i) !== "-") {
+                                    throw new Error("Illegal attachments");
+                                }
+
+                                p.attachments = Number(buf);
+                            } // look up namespace (if any)
+
+
+                            if ("/" === str.charAt(i + 1)) {
+                                var _start = i + 1;
+
+                                while (++i) {
+                                    var c = str.charAt(i);
+                                    if ("," === c) break;
+                                    if (i === str.length) break;
+                                }
+
+                                p.nsp = str.substring(_start, i);
+                            } else {
+                                p.nsp = "/";
+                            } // look up id
+
+
+                            var next = str.charAt(i + 1);
+
+                            if ("" !== next && Number(next) == next) {
+                                var _start2 = i + 1;
+
+                                while (++i) {
+                                    var _c = str.charAt(i);
+
+                                    if (null == _c || Number(_c) != _c) {
+                                        --i;
+                                        break;
+                                    }
+
+                                    if (i === str.length) break;
+                                }
+
+                                p.id = Number(str.substring(_start2, i + 1));
+                            } // look up json data
+
+
+                            if (str.charAt(++i)) {
+                                var payload = tryParse(str.substr(i));
+
+                                if (Decoder.isPayloadValid(p.type, payload)) {
+                                    p.data = payload;
+                                } else {
+                                    throw new Error("invalid payload");
+                                }
+                            }
+
+                            debug("decoded %s as %j", str, p);
+                            return p;
+                        }
+                    }, {
+                        key: "destroy",
+
+                        /**
+                         * Deallocates a parser's resources
+                         */
+                        value: function destroy() {
+                            if (this.reconstructor) {
+                                this.reconstructor.finishedReconstruction();
+                            }
+                        }
+                    }], [{
+                        key: "isPayloadValid",
+                        value: function isPayloadValid(type, payload) {
+                            switch (type) {
+                                case PacketType.CONNECT:
+                                    return _typeof(payload) === "object";
+
+                                case PacketType.DISCONNECT:
+                                    return payload === undefined;
+
+                                case PacketType.CONNECT_ERROR:
+                                    return typeof payload === "string" || _typeof(payload) === "object";
+
+                                case PacketType.EVENT:
+                                case PacketType.BINARY_EVENT:
+                                    return Array.isArray(payload) && payload.length > 0;
+
+                                case PacketType.ACK:
+                                case PacketType.BINARY_ACK:
+                                    return Array.isArray(payload);
+                            }
+                        }
+                    }]);
+
+                    return Decoder;
+                }(Emitter);
+
+                exports.Decoder = Decoder;
+
+                function tryParse(str) {
+                    try {
+                        return JSON.parse(str);
+                    } catch (e) {
+                        return false;
+                    }
+                }
+                /**
+                 * A manager of a binary event's 'buffer sequence'. Should
+                 * be constructed whenever a packet of type BINARY_EVENT is
+                 * decoded.
+                 *
+                 * @param {Object} packet
+                 * @return {BinaryReconstructor} initialized reconstructor
+                 */
+
+
+                var BinaryReconstructor = /*#__PURE__*/function () {
+                    function BinaryReconstructor(packet) {
+                        _classCallCheck(this, BinaryReconstructor);
+
+                        this.packet = packet;
+                        this.buffers = [];
+                        this.reconPack = packet;
+                    }
+                    /**
+                     * Method to be called when binary data received from connection
+                     * after a BINARY_EVENT packet.
+                     *
+                     * @param {Buffer | ArrayBuffer} binData - the raw binary data received
+                     * @return {null | Object} returns null if more binary data is expected or
+                     *   a reconstructed packet object if all buffers have been received.
+                     */
+
+
+                    _createClass(BinaryReconstructor, [{
+                        key: "takeBinaryData",
+                        value: function takeBinaryData(binData) {
+                            this.buffers.push(binData);
+
+                            if (this.buffers.length === this.reconPack.attachments) {
+                                // done with buffer list
+                                var packet = binary_1.reconstructPacket(this.reconPack, this.buffers);
+                                this.finishedReconstruction();
+                                return packet;
+                            }
+
+                            return null;
+                        }
+                        /**
+                         * Cleans up binary packet reconstruction variables.
+                         */
+
+                    }, {
+                        key: "finishedReconstruction",
+                        value: function finishedReconstruction() {
+                            this.reconPack = null;
+                            this.buffers = [];
+                        }
+                    }]);
+
+                    return BinaryReconstructor;
+                }();
+
+                /***/ }),
+
+            /***/ "./node_modules/socket.io-parser/dist/is-binary.js":
+            /*!*********************************************************!*\
+  !*** ./node_modules/socket.io-parser/dist/is-binary.js ***!
+  \*********************************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+
+                function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+                Object.defineProperty(exports, "__esModule", {
+                    value: true
+                });
+                exports.hasBinary = exports.isBinary = void 0;
+                var withNativeArrayBuffer = typeof ArrayBuffer === "function";
+
+                var isView = function isView(obj) {
+                    return typeof ArrayBuffer.isView === "function" ? ArrayBuffer.isView(obj) : obj.buffer instanceof ArrayBuffer;
+                };
+
+                var toString = Object.prototype.toString;
+                var withNativeBlob = typeof Blob === "function" || typeof Blob !== "undefined" && toString.call(Blob) === "[object BlobConstructor]";
+                var withNativeFile = typeof File === "function" || typeof File !== "undefined" && toString.call(File) === "[object FileConstructor]";
+                /**
+                 * Returns true if obj is a Buffer, an ArrayBuffer, a Blob or a File.
+                 *
+                 * @private
+                 */
+
+                function isBinary(obj) {
+                    return withNativeArrayBuffer && (obj instanceof ArrayBuffer || isView(obj)) || withNativeBlob && obj instanceof Blob || withNativeFile && obj instanceof File;
+                }
+
+                exports.isBinary = isBinary;
+
+                function hasBinary(obj, toJSON) {
+                    if (!obj || _typeof(obj) !== "object") {
+                        return false;
+                    }
+
+                    if (Array.isArray(obj)) {
+                        for (var i = 0, l = obj.length; i < l; i++) {
+                            if (hasBinary(obj[i])) {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    }
+
+                    if (isBinary(obj)) {
+                        return true;
+                    }
+
+                    if (obj.toJSON && typeof obj.toJSON === "function" && arguments.length === 1) {
+                        return hasBinary(obj.toJSON(), true);
+                    }
+
+                    for (var key in obj) {
+                        if (Object.prototype.hasOwnProperty.call(obj, key) && hasBinary(obj[key])) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+
+                exports.hasBinary = hasBinary;
+
+                /***/ }),
+
+            /***/ "./node_modules/yeast/index.js":
+            /*!*************************************!*\
+  !*** ./node_modules/yeast/index.js ***!
+  \*************************************/
+            /*! no static exports found */
+            /***/ (function(module, exports, __webpack_require__) {
+
+
+                var alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'.split(''),
+                    length = 64,
+                    map = {},
+                    seed = 0,
+                    i = 0,
+                    prev;
+                /**
+                 * Return a string representing the specified number.
+                 *
+                 * @param {Number} num The number to convert.
+                 * @returns {String} The string representation of the number.
+                 * @api public
+                 */
+
+                function encode(num) {
+                    var encoded = '';
+
+                    do {
+                        encoded = alphabet[num % length] + encoded;
+                        num = Math.floor(num / length);
+                    } while (num > 0);
+
+                    return encoded;
+                }
+                /**
+                 * Return the integer value specified by the given string.
+                 *
+                 * @param {String} str The string to convert.
+                 * @returns {Number} The integer value represented by the string.
+                 * @api public
+                 */
+
+
+                function decode(str) {
+                    var decoded = 0;
+
+                    for (i = 0; i < str.length; i++) {
+                        decoded = decoded * length + map[str.charAt(i)];
+                    }
+
+                    return decoded;
+                }
+                /**
+                 * Yeast: A tiny growing id generator.
+                 *
+                 * @returns {String} A unique id.
+                 * @api public
+                 */
+
+
+                function yeast() {
+                    var now = encode(+new Date());
+                    if (now !== prev) return seed = 0, prev = now;
+                    return now + '.' + encode(seed++);
+                } //
+// Map each character to its index.
+//
+
+
+                for (; i < length; i++) {
+                    map[alphabet[i]] = i;
+                } //
+// Expose the `yeast`, `encode` and `decode` functions.
+//
+
+
+                yeast.encode = encode;
+                yeast.decode = decode;
+                module.exports = yeast;
+
+                /***/ })
+
+            /******/ });
+});
+
+});
+
+function AssessmentController(mode){
+    this.timeout = undefined;
+    this.panel = undefined;
+    this.form = undefined;
+    this.enter_time = undefined;
+    this.timeout = undefined;
+    this.mode = mode;
+
+    this.create_assessment_panel = function(){
+        chrome.storage.local.get(["ASSESSMENT_PANEL_LAYOUT", "ASSESSMENT_PANEL_OPACITY"], (result) => {
+            this.remove_assessment_panel();
+            const layout = result.ASSESSMENT_PANEL_LAYOUT;
+            switch (layout){
+                case "middle":
+                    [this.panel, this.form] = middle_panel();
+                break;
+                case "bottom":
+                    [this.panel, this.form] = bottom_panel();
+                break;
+                case "top":
+                    [this.panel, this.form] = top_panel();
+                break;
+            }
+            console.log(result);
+            this.panel.style.opacity = result.ASSESSMENT_PANEL_OPACITY.toString() + "%";
+
+            this.form.onsubmit = this.hand_over_data.bind(this);                                                            // NOTICE THE BINDING IN THIS LINE //
+        });
+    };
+    this.remove_assessment_panel = function(){
+        const panel = document.getElementById("acr-panel");
+        if(panel){
+            panel.remove();
+        }
+    };
+
+    this.show_assessment_panel = function(){
+        this.enter_time = Date.now();
+        this.panel.style.visibility = "visible";
+        this.disable_rightclick();
+        this.disable_fullscreen_scrolling();
+    };
+
+    this.hide_assessment_panel = function(){
+        // Hide panel
+        this.panel.style.visibility = "hidden";
+        this.enable_rightclick();
+        // Run another timeout if the mode is set to "auto"
+        if(this.mode === "auto"){
+            this.run_timeout();
+        }
+    };
+
+    this.hand_over_data = function(e){
+        // Prevent defoult
+        e.preventDefault();
+
+        // Calculate how long the assessment panel was visible
+        const assessment_duration = Date.now() - this.enter_time;
+
+        // Get the subject's assessment
+        const assessment = this.form.getAttribute("assessment");
+        console.log(assessment);
+        // Get timestamp data
+        const timestamp = Date.now();
+
+        // Get other data from nerd statistics
+        const [simple, complex] = get_nerd_elements();
+        const mysteryText = simple.mysteryText.querySelector("span").innerText;
+        const time_in_video =  mysteryText.match(/t\:([0-9]+\.[0-9]+)/)[1];
+
+
+        // Hand over the assessment to the background script
+        const message = {
+            msg: "assessment_handover",
+            data: {
+                assessment: assessment,
+                duration: assessment_duration,
+                timestamp: timestamp,
+                time_in_video: time_in_video
+            }
+        };
+        chrome.runtime.sendMessage(message);
+        this.hide_assessment_panel();
+    };
+
+
+
+    this.init = function(){
+        this.create_assessment_panel();
+        console.log(this.mode);
+        if(this.mode === "auto"){
+            // Assessment panel is created automatically
+            this.run_timeout();
+        }
+        else if(this.mode === "remote"){
+            // Remote method of controlling assessment panel
+            var socket = socketIoClient.io.connect("http://localhost:7070", {"forceNew": true});
+            socket.on("controls", (msg)=>{
+                console.log(msg);
+                if(msg.order === "create"){
+                    this.show_assessment_panel();
+                }
+                else if(msg.order === "remove"){
+                    this.hide_assessment_panel();
+                }
+            });
+        }
+        else if(this.mode === "manual"){
+            // Manual method of controling assessment panel
+            document.addEventListener('keydown', (e)=>{
+                if(e.key === "o"){
+                    this.show_assessment_panel();
+                }
+                else if(e.key === "p"){
+                    this.hide_assessment_panel();
+                }
+            });
+        }
+        chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+            // Remove the assessment panel
+            if(request.msg === "stop"){
+                clearTimeout(this.timeout);
+                this.remove_assessment_panel();
+            }
+        });
+    };
+    this.run_timeout = function(){
+        chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=>{
+            console.log("TIMEOUT");
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(this.show_assessment_panel.bind(this), result.ASSESSMENT_INTERVAL_MS);
+        });
+    };
+
+    this.disable_rightclick = function(){
+        window.oncontextmenu = (e) => {
+            e.preventDefault();
+        };
+    };
+    this.enable_rightclick = function(){
+        window.oncontextmenu = (e) => {
+            // default behaviour
+        };
+    };
+    this.disable_fullscreen_scrolling = function(){
+        // Disable scrolling in fullscreen - executes when ACR scale shows up
+        document.getElementsByTagName("ytd-app")[0].removeAttribute("scrolling_");
+    };
+}
+
+function DevToolsController(){
+    this.tabId = undefined;
+    this.yt_watch = "https://youtube.com";
+
+
+    this.init = function(){
+        this.attach();
+    };
+    this.attach = function(){
+        // First get the current tab id - cannot call tab.query from content script
+        chrome.runtime.sendMessage( {"msg": "start_devtools"}, (response) => {
+            this.tabId = response.tabId;
+            console.log(this.tabId);
+        });
+    };
+}
+
+// Clear running_monitor from last session - will not execute on first video playback
+if(typeof running_monitor !== "undefined"){
+    console.log("CLEARING");
+    clearInterval(running_monitor);
+}
+else {
+    console.log("No running monitor to clear");
+}
+
+// Activate nerd statistics popup and get the HTML elements
+var [simple, complex] = get_nerd_elements();
+
+
+// Start capturing nerd statistics data
+var running_monitor = setInterval(run_monitor, CONFIG.INTERVAL, simple, complex);
+
+
+// Start the assessment controller
+chrome.storage.local.get(["ASSESSMENT_MODE"], (result)=>{
+    var controller = new AssessmentController(result.ASSESSMENT_MODE);
+    controller.init();
+});
+var dev_controller = new DevToolsController();
+dev_controller.init();
+
+
+// Listen for tab close, refresh, redirect to different page (different address)
+window.onbeforeunload = () => {
+    const message = {
+        msg: "onbeforeunload"
+    };
+    chrome.runtime.sendMessage(message);
+};
+
+// Listen for messages from background script
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+
+    // Clear interval in case of receiving "stop" message
+    if(request.msg === "stop"){
+        if(typeof running_monitor !== 'undefined'){
+            clearInterval(running_monitor);
+        }
+    }
+});

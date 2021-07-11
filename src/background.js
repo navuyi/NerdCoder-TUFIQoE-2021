@@ -10,11 +10,12 @@ var captured_data = [];
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
-        ASSESSMENT_PANEL_OPACITY: 80,                   // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 5000,                    // Interval for assessment in auto mode in milliseconds
-        ASSESSMENT_MODE: "auto",                        // Available modes are "remote", "auto" and "manual"
-        ASSESSMENT_PANEL_LAYOUT: "middle",              // Available for now are "middle", "top", "bottom"
-        ASSESSMENT_PAUSE: "disabled"                    // Enable/disable playback pausing/resuming on video assessment
+        ASSESSMENT_PANEL_OPACITY: 80,                    // Opacity of the assessment panel in %
+        ASSESSMENT_INTERVAL_MS: 60000,                   // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_MODE: "auto",                         // Available modes are "remote", "auto" and "manual"
+        ASSESSMENT_PANEL_LAYOUT: "middle",               // Available for now are "middle", "top", "bottom"
+        ASSESSMENT_PAUSE: "disabled",                    // Enable/disable playback pausing/resuming on video assessment
+        CONNECTION_CHECK: true
     }
     chrome.storage.local.set(config, ()=>{
         console.log("Config has been saved: " + config);
@@ -23,7 +24,7 @@ chrome.runtime.onInstalled.addListener( ()=>{
 
 
 function submit_captured_data(captured_data, tabId){
-    const my_url = " http://127.0.0.1:5000/new_session";
+    const my_url = "http://127.0.0.1:5000/new_session";
     const my_method = "POST";
     const my_headers = {
         'Accept': 'application/json',
@@ -50,13 +51,40 @@ function submit_captured_data(captured_data, tabId){
     }
 }
 
+function execute_script(tabId){
+    chrome.storage.local.get(["CONNECTION_CHECK"], res => {
+        const check = res.CONNECTION_CHECK;
+        console.log(check);
+        if(check === true){
+            // Check connection with database before executing script
+            const url = "http://127.0.0.1:5000/connection_check"
+            fetch(url, {method: "GET"})
+                .then(res=>res.json())
+                .then(data => {
+                    if(data.msg === "OK"){
+                        console.log("Connection OK")
+                        chrome.tabs.executeScript(tabId, {file: "init.js"})
+                    }
+                })
+                .catch(err => {
+                    console.log("API is not reachable")
+                    console.log(err);
+                    chrome.tabs.executeScript(tabId, {file: "no_connection_screen.js"})
+                });
+        }
+        else if(check === false){
+            chrome.tabs.executeScript(tabId, {file: "init.js"})
+        }
+    })
+}
+
 // Listen for entering youtube page with video player
 // webNavigation.onHistoryStateUpdated is used instead of tabs.onUpdated due to multiple executions caused by iframes
 chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
     if(details.frameId === 0 && details.url.includes(yt_watch_string)) {
         chrome.tabs.get(details.tabId, (tab) => {
             if(tab.url === details.url) {
-
+                console.log("ASDASDASD " + details.tabId)
                 // If there is any captured data from last session submit it and clear the array
                 if(captured_data.length > 0){
                     submit_captured_data(captured_data, details.tabId);
@@ -65,7 +93,7 @@ chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
                     console.log("No data captured yet");
                 }
                 // Inject content script into current page with video player
-                chrome.tabs.executeScript(tab.id, {file: "init.js"});
+                execute_script(tab.id)
             }
         });
     }
@@ -79,7 +107,7 @@ chrome.webNavigation.onCommitted.addListener((details) => {
             if(tab.url === details.url){
                 if (["reload", "typed", "link"].includes(details.transitionType) && details.url.includes(yt_watch_string)){
                     // Inject content script into current page with video player
-                    chrome.tabs.executeScript(details.tabId, {file: "init.js"})
+                    execute_script(details.tabId)
                 }
             }
         })
@@ -105,7 +133,7 @@ chrome.tabs.onUpdated.addListener((tab_id, changeInfo, tab)=>{
 chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
 
         // Listen for handover data - captured nerd statistics
-        if(request.msg == "data_handover"){
+        if(request.msg === "data_handover"){
             const received_data = request.data;
             const tabId = sender.tab.id;
 
@@ -123,7 +151,7 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
             }
         }
         // Listen for assessment handover
-        if(request.msg == "assessment_handover"){
+        if(request.msg === "assessment_handover"){
             const received_assessment = request.data;
             const tabId = sender.tab.id;
 
@@ -148,12 +176,43 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
             }
         }
         // Listen for onbeforeunload message - tab close, refresh
-        else if(request.msg == "onbeforeunload"){
+        else if(request.msg === "onbeforeunload"){
             submit_captured_data(captured_data, sender.tab.id);
 
-            if(request.type == "video_end"){
+            if(request.type === "video_end"){
                 chrome.tabs.sendMessage(sender.tab.id, {msg: "stop"});
             }
         }
+        else if(request.msg === "start_devtools"){
+
+            sendResponse({tabId: sender.tab.id});
+            chrome.tabs.get(sender.tab.id, tab => {
+                console.log(tab);
+            })
+
+            chrome.debugger.attach({tabId: sender.tab.id}, "1.2", ()=>{
+                chrome.debugger.sendCommand({tabId: sender.tab.id}, "Page.bringToFront");
+            })
+
+
+
+
+        }
     }
 );
+/*
+chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+    const tab = tabs[0];
+    console.log(tabs);
+    chrome.debugger.getTargets((result)=>{
+        console.log(result);
+    })
+    chrome.debugger.attach({tabId: tab.id}, "1.3", () => {
+        console.log("!@#asd122")
+    })
+})
+*/
+
+
+
+

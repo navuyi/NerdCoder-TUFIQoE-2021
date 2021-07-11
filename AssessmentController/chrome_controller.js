@@ -13,7 +13,7 @@ async function example() {
         // enable events then start!
         await Network.enable();
         await Page.enable();
-        await Page.navigate({url: 'https://github.com'});
+        await Page.navigate({url: 'https://youtube.com'});
         await Page.loadEventFired();
     } catch (err) {
         console.error(err);

@@ -17,6 +17,14 @@ chrome.storage.local.get(["ASSESSMENT_MODE"], (result)=>{
 chrome.storage.local.get(["ASSESSMENT_PANEL_LAYOUT"], (result)=>{
     document.getElementById(result.ASSESSMENT_PANEL_LAYOUT).setAttribute("active", true);
 })
+// Default for database connectioncheck
+chrome.storage.local.get(["CONNECTION_CHECK"], (result)=>{
+    const check = result.CONNECTION_CHECK
+    const button = document.getElementById("connection-check")
+    button.setAttribute("active", check.toString());
+
+    check ? button.innerText="Enabled" : button.innerText="Disabled"
+})
 
 
 // Assessment mode - buttons configuration
@@ -61,9 +69,23 @@ layout_buttons.forEach((id) => {
     document.getElementById(id).addEventListener("click", handle_layout_change)
 })
 
-
-
-
+// Connection control
+const conn_control_btn = document.getElementById("connection-check")
+const handle_conn_control = (e) => {
+    const btn_check = e.target.getAttribute("active");
+    let new_check = undefined;
+    if(btn_check === "true"){
+        new_check = false;
+        e.target.innerText = "Disabled"
+    }
+    else if(btn_check === "false"){
+        new_check = true;
+        e.target.innerText = "Enabled"
+    }
+    e.target.setAttribute("active", new_check.toString());
+    chrome.storage.local.set({CONNECTION_CHECK: new_check});
+}
+conn_control_btn.addEventListener("click", handle_conn_control);
 
 // Handle configuration save
 document.getElementById("save-button").addEventListener('click', (e)=>{
