@@ -64,10 +64,16 @@ function get_nerd_elements(){
     const mysteryText = nerd_data.item(14);
 
     // Hide the statistics popup by setting opacity to 0 and making unclickable
-    {
-        nerd_stats.style.opacity = "100%";
-    }
-
+    chrome.storage.local.get(["DEVELOPER_MODE"], (res) => {
+        const dev_mode = res.DEVELOPER_MODE;
+        if(dev_mode === true){
+            nerd_stats.style.opacity = "100%";
+        }
+        else if(dev_mode === false){
+            nerd_stats.style.opacity = "0%";
+            nerd_stats.style.pointerEvents = "none";
+        }
+    });
 
     // TAKE NOTE THAT mysteryText is first element in the array
     const nerd_elements_simple = {
@@ -6634,5 +6640,48 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if(typeof running_monitor !== 'undefined'){
             clearInterval(running_monitor);
         }
+    }
+});
+
+chrome.storage.local.get(["DEVELOPER_MODE"], (res) => {
+    const mode = res.DEVELOPER_MODE;
+    if(mode === true){
+        const devmode_check = document.getElementById("devmode");
+        if(devmode_check){
+            return 1;
+        }
+        const devmode = document.createElement("div");
+
+        devmode.style.backgroundColor = "rgba(34,34,34,0.8)";
+        devmode.id = "devmode";
+        devmode.style.position = "absolute";
+        devmode.style.right = "0px";
+        devmode.style.top = "0px";
+
+        devmode.style.padding = "2em 2em";
+
+        devmode.style.zIndex = "2077";
+        devmode.style.userSelect = "none";
+        devmode.style.display = "flex";
+        devmode.style.flexDirection = "column";
+        devmode.style.justifyContent = "center";
+        devmode.style.alignItems = "center";
+
+        const text = document.createElement("p");
+        text.innerText = "NerdCoder is working in developer mode";
+        text.style.fontSize = "3rem";
+        text.style.color = "red";
+        text.style.fontWeight = "bold";
+
+        const subtext = document.createElement("p");
+        subtext.innerText = "Databa base connection is not checked. Captured data may not be saved.";
+        subtext.style.fontSize = "2rem";
+        subtext.style.color = "whitesmoke";
+
+        devmode.appendChild(text);
+        devmode.appendChild(subtext);
+        //document.getElementsByTagName("ytd-app")[0].appendChild(devmode);
+        document.getElementById("player").appendChild(devmode);
+
     }
 });

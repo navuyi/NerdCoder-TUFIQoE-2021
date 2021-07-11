@@ -15,7 +15,7 @@ chrome.runtime.onInstalled.addListener( ()=>{
         ASSESSMENT_MODE: "auto",                         // Available modes are "remote", "auto" and "manual"
         ASSESSMENT_PANEL_LAYOUT: "middle",               // Available for now are "middle", "top", "bottom"
         ASSESSMENT_PAUSE: "disabled",                    // Enable/disable playback pausing/resuming on video assessment
-        CONNECTION_CHECK: true
+        DEVELOPER_MODE: true                          // Enable/disable developer mode - nerd stats visibility, connection check
     };
     chrome.storage.local.set(config, ()=>{
         console.log("Config has been saved: " + config);
@@ -52,10 +52,10 @@ function submit_captured_data(captured_data, tabId){
 }
 
 function execute_script(tabId){
-    chrome.storage.local.get(["CONNECTION_CHECK"], res => {
-        const check = res.CONNECTION_CHECK;
-        console.log(check);
-        if(check === true){
+    chrome.storage.local.get(["DEVELOPER_MODE"], res => {
+        const dev_mode = res.DEVELOPER_MODE;
+
+        if(dev_mode === false){
             // Check connection with database before executing script
             const url = "http://127.0.0.1:5000/connection_check";
             fetch(url, {method: "GET"})
@@ -72,7 +72,7 @@ function execute_script(tabId){
                     chrome.tabs.executeScript(tabId, {file: "no_connection_screen.js"});
                 });
         }
-        else if(check === false){
+        else if(dev_mode === true){
             chrome.tabs.executeScript(tabId, {file: "init.js"});
         }
     });
@@ -137,7 +137,7 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
             const received_data = request.data;
             const tabId = sender.tab.id;
 
-            // Look if data from this monitor session already exists
+            // Check if data from this monitor session already exists
             const record = captured_data.find(record => record.id === tabId);
             if(record !== undefined){
                 record.data.push(received_data);
@@ -173,21 +173,7 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                 chrome.tabs.sendMessage(sender.tab.id, {msg: "stop"});
             }
         }
-        else if(request.msg === "start_devtools"){
-
-            sendResponse({tabId: sender.tab.id});
-            chrome.tabs.get(sender.tab.id, tab => {
-                console.log(tab);
-            });
-
-            chrome.debugger.attach({tabId: sender.tab.id}, "1.2", ()=>{
-                chrome.debugger.sendCommand({tabId: sender.tab.id}, "Page.bringToFront");
-            });
-
-
-
-
-        }
+        else if(request.msg === "start_devtools");
     }
 );
 /*

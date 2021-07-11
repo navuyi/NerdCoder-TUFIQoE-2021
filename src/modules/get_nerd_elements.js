@@ -60,14 +60,16 @@ export function get_nerd_elements(){
     const mysteryText = nerd_data.item(14);
 
     // Hide the statistics popup by setting opacity to 0 and making unclickable
-    if(CONFIG.NERD_STAT_VISIBILITY){
-        nerd_stats.style.opacity = "100%";
-    }
-    else{
-        nerd_stats.style.opacity = "0%";
-        nerd_stats.style.pointerEvents = "none";
-    }
-
+    chrome.storage.local.get(["DEVELOPER_MODE"], (res) => {
+        const dev_mode = res.DEVELOPER_MODE;
+        if(dev_mode === true){
+            nerd_stats.style.opacity = "100%";
+        }
+        else if(dev_mode === false){
+            nerd_stats.style.opacity = "0%";
+            nerd_stats.style.pointerEvents = "none";
+        }
+    })
 
     // TAKE NOTE THAT mysteryText is first element in the array
     const nerd_elements_simple = {

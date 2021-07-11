@@ -14,7 +14,7 @@ bg_panel.style.flexDirection = "column";
 bg_panel.style.userSelect = "none";
 
 var text = document.createElement("div");
-text.innerText = "Wystąpił błąd. Proszę zawiadomić kierownika eksperymentów.";
+text.innerText = "Wystąpił błąd. Proszę zawiadomić osobę prowadzącą eksperyment.";
 text.style.color = "#d9534f";
 text.style.margin = "0 0";
 text.style.fontSize = "3rem";

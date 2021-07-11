@@ -18,12 +18,12 @@ chrome.storage.local.get(["ASSESSMENT_PANEL_LAYOUT"], (result)=>{
     document.getElementById(result.ASSESSMENT_PANEL_LAYOUT).setAttribute("active", true);
 });
 // Default for database connectioncheck
-chrome.storage.local.get(["CONNECTION_CHECK"], (result)=>{
-    const check = result.CONNECTION_CHECK;
-    const button = document.getElementById("connection-check");
-    button.setAttribute("active", check.toString());
+chrome.storage.local.get(["DEVELOPER_MODE"], (result)=>{
+    const dev_mode = result.DEVELOPER_MODE;
+    const button = document.getElementById("dev-mode");
+    button.setAttribute("active", dev_mode.toString());
 
-    check ? button.innerText="Enabled" : button.innerText="Disabled";
+    dev_mode ? button.innerText="Enabled" : button.innerText="Disabled";
 });
 
 
@@ -70,22 +70,22 @@ layout_buttons.forEach((id) => {
 });
 
 // Connection control
-const conn_control_btn = document.getElementById("connection-check");
-const handle_conn_control = (e) => {
-    const btn_check = e.target.getAttribute("active");
-    let new_check = undefined;
-    if(btn_check === "true"){
-        new_check = false;
+const dev_mode_btn = document.getElementById("dev-mode");
+const handle_dev_mode = (e) => {
+    const variant = e.target.getAttribute("active");
+    let new_variant = undefined;
+    if(variant === "true"){
+        new_variant = false;
         e.target.innerText = "Disabled";
     }
-    else if(btn_check === "false"){
-        new_check = true;
+    else if(variant === "false"){
+        new_variant = true;
         e.target.innerText = "Enabled";
     }
-    e.target.setAttribute("active", new_check.toString());
-    chrome.storage.local.set({CONNECTION_CHECK: new_check});
+    e.target.setAttribute("active", new_variant.toString());
+    chrome.storage.local.set({DEVELOPER_MODE: new_variant});
 };
-conn_control_btn.addEventListener("click", handle_conn_control);
+dev_mode_btn.addEventListener("click", handle_dev_mode);
 
 // Handle configuration save
 document.getElementById("save-button").addEventListener('click', (e)=>{

@@ -35,7 +35,11 @@ the extension behaviour and some element's layout.
     User can control the assessment panel from the script running on the same or remote computer from the one that extension is running on
 - Assessment panel layout
   - top, middle, bottom - defines the layout of the assessment panel
-- [ N E W ] Connection check
-  - Enables/disables the database connection check every time new YouTube video is played.
+- [ N E W ] Developer mode
+  - Enables/disables the developer mode
+  - If developer mode is enabled database connection is not checked, nerd statistics panel is visible, additional information
+    panel is visible, captured data may not be saved
+  - If developer mode is disabled (equals to production/experiment mode), database connection is checked every time user enters new video
   - In case connection fails (most likely reason for that is Flask REST API is not running)
     YouTube player is closed and warning screen is displayed with proper information.
+  
