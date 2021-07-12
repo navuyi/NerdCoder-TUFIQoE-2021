@@ -3,7 +3,10 @@
   "description": "Chrome extension for tracking YouTube activity and gathering nerd statistics",
   "version": "1.0",
   "manifest_version": 2,
-  "background": { "scripts": ["background.js"] },
+  "background": {
+    "persistent": false,
+    "scripts": ["background.js"]
+  },
   "permissions": [
     "storage",
     "debugger",

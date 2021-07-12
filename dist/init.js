@@ -6581,23 +6581,6 @@ function AssessmentController(mode){
     };
 }
 
-function DevToolsController(){
-    this.tabId = undefined;
-    this.yt_watch = "https://youtube.com";
-
-
-    this.init = function(){
-        this.attach();
-    };
-    this.attach = function(){
-        // First get the current tab id - cannot call tab.query from content script
-        chrome.runtime.sendMessage( {"msg": "start_devtools"}, (response) => {
-            this.tabId = response.tabId;
-            console.log(this.tabId);
-        });
-    };
-}
-
 // Clear running_monitor from last session - will not execute on first video playback
 if(typeof running_monitor !== "undefined"){
     console.log("CLEARING");
@@ -6620,8 +6603,6 @@ chrome.storage.local.get(["ASSESSMENT_MODE"], (result)=>{
     var controller = new AssessmentController(result.ASSESSMENT_MODE);
     controller.init();
 });
-var dev_controller = new DevToolsController();
-dev_controller.init();
 
 
 // Listen for tab close, refresh, redirect to different page (different address)

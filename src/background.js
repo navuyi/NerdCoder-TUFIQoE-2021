@@ -5,7 +5,7 @@
 
 const yt_watch_string = "https://www.youtube.com/watch?v="
 var captured_data = [];
-
+let debugger_running = false;
 
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
@@ -63,17 +63,25 @@ function execute_script(tabId){
                 .then(data => {
                     if(data.msg === "OK"){
                         console.log("Connection OK")
-                        chrome.tabs.executeScript(tabId, {file: "init.js"})
+                        chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
+                            // Run debugger
+                            debuggerInit(tabId);
+                        })
                     }
                 })
                 .catch(err => {
                     console.log("API is not reachable")
                     console.log(err);
+                    // Inject content script into tab
                     chrome.tabs.executeScript(tabId, {file: "no_connection_screen.js"})
                 });
         }
         else if(dev_mode === true){
-            chrome.tabs.executeScript(tabId, {file: "init.js"})
+            // Inject content script into tab
+            chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
+                // Run debugger
+                debuggerInit(tabId);
+            })
         }
     })
 }
@@ -112,7 +120,9 @@ chrome.webNavigation.onCommitted.addListener((details) => {
             }
         })
     }
-
+    if(details.frameId === 0 && details.url === "https://www.youtube.com/"){
+        console.log("YOUTUBE MAIN ENTERED")
+    }
 });
 
 // Listen for tab updates
@@ -183,32 +193,67 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                 chrome.tabs.sendMessage(sender.tab.id, {msg: "stop"});
             }
         }
-        else if(request.msg === "start_devtools"){
-            /*
-            sendResponse({tabId: sender.tab.id});
-            chrome.tabs.get(sender.tab.id, tab => {
-                console.log(tab);
-            })
-
-            chrome.debugger.attach({tabId: sender.tab.id}, "1.2", ()=>{
-                chrome.debugger.sendCommand({tabId: sender.tab.id}, "Page.bringToFront");
-            })
-            */
-        }
     }
 );
-/*
-chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-    const tab = tabs[0];
-    console.log(tabs);
-    chrome.debugger.getTargets((result)=>{
+
+
+// // // DevTools Section // // //
+function devtools_attach(tabId){
+    chrome.debugger.attach({tabId:tabId}, "1.3");
+}
+
+async function debuggerInit(tabId){
+    if(debugger_running !== false){
+        console.log("Debugger is already running");
+    }
+    else{
+        await devtools_attach(tabId);
+    }
+
+    await emulateNetworkConditions(tabId);
+    setTimeout( () => {
+        console.log("Throtteling")
+        setThrottling(tabId, 1, 100000000/5 ,100000000);
+    }, 10000)
+
+
+
+    debugger_running = true;
+    // Listeners
+
+    chrome.debugger.onDetach.addListener((source, reason) => {
+        console.log("[DevTools] On detach")
+        console.log(source)
+        console.log(reason)
+    })
+}
+
+
+function emulateNetworkConditions(tabId){
+
+    chrome.debugger.sendCommand({tabId}, "Network.enable", ()=>{
+        console.log("Network enable OK")
+    });
+
+}
+
+function setThrottling(tabId, latency, dTh, uTh){
+    const params = {
+        offline: false,
+        latency: latency,
+        downloadThroughput: dTh,          //bytes per second
+        uploadThroughput: uTh                //bytes per second
+    };
+    chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params, (result)=>{
         console.log(result);
+        console.log("Network params OK");
     })
-    chrome.debugger.attach({tabId: tab.id}, "1.3", () => {
-        console.log("!@#asd122")
-    })
-})
-*/
+}
+
+function toFront(tabId){
+    chrome.debugger.sendCommand({tabId}, "Page.bringToFront");
+}
+
 
 
 

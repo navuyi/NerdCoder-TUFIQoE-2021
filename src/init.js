@@ -4,7 +4,7 @@ import {run_monitor} from "./modules/monitor";
 import CONFIG from "./config";
 
 import {AssessmentController} from "./classes/AssessmentController";
-import {DevToolsController} from "./classes/DevToolsController";
+
 
 
 // Clear running_monitor from last session - will not execute on first video playback
@@ -29,8 +29,6 @@ chrome.storage.local.get(["ASSESSMENT_MODE"], (result)=>{
     var controller = new AssessmentController(result.ASSESSMENT_MODE)
     controller.init();
 })
-var dev_controller = new DevToolsController();
-dev_controller.init();
 
 
 // Listen for tab close, refresh, redirect to different page (different address)
