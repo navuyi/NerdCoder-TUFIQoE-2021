@@ -92,7 +92,6 @@ chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
     if(details.frameId === 0 && details.url.includes(yt_watch_string)) {
         chrome.tabs.get(details.tabId, (tab) => {
             if(tab.url === details.url) {
-                console.log("ASDASDASD " + details.tabId)
                 // If there is any captured data from last session submit it and clear the array
                 if(captured_data.length > 0){
                     submit_captured_data(captured_data, details.tabId);
@@ -196,62 +195,60 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
     }
 );
 
-
-// // // DevTools Section // // //
-function devtools_attach(tabId){
-    chrome.debugger.attach({tabId:tabId}, "1.3");
+const bitsToBytes = (bits) => {
+    return Math.floor(bits/8);
 }
 
-async function debuggerInit(tabId){
-    if(debugger_running !== false){
-        console.log("Debugger is already running");
+
+const debuggerInit = async (tabId) => {
+    // Implement method for reseting debugger_running option ! !
+    // Manually - reload extension
+    if(debugger_running === false){
+        // Attach to the tab
+        await chrome.debugger.attach({tabId}, "1.3");
+        // Enable network
+        await chrome.debugger.sendCommand({tabId}, "Network.enable");
+
+        debugger_running = true;
+
+
+        // Set 3 Mbps -> 3 000 000
+        const params = {
+            offline: false,
+            latency: 1,
+            downloadThroughput: bitsToBytes(1700000),
+            uploadThroughput: 1000000
+        }
+        await chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params);
+        console.log(params);
+
+
+        // Set 1.7 Mbps -> 1700000
+        const params2 = {
+            offline: false,
+            latency: 1,
+            downloadThroughput: 1000000,
+            uploadThroughput: 10000000
+        }
+        setTimeout( ()=>{
+            chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params2, ()=>{
+                console.log(params2)
+            });
+        },60000);
+
+        // Set 0.5 Mbps -> 500000
+        const params3 = {
+            offline: false,
+            latency: 1,
+            downloadThroughput: bitsToBytes(200000),
+            uploadThroughput: 10000000
+        }
+        setTimeout( ()=>{
+            chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params3, ()=>{
+                console.log(params3)
+            });
+        },120000);
     }
-    else{
-        await devtools_attach(tabId);
-    }
-
-    await emulateNetworkConditions(tabId);
-    setTimeout( () => {
-        console.log("Throtteling")
-        setThrottling(tabId, 1, 100000000/5 ,100000000);
-    }, 10000)
-
-
-
-    debugger_running = true;
-    // Listeners
-
-    chrome.debugger.onDetach.addListener((source, reason) => {
-        console.log("[DevTools] On detach")
-        console.log(source)
-        console.log(reason)
-    })
-}
-
-
-function emulateNetworkConditions(tabId){
-
-    chrome.debugger.sendCommand({tabId}, "Network.enable", ()=>{
-        console.log("Network enable OK")
-    });
-
-}
-
-function setThrottling(tabId, latency, dTh, uTh){
-    const params = {
-        offline: false,
-        latency: latency,
-        downloadThroughput: dTh,          //bytes per second
-        uploadThroughput: uTh                //bytes per second
-    };
-    chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params, (result)=>{
-        console.log(result);
-        console.log("Network params OK");
-    })
-}
-
-function toFront(tabId){
-    chrome.debugger.sendCommand({tabId}, "Page.bringToFront");
 }
 
 
