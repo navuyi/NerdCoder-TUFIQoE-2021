@@ -15,19 +15,22 @@ export function AssessmentController(mode){
     this.mode = mode;
 
     this.create_assessment_panel = function(){
+
+        localStorage.setItem("ASSESSMENT_TIME", "false");
+
         chrome.storage.local.get(["ASSESSMENT_PANEL_LAYOUT", "ASSESSMENT_PANEL_OPACITY"], (result) => {
             this.remove_assessment_panel();
             const layout = result.ASSESSMENT_PANEL_LAYOUT;
             switch (layout){
                 case "middle":
                     [this.panel, this.form] = middle_panel();
-                break;
+                    break;
                 case "bottom":
                     [this.panel, this.form] = bottom_panel();
-                break;
+                    break;
                 case "top":
                     [this.panel, this.form] = top_panel();
-                break;
+                    break;
             }
             console.log(result)
             this.panel.style.opacity = result.ASSESSMENT_PANEL_OPACITY.toString() + "%";
@@ -43,6 +46,8 @@ export function AssessmentController(mode){
     }
 
     this.show_assessment_panel = function(){
+        localStorage.setItem("ASSESSMENT_TIME", "true");
+
         this.enter_time = Date.now();
         this.panel.style.visibility = "visible";
         this.disable_rightclick();
@@ -50,6 +55,8 @@ export function AssessmentController(mode){
     }
 
     this.hide_assessment_panel = function(){
+        localStorage.setItem("ASSESSMENT_TIME", "false");
+
         // Hide panel
         this.panel.style.visibility = "hidden";
         this.enable_rightclick();
@@ -156,4 +163,3 @@ export function AssessmentController(mode){
         document.getElementsByTagName("ytd-app")[0].removeAttribute("scrolling_");
     }
 }
-

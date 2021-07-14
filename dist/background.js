@@ -5,16 +5,16 @@
 
 const yt_watch_string = "https://www.youtube.com/watch?v=";
 var captured_data = [];
-let debugger_running = false;
 
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
         ASSESSMENT_PANEL_OPACITY: 80,                    // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 60000,                   // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_INTERVAL_MS: 5000,                   // Interval for assessment in auto mode in milliseconds
         ASSESSMENT_MODE: "auto",                         // Available modes are "remote", "auto" and "manual"
         ASSESSMENT_PANEL_LAYOUT: "middle",               // Available for now are "middle", "top", "bottom"
         ASSESSMENT_PAUSE: "disabled",                    // Enable/disable playback pausing/resuming on video assessment
+        ASSESSMENT_PANEL_VISIBLE: false,
         DEVELOPER_MODE: true                          // Enable/disable developer mode - nerd stats visibility, connection check
     };
     chrome.storage.local.set(config, ()=>{
@@ -65,7 +65,7 @@ function execute_script(tabId){
                         console.log("Connection OK");
                         chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
                             // Run debugger
-                            debuggerInit(tabId);
+                            //debuggerInit(tabId);
                         });
                     }
                 })
@@ -80,7 +80,7 @@ function execute_script(tabId){
             // Inject content script into tab
             chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
                 // Run debugger
-                debuggerInit(tabId);
+                //debuggerInit(tabId);
             });
         }
     });
@@ -184,59 +184,3 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
         }
     }
 );
-
-const bitsToBytes = (bits) => {
-    return Math.floor(bits/8);
-};
-
-
-const debuggerInit = async (tabId) => {
-    // Implement method for reseting debugger_running option ! !
-    // Manually - reload extension
-    if(debugger_running === false){
-        // Attach to the tab
-        await chrome.debugger.attach({tabId}, "1.3");
-        // Enable network
-        await chrome.debugger.sendCommand({tabId}, "Network.enable");
-
-        debugger_running = true;
-
-
-        // Set 3 Mbps -> 3 000 000
-        const params = {
-            offline: false,
-            latency: 1,
-            downloadThroughput: bitsToBytes(1700000),
-            uploadThroughput: 1000000
-        };
-        await chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params);
-        console.log(params);
-
-
-        // Set 1.7 Mbps -> 1700000
-        const params2 = {
-            offline: false,
-            latency: 1,
-            downloadThroughput: 1000000,
-            uploadThroughput: 10000000
-        };
-        setTimeout( ()=>{
-            chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params2, ()=>{
-                console.log(params2);
-            });
-        },60000);
-
-        // Set 0.5 Mbps -> 500000
-        const params3 = {
-            offline: false,
-            latency: 1,
-            downloadThroughput: bitsToBytes(200000),
-            uploadThroughput: 10000000
-        };
-        setTimeout( ()=>{
-            chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params3, ()=>{
-                console.log(params3);
-            });
-        },120000);
-    }
-};

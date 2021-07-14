@@ -1,6 +1,8 @@
 
 
 export default function middle_panel(){
+
+
     // Create semi-transparent container covering whole screen
     var container = document.createElement('div');
     container.style.position = "absolute";
@@ -56,6 +58,7 @@ export default function middle_panel(){
         var button = document.createElement('button');
         button.setAttribute("type", "submit")
         button.setAttribute("assessment", i.toString());
+        button.id = "assessment-button-"+i.toString();
         button.innerText = i.toString();
         button.style.width = "50%";
         button.style.padding = "1em 1em";
@@ -75,6 +78,43 @@ export default function middle_panel(){
         });
         form.appendChild(button);
     }
+    // Create key listeners
+    document.addEventListener('keydown', (event) => {
+        const numericKeycodes = new Set([49, 50, 51, 52, 53]); // Corresponds to 1, 2, 3, 4, 5
+
+        const visible = localStorage.getItem("ASSESSMENT_PANEL_VISIBLE");
+        const name = event.key;
+        const keyCode = event.keyCode;
+        if(visible === "true" && numericKeycodes.has(keyCode)){
+            const value = parseInt(name);
+            const button = document.getElementById("assessment-button-"+value.toString());
+            console.log(localStorage.getItem("ASSESSMENT_TIME"));
+            if(localStorage.getItem("ASSESSMENT_TIME") === "true"){
+                button.click();
+            }
+
+        }
+
+        // Disable video seeking
+        if(numericKeycodes.has(event.which)){
+            event.stopImmediatePropagation();
+        }
+    })
+
+    // Disable video player focus - very important, connected to the key listeners in every assessment_panel script
+    const primary_inner = document.getElementById("primary-inner");
+    const player = primary_inner.children[0];
+    const all = player.getElementsByTagName("*");
+
+    for(let i=0; i<all.length; i++){
+        all[i].onfocus = (e) =>{
+            e.target.blur();
+            console.log(all[i])
+            console.log("Blurring");
+        }
+    }
+
+
 
     // Add semi-transparent panel to ytd-app element
     document.getElementsByTagName("ytd-app")[0].appendChild(container);
