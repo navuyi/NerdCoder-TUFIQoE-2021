@@ -102,11 +102,14 @@ export default function middle_panel(){
     })
 
     // Disable video player focus - very important, connected to the key listeners in every assessment_panel script
+    // Necessary for normal display mode
     const primary_inner = document.getElementById("primary-inner");
     const player = primary_inner.children[0];
     const all = player.getElementsByTagName("*");
 
+    console.log(all);
     for(let i=0; i<all.length; i++){
+        console.log("ASDASD")
         all[i].onfocus = (e) =>{
             e.target.blur();
             console.log(all[i])
@@ -114,6 +117,19 @@ export default function middle_panel(){
         }
     }
 
+
+    // Disable movie_player and <video> - necessary for theater mode
+    const movie_player = document.getElementById("movie_player");
+    const video_tag = document.getElementsByTagName("video")[0];
+
+    movie_player.addEventListener('focus', (e)=>{
+        e.target.blur();
+        console.log("BLUR2")
+    })
+    video_tag.addEventListener('focus', (e)=>{
+        e.target.blur();
+        console.log("BLUR3")
+    })
 
 
     // Add semi-transparent panel to ytd-app element

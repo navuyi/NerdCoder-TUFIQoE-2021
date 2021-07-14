@@ -239,11 +239,14 @@ function middle_panel(){
     });
 
     // Disable video player focus - very important, connected to the key listeners in every assessment_panel script
+    // Necessary for normal display mode
     const primary_inner = document.getElementById("primary-inner");
     const player = primary_inner.children[0];
     const all = player.getElementsByTagName("*");
 
+    console.log(all);
     for(let i=0; i<all.length; i++){
+        console.log("ASDASD");
         all[i].onfocus = (e) =>{
             e.target.blur();
             console.log(all[i]);
@@ -251,6 +254,19 @@ function middle_panel(){
         };
     }
 
+
+    // Disable movie_player and <video> - necessary for theater mode
+    const movie_player = document.getElementById("movie_player");
+    const video_tag = document.getElementsByTagName("video")[0];
+
+    movie_player.addEventListener('focus', (e)=>{
+        e.target.blur();
+        console.log("BLUR2");
+    });
+    video_tag.addEventListener('focus', (e)=>{
+        e.target.blur();
+        console.log("BLUR3");
+    });
 
 
     // Add semi-transparent panel to ytd-app element
@@ -312,6 +328,7 @@ function top_panel(){
         var button = document.createElement('button');
         button.setAttribute("type", "submit");
         button.setAttribute("assessment", i.toString());
+        button.id = "assessment-button-"+i.toString();
         button.innerText = i.toString();
         button.style.width = "50%";
         button.style.padding = "1.2em 2em";
@@ -332,7 +349,7 @@ function top_panel(){
         });
         form.appendChild(button);
     }
-// Create key listeners
+    // Create key listeners
     document.addEventListener('keydown', (event) => {
         const numericKeycodes = new Set([49, 50, 51, 52, 53]); // Corresponds to 1, 2, 3, 4, 5
 
@@ -356,17 +373,34 @@ function top_panel(){
     });
 
     // Disable video player focus - very important, connected to the key listeners in every assessment_panel script
+    // Necessary for normal display mode
     const primary_inner = document.getElementById("primary-inner");
     const player = primary_inner.children[0];
     const all = player.getElementsByTagName("*");
 
+    console.log(all);
     for(let i=0; i<all.length; i++){
+        console.log("ASDASD");
         all[i].onfocus = (e) =>{
             e.target.blur();
             console.log(all[i]);
             console.log("Blurring");
         };
     }
+
+
+    // Disable movie_player and <video> - necessary for theater mode
+    const movie_player = document.getElementById("movie_player");
+    const video_tag = document.getElementsByTagName("video")[0];
+
+    movie_player.addEventListener('focus', (e)=>{
+        e.target.blur();
+        console.log("BLUR2");
+    });
+    video_tag.addEventListener('focus', (e)=>{
+        e.target.blur();
+        console.log("BLUR3");
+    });
 
     // Add semi-transparent panel to ytd-app element
     document.getElementsByTagName("ytd-app")[0].appendChild(container);
@@ -428,6 +462,7 @@ function bottom_panel(){
         var button = document.createElement('button');
         button.setAttribute("type", "submit");
         button.setAttribute("assessment", i.toString());
+        button.id = "assessment-button-"+i.toString();
         button.innerText = i.toString();
         button.style.width = "50%";
         button.style.padding = "1.2em 2em";
@@ -448,7 +483,7 @@ function bottom_panel(){
         });
         form.appendChild(button);
     }
-// Create key listeners
+    // Create key listeners
     document.addEventListener('keydown', (event) => {
         const numericKeycodes = new Set([49, 50, 51, 52, 53]); // Corresponds to 1, 2, 3, 4, 5
 
@@ -472,17 +507,34 @@ function bottom_panel(){
     });
 
     // Disable video player focus - very important, connected to the key listeners in every assessment_panel script
+    // Necessary for normal display mode
     const primary_inner = document.getElementById("primary-inner");
     const player = primary_inner.children[0];
     const all = player.getElementsByTagName("*");
 
+    console.log(all);
     for(let i=0; i<all.length; i++){
+        console.log("ASDASD");
         all[i].onfocus = (e) =>{
             e.target.blur();
             console.log(all[i]);
             console.log("Blurring");
         };
     }
+
+
+    // Disable movie_player and <video> - necessary for theater mode
+    const movie_player = document.getElementById("movie_player");
+    const video_tag = document.getElementsByTagName("video")[0];
+
+    movie_player.addEventListener('focus', (e)=>{
+        e.target.blur();
+        console.log("BLUR2");
+    });
+    video_tag.addEventListener('focus', (e)=>{
+        e.target.blur();
+        console.log("BLUR3");
+    });
 
     // Add semi-transparent panel to ytd-app element
     document.getElementsByTagName("ytd-app")[0].appendChild(container);
