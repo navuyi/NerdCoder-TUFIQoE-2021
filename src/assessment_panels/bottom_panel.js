@@ -55,6 +55,7 @@ export default function bottom_panel(){
         var button = document.createElement('button');
         button.setAttribute("type", "submit")
         button.setAttribute("assessment", i.toString());
+        button.id = "assessment-button-"+i.toString();
         button.innerText = i.toString();
         button.style.width = "50%";
         button.style.padding = "1.2em 2em";
