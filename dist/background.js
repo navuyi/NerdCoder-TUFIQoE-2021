@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////
 
 
+
 const yt_watch_string = "https://www.youtube.com/watch?v=";
 var captured_data = [];
 
@@ -64,8 +65,7 @@ function execute_script(tabId){
                     if(data.msg === "OK"){
                         console.log("Connection OK");
                         chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
-                            // Run debugger
-                            //debuggerInit(tabId);
+                            debuggerInit(tabId);
                         });
                     }
                 })
@@ -79,8 +79,7 @@ function execute_script(tabId){
         else if(dev_mode === true){
             // Inject content script into tab
             chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
-                // Run debugger
-                //debuggerInit(tabId);
+                debuggerInit(tabId);
             });
         }
     });
@@ -184,3 +183,58 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
         }
     }
 );
+
+///////////////////////////////////////////// Throttling Section ///////////////////////////////////////////////////////
+
+let debugger_running = false;       // To make sure throttling scenario is ran once every extension load
+
+const bitsToBytes = (bits) => {
+    return Math.floor(bits/8);
+};
+
+
+
+async function debuggerInit(tabId){
+    // Implement method for reseting debugger_running option ! !
+    // Manually - reload extension
+    if(debugger_running === false){
+        // Attach to the tab
+        await chrome.debugger.attach({tabId}, "1.3");
+        // Enable network
+        await chrome.debugger.sendCommand({tabId}, "Network.enable");
+
+        debugger_running = true;
+
+        // Get the throttling scenario data from scenarios.json
+        const url = chrome.extension.getURL("scenarios.json");
+        fetch(url)
+            .then(res=>res.json())
+            .then(data => {
+                scheduleThrottling(tabId, data);
+            });
+    }
+}
+
+async function scheduleThrottling(tabId, data){
+    const scenario_id = 1;                          // This can be changed to switch to different scenario ! ! ! !
+    const scenario_to_run = data[scenario_id - 1];
+
+    console.log(scenario_to_run);
+
+    for(let index in scenario_to_run.schedule){
+        const plan = scenario_to_run.schedule[index];
+        scheduleNetworkConditions(plan.timeout_s, plan.params, scenario_to_run.scenario_id, tabId, index);
+    }
+}
+
+async function scheduleNetworkConditions(timeout, params, scenarioId, tabId, index){
+    params.downloadThroughput = bitsToBytes(params.downloadThroughput);
+
+    console.log(params);
+    setTimeout(()=>{
+        chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params, ()=>{
+            console.log(`Scenario [${scenarioId}]. Configuration with ID: ${parseInt(index)+parseInt("1")} started`);
+        });
+    }, timeout*1000);
+    console.log(`Scenario [${scenarioId}]. Configuration with ID of ${parseInt(index)+parseInt("1")} scheduled to be launched in ${timeout} seconds`);
+}

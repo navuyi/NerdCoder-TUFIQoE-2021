@@ -1,9 +1,3 @@
-var CONFIG = {
-    "NERD_STAT_VISIBILITY": true,           // Show or hide nerd statistics popup
-    "INTERVAL": 500,                        // Monitor interval
-    "ASSESSMENT_PAUSE": false,              // Enable/disable playback pausing/resuming on video assessment
-};
-
 function get_nerd_elements(){
     // Simulate rightclick on player to show menu list
     document.getElementById("player");
@@ -6764,7 +6758,7 @@ var [simple, complex] = get_nerd_elements();
 
 
 // Start capturing nerd statistics data
-var running_monitor = setInterval(run_monitor, CONFIG.INTERVAL, simple, complex);
+var running_monitor = setInterval(run_monitor, 500, simple, complex);
 
 
 // Start the assessment controller

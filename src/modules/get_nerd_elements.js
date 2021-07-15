@@ -1,4 +1,4 @@
-import CONFIG from "../config"
+
 
 export function get_nerd_elements(){
     // Simulate rightclick on player to show menu list

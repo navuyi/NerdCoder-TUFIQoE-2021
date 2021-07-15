@@ -1,7 +1,7 @@
 import {get_nerd_elements} from "./modules/get_nerd_elements";
 import {run_monitor} from "./modules/monitor";
 
-import CONFIG from "./config";
+
 
 import {AssessmentController} from "./classes/AssessmentController";
 
@@ -21,7 +21,7 @@ var [simple, complex] = get_nerd_elements();
 
 
 // Start capturing nerd statistics data
-var running_monitor = setInterval(run_monitor, CONFIG.INTERVAL, simple, complex);
+var running_monitor = setInterval(run_monitor, 500, simple, complex);
 
 
 // Start the assessment controller

@@ -2,11 +2,11 @@
   "manifest_version": 2,
   "name": "NerdCoder",
   "version": "1.0",
-  "description": "DEVELOPMENT build with simple auto-reloader\n[2021-07-14 21:03:25] waiting for changes...",
+  "description": "DEVELOPMENT build with simple auto-reloader\n[2021-07-15 19:15:56] waiting for changes...",
   "background": {
     "persistent": true,
     "scripts": [
-      "assets/background-page-reloader-af26b70b.js",
+      "assets/background-page-reloader-a8525700.js",
       "assets/background-f2be2f24.js"
     ]
   },
@@ -22,7 +22,7 @@
     "declarativeContent"
   ],
   "browser_action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup/popup.html"
   },
   "web_accessible_resources": [
     "init.js",

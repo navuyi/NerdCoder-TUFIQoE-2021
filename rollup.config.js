@@ -1,10 +1,10 @@
-
+import json from '@rollup/plugin-json';
 
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import zip from 'rollup-plugin-zip'
 import { emptyDir } from 'rollup-plugin-empty-dir'
-import json from "@rollup/plugin-json";
+import copy from "rollup-plugin-copy"
 
 import {uglify} from "rollup-plugin-uglify";
 import obfuscatorPlugin from "rollup-plugin-javascript-obfuscator";
@@ -20,18 +20,29 @@ export default {
     format: 'esm',
   },
   plugins: [
+
     // always put chromeExtension() before other plugins
     chromeExtension(),
     // includes an automatic reloader in watch mode
     simpleReloader(),
+    // rollup json plugin - DOES NOT SEEM TO WORK AT ALL
+    //json(),
+
+    // copy() does not work either
+    /*copy({
+      targets: [
+        {src: 'src/scenarios.json', dest: 'dist/'},
+      ], hook: "writeBundle"
+    }),
+     */
+
     // resolves node modules
     resolve({browser: true, preferBuiltins: false}),
     // converts libraries that use commonjs
     commonjs(),
     // empties the dist for each build
     emptyDir(),
-    // rollup json plugin
-    json(),
+
     // uglify
     //uglify(),
 

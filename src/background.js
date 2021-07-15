@@ -3,9 +3,10 @@
 ///////////////////////////////////////////////////////////////
 
 
+
 const yt_watch_string = "https://www.youtube.com/watch?v="
 var captured_data = [];
-let debugger_running = false;
+let current_tabId;
 
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
@@ -66,7 +67,8 @@ function execute_script(tabId){
                         console.log("Connection OK")
                         chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
                             // Run debugger
-                            //debuggerInit(tabId);
+                            current_tabId = tabId;
+                            debuggerInit(tabId);
                         })
                     }
                 })
@@ -81,7 +83,8 @@ function execute_script(tabId){
             // Inject content script into tab
             chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
                 // Run debugger
-                //debuggerInit(tabId);
+                current_tabId = tabId;
+                debuggerInit(tabId);
             })
         }
     })
@@ -196,12 +199,17 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
     }
 );
 
+///////////////////////////////////////////// Throttling Section ///////////////////////////////////////////////////////
+
+let debugger_running = false;       // To make sure throttling scenario is ran once every extension load
+
 const bitsToBytes = (bits) => {
     return Math.floor(bits/8);
 }
 
 
-const debuggerInit = async (tabId) => {
+
+async function debuggerInit(tabId){
     // Implement method for reseting debugger_running option ! !
     // Manually - reload extension
     if(debugger_running === false){
@@ -212,45 +220,40 @@ const debuggerInit = async (tabId) => {
 
         debugger_running = true;
 
-
-        // Set 3 Mbps -> 3 000 000
-        const params = {
-            offline: false,
-            latency: 1,
-            downloadThroughput: bitsToBytes(1700000),
-            uploadThroughput: 1000000
-        }
-        await chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params);
-        console.log(params);
-
-
-        // Set 1.7 Mbps -> 1700000
-        const params2 = {
-            offline: false,
-            latency: 1,
-            downloadThroughput: 1000000,
-            uploadThroughput: 10000000
-        }
-        setTimeout( ()=>{
-            chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params2, ()=>{
-                console.log(params2)
-            });
-        },60000);
-
-        // Set 0.5 Mbps -> 500000
-        const params3 = {
-            offline: false,
-            latency: 1,
-            downloadThroughput: bitsToBytes(200000),
-            uploadThroughput: 10000000
-        }
-        setTimeout( ()=>{
-            chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params3, ()=>{
-                console.log(params3)
-            });
-        },120000);
+        // Get the throttling scenario data from scenarios.json
+        const url = chrome.extension.getURL("scenarios.json");
+        fetch(url)
+            .then(res=>res.json())
+            .then(data => {
+                scheduleThrottling(tabId, data)
+            })
     }
 }
+
+async function scheduleThrottling(tabId, data){
+    const scenario_id = 1;                          // This can be changed to switch to different scenario ! ! ! !
+    const scenario_to_run = data[scenario_id - 1]
+
+    console.log(scenario_to_run);
+
+    for(let index in scenario_to_run.schedule){
+        const plan = scenario_to_run.schedule[index];
+        scheduleNetworkConditions(plan.timeout_s, plan.params, scenario_to_run.scenario_id, tabId, index);
+    }
+}
+
+async function scheduleNetworkConditions(timeout, params, scenarioId, tabId, index){
+    params.downloadThroughput = bitsToBytes(params.downloadThroughput);
+
+    console.log(params);
+    setTimeout(()=>{
+        chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params, ()=>{
+            console.log(`Scenario [${scenarioId}]. Configuration with ID: ${parseInt(index)+parseInt("1")} started`);
+        })
+    }, timeout*1000)
+    console.log(`Scenario [${scenarioId}]. Configuration with ID of ${parseInt(index)+parseInt("1")} scheduled to be launched in ${timeout} seconds`);
+}
+
 
 
 

@@ -29,6 +29,7 @@
     "prettier": "^2.1.1",
     "rollup": "^2.52.3",
     "rollup-plugin-chrome-extension": "^3.5.7",
+    "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-empty-dir": "^1.0.4",
     "rollup-plugin-javascript-obfuscator": "^1.0.4",
     "rollup-plugin-zip": "^1.0.1"

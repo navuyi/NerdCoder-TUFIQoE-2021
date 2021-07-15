@@ -1,0 +1,43 @@
+[
+  {
+    "scenario_id": 1,
+    "schedule":[
+      {
+        "timeout_s": 30,
+        "params": {
+          "offline": false,
+          "latency": 1,
+          "downloadThroughput": 2000000,
+          "uploadThroughput": 1000000000
+        }
+      },
+      {
+        "timeout_s": 60,
+        "params": {
+          "offline": false,
+          "latency": 1,
+          "downloadThroughput": 1500000,
+          "uploadThroughput": 1000000000
+        }
+      },
+      {
+        "timeout_s": 90,
+        "params": {
+          "offline": false,
+          "latency": 1,
+          "downloadThroughput": 1000000,
+          "uploadThroughput": 1000000000
+        }
+      },
+      {
+        "timeout_s": 120,
+        "params": {
+          "offline": false,
+          "latency": 1,
+          "downloadThroughput": 500000,
+          "uploadThroughput": 1000000000
+        }
+      }
+    ]
+  }
+]

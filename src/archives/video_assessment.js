@@ -1,5 +1,5 @@
 import {get_nerd_elements} from "../modules/get_nerd_elements";
-import CONFIG from '../config';
+
 // The import below is important!!!
 // Importing {io} module directly from node_modules directory causes errors and problems with proper script execution
 import {io} from '../modules/socket-io-client';
