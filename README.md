@@ -43,3 +43,9 @@ the extension behaviour and some element's layout.
   - In case connection fails (most likely reason for that is Flask REST API is not running)
     YouTube player is closed and warning screen is displayed with proper information.
   
+# [ N E W ] Throttling scheduling
+In the dist directory there is scenarios.json file with throttling scenarios configuration.
+One can create multiple scenarios and then pick which one to use (for now only the scenario with id of 1 will be used).
+Exemplary configuration is already in the file, one can use it as a template for other scenarios.
+
+### After each change in scenarios.json one need to reload the extension for the changes to take place.
