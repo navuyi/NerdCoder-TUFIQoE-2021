@@ -51,7 +51,7 @@ background script and used to schedule network throttling.
 
 ### After each change in scenarios.json one need to reload the extension for the changes to take effect.
 
-### Example scenario.json content
+### Exemplary scenario.json content
 ```
 {
   "name": "Long scenario",
