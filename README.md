@@ -50,3 +50,49 @@ one should copy it contents (SINGLE SCENARIO OBJECT) to the "scenario.json" file
 background script and used to schedule network throttling.
 
 ### After each change in scenarios.json one need to reload the extension for the changes to take effect.
+
+### Example scenario.json content
+```
+{
+  "name": "Long scenario",
+  "schedule":[
+    {
+      "timeout_s": 300,
+      "params": {
+        "offline": false,
+        "latency": 1,
+        "downloadThroughput": 1500000,
+        "uploadThroughput": 1000000000
+      }
+    },
+    {
+      "timeout_s": 600,
+      "params": {
+        "offline": false,
+        "latency": 1,
+        "downloadThroughput": 1000000,
+        "uploadThroughput": 1000000000
+      }
+    },
+    {
+      "timeout_s": 900,
+      "params": {
+        "offline": false,
+        "latency": 1,
+        "downloadThroughput": 700000,
+        "uploadThroughput": 1000000000
+      }
+    },
+    {
+      "timeout_s": 1200,
+      "params": {
+        "offline": false,
+        "latency": 1,
+        "downloadThroughput": 300000,
+        "uploadThroughput": 1000000000
+      }
+    }
+  ]
+}
+
+```
