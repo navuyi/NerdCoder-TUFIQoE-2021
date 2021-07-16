@@ -10,11 +10,15 @@ body{
 h1{
     text-align: center;
     font-weight: 400;
+    font-family: Roboto;
+    font-size: 2rem;
+
+    margin: 0;
 }
 .option-container{
     display: flex;
     flex-direction: column;
-    margin: 0.3em 0;
+    margin-bottom: 0.3em;
     width: 100%;
     align-items: center;
 }
@@ -22,6 +26,7 @@ label{
     text-align: center;
     font-size: 1.2rem;
     font-weight: 500;
+    margin: 0;
 }
 .option-container input{
     border-radius: 0.3em;
@@ -63,6 +68,8 @@ label{
     outline: none;
     width: 30%;
 }
+
+
 
 
 #save-button{
