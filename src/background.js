@@ -224,8 +224,8 @@ async function debuggerInit(tabId){
         localStorage.setItem("session_started", "true");
 
 
-        // Get the throttling scenario data from scenarios.json
-        const url = chrome.extension.getURL("scenarios.json");
+        // Get the throttling scenario data from scenario.json
+        const url = chrome.extension.getURL("scenario.json");
         fetch(url)
             .then(res=>res.json())
             .then(data => {
@@ -235,27 +235,24 @@ async function debuggerInit(tabId){
 }
 
 async function scheduleThrottling(tabId, data){
-    const scenario_id = 1;                          // This can be changed to switch to different scenario ! ! ! !
-    const scenario_to_run = data[scenario_id - 1]
+    const scenario = data;
+    console.log(scenario);
 
-    console.log(scenario_to_run);
-
-    for(let index in scenario_to_run.schedule){
-        const plan = scenario_to_run.schedule[index];
-        scheduleNetworkConditions(plan.timeout_s, plan.params, scenario_to_run.scenario_id, tabId, index);
+    for(let index in scenario.schedule){
+        const plan = scenario.schedule[index];
+        scheduleNetworkConditions(plan.timeout_s, plan.params, scenario.name, tabId, index);
     }
 }
 
-async function scheduleNetworkConditions(timeout, params, scenarioId, tabId, index){
+async function scheduleNetworkConditions(timeout, params, scenarioName, tabId, index){
     params.downloadThroughput = bitsToBytes(params.downloadThroughput);
-
     console.log(params);
     setTimeout(()=>{
         chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params, ()=>{
-            console.log(`Scenario [${scenarioId}]. Configuration with ID: ${parseInt(index)+parseInt("1")} started`);
+            console.log(`Scenario [${scenarioName}]. Configuration with throughput: ${params.downloadThroughput} started`);
         })
-    }, timeout*1000)
-    console.log(`Scenario [${scenarioId}]. Configuration with ID of ${parseInt(index)+parseInt("1")} scheduled to be launched in ${timeout} seconds`);
+    }, Math.round(timeout*1000))
+    console.log(`Scenario [${scenarioName}]. Configuration with throughput: ${params.downloadThroughput} scheduled to be launched in ${timeout} seconds`);
 }
 
 
