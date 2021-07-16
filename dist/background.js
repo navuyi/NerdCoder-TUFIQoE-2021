@@ -7,16 +7,20 @@
 const yt_watch_string = "https://www.youtube.com/watch?v=";
 var captured_data = [];
 
+
+
+
+console.log(localStorage.getItem("assessment_running"));
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
-        ASSESSMENT_PANEL_OPACITY: 80,                    // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 5000,                   // Interval for assessment in auto mode in milliseconds
-        ASSESSMENT_MODE: "auto",                         // Available modes are "remote", "auto" and "manual"
-        ASSESSMENT_PANEL_LAYOUT: "middle",               // Available for now are "middle", "top", "bottom"
-        ASSESSMENT_PAUSE: "disabled",                    // Enable/disable playback pausing/resuming on video assessment
-        ASSESSMENT_PANEL_VISIBLE: false,
-        DEVELOPER_MODE: true                          // Enable/disable developer mode - nerd stats visibility, connection check
+        ASSESSMENT_PANEL_OPACITY: 80,                       // Opacity of the assessment panel in %
+        ASSESSMENT_INTERVAL_MS: 300000,                       // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_MODE: "auto",                            // Available modes are "remote", "auto" and "manual"
+        ASSESSMENT_PANEL_LAYOUT: "middle",                  // Available for now are "middle", "top", "bottom"
+        ASSESSMENT_PAUSE: "disabled",                       // Enable/disable playback pausing/resuming on video assessment
+        DEVELOPER_MODE: true,                               // Enable/disable developer mode - nerd stats visibility, connection check
+        ASSESSMENT_RUNNING: false                           // Define whether process of assessment has already begun
     };
     chrome.storage.local.set(config, ()=>{
         console.log("Config has been saved: " + config);
@@ -185,8 +189,7 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
 );
 
 ///////////////////////////////////////////// Throttling Section ///////////////////////////////////////////////////////
-
-let debugger_running = false;       // To make sure throttling scenario is ran once every extension load
+localStorage.setItem("session_started", "false");
 
 const bitsToBytes = (bits) => {
     return Math.floor(bits/8);
@@ -197,13 +200,14 @@ const bitsToBytes = (bits) => {
 async function debuggerInit(tabId){
     // Implement method for reseting debugger_running option ! !
     // Manually - reload extension
-    if(debugger_running === false){
+    if(localStorage.getItem("session_started") === "false"){
         // Attach to the tab
         await chrome.debugger.attach({tabId}, "1.3");
         // Enable network
         await chrome.debugger.sendCommand({tabId}, "Network.enable");
 
-        debugger_running = true;
+        localStorage.setItem("session_started", "true");
+
 
         // Get the throttling scenario data from scenarios.json
         const url = chrome.extension.getURL("scenarios.json");

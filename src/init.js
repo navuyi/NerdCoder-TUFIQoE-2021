@@ -25,10 +25,19 @@ var running_monitor = setInterval(run_monitor, 500, simple, complex);
 
 
 // Start the assessment controller
-chrome.storage.local.get(["ASSESSMENT_MODE"], (result)=>{
-    var controller = new AssessmentController(result.ASSESSMENT_MODE)
-    controller.init();
+
+chrome.storage.local.get(["ASSESSMENT_MODE", "ASSESSMENT_RUNNING"], (result)=>{
+    if(result.ASSESSMENT_RUNNING === false){
+        var controller = new AssessmentController(result.ASSESSMENT_MODE)
+        controller.init();
+        chrome.storage.local.set({ASSESSMENT_RUNNING: true});
+        console.log("STARTING ASSESSMENT")
+    }
+    else{
+        console.log("ALREADY RUNNING")
+    }
 })
+
 
 
 // Listen for tab close, refresh, redirect to different page (different address)

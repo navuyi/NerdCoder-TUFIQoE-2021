@@ -17,9 +17,8 @@ export function AssessmentController(mode){
     this.create_assessment_panel = function(){
 
         localStorage.setItem("ASSESSMENT_TIME", "false");
-
         chrome.storage.local.get(["ASSESSMENT_PANEL_LAYOUT", "ASSESSMENT_PANEL_OPACITY"], (result) => {
-            this.remove_assessment_panel();
+            //this.remove_assessment_panel();
             const layout = result.ASSESSMENT_PANEL_LAYOUT;
             switch (layout){
                 case "middle":
@@ -42,6 +41,7 @@ export function AssessmentController(mode){
         const panel = document.getElementById("acr-panel");
         if(panel){
             panel.remove();
+            console.log("[AssessmentController] Removing Assessment Panel")
         }
     }
 
@@ -52,6 +52,8 @@ export function AssessmentController(mode){
         this.panel.style.visibility = "visible";
         this.disable_rightclick();
         this.disable_fullscreen_scrolling();
+
+        console.log("[AssessmentController] Showing Assessment Panel")
     }
 
     this.hide_assessment_panel = function(){
@@ -64,6 +66,8 @@ export function AssessmentController(mode){
         if(this.mode === "auto"){
             this.run_timeout();
         }
+
+        console.log("[AssessmentController] Hiding Assessment Panel")
     }
 
     this.hand_over_data = function(e){
@@ -135,8 +139,8 @@ export function AssessmentController(mode){
         chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             // Remove the assessment panel
             if(request.msg === "stop"){
-                clearTimeout(this.timeout);
-                this.remove_assessment_panel();
+                //clearTimeout(this.timeout);
+                //this.remove_assessment_panel();
             }
         })
     }

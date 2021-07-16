@@ -12,7 +12,7 @@ export function run_monitor(simple, complex){
         // Check if the video has ended by extracting and checking e value from mystery text
         if(key === "mysteryText"){
             const mode = value.match(/s:([a-z A-Z 0-9]{2})/)[1];
-            if(mode === "e "){
+            if(mode && mode === "e "){
                 // Send onbeforeunload message with type video_end
                 const message = {
                     msg: "onbeforeunload",

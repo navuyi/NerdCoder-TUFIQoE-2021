@@ -101,7 +101,7 @@ function run_monitor(simple, complex){
         // Check if the video has ended by extracting and checking e value from mystery text
         if(key === "mysteryText"){
             const mode = value.match(/s:([a-z A-Z 0-9]{2})/)[1];
-            if(mode === "e "){
+            if(mode && mode === "e "){
                 // Send onbeforeunload message with type video_end
                 const message = {
                     msg: "onbeforeunload",
@@ -6597,9 +6597,8 @@ function AssessmentController(mode){
     this.create_assessment_panel = function(){
 
         localStorage.setItem("ASSESSMENT_TIME", "false");
-
         chrome.storage.local.get(["ASSESSMENT_PANEL_LAYOUT", "ASSESSMENT_PANEL_OPACITY"], (result) => {
-            this.remove_assessment_panel();
+            //this.remove_assessment_panel();
             const layout = result.ASSESSMENT_PANEL_LAYOUT;
             switch (layout){
                 case "middle":
@@ -6622,6 +6621,7 @@ function AssessmentController(mode){
         const panel = document.getElementById("acr-panel");
         if(panel){
             panel.remove();
+            console.log("[AssessmentController] Removing Assessment Panel");
         }
     };
 
@@ -6632,6 +6632,8 @@ function AssessmentController(mode){
         this.panel.style.visibility = "visible";
         this.disable_rightclick();
         this.disable_fullscreen_scrolling();
+
+        console.log("[AssessmentController] Showing Assessment Panel");
     };
 
     this.hide_assessment_panel = function(){
@@ -6644,6 +6646,8 @@ function AssessmentController(mode){
         if(this.mode === "auto"){
             this.run_timeout();
         }
+
+        console.log("[AssessmentController] Hiding Assessment Panel");
     };
 
     this.hand_over_data = function(e){
@@ -6714,10 +6718,7 @@ function AssessmentController(mode){
         }
         chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             // Remove the assessment panel
-            if(request.msg === "stop"){
-                clearTimeout(this.timeout);
-                this.remove_assessment_panel();
-            }
+            if(request.msg === "stop");
         });
     };
     this.run_timeout = function(){
@@ -6762,10 +6763,19 @@ var running_monitor = setInterval(run_monitor, 500, simple, complex);
 
 
 // Start the assessment controller
-chrome.storage.local.get(["ASSESSMENT_MODE"], (result)=>{
-    var controller = new AssessmentController(result.ASSESSMENT_MODE);
-    controller.init();
+
+chrome.storage.local.get(["ASSESSMENT_MODE", "ASSESSMENT_RUNNING"], (result)=>{
+    if(result.ASSESSMENT_RUNNING === false){
+        var controller = new AssessmentController(result.ASSESSMENT_MODE);
+        controller.init();
+        chrome.storage.local.set({ASSESSMENT_RUNNING: true});
+        console.log("STARTING ASSESSMENT");
+    }
+    else {
+        console.log("ALREADY RUNNING");
+    }
 });
+
 
 
 // Listen for tab close, refresh, redirect to different page (different address)
