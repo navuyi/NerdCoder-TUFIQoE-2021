@@ -109,7 +109,6 @@ export default function middle_panel(){
 
     console.log(all);
     for(let i=0; i<all.length; i++){
-        console.log("ASDASD")
         all[i].onfocus = (e) =>{
             e.target.blur();
             console.log(all[i])

@@ -97,10 +97,15 @@ function run_monitor(simple, complex){
     // Extract useful data from simple elements
     for(const [key, val] of Object.entries(simple)){
         const value = val.querySelector("span").innerText;
-
+        let mode;
         // Check if the video has ended by extracting and checking e value from mystery text
         if(key === "mysteryText"){
-            const mode = value.match(/s:([a-z A-Z 0-9]{2})/)[1];
+            try{
+                mode = value.match(/s:([a-z A-Z 0-9]{2})/)[1];
+            }
+            catch(err){
+                console.log(err);
+            }
             if(mode && mode === "e "){
                 // Send onbeforeunload message with type video_end
                 const message = {
@@ -240,7 +245,6 @@ function middle_panel(){
 
     console.log(all);
     for(let i=0; i<all.length; i++){
-        console.log("ASDASD");
         all[i].onfocus = (e) =>{
             e.target.blur();
             console.log(all[i]);
@@ -508,7 +512,6 @@ function bottom_panel(){
 
     console.log(all);
     for(let i=0; i<all.length; i++){
-        console.log("ASDASD");
         all[i].onfocus = (e) =>{
             e.target.blur();
             console.log(all[i]);
@@ -6745,6 +6748,31 @@ function AssessmentController(mode){
     };
 }
 
+function MouseTracker(){
+    this.interval = 10;
+
+
+
+
+    this.init = function(){
+        onmousemove = (e) =>{
+
+
+            const data = {
+                posX: e.pageX,
+                posY: e.pageY,
+                timestamp_utc_ms: Date.now()
+            };
+
+            const message = {
+                msg: "mouse_tracker_data",
+                data: data
+            };
+            chrome.runtime.sendMessage(message);
+        };
+    };
+}
+
 // Clear running_monitor from last session - will not execute on first video playback
 if(typeof running_monitor !== "undefined"){
     console.log("CLEARING");
@@ -6763,7 +6791,6 @@ var running_monitor = setInterval(run_monitor, 500, simple, complex);
 
 
 // Start the assessment controller
-
 chrome.storage.local.get(["ASSESSMENT_MODE", "ASSESSMENT_RUNNING"], (result)=>{
     if(result.ASSESSMENT_RUNNING === false){
         var controller = new AssessmentController(result.ASSESSMENT_MODE);
@@ -6775,6 +6802,20 @@ chrome.storage.local.get(["ASSESSMENT_MODE", "ASSESSMENT_RUNNING"], (result)=>{
         console.log("ALREADY RUNNING");
     }
 });
+
+// Start mouse tracker
+var mouse_tracker = new MouseTracker();
+mouse_tracker.init();
+
+
+// Remove yt-hotkey-manager - no numeric keys video seeking
+var hk_mng = document.getElementsByTagName("yt-hotkey-manager")[0];
+if(hk_mng != null){
+    console.log(hk_mng);
+    hk_mng.remove();
+}else {
+    console.log("YouTube HotKey Manager Already Deleted");
+}
 
 
 

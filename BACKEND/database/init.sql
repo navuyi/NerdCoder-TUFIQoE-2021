@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS sessions;
 DROP TABLE IF EXISTS session_data;
 DROP TABLE IF EXISTS assessments;
+DROP TABLE IF EXISTS mousetracker;
 
 CREATE TABLE IF NOT EXISTS sessions(
     id INTEGER NOT NULL PRIMARY KEY,
@@ -52,4 +53,16 @@ CREATE TABLE IF NOT EXISTS session_data(
 
     FOREIGN KEY(session_id) REFERENCES session(id)
 );
+
+
+CREATE TABLE IF NOT EXISTS mousetracker(
+    id INTEGER NOT nULL PRIMARY KEY,
+    session_id INTEGER NOT NULL,
+
+    posX INTEGER,
+    posY INTEGER,
+    timestamp_utc_ms INTEGER,
+
+    FOREIGN KEY(session_id) REFERENCES session(id)
+)
 

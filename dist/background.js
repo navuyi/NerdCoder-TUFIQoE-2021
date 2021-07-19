@@ -8,14 +8,12 @@ const yt_watch_string = "https://www.youtube.com/watch?v=";
 var captured_data = [];
 
 
-
-
 console.log(localStorage.getItem("assessment_running"));
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
         ASSESSMENT_PANEL_OPACITY: 80,                       // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 300000,                       // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_INTERVAL_MS: 5000,                       // Interval for assessment in auto mode in milliseconds
         ASSESSMENT_MODE: "auto",                            // Available modes are "remote", "auto" and "manual"
         ASSESSMENT_PANEL_LAYOUT: "middle",                  // Available for now are "middle", "top", "bottom"
         ASSESSMENT_PAUSE: "disabled",                       // Enable/disable playback pausing/resuming on video assessment
@@ -41,7 +39,8 @@ function submit_captured_data(captured_data, tabId){
     if(index !== -1){
         const session_data = captured_data[index].data;
         const assessment_data = captured_data[index].assessments;
-        const my_body = JSON.stringify({session_data: session_data, assessment_data: assessment_data});
+        const mousetracker = captured_data[index].mousetracker;
+        const my_body = JSON.stringify({session_data: session_data, assessment_data: assessment_data, mousetracker: mousetracker});
 
         // Delete sent data from captured_data array
         captured_data.splice(index,1);
@@ -174,6 +173,21 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                 }
                 else {
                     Object.assign(record, {assessments: [received_assessment]});
+                }
+            }
+        }
+        //Listen for mouse tracker data
+        if(request.msg === "mouse_tracker_data"){
+            const data = request.data;
+            const tabId = sender.tab.id;
+
+            const record = captured_data.find(record => record.id === tabId);
+            if(record !== undefined){
+                if(record.mousetracker !== undefined){
+                    record.mousetracker.push(data);
+                }
+                else {
+                    Object.assign(record, {mousetracker: [data]});
                 }
             }
         }

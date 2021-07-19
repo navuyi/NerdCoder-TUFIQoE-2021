@@ -112,6 +112,22 @@ def post_session():
         except:
             print("No assessment data provided - nothing to be inserted")
 
+        # Insert captured mouse tracker data
+        try:
+            mouse_data = data["mousetracker"]
+            for record in mouse_data:
+                posX = record["posX"]
+                posY = record["posY"]
+                timestamp_utc_ms = record["timestamp_utc_ms"]
+
+                statement = "INSERT INTO mousetracker (session_id, posX, posY, timestamp_utc_ms) VALUES (?,?,?,?)"
+                insert = (session_id, posX, posY, timestamp_utc_ms)
+                cursor.execute(statement, insert)
+        except Exception as e:
+            print(e)
+
+
+
         cursor.close()
     except sqlite3.Error as error:
         print("Error while connecting to sqlite", error)
@@ -170,6 +186,17 @@ def get_session():
                 session["assessments"] = None
             else:
                 session["assessments"] = data
+
+            # Get mouse tracker data for the session
+            statement = f"SELECT posX, posY, timestamp_utc_ms FROM mousetracker WHERE session_id={session_id}"
+            cursor.execute(statement)
+            data = cursor.fetchall()
+
+            if(len(data) == 0):
+                session["mousetracker"] = None
+            else:
+                session["mousetracker"] = data
+
 
         cursor.close()
     except sqlite3.Error as error:

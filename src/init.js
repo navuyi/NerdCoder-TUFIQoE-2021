@@ -4,7 +4,7 @@ import {run_monitor} from "./modules/monitor";
 
 
 import {AssessmentController} from "./classes/AssessmentController";
-
+import {MouseTracker} from "./classes/MouseTracker";
 
 
 // Clear running_monitor from last session - will not execute on first video playback
@@ -25,7 +25,6 @@ var running_monitor = setInterval(run_monitor, 500, simple, complex);
 
 
 // Start the assessment controller
-
 chrome.storage.local.get(["ASSESSMENT_MODE", "ASSESSMENT_RUNNING"], (result)=>{
     if(result.ASSESSMENT_RUNNING === false){
         var controller = new AssessmentController(result.ASSESSMENT_MODE)
@@ -37,6 +36,20 @@ chrome.storage.local.get(["ASSESSMENT_MODE", "ASSESSMENT_RUNNING"], (result)=>{
         console.log("ALREADY RUNNING")
     }
 })
+
+// Start mouse tracker
+var mouse_tracker = new MouseTracker();
+mouse_tracker.init();
+
+
+// Remove yt-hotkey-manager - no numeric keys video seeking
+var hk_mng = document.getElementsByTagName("yt-hotkey-manager")[0]
+if(hk_mng != null){
+    console.log(hk_mng)
+    hk_mng.remove()
+}else{
+    console.log("YouTube HotKey Manager Already Deleted")
+}
 
 
 
