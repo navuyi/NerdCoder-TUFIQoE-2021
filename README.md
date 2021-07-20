@@ -42,16 +42,23 @@ the extension behaviour and some element's layout.
   - If developer mode is disabled (equals to production/experiment mode), database connection is checked every time user enters new video
   - In case connection fails (most likely reason for that is Flask REST API is not running)
     YouTube player is closed and warning screen is displayed with proper information.
-  
+  - ### It is advised to set developer mode to disabled during the real experiment.
+
 # [ N E W ] Throttling scheduling
-In the dist directory there is "scenario.json" file which should contain single scenario object.
+In the dist directory there are "main_scenario.json" and "training_scenario.json" files. In extension's popup there is section where
+we can choose what experiment mode are we running. Whether it is main session or training. Training
+session is shorter than main (shorter assessment and network throttling intervals).
+Extension will use one of these two files to schedule network throttling.
+
 In the "scenarios" subdirectory there is separate JSON file for each scenario. To use particular scenario
-one should copy it contents (SINGLE SCENARIO OBJECT) to the "scenario.json" file which is imported by the 
+one should copy it contents (SINGLE SCENARIO OBJECT) to the "main_scenario.json" or "training_session.json" file which is imported by the
 background script and used to schedule network throttling.
+
+
 
 ### After each change in scenarios.json one need to reload the extension for the changes to take effect.
 
-### Exemplary scenario.json content
+### Exemplary scenario file content
 ```
 {
   "name": "Long scenario",
