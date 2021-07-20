@@ -29,7 +29,7 @@ the extension behaviour and some element's layout.
   - Describes how much time has to elapse before next assessment panel will show up
   - This field is only relevant when Assessment mode is set to Auto - see below
 - [ N E W ] Training mode assessment time
-  - Same as above but relevant only if Session is set to "training"
+  - Same as above but relevant only if [Session](#session) is set to "training"
 - Assessment mode
   - Auto - automatic assessment panel control. This mode is connected with "Assessment Time Inerval"
   - Manual - mostly for developing purposes, user can use "o" and "p" 
@@ -48,6 +48,9 @@ the extension behaviour and some element's layout.
   - ### It is advised to set developer mode to disabled during the real experiment.
 
 - [N E W] <a name="session"> Session </a>
+  Define mode the extension is running. Training mode should have shorter assessment panel and network throttling intervals.
+  Training mode uses "Training mode assessment time interval [ms]" and "training_scenario.json" configuration file.
+  Main mode uses "Main mode assessment time interval [ms] and main_scenario.json" configuration file.
 # [ N E W ] Throttling scheduling
 In the dist directory there are "main_scenario.json" and "training_scenario.json" files. In extension's popup there is section where
 we can choose what experiment mode are we running. Whether it is main session or training. Training
