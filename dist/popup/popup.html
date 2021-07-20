@@ -6,14 +6,13 @@
   <body>
     <h1>NerdCoder Settings</h1>
 
-    <div
-      style="width: 100%; height: 3px; background-color: #023eb6; margin-top: 0.5em"
-    ></div>
+    <div class="separator"></div>
 
     <div class="option-container">
       <label>Assessment panel opacity [%]</label>
       <input id="opacity-input" />
     </div>
+
     <div class="option-container">
       <label>Assessment time interval [ms]</label>
       <input id="interval-input" />
@@ -34,9 +33,21 @@
         <button id="bottom">Bottom</button>
       </div>
     </div>
+
+    <div class="separator"></div>
+
     <div class="option-container">
       <label>Developer mode</label>
-      <button id="dev-mode">Enabled</button>
+      <div class="mode-container">
+        <button id="dev-mode">Enabled</button>
+      </div>
+    </div>
+    <div class="option-container">
+      <label>Session</label>
+      <div class="mode-container">
+        <button id="mode-t-btn">Training</button>
+        <button id="mode-m-btn">Main</button>
+      </div>
     </div>
 
     <button id="save-button">Save</button>

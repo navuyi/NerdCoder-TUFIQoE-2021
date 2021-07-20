@@ -25,7 +25,16 @@ chrome.storage.local.get(["DEVELOPER_MODE"], (result)=>{
 
     dev_mode ? button.innerText="Enabled" : button.innerText="Disabled";
 });
-
+// Default for experiment mode
+chrome.storage.local.get(["EXPERIMENT_MODE"], (result) => {
+    const mode = result.EXPERIMENT_MODE;
+    if(mode === "main"){
+        document.getElementById("mode-m-btn").setAttribute("active", "true");
+    }
+    else if(mode === "training"){
+        document.getElementById("mode-t-btn").setAttribute("active", "true");
+    }
+});
 
 // Assessment mode - buttons configuration
 const buttons = ["mode-remote", "mode-auto", "mode-manual"];
@@ -86,6 +95,32 @@ const handle_dev_mode = (e) => {
     chrome.storage.local.set({DEVELOPER_MODE: new_variant});
 };
 dev_mode_btn.addEventListener("click", handle_dev_mode);
+
+
+// Experiment session - main/training
+document.getElementById("mode-t-btn").addEventListener("click", (e)=>{
+    // Remove active attribute from the other button
+    document.getElementById("mode-m-btn").removeAttribute("active");
+
+    // Set active attribute to the clicked button
+    e.target.setAttribute("active", "true");
+
+    // Update storage
+    chrome.storage.local.set({"EXPERIMENT_MODE": "training"});
+});
+document.getElementById("mode-m-btn").addEventListener("click", (e)=>{
+    // Remove active attribute from the other button
+    document.getElementById("mode-t-btn").removeAttribute("active");
+
+    // Set active attribute to the clicked button
+    e.target.setAttribute("active", "true");
+
+    // Update storage
+    chrome.storage.local.set({"EXPERIMENT_MODE": "main"});
+});
+
+
+
 
 // Handle configuration save
 document.getElementById("save-button").addEventListener('click', (e)=>{

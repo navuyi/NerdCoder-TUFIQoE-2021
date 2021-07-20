@@ -6725,10 +6725,22 @@ function AssessmentController(mode){
         });
     };
     this.run_timeout = function(){
-        chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=>{
-            console.log("TIMEOUT");
-            clearTimeout(this.timeout);
-            this.timeout = setTimeout(this.show_assessment_panel.bind(this), result.ASSESSMENT_INTERVAL_MS);
+        chrome.storage.local.get(["EXPERIMENT_MODE"], res => {
+            const mode = res.EXPERIMENT_MODE;
+            if(mode === "training"){
+                chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS"], res => {
+                    console.log("TIMEOUT " + res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS);
+                    clearTimeout(this.timeout);
+                    this.timeout = setTimeout(this.show_assessment_panel.bind(this), res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS);
+                });
+            }
+            else if (mode === "main"){
+                chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=>{
+                    console.log("TIMEOUT " + result.ASSESSMENT_INTERVAL_MS);
+                    clearTimeout(this.timeout);
+                    this.timeout = setTimeout(this.show_assessment_panel.bind(this), result.ASSESSMENT_INTERVAL_MS);
+                });
+            }
         });
     };
 

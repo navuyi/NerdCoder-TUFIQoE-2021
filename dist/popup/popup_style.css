@@ -1,11 +1,12 @@
 body{
     display: flex;
     flex-direction: column;
-    background-color: rgb(44, 135, 210);
+    background-color: rgb(34,34,34);
     align-items: center;
     width: 300px;
     font-size: 14px;
     padding: 0.5em 1em;
+    color: whitesmoke;
 }
 h1{
     text-align: center;
@@ -26,11 +27,12 @@ label{
     text-align: center;
     font-size: 1.2rem;
     font-weight: 500;
-    margin: 0;
+    margin: 0 0;
+    padding: 0 0;
 }
 .option-container input{
     border-radius: 0.3em;
-    margin-top: 5px;
+
     border: 1px solid #1726dc;
     text-align: center;
     padding: 0.5em 0;
@@ -40,7 +42,7 @@ label{
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     margin-top: 5px;
 }
 .option-container button{
@@ -50,15 +52,19 @@ label{
     border-radius: 0.5em;
     outline: none;
     width: 30%;
+
+    cursor: pointer;
 }
 .option-container button:hover{
     background-color: darkseagreen;
 }
 .option-container button[active="true"]{
-    background-image: linear-gradient(15deg, green, #04cd04);
+    background-image: linear-gradient(15deg, #0057a0, #0275d8);
+    color: whitesmoke;
 }
 .option-container button[active="false"]{
-    background-image: linear-gradient(15deg, darkred, red);
+    background-image: linear-gradient(15deg, #6c757d, #4e4e4e);
+    color: whitesmoke;
 }
 #assessment-pause{
     font-size: 1.1rem;
@@ -74,18 +80,27 @@ label{
 
 #save-button{
     font-size: 1.2rem;
+    font-weight: 300;
     padding: 0.5em 0;
-    background-color: rgb(34,34,34);
+    background-color: #f7f7f7;
     border: none;
     border-radius: 0.5em;
     outline: none;
-    color: white;
+    color: rgb(34,34,34);
     width: 100%;
     margin-top: 2em;
 }
 #save-button:hover{
-    background-color: orangered;
+    background-color: #28a745;
+    color: white;
 }
 #save-button:active{
-    background-color: #6a2302;
+    background-color: rgba(20, 85, 32, 0.98);
+    color: #bdbdbd;
+}
+.separator{
+    width: 100%;
+    height: 2px;
+    background-color: darkorange;
+    margin: 0.5em 0;
 }

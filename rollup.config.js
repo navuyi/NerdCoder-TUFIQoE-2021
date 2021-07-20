@@ -31,7 +31,7 @@ export default {
     // copy() does not work either
     /*copy({
       targets: [
-        {src: 'src/scenario.json', dest: 'dist/'},
+        {src: 'src/main_scenario.json', dest: 'dist/'},
       ], hook: "writeBundle"
     }),
      */

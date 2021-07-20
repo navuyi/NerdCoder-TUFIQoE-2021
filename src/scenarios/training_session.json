@@ -1,0 +1,41 @@
+{
+  "name": "Training session",
+  "schedule":[
+    {
+      "timeout_s": 60,
+      "params": {
+        "offline": false,
+        "latency": 1,
+        "downloadThroughput": 1500000,
+        "uploadThroughput": 1000000000
+      }
+    },
+    {
+      "timeout_s": 120,
+      "params": {
+        "offline": false,
+        "latency": 1,
+        "downloadThroughput": 1000000,
+        "uploadThroughput": 1000000000
+      }
+    },
+    {
+      "timeout_s": 180,
+      "params": {
+        "offline": false,
+        "latency": 1,
+        "downloadThroughput": 700000,
+        "uploadThroughput": 1000000000
+      }
+    },
+    {
+      "timeout_s": 240,
+      "params": {
+        "offline": false,
+        "latency": 1,
+        "downloadThroughput": 300000,
+        "uploadThroughput": 1000000000
+      }
+    }
+  ]
+}

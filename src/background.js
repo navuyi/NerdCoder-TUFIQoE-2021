@@ -9,7 +9,7 @@ var captured_data = [];
 let current_tabId;
 
 
-console.log(localStorage.getItem("assessment_running"))
+
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
@@ -19,7 +19,9 @@ chrome.runtime.onInstalled.addListener( ()=>{
         ASSESSMENT_PANEL_LAYOUT: "middle",                  // Available for now are "middle", "top", "bottom"
         ASSESSMENT_PAUSE: "disabled",                       // Enable/disable playback pausing/resuming on video assessment
         DEVELOPER_MODE: true,                               // Enable/disable developer mode - nerd stats visibility, connection check
-        ASSESSMENT_RUNNING: false                           // Define whether process of assessment has already begun
+        ASSESSMENT_RUNNING: false,                          // Define whether process of assessment has already begun
+        EXPERIMENT_MODE: "training",                            // Define whether to use training or main experiment mode
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 30000         // Interval for assessment in auto mode in ms for training mode
     }
     chrome.storage.local.set(config, ()=>{
         console.log("Config has been saved: " + config);
@@ -241,17 +243,31 @@ async function debuggerInit(tabId){
         localStorage.setItem("session_started", "true");
 
 
-        // Get the throttling scenario data from scenario.json
-        const url = chrome.extension.getURL("scenario.json");
-        fetch(url)
-            .then(res=>res.json())
-            .then(data => {
-                scheduleThrottling(tabId, data)
-            })
+        chrome.storage.local.get(["EXPERIMENT_MODE"], (result) =>{
+            console.log("AYAYAYAYAYA")
+            console.log(result)
+            const mode = result.EXPERIMENT_MODE
+            let scenario_file
+            if(mode === "training"){
+                scenario_file = "training_scenario.json"
+            }
+            else if(mode === "main"){
+                scenario_file = "main_scenario.json"
+            }
+
+            // Get the throttling scenario data from main_scenario.json
+            const url = chrome.extension.getURL(scenario_file);
+            console.log("[BACKGROUND SCRIPT] Fetching "+scenario_file)
+            fetch(url)
+                .then(res=>res.json())
+                .then(data => {
+                    scheduleThrottling(tabId, data)
+                })
+        });
     }
 }
 
-async function scheduleThrottling(tabId, data){
+function scheduleThrottling(tabId, data){
     const scenario = data;
     console.log(scenario);
 
@@ -261,7 +277,7 @@ async function scheduleThrottling(tabId, data){
     }
 }
 
-async function scheduleNetworkConditions(timeout, params, scenarioName, tabId, index){
+function scheduleNetworkConditions(timeout, params, scenarioName, tabId, index){
     params.downloadThroughput = bitsToBytes(params.downloadThroughput);
     console.log(params);
     setTimeout(()=>{
