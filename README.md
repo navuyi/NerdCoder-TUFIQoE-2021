@@ -21,24 +21,24 @@ the "dist" directory with the "load unpacked" option.
 In the extension popup there are several fields that can be used to configure
 the extension behaviour and some element's layout.
 
-- Assessment panel opacity [%]
+- ### Assessment panel opacity [%]
   - Describes the level of invisibility of the assessment panel
   - Value is percentages
-- Main Assessment time interval [ms]
+- ### Main Assessment time interval [ms]
   - Relevant only if [Session](#session) </a> is set to "main"
   - Describes how much time has to elapse before next assessment panel will show up
   - This field is only relevant when Assessment mode is set to Auto - see below
-- [ N E W ] Training mode assessment time
+- ### [ N E W ] Training mode assessment time
   - Same as above but relevant only if [Session](#session) is set to "training"
-- Assessment mode
+- ### Assessment mode
   - Auto - automatic assessment panel control. This mode is connected with "Assessment Time Inerval"
   - Manual - mostly for developing purposes, user can use "o" and "p" 
     keys to control the assessment panel within the same browser the extension is running on
   - Remote - very similar to Manual mode but nodeJS server script is necessary for it to work properly.
     User can control the assessment panel from the script running on the same or remote computer from the one that extension is running on
-- Assessment panel layout
+- ### Assessment panel layout
   - top, middle, bottom - defines the layout of the assessment panel
-- [ N E W ] Developer mode
+- ### Developer mode
   - Enables/disables the developer mode
   - If developer mode is enabled database connection is not checked, nerd statistics panel is visible, additional information
     panel is visible, captured data may not be saved
@@ -47,13 +47,13 @@ the extension behaviour and some element's layout.
     YouTube player is closed and warning screen is displayed with proper information.
   - ### It is advised to set developer mode to disabled during the real experiment.
 
-- [N E W] <a name="session"> Session </a>
-  Define mode the extension is running. Training mode should have shorter assessment panel and network throttling intervals.
+- ### [N E W] <a name="session"> Session </a>
+  - Define mode the extension is running. Training mode should have shorter assessment panel and network throttling intervals.
   Training mode uses "Training mode assessment time interval [ms]" and "training_scenario.json" configuration file.
   Main mode uses "Main mode assessment time interval [ms] and main_scenario.json" configuration file.
 # [ N E W ] Throttling scheduling
 In the dist directory there are "main_scenario.json" and "training_scenario.json" files. In extension's popup there is section where
-we can choose what experiment mode are we running. Whether it is main session or training. Training
+we can choose what experiment mode are we running. Whether it is a main session or training. Training
 session is shorter than main (shorter assessment and network throttling intervals).
 Extension will use one of these two files to schedule network throttling.
 
@@ -63,7 +63,7 @@ background script and used to schedule network throttling.
 
 
 
-### After each change in scenarios.json one need to reload the extension for the changes to take effect.
+### After each change in scenarios.json one needs to reload the extension for the changes to take effect.
 
 ### Exemplary scenario file content
 ```
