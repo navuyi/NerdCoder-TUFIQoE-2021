@@ -24,9 +24,12 @@ the extension behaviour and some element's layout.
 - Assessment panel opacity [%]
   - Describes the level of invisibility of the assessment panel
   - Value is percentages
-- Assessment time interval [ms]
+- Main Assessment time interval [ms]
+  - Relevant only if [Session](#session) </a> is set to "main"
   - Describes how much time has to elapse before next assessment panel will show up
   - This field is only relevant when Assessment mode is set to Auto - see below
+- [ N E W ] Training mode assessment time
+  - Same as above but relevant only if Session is set to "training"
 - Assessment mode
   - Auto - automatic assessment panel control. This mode is connected with "Assessment Time Inerval"
   - Manual - mostly for developing purposes, user can use "o" and "p" 
@@ -44,6 +47,7 @@ the extension behaviour and some element's layout.
     YouTube player is closed and warning screen is displayed with proper information.
   - ### It is advised to set developer mode to disabled during the real experiment.
 
+- [N E W] <a name="session"> Session </a>
 # [ N E W ] Throttling scheduling
 In the dist directory there are "main_scenario.json" and "training_scenario.json" files. In extension's popup there is section where
 we can choose what experiment mode are we running. Whether it is main session or training. Training
