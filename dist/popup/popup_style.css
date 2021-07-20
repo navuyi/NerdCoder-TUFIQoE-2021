@@ -107,3 +107,22 @@ label{
 .md-span{
     color: dodgerblue;
 }
+
+#reset-button{
+    font-size: 1.2rem;
+    font-weight: 300;
+    padding: 0.5em 0;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 0.5em;
+    outline: none;
+    color: whitesmoke;
+    width: 100%;
+
+}
+#reset-button:hover{
+    background-color: #6c757d;
+}
+#reset-button:active{
+    background-color: #343a40;
+}

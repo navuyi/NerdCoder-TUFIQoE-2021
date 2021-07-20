@@ -167,3 +167,13 @@ document.getElementById("save-button").addEventListener('click', (e)=>{
 })
 
 
+
+document.getElementById("reset-button").onclick = ()=>{
+    const result = window.confirm("Are you sure?")
+    console.log(result);
+    // Send message to background script to reset
+    if(result === true){
+        chrome.runtime.sendMessage({msg: "debugger_reset"});
+    }
+}
+

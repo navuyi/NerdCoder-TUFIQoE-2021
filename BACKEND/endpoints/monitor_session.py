@@ -17,7 +17,7 @@ def post_session():
     try:
         data = request.json
         session_data = data["session_data"]
-        del session_data[0:2]
+        #del session_data[0:2]
 
         f_record = session_data[0]
         l_record = session_data[len(session_data)-1]
@@ -27,8 +27,19 @@ def post_session():
 
 
     # Get the monitoring session general data
-    videoID = re.search("^(.+)\s\/", f_record["videoId_sCPN"]).group(1)
-    sCPN = re.search("\/\s(.+)", f_record["videoId_sCPN"]).group(1).replace(" ", "")
+    try:
+        # Extracting videoID and sCPN from LAST CAPTURED RECORD of session data
+        # First records may have wrong information due to different time of nerd statistics update when entering new videos
+        # The number of wrong/misleading records strongly depends on Internet connection
+        videoID = re.search("^(.+)\s\/", l_record["videoId_sCPN"]).group(1)
+    except Exception as e:
+        print(e)
+        videoID = None
+    try:
+        sCPN = re.search("\/\s(.+)", l_record["videoId_sCPN"]).group(1).replace(" ", "")
+    except Exception as e:
+        print(e)
+        sCPN = None
     url = "https://youtube.com/watch?v=" + videoID
     timestamp_start_s = (int(f_record["timestamp"])/1000) + 2 * 3600        # timestamp in seconds + 2h
     timestamp_end_s = (int(l_record["timestamp"])/1000) + 2 * 3600          # timestamp in seconds + 2h

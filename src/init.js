@@ -114,7 +114,3 @@ chrome.storage.local.get(["DEVELOPER_MODE"], (res) => {
 
     }
 })
-
-
-
-

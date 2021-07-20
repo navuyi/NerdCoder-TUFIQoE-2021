@@ -26,7 +26,7 @@ export default {
     // includes an automatic reloader in watch mode
     simpleReloader(),
     // rollup json plugin - DOES NOT SEEM TO WORK AT ALL
-    //json(),
+    json(),
 
     // copy() does not work either
     /*copy({
