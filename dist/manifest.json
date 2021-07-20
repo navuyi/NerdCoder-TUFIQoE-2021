@@ -2,11 +2,11 @@
   "manifest_version": 2,
   "name": "NerdCoder",
   "version": "1.0",
-  "description": "DEVELOPMENT build with simple auto-reloader\n[2021-07-20 10:27:07] waiting for changes...",
+  "description": "DEVELOPMENT build with simple auto-reloader\n[2021-07-20 11:39:12] waiting for changes...",
   "background": {
     "persistent": true,
     "scripts": [
-      "assets/background-page-reloader-d150ff1a.js",
+      "assets/background-page-reloader-e8196ea6.js",
       "assets/background-f2be2f24.js"
     ]
   },

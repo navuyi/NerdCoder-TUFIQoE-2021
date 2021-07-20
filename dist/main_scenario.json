@@ -2,7 +2,7 @@
   "name": "short scenario",
   "schedule":[
     {
-      "timeout_s": 30,
+      "timeout_s": 60,
       "params": {
         "offline": false,
         "latency": 1,
@@ -11,7 +11,7 @@
       }
     },
     {
-      "timeout_s": 60,
+      "timeout_s": 120,
       "params": {
         "offline": false,
         "latency": 1,
@@ -20,7 +20,7 @@
       }
     },
     {
-      "timeout_s": 90,
+      "timeout_s": 180,
       "params": {
         "offline": false,
         "latency": 1,
@@ -29,7 +29,7 @@
       }
     },
     {
-      "timeout_s": 120,
+      "timeout_s": 240,
       "params": {
         "offline": false,
         "latency": 1,

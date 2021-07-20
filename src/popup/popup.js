@@ -8,6 +8,11 @@ chrome.storage.local.get(["ASSESSMENT_PANEL_OPACITY"], (result)=> {
 chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=> {
     document.getElementById("interval-input").value = result.ASSESSMENT_INTERVAL_MS
 })
+//Default for training mode assessment interval
+chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS"], (result)=>{
+    document.getElementById("training-interval-input").value = result.TRAINING_MODE_ASSESSMENT_INTERVAL_MS
+})
+
 // Default for assessment mode - auto/remote/manual
 chrome.storage.local.get(["ASSESSMENT_MODE"], (result)=>{
     const button_id = "mode-"+result.ASSESSMENT_MODE;
@@ -135,16 +140,24 @@ document.getElementById("save-button").addEventListener('click', (e)=>{
         document.getElementById("opacity-input").value = 0;
     }
 
-    // Handle interval change
+    // Handle main interval change
     let interval = document.getElementById("interval-input").value;
     if(interval<0){
         interval = 1000;
-        document.getElementById("interval-input").value = 1000;
+        document.getElementById("interval-input").value = t_interval;
+    }
+
+    // Handle training interval change
+    let t_interval = document.getElementById("training-interval-input").value;
+    if(t_interval < 0){
+        t_interval = 1000;
+        document.getElementById("training-interval-input").value = t_interval;
     }
 
     const new_config = {
         ASSESSMENT_PANEL_OPACITY: [opacity],
-        ASSESSMENT_INTERVAL_MS: [interval]
+        ASSESSMENT_INTERVAL_MS: [interval],
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: [t_interval]
     }
     chrome.storage.local.set(new_config, ()=>{
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
