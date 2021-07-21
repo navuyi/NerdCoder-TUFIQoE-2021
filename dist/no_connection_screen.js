@@ -9,7 +9,6 @@ bg_panel.style.zIndex = "2077";
 
 bg_panel.style.display = "flex";
 bg_panel.style.justifyContent = "center";
-bg_panel.style.alignItems = "center";
 bg_panel.style.flexDirection = "column";
 bg_panel.style.userSelect = "none";
 
@@ -19,6 +18,7 @@ text.style.color = "#d9534f";
 text.style.margin = "0 0";
 text.style.fontSize = "3rem";
 text.style.fontWeight = "bold";
+text.style.textAlign = "center";
 
 var subtext = document.createElement("div");
 subtext.innerText = "(Brak połączenia z bazą danych)";
@@ -26,6 +26,7 @@ subtext.style.color = "#f7f7f7";
 subtext.style.margin = "0 0";
 subtext.style.fontSize = "2rem";
 subtext.style.fontWeight = "bold";
+subtext.style.textAlign = "center";
 
 bg_panel.appendChild(text);
 bg_panel.appendChild(subtext);
