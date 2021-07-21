@@ -22,7 +22,7 @@ def post_session():
         f_record = session_data[0]
         l_record = session_data[len(session_data)-1]
     except Exception as err:
-        print(err);
+        print(err)
         return {"msg": "Could not read the data"}, 422
 
 

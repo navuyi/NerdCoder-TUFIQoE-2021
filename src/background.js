@@ -28,7 +28,7 @@ chrome.runtime.onInstalled.addListener( ()=>{
 
 
 function submit_captured_data(captured_data, tabId){
-    const my_url = "http://127.0.0.1:5000/new_session";
+    const my_url = "http://127.0.0.1:5000/session/";
     const my_method = "POST";
     const my_headers = {
         'Accept': 'application/json',
@@ -62,7 +62,7 @@ function execute_script(tabId){
 
         if(dev_mode === false){
             // Check connection with database before executing script
-            const url = "http://127.0.0.1:5000/connection_check"
+            const url = "http://127.0.0.1:5000/connection/check"
             fetch(url, {method: "GET"})
                 .then(res=>res.json())
                 .then(data => {

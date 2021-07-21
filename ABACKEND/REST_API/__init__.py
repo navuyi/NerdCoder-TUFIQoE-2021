@@ -1,6 +1,7 @@
 import os
 from flask import Flask, jsonify, g, request
 from flask import Blueprint
+from flask_cors import CORS
 
 def create_app(test_config=None):
 
@@ -8,6 +9,9 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY='dev'
     )
+
+    app.config['JSON_SORT_KEYS'] = False  # Prevents json() from sorting key in dictionaries
+
 
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)
@@ -18,8 +22,19 @@ def create_app(test_config=None):
     # Check if instance directory exists
     try:
         os.makedirs(app.instance_path)
-    except OSError:
-        pass
+    except OSError as e:
+        print(e)
+
+    ### CORS Config ###
+    config = {
+        "ORIGINS": [
+            "*",
+            "chrome-extension://*"
+        ]
+    }
+    cors = CORS(app, resources={r"/*": {"origins": config["ORIGINS"]}}, supports_credentials=True)
+
+
 
     # Import database methods
     from . db import db_init_app, db_before_request, cursor, db_get
@@ -35,9 +50,11 @@ def create_app(test_config=None):
     # Import blueprints ### IMPORTS BELOW ARE CORRECT DESPITE THE RED UNDERLINE ###
     from REST_API.endpoints.session_post import bp as bp_post_session
     from REST_API.endpoints.session_get import bp as bp_get_session
+    from REST_API.endpoints.connection import bp as bp_connection_check
 
     app.register_blueprint(bp_post_session)
     app.register_blueprint(bp_get_session)
+    app.register_blueprint(bp_connection_check)
 
     # Register blueprints
 

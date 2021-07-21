@@ -8,6 +8,7 @@ def db_get():
     if 'db' not in g:
         g.db = sqlite3.connect(DATABASE_PATH)
         g.db.row_factory = dict_factory
+        g.db.isolation_level = None     # <-- Auto Commit
     return g.db
 
 def cursor():
