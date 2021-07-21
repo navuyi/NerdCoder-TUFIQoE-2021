@@ -17,7 +17,7 @@ def post_session():
     try:
         data = request.json
         session_data = data["session_data"]
-        #del session_data[0:2]
+
 
         f_record = session_data[0]
         l_record = session_data[len(session_data)-1]
@@ -40,7 +40,7 @@ def post_session():
     except Exception as e:
         print(e)
         sCPN = None
-    url = "https://youtube.com/watch?v=" + videoID
+    url = l_record["url"] # URL got from browser's URL not from nerd stats video ID - nerd stats may be misleading
     timestamp_start_s = (int(f_record["timestamp"])/1000) + 2 * 3600        # timestamp in seconds + 2h
     timestamp_end_s = (int(l_record["timestamp"])/1000) + 2 * 3600          # timestamp in seconds + 2h
     start_date = datetime.utcfromtimestamp(timestamp_start_s).strftime("%Y-%m-%d")

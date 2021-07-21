@@ -34,7 +34,14 @@ export function run_monitor(simple, complex){
         const value = val.querySelector("span").querySelectorAll("span")[1].innerText;
         Object.assign(data, {[key]: value})
     }
+    // Get video ID from browser's URL - relying fully on nerd statistics can be misleading due to different loading times
+    const url = window.location; // <-- This is accurate
+    Object.assign(data, {url: url.href})
+
+
     // Send data to background script
+    console.log(data.videoId_sCPN);
+    console.log(data.url)
     hand_over_data(data);
 }
 

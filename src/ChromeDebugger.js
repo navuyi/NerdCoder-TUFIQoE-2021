@@ -61,12 +61,12 @@ export function ChromeDebugger(){
         this.timoutArray.push(
             setTimeout(()=>{
                 chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params, ()=>{
-                    console.log(`Scenario [${scenarioName}]. Configuration with throughput: ${params.downloadThroughput} started`);
+                    console.log(`Scenario [${scenarioName}]. Configuration with throughput: ${params.downloadThroughput} B/s started`);
                 })
             }, Math.round(timeout*1000))
         )
 
-        console.log(`Scenario [${scenarioName}]. Configuration with throughput: ${params.downloadThroughput} scheduled to be launched in ${timeout} seconds`);
+        console.log(`Scenario [${scenarioName}]. Configuration with throughput: ${params.downloadThroughput} B/s scheduled to be launched in ${timeout} seconds`);
     }
 
 
