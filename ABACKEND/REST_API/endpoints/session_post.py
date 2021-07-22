@@ -40,6 +40,7 @@ def post_session():
     except Exception as e:
         print(e)
         sCPN = None
+
     url = l_record["url"] # URL got from browser's URL not from nerd stats video ID - nerd stats may be misleading
     timestamp_start_s = (int(f_record["timestamp"])/1000) + 2 * 3600        # timestamp in seconds + 2h
     timestamp_end_s = (int(l_record["timestamp"])/1000) + 2 * 3600          # timestamp in seconds + 2h
@@ -57,13 +58,21 @@ def post_session():
         print("Opening database connection")
 
         # Insert general data bout the monitor session
-        insert_general_data = "INSERT INTO sessions (videoID, sCPN, url, start_date, start_time, start_time_utc_ms, end_time, end_time_utc_ms, session_duration_ms) VALUES (?,?,?,?,?,?,?,?,?);"
-        insert = (videoID, sCPN, url, start_date, start_time, start_time_utc_ms, end_time, end_time_utc_ms, session_duration_ms)
+        insert_general_data = f"INSERT INTO sessions (videoID, sCPN, url, start_date, start_time, start_time_utc_ms, end_time, end_time_utc_ms, session_duration_ms) VALUES \
+                                             (:videoID, :sCPN, :url, :start_date, :start_time, :start_time_utc_ms, :end_time, :end_time_utc_ms, :session_duration_ms);"
+        insert = {
+            "videoID": videoID,
+            "sCPN": sCPN,
+            "url": url,
+            "start_date": start_date,
+            "start_time": start_time,
+            "start_time_utc_ms": start_time_utc_ms,
+            "end_time": end_time,
+            "end_time_utc_ms": end_time_utc_ms,
+            "session_duration_ms": session_duration_ms
+        }
+
         cursor().execute(insert_general_data, insert)
-
-
-
-
 
 
         # Insert captured session data - details
@@ -98,15 +107,30 @@ def post_session():
                 volume, codecs, color, connection_speed,
                 network_activity, buffer_health, mystery_s, mystery_t """
 
-            insert_session_data = f"INSERT INTO session_data ({columns}) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-            insert = (
-                session_id, timestamp, timestamp_utc_ms,
-                viewport, dropped_frames, total_frames,
-                current_resolution, optimal_resolution,
-                current_framerate, optimal_framerate,
-                volume, codecs, color, connection_speed,
-                network_activity, buffer_health, mystery_s, mystery_t
-            )
+            insert_session_data = f"INSERT INTO session_data ({columns}) VALUES" \
+                                  f" (:session_id, :timestamp, :timestamp_utc_ms, :viewport, :dropped_frames, :total_frames," \
+                                  f":current_resolution, :optimal_resolution, :current_framerate, :optimal_framerate, " \
+                                  f":volume, :codecs, :color, :connection_speed, :network_activity, :buffer_health, :mystery_s, :mystery_t);"
+            insert = {
+                "session_id": session_id,
+                "timestamp": timestamp,
+                "timestamp_utc_ms": timestamp_utc_ms,
+                "viewport": viewport,
+                "dropped_frames": dropped_frames,
+                "total_frames": total_frames,
+                "current_resolution": current_resolution,
+                "optimal_resolution": optimal_resolution,
+                "current_framerate": current_framerate,
+                "optimal_framerate": optimal_framerate,
+                "volume": volume,
+                "codecs": codecs,
+                "color": color,
+                "connection_speed": connection_speed,
+                "network_activity": network_activity,
+                "buffer_health": buffer_health,
+                "mystery_s": mystery_s,
+                "mystery_t": mystery_t
+            }
             cursor().execute(insert_session_data, insert)
 
         # Insert captured assessments
@@ -121,8 +145,16 @@ def post_session():
                 timestamp = datetime.utcfromtimestamp(timestamp_s).strftime("%H:%M:%S")
                 time_in_video = record["time_in_video"]
 
-                statement = f"INSERT INTO assessments (session_id, assessment, timestamp, timestamp_utc_ms, time_in_video, duration_ms) VALUES (?,?,?,?,?,?)"
-                insert = (session_id, assessment, timestamp, timestamp_utc_ms, time_in_video, duration_ms)
+                statement = f"INSERT INTO assessments (session_id, assessment, timestamp, timestamp_utc_ms, time_in_video, duration_ms) VALUES " \
+                            f"(:session_id, :assessment, :timestamp, :timestamp_utc_ms, :time_in_video, :duration_ms);"
+                insert = {
+                    "session_id": session_id,
+                    "assessment": assessment,
+                    "timestamp": timestamp,
+                    "timestamp_utc_ms": timestamp_utc_ms,
+                    "time_in_video": time_in_video,
+                    "duration_ms": duration_ms
+                }
                 cursor().execute(statement, insert)
         except Exception as e:
             print(e)
