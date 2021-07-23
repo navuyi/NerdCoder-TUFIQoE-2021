@@ -1,5 +1,5 @@
-import { ChromeDebugger } from './ChromeDebugger.js';
-import { AssessmentController } from './AssessmentController.js';
+import { AssessmentController } from './background_controllers/AssessmentController.js';
+import { ChromeDebugger } from './background_controllers/ChromeDebugger.js';
 
 // Imports work but files that provide export must be included in manifest.json //
 

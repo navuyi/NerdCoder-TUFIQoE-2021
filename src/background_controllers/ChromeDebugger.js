@@ -1,4 +1,4 @@
-import con from "./main_scenario.json"
+import con from "../main_scenario.json"
 console.log(con);
 
 export function ChromeDebugger(){

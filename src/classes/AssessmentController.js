@@ -71,7 +71,7 @@ export function AssessmentController(mode){
     }
 
     this.hand_over_data = function(e){
-        // Prevent defoult
+        // Prevent default
         e.preventDefault();
 
         // Calculate how long the assessment panel was visible

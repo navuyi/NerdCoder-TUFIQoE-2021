@@ -1,5 +1,3 @@
-import { g as get_nerd_elements } from './get_nerd_elements-15f30bc3.js';
-
 function middle_panel(){
 
 
@@ -402,129 +400,158 @@ function bottom_panel(){
     return [container, form];
 }
 
-console.log("ASSESSMENT PANEL");
+function getNerdElements(){
+    // Simulate rightclick on player to show menu list
+    document.getElementById("player");
+    document.getElementById("player-container-outer");
+    document.getElementById("player-container-inner");
+    document.getElementById("player-container");
+    document.getElementById("ytd-player");
 
-function AssessmentPanel(){
-    this.isVisible = false;
-    this.panel = undefined;
-    this.form = undefined;
-    this.timeout = undefined;
-    this.enter_time = undefined;
+    // HTML element with id "movie_player" is the element that can be rightclicked in order to show menu list
+    const movie_player = document.getElementById("movie_player");
 
-    this.init = function(){
-        this.create_assessment_panel();
-        this.initialize_messenger();
+
+    // Simulate right click on the movie_player element
+    var element = movie_player;
+    var e = element.ownerDocument.createEvent('MouseEvents');
+    e.initMouseEvent('contextmenu', true, true,
+        element.ownerDocument.defaultView, 1, 0, 0, 0, 0, false,
+        false, false, false, 2, null);
+    !element.dispatchEvent(e);
+
+
+    // Get through all the elements of the menu list and simulate click on the element that activates nerd statistics
+    const ytp_popup = document.getElementsByClassName("ytp-popup ytp-contextmenu").item(0);
+    const ytp_panel = ytp_popup.children.item(0);
+    const ytp_panel_menu = ytp_panel.children.item(0);
+    const menu_list = ytp_panel_menu.children;
+    const nerd_stats_button = menu_list.item(menu_list.length - 1);
+
+    /*
+    console.log(ytp_popup);
+    console.log(ytp_panel);
+    console.log(ytp_panel_menu);
+    console.log(menu_list);
+    console.log(menu_list.length);
+    console.log(nerd_stats_button);
+     */
+
+    // Now activate the nerd statistics calculations and popup window
+    nerd_stats_button.click();
+
+    // nerd_stats is the parent element for the nerd statistics popup window
+    const nerd_stats = document.getElementsByClassName("html5-video-info-panel").item(0);
+    const nerd_content = document.getElementsByClassName("html5-video-info-panel-content").item(0);
+
+    // nerd_data is a html element, it consist multiple items
+    const nerd_data = nerd_content.children;
+
+    // Extract data from the html elements
+    const videoId_sCPN = nerd_data.item(0);
+    const viewport_frames = nerd_data.item(1);
+    const current_optimalRes = nerd_data.item(2);
+    const volume_normalized = nerd_data.item(3);
+    const codecs = nerd_data.item(4);
+    const color = nerd_data.item(6);
+    const connectionSpeed = nerd_data.item(8);
+    const networkActivity = nerd_data.item(9);
+    const bufferHealth = nerd_data.item(10);
+    const mysteryText = nerd_data.item(14);
+
+    // Hide the statistics popup by setting opacity to 0 and making unclickable
+    chrome.storage.local.get(["DEVELOPER_MODE"], (res) => {
+        const dev_mode = res.DEVELOPER_MODE;
+        if(dev_mode === true){
+            nerd_stats.style.opacity = "100%";
+        }
+        else if(dev_mode === false){
+            nerd_stats.style.opacity = "0%";
+            nerd_stats.style.pointerEvents = "none";
+        }
+    });
+
+    // TAKE NOTE THAT mysteryText is first element in the array
+    const nerd_elements_simple = {
+        mysteryText: mysteryText,
+        videoId_sCPN: videoId_sCPN,
+        viewport_frames: viewport_frames,
+        current_optimalRes: current_optimalRes,
+        volume_normalized: volume_normalized,
+        codecs: codecs,
+        color: color
     };
-
-    this.initialize_messenger = function(){
-        chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-            if(request.msg === "create_assessment_panel"){
-                this.create_assessment_panel();
-            }
-            if(request.msg === "show_assessment_panel"){
-                this.show_assessment_panel();
-            }
-            if(request.msg === "hide_assessment_panel"){
-                this.hide_assessment_panel();
-            }
-        });
+    const nerd_elements_complex = {
+        connectionSpeed: connectionSpeed,
+        networkActivity: networkActivity,
+        bufferHealth: bufferHealth
     };
+    return [nerd_elements_simple, nerd_elements_complex];
+}
 
-    this.create_assessment_panel = function(){
-        // Get proper layout information from chrome storage
-        chrome.storage.local.get(["ASSESSMENT_PANEL_LAYOUT", "ASSESSMENT_PANEL_OPACITY"], res => {
-            const layout = res.ASSESSMENT_PANEL_LAYOUT;
-            switch (layout){
-                case "middle":
-                    [this.panel, this.form] = middle_panel();
-                    break;
-                case "bottom":
-                    [this.panel, this.form] = bottom_panel();
-                    break;
-                case "top":
-                    [this.panel, this.form] = top_panel();
-                    break;
-            }
-            this.panel.style.opacity = res.ASSESSMENT_PANEL_OPACITY.toString() + "%";
+var panel = undefined;
+var form = undefined;
+var enter_time = undefined;
 
-            this.form.onsubmit = this.hand_over_data.bind(this);                                                            // NOTICE THE BINDING IN THIS LINE //
-        });
+
+localStorage.setItem("ASSESSMENT_TIME", "false"); // <-- necessary for proper key assessment work
+chrome.storage.local.get(["ASSESSMENT_PANEL_LAYOUT", "ASSESSMENT_PANEL_OPACITY"], (result) => {
+    const layout = result.ASSESSMENT_PANEL_LAYOUT;
+    switch (layout){
+        case "middle":
+            [panel, form] = middle_panel();
+            break;
+        case "bottom":
+            [panel, form] = bottom_panel();
+            break;
+        case "top":
+            [panel, form] = top_panel();
+            break;
+    }
+    console.log(result);
+
+    panel.style.opacity = result.ASSESSMENT_PANEL_OPACITY.toString() + "%";
+    panel.style.visibility = "visible";
+    enter_time = Date.now();
+    form.addEventListener('submit', assessment_handover);
+});
+
+
+function assessment_handover(e){
+    // Prevent default
+    e.preventDefault();
+
+    // Calculate how long the assessment panel was visible
+    const assessment_duration = Date.now() - enter_time;
+
+    // Get the subject's assessment
+    const assessment = form.getAttribute("assessment");
+    console.log(assessment);
+    // Get timestamp data
+    const timestamp = Date.now();
+
+    // Get other data from nerd statistics
+    const [simple, complex] = getNerdElements();
+    const mysteryText = simple.mysteryText.querySelector("span").innerText;
+    const time_in_video =  mysteryText.match(/t\:([0-9]+\.[0-9]+)/)[1];
+
+
+    // Hand over the assessment to the background script
+    const message = {
+        msg: "assessment_handover",
+        data: {
+            assessment: assessment,
+            duration: assessment_duration,
+            timestamp: timestamp,
+            time_in_video: time_in_video
+        }
     };
-
-    this.show_assessment_panel = function(){
-        localStorage.setItem("ASSESSMENT_TIME", "true");
-
-        this.enter_time = Date.now();
-        this.panel.style.visibility = "visible";
-        this.disable_rightclick();
-        this.disable_fullscreen_scrolling();
-    };
-
-    this.hide_assessment_panel = function(){
-        localStorage.setItem("ASSESSMENT_TIME", "false");
-
-        // Hide panel
-        this.panel.style.visibility = "hidden";
-        this.enable_rightclick();
-
-        //TODO Send message to background script
-
-        console.log("[AssessmentController] Hiding Assessment Panel");
-    };
-
-    this.hand_over_data = function(e){
-        // Prevent default
-        e.preventDefault();
-
-        // Calculate how long the assessment panel was visible
-        const assessment_duration = Date.now() - this.enter_time;
-
-        // Get the subject's assessment
-        const assessment = this.form.getAttribute("assessment");
-        console.log(assessment);
-        // Get timestamp data
-        const timestamp = Date.now();
-
-        // Get other data from nerd statistics
-        const [simple, complex] = get_nerd_elements();
-        const mysteryText = simple.mysteryText.querySelector("span").innerText;
-        const time_in_video =  mysteryText.match(/t\:([0-9]+\.[0-9]+)/)[1];
-
-
-        // Hand over the assessment to the background script
-        const message = {
-            msg: "assessment_handover",
-            data: {
-                assessment: assessment,
-                duration: assessment_duration,
-                timestamp: timestamp,
-                time_in_video: time_in_video
-            }
-        };
-        chrome.runtime.sendMessage(message);
-        this.hide_assessment_panel();
-    };
-
-    this.disable_rightclick = function(){
-        window.oncontextmenu = (e) => {
-            e.preventDefault();
-        };
-    };
-    this.enable_rightclick = function(){
-        window.oncontextmenu = (e) => {
-            // default behaviour
-        };
-    };
-    this.disable_fullscreen_scrolling = function(){
-        // Disable scrolling in fullscreen - executes when ACR scale shows up
-        document.getElementsByTagName("ytd-app")[0].removeAttribute("scrolling_");
-    };
+    chrome.runtime.sendMessage(message);
+    remove_assessment_panel();
 }
 
 
-
-
-
-// Initialize Assessment Panel inside YouTube page
-const assessment_panel = new AssessmentPanel();
-assessment_panel.init();
+function remove_assessment_panel(){
+    document.getElementById("acr-panel").remove();
+    //chrome.runtime.sendMessage({msg: "assessment_panel_hidden"})
+}

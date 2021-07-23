@@ -1,6 +1,6 @@
 // Imports work but files that provide export must be included in manifest.json //
-import {ChromeDebugger} from "./ChromeDebugger";
-import {AssessmentController} from "./AssessmentController";
+import {ChromeDebugger} from "./background_controllers/ChromeDebugger";
+import {AssessmentController} from "./background_controllers/AssessmentController";
 
 const yt_watch_string = "https://www.youtube.com/watch?v="
 var captured_data = [];

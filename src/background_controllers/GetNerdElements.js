@@ -1,13 +1,15 @@
-function get_nerd_elements(){
+
+
+export function getNerdElements(){
     // Simulate rightclick on player to show menu list
-    document.getElementById("player");
-    document.getElementById("player-container-outer");
-    document.getElementById("player-container-inner");
-    document.getElementById("player-container");
-    document.getElementById("ytd-player");
+    const player = document.getElementById("player");
+    const player_container_outer = document.getElementById("player-container-outer");
+    const player_container_inner = document.getElementById("player-container-inner");
+    const player_container = document.getElementById("player-container");
+    const ytd_player = document.getElementById("ytd-player");
 
     // HTML element with id "movie_player" is the element that can be rightclicked in order to show menu list
-    const movie_player = document.getElementById("movie_player");
+    const movie_player = document.getElementById("movie_player")
 
 
     // Simulate right click on the movie_player element
@@ -67,7 +69,7 @@ function get_nerd_elements(){
             nerd_stats.style.opacity = "0%";
             nerd_stats.style.pointerEvents = "none";
         }
-    });
+    })
 
     // TAKE NOTE THAT mysteryText is first element in the array
     const nerd_elements_simple = {
@@ -78,13 +80,11 @@ function get_nerd_elements(){
         volume_normalized: volume_normalized,
         codecs: codecs,
         color: color
-    };
+    }
     const nerd_elements_complex = {
         connectionSpeed: connectionSpeed,
         networkActivity: networkActivity,
         bufferHealth: bufferHealth
-    };
+    }
     return [nerd_elements_simple, nerd_elements_complex];
 }
-
-export { get_nerd_elements as g };
