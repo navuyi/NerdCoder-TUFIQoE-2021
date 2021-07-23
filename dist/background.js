@@ -1,25 +1,27 @@
 import { ChromeDebugger } from './ChromeDebugger.js';
+import { AssessmentController } from './AssessmentController.js';
 
 // Imports work but files that provide export must be included in manifest.json //
-
 
 const yt_watch_string = "https://www.youtube.com/watch?v=";
 var captured_data = [];
 
+// Initialize controllers
 const chDebugger = new ChromeDebugger();
+const asController = new AssessmentController();
 
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
         ASSESSMENT_PANEL_OPACITY: 80,                       // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 300000,                       // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_INTERVAL_MS: 5000,                       // Interval for assessment in auto mode in milliseconds
         ASSESSMENT_MODE: "auto",                            // Available modes are "remote", "auto" and "manual"
         ASSESSMENT_PANEL_LAYOUT: "middle",                  // Available for now are "middle", "top", "bottom"
         ASSESSMENT_PAUSE: "disabled",                       // Enable/disable playback pausing/resuming on video assessment
         DEVELOPER_MODE: true,                               // Enable/disable developer mode - nerd stats visibility, connection check
         ASSESSMENT_RUNNING: false,                          // Define whether process of assessment has already begun
         EXPERIMENT_MODE: "training",                            // Define whether to use training or main experiment mode
-        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 30000         // Interval for assessment in auto mode in ms for training mode
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 5000         // Interval for assessment in auto mode in ms for training mode
     };
     chrome.storage.local.set(config, ()=>{
         console.log("Config has been saved: " + config);
@@ -69,8 +71,9 @@ function execute_script(tabId){
                     if(data.msg === "OK"){
                         console.log("Connection OK");
                         chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
-                            // Run debugger
+                            // Run controllers
                             chDebugger.init(tabId);
+                            asController.init(tabId);
                         });
                     }
                 })
@@ -84,8 +87,9 @@ function execute_script(tabId){
         else if(dev_mode === true){
             // Inject content script into tab
             chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
-                // Run debugger
+                // Run controllers
                 chDebugger.init(tabId);
+                asController.init(tabId);
             });
         }
     });
