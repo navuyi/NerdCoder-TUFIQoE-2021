@@ -14,7 +14,14 @@ export function ChromeDebugger(){
         }
 
         // Attach to the tab
-        chrome.debugger.attach({tabId}, "1.3");
+        chrome.debugger.attach({tabId}, "1.3")
+        // Establish ondetach event listener
+        chrome.debugger.onDetach.addListener((source, reason)=>{
+            console.log(`[ChromeDebugger] Detached from tab with ID of: %c${source.tabId}`, "color: #1e90ff; font-weight: bold")
+            console.log(`[ChromeDebugger] Reason %c${reason}`, "color: #1e90ff; font-weight: bold")
+
+            this.isAttached = false; // <-- Changing it back to false
+        })
         // Enable network
         chrome.debugger.sendCommand({tabId}, "Network.enable");
 
@@ -73,16 +80,18 @@ export function ChromeDebugger(){
     this.reset = function(){
         console.log("[ChromeDebugger] Reseting process...")
 
-        // Detach from current tab
+        // Detach from current tab  <-- try/catch will not help here - asynchronous API call
         const tabId = this.currentTabID;
-        try{
-            chrome.debugger.detach({tabId}, ()=>{
-                console.log("[ChromeDebugger] After detaching from tab with ID: " + tabId)
+        chrome.debugger.detach({tabId}, ()=>{
+            if(chrome.runtime.lastError){
+                console.log(`[ChromeDebugger] Debugger was not connected to tab with ID of: %c${tabId}`, "color: #1e90ff; font-weight: bold")
+            }
+            else{
+                console.log(`[ChromeDebugger] Detached from tab with ID of:" %c${tabId}`, "color: #1e90ff; font-weight: bold")
                 this.isAttached = false
-            });
-        }catch(err){
-            console.log(err);
-        }
+            }
+        });
+
 
         // Redirect to YouTube main page
         try{
