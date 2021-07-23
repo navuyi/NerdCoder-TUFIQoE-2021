@@ -1,5 +1,3 @@
-// THIS IS MAIN BRANCH ! ! !
-
 // Imports work but files that provide export must be included in manifest.json //
 import {ChromeDebugger} from "./ChromeDebugger";
 
