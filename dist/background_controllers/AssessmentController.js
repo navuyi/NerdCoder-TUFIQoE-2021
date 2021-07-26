@@ -3,7 +3,7 @@ function AssessmentController(){
     this.isVisible = false;
     this.timeout = undefined;
     this.assessmentPanel = undefined;
-    this.INTERVAL = undefined;
+    this.interval = undefined;
 
     this.init = function(tabId){
         if(this.isRunning === true){
@@ -50,7 +50,7 @@ function AssessmentController(){
                 chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS"], res => {
                     console.log("TIMEOUT " + res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS);
                     clearTimeout(this.timeout);
-                    this.timeout = setInterval(()=>{
+                    this.interval = setInterval(()=>{
                         chrome.tabs.executeScript(this.tabId, {file: "background_controllers/AssessmentPanel.js"});
                     }, res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS);
                 });
@@ -59,7 +59,7 @@ function AssessmentController(){
                 chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=>{
                     console.log("TIMEOUT " + result.ASSESSMENT_INTERVAL_MS);
                     clearTimeout(this.timeout);
-                    this.timeout = setInterval(()=>{
+                    this.interval = setInterval(()=>{
                         chrome.tabs.sendMessage(this.tabId, {msg: "show_assessment_panel"});
                     }, result.ASSESSMENT_INTERVAL_MS);
                 });
@@ -81,7 +81,8 @@ function AssessmentController(){
     };
 
     this.reset = function(){
-
+        clearInterval(this.interval);
+        this.isRunning = false;
     };
 
 }

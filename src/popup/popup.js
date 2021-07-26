@@ -173,7 +173,7 @@ document.getElementById("reset-button").onclick = ()=>{
     console.log(result);
     // Send message to background script to reset
     if(result === true){
-        chrome.runtime.sendMessage({msg: "debugger_reset"});
+        chrome.runtime.sendMessage({msg: "RESET"});
     }
 }
 

@@ -18,11 +18,47 @@ def post_session():
         data = request.json
         session_data = data["session_data"]
 
-
         f_record = session_data[0]
         l_record = session_data[len(session_data)-1]
     except Exception as err:
         print(err)
+        try:
+            # If no session data was provided check fo assessment data
+            # If assessment data is present link it to the last session in database
+            assessments = data["assessment_data"]
+            cursor().execute("SELECT id, start_time_utc_ms FROM sessions ORDER BY id DESC LIMIT 1")
+            last_row = cursor().fetchone()
+            print(assessments)
+            print(len(assessments))
+            for record in assessments:
+                print(record)
+                assessment = record["assessment"]
+                duration_ms = record["duration"]
+                timestamp_utc_ms = record["timestamp"]
+                timestamp_s = (int(timestamp_utc_ms)/1000) + 2 * 3600        # timestamp in seconds +2h
+                timestamp = datetime.utcfromtimestamp(timestamp_s).strftime("%H:%M:%S")
+                # Calculate time in video based on session start_time and assessment timestamp - mystery t text is set to 0.00 in this case
+                # This is the approximative time in the video - session time can be increasing while nerd stat mystery t text can be still set to 0 - video loading
+                # Value of this time can exceed total duration of the session it can be misleading
+                time_in_video = (timestamp_utc_ms-last_row["start_time_utc_ms"]) / 1000 # <-- divide by 1000 to get time in seconds
+                # Other option is to set the value to null - it clearly tells that this assessment was done outside the video playback
+                time_in_video = None
+
+                statement = f"INSERT INTO assessments (session_id, assessment, timestamp, timestamp_utc_ms, time_in_video, duration_ms) VALUES " \
+                            f"(:session_id, :assessment, :timestamp, :timestamp_utc_ms, :time_in_video, :duration_ms);"
+                insert = {
+                    "session_id": last_row["id"],
+                    "assessment": assessment,
+                    "timestamp": timestamp,
+                    "timestamp_utc_ms": timestamp_utc_ms,
+                    "time_in_video": time_in_video,
+                    "duration_ms": duration_ms
+                }
+                cursor().execute(statement, insert)
+                print("Lone Assessments - DONE")
+            return {"msg": "OK"}, 201
+        except Exception as e:
+            print(e)
         return {"msg": "Could not read the data"}, 422
 
 

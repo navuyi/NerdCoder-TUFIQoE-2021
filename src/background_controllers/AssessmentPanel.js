@@ -1,8 +1,8 @@
-import {getNerdElements} from "./GetNerdElements";
+
 import middle_panel from "../assessment_panels/middle_panel";
 import bottom_panel from "../assessment_panels/bottom_panel";
 import top_panel from "../assessment_panels/top_panel";
-import {get_nerd_elements} from "../modules/get_nerd_elements";
+import {getNerdElements} from "./GetNerdElements";
 
 
 var panel = undefined
@@ -30,10 +30,12 @@ chrome.storage.local.get(["ASSESSMENT_PANEL_LAYOUT", "ASSESSMENT_PANEL_OPACITY"]
     panel.style.visibility = "visible"
     enter_time = Date.now()
     form.addEventListener('submit', assessment_handover)
+    localStorage.setItem("ASSESSMENT_TIME", "true")
 })
 
 
 function assessment_handover(e){
+    let time_in_video
     // Prevent default
     e.preventDefault();
 
@@ -49,7 +51,11 @@ function assessment_handover(e){
     // Get other data from nerd statistics
     const [simple, complex] = getNerdElements()
     const mysteryText = simple.mysteryText.querySelector("span").innerText;
-    const time_in_video =  mysteryText.match(/t\:([0-9]+\.[0-9]+)/)[1];
+    try{
+        time_in_video =  mysteryText.match(/t\:([0-9]+\.[0-9]+)/)[1];
+    }catch(error){
+        time_in_video = null
+    }
 
 
     // Hand over the assessment to the background script
@@ -62,6 +68,7 @@ function assessment_handover(e){
             time_in_video: time_in_video
         }
     }
+    console.log(message)
     chrome.runtime.sendMessage(message)
     remove_assessment_panel()
 }
@@ -70,4 +77,5 @@ function assessment_handover(e){
 function remove_assessment_panel(){
     document.getElementById("acr-panel").remove()
     //chrome.runtime.sendMessage({msg: "assessment_panel_hidden"})
+    localStorage.setItem("ASSESSMENT_TIME", "false")
 }

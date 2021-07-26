@@ -182,6 +182,16 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                     Object.assign(record, {assessments: [received_assessment]});
                 }
             }
+            else {
+                // Possible to happen
+                const record = {
+                    id: tabId,
+                    assessments: [received_assessment]
+                };
+                // If there is no record found, don't append the data - causes error when data in submitted on video end
+                // and only assessments are submitted
+                captured_data.push(record);
+            }
         }
         //Listen for mouse tracker data
         if(request.msg === "mouse_tracker_data"){
@@ -199,9 +209,10 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
             }
         }
 
-        //Listen for debugger reset signal
-        if(request.msg === "debugger_reset"){
+        //Listen for controllers reset signal
+        if(request.msg === "RESET"){
             chDebugger.reset();
+            asController.reset();
         }
 
         // Listen for onbeforeunload message - tab close, refresh
