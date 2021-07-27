@@ -48,8 +48,8 @@ export function AssessmentController(){
             const mode = res.EXPERIMENT_MODE
             if(mode === "training"){
                 chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS"], res => {
-                    console.log("TIMEOUT " + res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS)
-                    clearTimeout(this.timeout);
+                    console.log("INTERVAL " + res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS)
+                    //clearTimeout(this.timeout);
                     this.interval = setInterval(()=>{
                         chrome.tabs.executeScript(this.tabId, {file: "background_controllers/AssessmentPanel.js"})
                     }, res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS);
@@ -57,10 +57,10 @@ export function AssessmentController(){
             }
             else if (mode === "main"){
                 chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=>{
-                    console.log("TIMEOUT " + result.ASSESSMENT_INTERVAL_MS)
-                    clearTimeout(this.timeout);
+                    console.log("INTERVAL " + result.ASSESSMENT_INTERVAL_MS)
+                   // clearTimeout(this.timeout);
                     this.interval = setInterval(()=>{
-                        chrome.tabs.sendMessage(this.tabId, {msg: "show_assessment_panel"})
+                        chrome.tabs.executeScript(this.tabId, {file: "background_controllers/AssessmentPanel.js"})
                     }, result.ASSESSMENT_INTERVAL_MS);
                 })
             }

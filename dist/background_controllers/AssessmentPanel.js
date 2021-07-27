@@ -493,6 +493,7 @@ var panel = undefined;
 var form = undefined;
 var enter_time = undefined;
 
+console.log("ASDASDASD ASSESSMENMT PANEL");
 
 localStorage.setItem("ASSESSMENT_TIME", "false"); // <-- necessary for proper key assessment work
 chrome.storage.local.get(["ASSESSMENT_PANEL_LAYOUT", "ASSESSMENT_PANEL_OPACITY"], (result) => {

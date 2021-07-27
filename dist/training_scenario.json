@@ -6,7 +6,7 @@
       "params": {
         "offline": false,
         "latency": 1,
-        "downloadThroughput": 300000,
+        "downloadThroughput": 700000,
         "uploadThroughput": 1000000000
       }
     },
