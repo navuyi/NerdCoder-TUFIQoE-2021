@@ -51,10 +51,14 @@ def create_app(test_config=None):
     from REST_API.endpoints.session_post import bp as bp_post_session
     from REST_API.endpoints.session_get import bp as bp_get_session
     from REST_API.endpoints.connection import bp as bp_connection_check
+    from REST_API.endpoints.session_imposed import bp as bp_session_imposed
+    from REST_API.endpoints.session_own import bp as bp_session_own
 
     app.register_blueprint(bp_post_session)
     app.register_blueprint(bp_get_session)
     app.register_blueprint(bp_connection_check)
+    app.register_blueprint(bp_session_imposed)
+    app.register_blueprint(bp_session_own)
 
     # Register blueprints
 

@@ -1,25 +1,29 @@
 // Imports work but files that provide export must be included in manifest.json //
-import {ChromeDebugger} from "./ChromeDebugger";
-
+import {ChromeDebugger} from "./background_controllers/ChromeDebugger";
+import {AssessmentController} from "./background_controllers/AssessmentController";
 
 const yt_watch_string = "https://www.youtube.com/watch?v="
 var captured_data = [];
 let current_tabId;
 
+// Initialize controllers
 const chDebugger = new ChromeDebugger();
+const asController = new AssessmentController();
 
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
-        ASSESSMENT_PANEL_OPACITY: 80,                       // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 300000,                       // Interval for assessment in auto mode in milliseconds
-        ASSESSMENT_MODE: "auto",                            // Available modes are "remote", "auto" and "manual"
-        ASSESSMENT_PANEL_LAYOUT: "middle",                  // Available for now are "middle", "top", "bottom"
-        ASSESSMENT_PAUSE: "disabled",                       // Enable/disable playback pausing/resuming on video assessment
-        DEVELOPER_MODE: true,                               // Enable/disable developer mode - nerd stats visibility, connection check
-        ASSESSMENT_RUNNING: false,                          // Define whether process of assessment has already begun
-        EXPERIMENT_MODE: "training",                            // Define whether to use training or main experiment mode
-        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 30000         // Interval for assessment in auto mode in ms for training mode
+        ASSESSMENT_PANEL_OPACITY: 80,                                               // Opacity of the assessment panel in %
+        ASSESSMENT_INTERVAL_MS: 20000,                                              // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_MODE: "auto",                                                         // Available modes are "remote", "auto" and "manual"
+        ASSESSMENT_PANEL_LAYOUT: "middle",                                      // Available for now are "middle", "top", "bottom"
+        ASSESSMENT_PAUSE: "disabled",                                                  // Enable/disable playback pausing/resuming on video assessment
+        DEVELOPER_MODE: true,                                                               // Enable/disable developer mode - nerd stats visibility, connection check
+        ASSESSMENT_RUNNING: false,                                                     // Define whether process of assessment has already begun
+        EXPERIMENT_MODE: "training",                                                    // Define whether to use training or main experiment mode
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 20000,                // Interval for assessment in auto mode in ms for training mode
+        VIDEOS_TYPE: "own",                                                                    // Gives information about videos type - "imposed" / "own" values are available
+        TESTER_ID: 99999999                                                                   // Tester ID
     }
     chrome.storage.local.set(config, ()=>{
         console.log("Config has been saved: " + config);
@@ -38,18 +42,35 @@ function submit_captured_data(captured_data, tabId){
     const index = captured_data.findIndex(record => record.id === tabId);
     console.log(index);
     if(index !== -1){
-        const session_data = captured_data[index].data;
-        const assessment_data = captured_data[index].assessments;
-        const mousetracker = captured_data[index].mousetracker
-        const my_body = JSON.stringify({session_data: session_data, assessment_data: assessment_data, mousetracker: mousetracker});
-        console.log(JSON.parse(my_body));
-        // Delete sent data from captured_data array
-        captured_data.splice(index,1);
+        chrome.storage.local.get(["TESTER_ID", "VIDEOS_TYPE", "EXPERIMENT_MODE"], (res) => {
+            const tester_id = res.TESTER_ID
+            const video_type = res.VIDEOS_TYPE
+            const experiment_mode = res.EXPERIMENT_MODE
 
-        // Send data
-        fetch(my_url, {method: my_method, headers: my_headers, body: my_body})
-            .then(res => res.json())
-            .then(re => console.log(re));
+            const session_data = captured_data[index].data;
+            const assessment_data = captured_data[index].assessments;
+            const mousetracker = captured_data[index].mousetracker
+
+            const my_body = JSON.stringify({
+                session_data: session_data,
+                assessment_data: assessment_data,
+                mousetracker: mousetracker,
+                tester_id: tester_id,
+                video_type: video_type
+            });
+            console.log(JSON.parse(my_body));
+            // Delete sent data from captured_data array
+            captured_data.splice(index,1);
+
+            // Send data <-- DO NOT SEND DATA IN TRAINING MODE
+            if(experiment_mode === "main"){
+                fetch(my_url, {method: my_method, headers: my_headers, body: my_body})
+                    .then(res => res.json())
+                    .then(re => console.log(re));
+            }else{
+                console.log(`[BackgroundScript] %cTraining mode detected. Data is not submitted.`, "color: #dc3545; font-weight: bold")
+            }
+        })
     }
     else{
         console.log("No data to submit")
@@ -69,8 +90,9 @@ function execute_script(tabId){
                     if(data.msg === "OK"){
                         console.log("Connection OK")
                         chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
-                            // Run debugger
+                            // Run controllers
                             chDebugger.init(tabId);
+                            asController.init(tabId)
                         })
                     }
                 })
@@ -84,8 +106,9 @@ function execute_script(tabId){
         else if(dev_mode === true){
             // Inject content script into tab
             chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
-                // Run debugger
+                // Run controllers
                 chDebugger.init(tabId);
+                asController.init(tabId)
             })
         }
     })
@@ -179,14 +202,14 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                 }
             }
             else{
-                // This else block is very unlikely to happen
+                // Possible to happen
                 const record = {
                     id: tabId,
                     assessments: [received_assessment]
                 }
                 // If there is no record found, don't append the data - causes error when data in submitted on video end
                 // and only assessments are submitted
-                //captured_data.push(record);
+                captured_data.push(record);
             }
         }
         //Listen for mouse tracker data
@@ -208,9 +231,10 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
             }
         }
 
-        //Listen for debugger reset signal
-        if(request.msg === "debugger_reset"){
-            chDebugger.reset();
+        //Listen for controllers reset signal
+        if(request.msg === "RESET"){
+            chDebugger.reset()
+            asController.reset()
         }
 
         // Listen for onbeforeunload message - tab close, refresh

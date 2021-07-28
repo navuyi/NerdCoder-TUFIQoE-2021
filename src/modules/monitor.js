@@ -40,8 +40,6 @@ export function run_monitor(simple, complex){
 
 
     // Send data to background script
-    console.log(data.videoId_sCPN);
-    console.log(data.url)
     hand_over_data(data);
 }
 

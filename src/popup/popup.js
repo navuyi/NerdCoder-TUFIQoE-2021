@@ -1,5 +1,10 @@
 // Set the default configuration
 
+// Default for tester ID
+chrome.storage.local.get(["TESTER_ID"], (result)=> {
+    document.getElementById("tester-id").value = result.TESTER_ID
+})
+
 // Default for assessment panel opacity
 chrome.storage.local.get(["ASSESSMENT_PANEL_OPACITY"], (result)=> {
     document.getElementById("opacity-input").value = result.ASSESSMENT_PANEL_OPACITY
@@ -40,6 +45,17 @@ chrome.storage.local.get(["EXPERIMENT_MODE"], (result) => {
         document.getElementById("mode-t-btn").setAttribute("active", "true")
     }
 })
+// Default for videos type
+chrome.storage.local.get(["VIDEOS_TYPE"], result => {
+    const type = result.VIDEOS_TYPE
+    if(type === "own"){
+        document.getElementById("video-type-own").setAttribute("active", "true")
+    }
+    else if(type === "imposed"){
+        document.getElementById("video-type-imposed").setAttribute("active", "true")
+    }
+})
+
 
 // Assessment mode - buttons configuration
 const buttons = ["mode-remote", "mode-auto", "mode-manual"];
@@ -124,7 +140,27 @@ document.getElementById("mode-m-btn").addEventListener("click", (e)=>{
     chrome.storage.local.set({"EXPERIMENT_MODE": "main"})
 })
 
+// Videos type - own/imposed
+document.getElementById("video-type-imposed").addEventListener("click", (e) => {
+    // Remove active attribute from the other button
+    document.getElementById("video-type-own").removeAttribute("active")
 
+    // Set active attribute to the clicked button
+    e.target.setAttribute("active", "true")
+
+    // Update storage
+    chrome.storage.local.set({"VIDEOS_TYPE": "imposed"})
+})
+document.getElementById("video-type-own").addEventListener("click", (e) => {
+    // Remove active attribute from the other button
+    document.getElementById("video-type-imposed").removeAttribute("active")
+
+    // Set active attribute to the clicked button
+    e.target.setAttribute("active", "true")
+
+    // Update storage
+    chrome.storage.local.set({"VIDEOS_TYPE": "own"})
+})
 
 
 // Handle configuration save
@@ -154,11 +190,20 @@ document.getElementById("save-button").addEventListener('click', (e)=>{
         document.getElementById("training-interval-input").value = t_interval;
     }
 
+    // Handle tester ID change
+    let testerID = document.getElementById("tester-id").value
+    if(isNaN(testerID) === true){
+        testerID = "random-"+Math.round(Math.random() * 10000)
+    }
+    document.getElementById("tester-id").value = testerID
+
     const new_config = {
         ASSESSMENT_PANEL_OPACITY: [opacity],
         ASSESSMENT_INTERVAL_MS: [interval],
-        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: [t_interval]
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: [t_interval],
+        TESTER_ID: testerID
     }
+    // Refresh current page
     chrome.storage.local.set(new_config, ()=>{
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             chrome.tabs.update(tabs[0].id, {url: tabs[0].url});
@@ -173,7 +218,7 @@ document.getElementById("reset-button").onclick = ()=>{
     console.log(result);
     // Send message to background script to reset
     if(result === true){
-        chrome.runtime.sendMessage({msg: "debugger_reset"});
+        chrome.runtime.sendMessage({msg: "RESET"});
     }
 }
 

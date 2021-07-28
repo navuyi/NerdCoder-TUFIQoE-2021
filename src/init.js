@@ -3,7 +3,7 @@ import {run_monitor} from "./modules/monitor";
 
 
 
-import {AssessmentController} from "./classes/AssessmentController";
+
 import {MouseTracker} from "./classes/MouseTracker";
 
 
@@ -24,18 +24,6 @@ var [simple, complex] = get_nerd_elements();
 var running_monitor = setInterval(run_monitor, 500, simple, complex);
 
 
-// Start the assessment controller
-chrome.storage.local.get(["ASSESSMENT_MODE", "ASSESSMENT_RUNNING"], (result)=>{
-    if(result.ASSESSMENT_RUNNING === false){
-        var controller = new AssessmentController(result.ASSESSMENT_MODE)
-        controller.init();
-        chrome.storage.local.set({ASSESSMENT_RUNNING: true});
-        console.log("STARTING ASSESSMENT")
-    }
-    else{
-        console.log("ALREADY RUNNING")
-    }
-})
 
 // Start mouse tracker
 var mouse_tracker = new MouseTracker();
