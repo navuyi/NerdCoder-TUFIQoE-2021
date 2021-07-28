@@ -22,7 +22,8 @@ chrome.runtime.onInstalled.addListener( ()=>{
         ASSESSMENT_RUNNING: false,                                                     // Define whether process of assessment has already begun
         EXPERIMENT_MODE: "training",                                                    // Define whether to use training or main experiment mode
         TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 5000,                // Interval for assessment in auto mode in ms for training mode
-        VIDEOS_TYPE: "own"                                                                       // Gives information about videos type - "imposed" / "own" values are available
+        VIDEOS_TYPE: "own",                                                                    // Gives information about videos type - "imposed" / "own" values are available
+        TESTER_ID: 99999999                                                                   // Tester ID
     }
     chrome.storage.local.set(config, ()=>{
         console.log("Config has been saved: " + config);
@@ -41,18 +42,30 @@ function submit_captured_data(captured_data, tabId){
     const index = captured_data.findIndex(record => record.id === tabId);
     console.log(index);
     if(index !== -1){
-        const session_data = captured_data[index].data;
-        const assessment_data = captured_data[index].assessments;
-        const mousetracker = captured_data[index].mousetracker
-        const my_body = JSON.stringify({session_data: session_data, assessment_data: assessment_data, mousetracker: mousetracker});
-        console.log(JSON.parse(my_body));
-        // Delete sent data from captured_data array
-        captured_data.splice(index,1);
+        chrome.storage.local.get(["TESTER_ID", "VIDEOS_TYPE"], (res) => {
+            const tester_id = res.TESTER_ID
+            const video_type = res.VIDEOS_TYPE
 
-        // Send data
-        fetch(my_url, {method: my_method, headers: my_headers, body: my_body})
-            .then(res => res.json())
-            .then(re => console.log(re));
+            const session_data = captured_data[index].data;
+            const assessment_data = captured_data[index].assessments;
+            const mousetracker = captured_data[index].mousetracker
+
+            const my_body = JSON.stringify({
+                session_data: session_data,
+                assessment_data: assessment_data,
+                mousetracker: mousetracker,
+                tester_id: tester_id,
+                video_type: video_type
+            });
+            console.log(JSON.parse(my_body));
+            // Delete sent data from captured_data array
+            captured_data.splice(index,1);
+
+            // Send data
+            fetch(my_url, {method: my_method, headers: my_headers, body: my_body})
+                .then(res => res.json())
+                .then(re => console.log(re));
+        })
     }
     else{
         console.log("No data to submit")

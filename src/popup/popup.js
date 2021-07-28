@@ -1,5 +1,9 @@
 // Set the default configuration
 
+// Default for tester ID
+chrome.storage.local.get(["TESTER_ID"], (result)=> {
+    document.getElementById("tester-id").value = result.TESTER_ID
+})
 
 // Default for assessment panel opacity
 chrome.storage.local.get(["ASSESSMENT_PANEL_OPACITY"], (result)=> {
@@ -186,11 +190,20 @@ document.getElementById("save-button").addEventListener('click', (e)=>{
         document.getElementById("training-interval-input").value = t_interval;
     }
 
+    // Handle tester ID change
+    let testerID = document.getElementById("tester-id").value
+    if(isNaN(testerID) === true){
+        testerID = "random-"+Math.round(Math.random() * 10000)
+    }
+    document.getElementById("tester-id").value = testerID
+
     const new_config = {
         ASSESSMENT_PANEL_OPACITY: [opacity],
         ASSESSMENT_INTERVAL_MS: [interval],
-        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: [t_interval]
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: [t_interval],
+        TESTER_ID: testerID
     }
+    // Refresh current page
     chrome.storage.local.set(new_config, ()=>{
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             chrome.tabs.update(tabs[0].id, {url: tabs[0].url});
