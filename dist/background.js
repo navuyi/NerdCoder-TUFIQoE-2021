@@ -14,14 +14,14 @@ const asController = new AssessmentController();
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
         ASSESSMENT_PANEL_OPACITY: 80,                                               // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 5000,                                              // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_INTERVAL_MS: 20000,                                              // Interval for assessment in auto mode in milliseconds
         ASSESSMENT_MODE: "auto",                                                         // Available modes are "remote", "auto" and "manual"
         ASSESSMENT_PANEL_LAYOUT: "middle",                                      // Available for now are "middle", "top", "bottom"
         ASSESSMENT_PAUSE: "disabled",                                                  // Enable/disable playback pausing/resuming on video assessment
         DEVELOPER_MODE: true,                                                               // Enable/disable developer mode - nerd stats visibility, connection check
         ASSESSMENT_RUNNING: false,                                                     // Define whether process of assessment has already begun
         EXPERIMENT_MODE: "training",                                                    // Define whether to use training or main experiment mode
-        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 5000,                // Interval for assessment in auto mode in ms for training mode
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 20000,                // Interval for assessment in auto mode in ms for training mode
         VIDEOS_TYPE: "own",                                                                    // Gives information about videos type - "imposed" / "own" values are available
         TESTER_ID: 99999999                                                                   // Tester ID
     };
@@ -42,9 +42,10 @@ function submit_captured_data(captured_data, tabId){
     const index = captured_data.findIndex(record => record.id === tabId);
     console.log(index);
     if(index !== -1){
-        chrome.storage.local.get(["TESTER_ID", "VIDEOS_TYPE"], (res) => {
+        chrome.storage.local.get(["TESTER_ID", "VIDEOS_TYPE", "EXPERIMENT_MODE"], (res) => {
             const tester_id = res.TESTER_ID;
             const video_type = res.VIDEOS_TYPE;
+            const experiment_mode = res.EXPERIMENT_MODE;
 
             const session_data = captured_data[index].data;
             const assessment_data = captured_data[index].assessments;
@@ -61,10 +62,14 @@ function submit_captured_data(captured_data, tabId){
             // Delete sent data from captured_data array
             captured_data.splice(index,1);
 
-            // Send data
-            fetch(my_url, {method: my_method, headers: my_headers, body: my_body})
-                .then(res => res.json())
-                .then(re => console.log(re));
+            // Send data <-- DO NOT SEND DATA IN TRAINING MODE
+            if(experiment_mode === "main"){
+                fetch(my_url, {method: my_method, headers: my_headers, body: my_body})
+                    .then(res => res.json())
+                    .then(re => console.log(re));
+            }else {
+                console.log(`[BackgroundScript] %cTraining mode detected. Data is not submitted.`, "color: #dc3545; font-weight: bold");
+            }
         });
     }
     else {
