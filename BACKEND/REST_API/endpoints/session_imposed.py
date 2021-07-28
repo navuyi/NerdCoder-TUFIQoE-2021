@@ -1,6 +1,6 @@
 
 from flask import request, jsonify
-from flask import Blueprint
+from flask import Blueprint, render_template
 import re
 from datetime import datetime, timedelta
 from REST_API.utils import get_frames, get_resolution, get_framerate, dict_factory, get_volume, get_connection_speed, \
@@ -10,7 +10,6 @@ from REST_API.db import cursor, db_get, lastrowid
 
 
 bp = Blueprint("session_imposed", __name__, url_prefix="/session")
-
 
 @bp.route("/imposed", methods=["GET"])
 def get_session_imposed():
