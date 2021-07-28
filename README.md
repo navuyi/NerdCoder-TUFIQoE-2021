@@ -13,14 +13,31 @@ to work properly.
 
 
 ## Installation
+#### Chrome extension
 The "dist" directory contains bundled files. Install the extension by loading
 the "dist" directory with the "load unpacked" option.
 
+#### REST API
+1.  To set up Flask REST API one should download BACKEND directory.
+2. Then setup python virtual environment  by using command
+``` python -m venv [venv-name]```
+3. Set environment variable FLASK_APP=REST_API
+  - on Windows: ```set FLASK_APP=REST_API```
+  - on Linux: ```export FLASK_APP=REST_API```
+4. While being in BACKEND directory execute command ```flask run```
+
+####To reset database rows one can cd into BACKEND/database and execute ```python init.py```
 
 ## Extension popup - Settings
 In the extension popup there are several fields that can be used to configure
 the extension behaviour and some element's layout.
 
+- ### [ N E W ] Tester ID
+  - Enables to differentiate data captured from multiple testers
+  - Number should be provided
+  - If provided value is not a number - random sequence is generated (temporar solution)
+  - [ I D E A ] Future idea is to manually provide tester's email address and generate
+  hash value from it to store in database as tester's ID
 - ### Assessment panel opacity [%]
   - Describes the level of invisibility of the assessment panel
   - Value is percentages
@@ -28,7 +45,7 @@ the extension behaviour and some element's layout.
   - Relevant only if [Session](#session) </a> is set to "main"
   - Describes how much time has to elapse before next assessment panel will show up
   - This field is only relevant when Assessment mode is set to Auto - see below
-- ### [ N E W ] Training mode assessment time
+- ### Training mode assessment time
   - Same as above but relevant only if [Session](#session) is set to "training"
 - ### Assessment mode
   - Auto - automatic assessment panel control. This mode is connected with "Assessment Time Inerval"
@@ -46,12 +63,17 @@ the extension behaviour and some element's layout.
   - In case connection fails (most likely reason for that is Flask REST API is not running)
     YouTube player is closed and warning screen is displayed with proper information.
   - ### It is advised to set developer mode to disabled during the real experiment.
-
-- ### [N E W] <a name="session"> Session </a>
+- ###  <a name="session"> Session </a>
   - Define mode the extension is running. Training mode should have shorter assessment panel and network throttling intervals.
   Training mode uses "Training mode assessment time interval [ms]" and "training_scenario.json" configuration file.
   Main mode uses "Main mode assessment time interval [ms] and main_scenario.json" configuration file.
-# [ N E W ] Throttling scheduling
+
+- ### Videos type
+  - Gives information about stage of the experiment
+  - own - tester is allowed to search and watch videos they like
+  - imposed - testers must watch videos imposed by experiment operator, most likely in form of prepared YouTube playlist
+
+# Throttling scheduling
 In the dist directory there are "main_scenario.json" and "training_scenario.json" files. In extension's popup there is section where
 we can choose what experiment mode are we running. Whether it is a main session or training. Training
 session is shorter than main (shorter assessment and network throttling intervals).
