@@ -13,15 +13,16 @@ const asController = new AssessmentController();
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
-        ASSESSMENT_PANEL_OPACITY: 80,                       // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 5000,                       // Interval for assessment in auto mode in milliseconds
-        ASSESSMENT_MODE: "auto",                            // Available modes are "remote", "auto" and "manual"
-        ASSESSMENT_PANEL_LAYOUT: "middle",                  // Available for now are "middle", "top", "bottom"
-        ASSESSMENT_PAUSE: "disabled",                       // Enable/disable playback pausing/resuming on video assessment
-        DEVELOPER_MODE: true,                               // Enable/disable developer mode - nerd stats visibility, connection check
-        ASSESSMENT_RUNNING: false,                          // Define whether process of assessment has already begun
-        EXPERIMENT_MODE: "training",                            // Define whether to use training or main experiment mode
-        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 5000         // Interval for assessment in auto mode in ms for training mode
+        ASSESSMENT_PANEL_OPACITY: 80,                                               // Opacity of the assessment panel in %
+        ASSESSMENT_INTERVAL_MS: 5000,                                              // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_MODE: "auto",                                                         // Available modes are "remote", "auto" and "manual"
+        ASSESSMENT_PANEL_LAYOUT: "middle",                                      // Available for now are "middle", "top", "bottom"
+        ASSESSMENT_PAUSE: "disabled",                                                  // Enable/disable playback pausing/resuming on video assessment
+        DEVELOPER_MODE: true,                                                               // Enable/disable developer mode - nerd stats visibility, connection check
+        ASSESSMENT_RUNNING: false,                                                     // Define whether process of assessment has already begun
+        EXPERIMENT_MODE: "training",                                                    // Define whether to use training or main experiment mode
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 5000,                // Interval for assessment in auto mode in ms for training mode
+        VIDEOS_TYPE: "own"                                                                       // Gives information about videos type - "imposed" / "own" values are available
     };
     chrome.storage.local.set(config, ()=>{
         console.log("Config has been saved: " + config);

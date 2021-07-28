@@ -20,7 +20,8 @@
     "package.json": "^2.0.1",
     "rollup-plugin-uglify": "^6.0.4",
     "socket.io": "^4.1.2",
-    "socket.io-client": "^4.1.2"
+    "socket.io-client": "^4.1.2",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.1.0",

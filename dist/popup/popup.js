@@ -1,5 +1,6 @@
 // Set the default configuration
 
+
 // Default for assessment panel opacity
 chrome.storage.local.get(["ASSESSMENT_PANEL_OPACITY"], (result)=> {
     document.getElementById("opacity-input").value = result.ASSESSMENT_PANEL_OPACITY;
@@ -40,6 +41,17 @@ chrome.storage.local.get(["EXPERIMENT_MODE"], (result) => {
         document.getElementById("mode-t-btn").setAttribute("active", "true");
     }
 });
+// Default for videos type
+chrome.storage.local.get(["VIDEOS_TYPE"], result => {
+    const type = result.VIDEOS_TYPE;
+    if(type === "own"){
+        document.getElementById("video-type-own").setAttribute("active", "true");
+    }
+    else if(type === "imposed"){
+        document.getElementById("video-type-imposed").setAttribute("active", "true");
+    }
+});
+
 
 // Assessment mode - buttons configuration
 const buttons = ["mode-remote", "mode-auto", "mode-manual"];
@@ -124,7 +136,27 @@ document.getElementById("mode-m-btn").addEventListener("click", (e)=>{
     chrome.storage.local.set({"EXPERIMENT_MODE": "main"});
 });
 
+// Videos type - own/imposed
+document.getElementById("video-type-imposed").addEventListener("click", (e) => {
+    // Remove active attribute from the other button
+    document.getElementById("video-type-own").removeAttribute("active");
 
+    // Set active attribute to the clicked button
+    e.target.setAttribute("active", "true");
+
+    // Update storage
+    chrome.storage.local.set({"VIDEOS_TYPE": "imposed"});
+});
+document.getElementById("video-type-own").addEventListener("click", (e) => {
+    // Remove active attribute from the other button
+    document.getElementById("video-type-imposed").removeAttribute("active");
+
+    // Set active attribute to the clicked button
+    e.target.setAttribute("active", "true");
+
+    // Update storage
+    chrome.storage.local.set({"VIDEOS_TYPE": "own"});
+});
 
 
 // Handle configuration save
