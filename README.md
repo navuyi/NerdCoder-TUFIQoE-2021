@@ -21,16 +21,26 @@ the "dist" directory with the "load unpacked" option.
 1.  To set up Flask REST API one should download BACKEND directory.
 2. Then setup python virtual environment  by using command
 ``` python -m venv [venv-name]```
-3. Set environment variable FLASK_APP=REST_API
-  - on Windows: ```set FLASK_APP=REST_API```
-  - on Linux: ```export FLASK_APP=REST_API```
-4. While being in BACKEND directory execute command ```flask run```
+3. Activate venv
+    - on Windows ```[venv-name]\Scripts\activate```
+    - on Linux ```source [venv-name]/bin/activate```
+4. Set environment variable FLASK_APP=REST_API
+    - on Windows: ```set FLASK_APP=REST_API```
+   - on Linux: ```export FLASK_APP=REST_API```
+5. Install required packages ```pip install -r requirements.txt```
+6. While being in BACKEND directory execute command ```flask run```
 
 ####To reset database rows one can cd into BACKEND/database and execute ```python init.py```
 
 ## Extension popup - Settings
 In the extension popup there are several fields that can be used to configure
 the extension behaviour and some element's layout.
+
+
+
+<img src="images/popup.png" height="100"/>
+
+
 
 - ### [ N E W ] Tester ID
   - Enables to differentiate data captured from multiple testers
