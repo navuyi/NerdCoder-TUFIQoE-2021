@@ -38,7 +38,7 @@ the extension behaviour and some element's layout.
 
 
 
-<img src="images/popup.png" height="100"/>
+<img src="images/popup.png" height="100" width="100"/>
 
 
 
