@@ -36,8 +36,6 @@ the "dist" directory with the "load unpacked" option.
 In the extension popup there are several fields that can be used to configure
 the extension behaviour and some element's layout.
 
-
-
 ![Image of Yaktocat](images/popup.png)
 
 
@@ -82,6 +80,17 @@ the extension behaviour and some element's layout.
   - Gives information about stage of the experiment
   - own - tester is allowed to search and watch videos they like
   - imposed - testers must watch videos imposed by experiment operator, most likely in form of prepared YouTube playlist
+
+- ### [ N E W ] Reset button
+  - Resets assessment controller and chrome debugger modules
+  - Redirects to the main page of YouTube
+  - If there was ongoing throttling scenario and assessment timer counting down it is now 
+  restarted and ready to begin new one after entering new video
+  - IT DOES NOT RELOAD THE EXTENSION - all settings configured in th popup and saved are not
+  affected by this operation
+  - To restore default settings - hardcoded in background script - one needs to reload the extension manually
+    
+    ![Image of Yaktocat](images/ext-reload.png)
 
 # Throttling scheduling
 In the dist directory there are "main_scenario.json" and "training_scenario.json" files. In extension's popup there is section where

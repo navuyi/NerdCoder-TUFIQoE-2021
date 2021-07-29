@@ -131,3 +131,7 @@ label{
 #reset-button:active{
     background-color: #343a40;
 }
+.option-container button[now]{
+    background-color: #28a745;
+    
+}
