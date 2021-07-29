@@ -37,9 +37,9 @@ In the extension popup there are several fields that can be used to configure
 the extension behaviour and some element's layout.
 
 
-<div style="width: 100%; text-align: center">
-  <img src="images/popup.png" height="100" />
-</div>
+
+![Image of Yaktocat](images/popup.png)
+
 
 
 - ### [ N E W ] Tester ID
