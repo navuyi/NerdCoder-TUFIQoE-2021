@@ -37,9 +37,9 @@ In the extension popup there are several fields that can be used to configure
 the extension behaviour and some element's layout.
 
 
-
-<img src="images/popup.png" height="100" width="100"/>
-
+<div style="width: 100%; text-align: center">
+  <img src="images/popup.png" height="100" />
+</div>
 
 
 - ### [ N E W ] Tester ID
