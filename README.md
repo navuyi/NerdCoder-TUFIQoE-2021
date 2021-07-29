@@ -88,7 +88,7 @@ the extension behaviour and some element's layout.
   restarted and ready to begin new one after entering new video
   - IT DOES NOT RELOAD THE EXTENSION - all settings configured in th popup and saved are not
   affected by this operation
-  - To restore default settings - hardcoded in background script - one needs to reload the extension manually
+  - To restore default settings (hardcoded in background script) one needs to reload the extension manually
     
     ![Image of Yaktocat](images/ext-reload.png)
 
