@@ -1,5 +1,33 @@
-import con from "../main_scenario.json"
-console.log(con);
+import Ajv from "ajv";
+// Create instance of json validator
+/*
+const options = {
+    strict: false
+}
+const ajv = new Ajv()
+let schema = {
+    "type": "object",
+    "properties": {
+        "name": {"type": "string"},
+        "schedule": {"type": "array"},
+        "items": {
+            "type": "object",
+            "properties": {
+                "timeout_s": {"type": "integer"},
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "offline": {"type": "boolean"},
+                        "latency": {"type": "string"},
+                        "downloadThroughput": {"type": "integer"},
+                        "uploadThroughput": {"type": "integer"}
+                    }
+                }
+            }
+        }
+    }
+}
+ */
 
 export function ChromeDebugger(){
     this.currentTabID = undefined;
@@ -45,6 +73,10 @@ export function ChromeDebugger(){
             fetch(url)
                 .then(res=>res.json())
                 .then(data => {
+                    //const validate = ajv.compile(schema)
+                    //const is_valid = validate(JSON.stringify(data))
+                    //console.log(`VALIDITY: ${is_valid}`)
+
                     this.scheduleThrottling(tabId, data)
                 })
         });

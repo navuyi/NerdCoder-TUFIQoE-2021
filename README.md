@@ -41,11 +41,11 @@ the extension behaviour and some element's layout.
 
 
 - ### [ N E W ] Tester ID
-  - Enables to differentiate data captured from multiple testers
+  - Used to differentiate data captured from multiple testers
   - Number should be provided
   - If provided value is not a number - random sequence is generated (temporar solution)
   - [ I D E A ] Future idea is to manually provide tester's email address and generate
-  hash value from it to store in database as tester's ID
+  hash value from it to store in database as tester's ID - [ TO BE CONFIRMED ]
 - ### Assessment panel opacity [%]
   - Describes the level of invisibility of the assessment panel
   - Value is percentages
@@ -62,7 +62,7 @@ the extension behaviour and some element's layout.
   - Remote - very similar to Manual mode but nodeJS server script is necessary for it to work properly.
     User can control the assessment panel from the script running on the same or remote computer from the one that extension is running on
 - ### Assessment panel layout
-  - top, middle, bottom - defines the layout of the assessment panel
+  - top, middle, bottom - defines the layout and positioning of the assessment panel
 - ### Developer mode
   - Enables/disables the developer mode
   - If developer mode is enabled database connection is not checked, nerd statistics panel is visible, additional information
@@ -95,8 +95,8 @@ the extension behaviour and some element's layout.
 # Throttling scheduling
 In the dist directory there are "main_scenario.json" and "training_scenario.json" files. In extension's popup there is section where
 we can choose what experiment mode are we running. Whether it is a main session or training. Training
-session is shorter than main (shorter assessment and network throttling intervals).
-Extension will use one of these two files to schedule network throttling.
+session should be shorter than main (shorter assessment and network throttling intervals).
+Extension will use one of these two files to schedule network throttling based on the Session setting
 
 In the "scenarios" subdirectory there is separate JSON file for each scenario. To use particular scenario
 one should copy it contents (SINGLE SCENARIO OBJECT) to the "main_scenario.json" or "training_session.json" file which is imported by the
