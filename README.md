@@ -38,11 +38,16 @@ the "dist" directory with the "load unpacked" option.
    [network throttling](#throttling_scheduling) section. 
 3. Video assessment panel may become visible when user is not watching any video but currently is searching for videos.
     In that case submitted assessment will be appended to the last captured session.
-4. Mouse tracking is done only during video playback.
+4. To submit assessment user can use mouse or keyboard's numeric keys in range 1-5.
+5. In order to allow using keyboard for video assessment YouTube hotkeys had to be disabled. It means that user cannot use
+    arrow keys to forward/rewind video or F key to enter fullscreen.
+5. Mouse tracking is done only during video playback.
+6. User is allowed to YouTube page, redirect subpages within YouTube domain, search for videos.
+7. User is forbidden from using multiple tabs. One YouTube tab only. 
 
 
 - For now, once started processes (after playing first video) will not stop until extension is reloaded or restarted. 
-  Watch [reset button](#reset-button).
+  Watch [reset button](#reset_button).
 
 
 ## Extension popup - Settings
@@ -95,7 +100,7 @@ the extension behaviour and some element's layout.
   - own - tester is allowed to search and watch videos they like
   - imposed - testers must watch videos imposed by experiment operator, most likely in form of prepared YouTube playlist
 
-- ### [ N E W ] <a name="reset-button"> Reset button </a>
+- ### [ N E W ] <a name="reset_button"> Reset button </a>
     - Resets assessment controller and chrome debugger modules
     - Redirects to the main page of YouTube
     - If there was ongoing throttling scenario and assessment timer counting down it is now 
