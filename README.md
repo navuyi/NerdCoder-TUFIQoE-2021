@@ -95,7 +95,7 @@ the extension behaviour and some element's layout.
   - own - tester is allowed to search and watch videos they like
   - imposed - testers must watch videos imposed by experiment operator, most likely in form of prepared YouTube playlist
 
-- ### [ N E W ] <a href="reset-button"> Reset button </a>
+- ### [ N E W ] <a name="reset-button"> Reset button </a>
     - Resets assessment controller and chrome debugger modules
     - Redirects to the main page of YouTube
     - If there was ongoing throttling scenario and assessment timer counting down it is now 
