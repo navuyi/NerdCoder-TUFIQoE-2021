@@ -20,8 +20,8 @@ chrome.runtime.onInstalled.addListener( ()=>{
         ASSESSMENT_PAUSE: "disabled",                                                  // Enable/disable playback pausing/resuming on video assessment
         DEVELOPER_MODE: true,                                                               // Enable/disable developer mode - nerd stats visibility, connection check
         ASSESSMENT_RUNNING: false,                                                     // Define whether process of assessment has already begun
-        EXPERIMENT_MODE: "training",                                                    // Define whether to use training or main experiment mode
-        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 20000,                // Interval for assessment in auto mode in ms for training mode
+        EXPERIMENT_MODE: "training",                                                    // Define whether to use "training" or "main" experiment mode
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 20000,              // Interval for assessment in auto mode in ms for training mode
         VIDEOS_TYPE: "own",                                                                    // Gives information about videos type - "imposed" / "own" values are available
         TESTER_ID: 99999999                                                                   // Tester ID
     };

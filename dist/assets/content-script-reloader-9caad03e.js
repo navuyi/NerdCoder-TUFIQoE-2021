@@ -2,7 +2,7 @@
   'use strict';
 
   /* ------------------- FILENAMES ------------------- */
-  const loadMessagePlaceholder = '"DEVELOPMENT build with simple auto-reloader\n[2021-07-30 11:30:47] waiting for changes..."';
+  const loadMessagePlaceholder = '"DEVELOPMENT build with simple auto-reloader\n[2021-08-09 15:20:41] waiting for changes..."';
 
   /* eslint-env browser */
 

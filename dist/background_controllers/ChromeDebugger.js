@@ -7268,7 +7268,11 @@ function ChromeDebugger(){
         this.timoutArray.push(
             setTimeout(()=>{
                 chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params, ()=>{
-                    console.log(`Scenario [${scenarioName}]. Configuration with throughput: ${params.downloadThroughput} B/s started`);
+                    if(chrome.runtime.lastError){
+                        console.log(`[ChromeDebugger] Tab with ID %c${tabId} is no longer active`, "color: #dc3545; font-weight: bold");
+                    }else {
+                        console.log(`[ChromeDebugger] Scenario [${scenarioName}]. Configuration with throughput: ${params.downloadThroughput} B/s started`);
+                    }
                 });
             }, Math.round(timeout*1000))
         );

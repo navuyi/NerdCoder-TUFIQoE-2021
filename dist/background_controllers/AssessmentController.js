@@ -36,7 +36,7 @@ function AssessmentController(){
                     console.log("TIMEOUT " + result.ASSESSMENT_INTERVAL_MS);
                     clearTimeout(this.timeout);
                     this.timeout = setTimeout(()=>{
-                        chrome.tabs.sendMessage(this.tabId, {msg: "show_assessment_panel"});
+                        chrome.tabs.executeScript(this.tabId, {file: "background_controllers/AssessmentPanel.js"});
                     }, result.ASSESSMENT_INTERVAL_MS);
                 });
             }

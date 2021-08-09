@@ -32,6 +32,19 @@ the "dist" directory with the "load unpacked" option.
 
 ####To reset database rows one can cd into BACKEND/database and execute ```python init.py```
 
+# Overview
+1. Network throttling and video assessment processes start after user starts first video playback.
+2. Network throttling and video assessment are scheduled independently from each other. For more information go to
+   [network throttling](#throttling_scheduling) section. 
+3. Video assessment panel may become visible when user is not watching any video but currently is searching for videos.
+    In that case submitted assessment will be appended to the last captured session.
+4. Mouse tracking is done only during video playback.
+
+
+- For now, once started processes (after playing first video) will not stop until extension is reloaded or restarted. 
+  Watch [reset button](#reset-button).
+
+
 ## Extension popup - Settings
 In the extension popup there are several fields that can be used to configure
 the extension behaviour and some element's layout.
@@ -71,6 +84,7 @@ the extension behaviour and some element's layout.
   - In case connection fails (most likely reason for that is Flask REST API is not running)
     YouTube player is closed and warning screen is displayed with proper information.
   - ### It is advised to set developer mode to disabled during the real experiment.
+  
 - ###  <a name="session"> Session </a>
   - Define mode the extension is running. Training mode should have shorter assessment panel and network throttling intervals.
   Training mode uses "Training mode assessment time interval [ms]" and "training_scenario.json" configuration file.
@@ -81,22 +95,23 @@ the extension behaviour and some element's layout.
   - own - tester is allowed to search and watch videos they like
   - imposed - testers must watch videos imposed by experiment operator, most likely in form of prepared YouTube playlist
 
-- ### [ N E W ] Reset button
-  - Resets assessment controller and chrome debugger modules
-  - Redirects to the main page of YouTube
-  - If there was ongoing throttling scenario and assessment timer counting down it is now 
+- ### [ N E W ] <a href="reset-button"> Reset button </a>
+    - Resets assessment controller and chrome debugger modules
+    - Redirects to the main page of YouTube
+    - If there was ongoing throttling scenario and assessment timer counting down it is now 
   restarted and ready to begin new one after entering new video
-  - IT DOES NOT RELOAD THE EXTENSION - all settings configured in th popup and saved are not
-  affected by this operation
-  - To restore default settings (hardcoded in background script) one needs to reload the extension manually
-    
-    ![Image of Yaktocat](images/ext-reload.png)
+    - <h3>[ NOTICE ] IT DOES NOT RELOAD THE EXTENSION</h3>
+      <h4>All settings configured in th popup and saved are not
+               affected by this operation. To restore default settings (hardcoded in background script) one needs to reload the extension manually</h4>
+      <h4> In case of modyfing throttling scenarios files extension must be reloaded. Reset button will not load new files. </h4>        
+  ![Image of Yaktocat](images/ext-reload.png)
 
-# Throttling scheduling
-In the dist directory there are "main_scenario.json" and "training_scenario.json" files. In extension's popup there is section where
+
+# <a name="throttling_scheduling"> Throttling scheduling </a>
+In the dist directory there are "main_scenario.json" and "training_scenario.json" files. In extension's popup there is [Session](#session) section where
 we can choose what experiment mode are we running. Whether it is a main session or training. Training
 session should be shorter than main (shorter assessment and network throttling intervals).
-Extension will use one of these two files to schedule network throttling based on the Session setting
+Extension will use one of these two files to schedule network throttling based on the [Session](#session) setting.
 
 In the "scenarios" subdirectory there is separate JSON file for each scenario. To use particular scenario
 one should copy it contents (SINGLE SCENARIO OBJECT) to the "main_scenario.json" or "training_session.json" file which is imported by the
