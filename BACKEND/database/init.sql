@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS mousetracker;
 CREATE TABLE IF NOT EXISTS sessions(
     id INTEGER NOT NULL PRIMARY KEY,
     video_type TEXT,  -- imposed or own are available values
+    session_type TEXT, -- training or main are available values
     tester_id TEXT,  -- tester ID, provided in extension popup by experiment master
     sCPN TEXT NOT NULL,
     videoID TEXT NOT NULL,

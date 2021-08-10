@@ -18,9 +18,10 @@ def post_session():
         data = request.json
         session_data = data["session_data"]
 
-        if "tester_id" in data and "video_type" in data:
+        if "tester_id" in data and "video_type" and "experiment_mode" in data:
             tester_id = data["tester_id"]
             video_type = data["video_type"]
+            session_type = data["experiment_mode"]  # <-- session_type = experiment_mode
 
         f_record = session_data[0]
         l_record = session_data[len(session_data)-1]
@@ -100,8 +101,8 @@ def post_session():
 
 
         # Insert general data bout the monitor session
-        insert_general_data = f"INSERT INTO sessions (videoID, sCPN, url, start_date, start_time, start_time_utc_ms, end_time, end_time_utc_ms, session_duration_ms, tester_id, video_type) VALUES \
-                                             (:videoID, :sCPN, :url, :start_date, :start_time, :start_time_utc_ms, :end_time, :end_time_utc_ms, :session_duration_ms, :tester_id, :video_type);"
+        insert_general_data = f"INSERT INTO sessions (videoID, sCPN, url, start_date, start_time, start_time_utc_ms, end_time, end_time_utc_ms, session_duration_ms, tester_id, video_type, session_type) VALUES \
+                                             (:videoID, :sCPN, :url, :start_date, :start_time, :start_time_utc_ms, :end_time, :end_time_utc_ms, :session_duration_ms, :tester_id, :video_type, :session_type);"
         insert = {
             "videoID": videoID,
             "sCPN": sCPN,
@@ -113,7 +114,8 @@ def post_session():
             "end_time_utc_ms": end_time_utc_ms,
             "session_duration_ms": session_duration_ms,
             "tester_id": tester_id,
-            "video_type": video_type
+            "video_type": video_type,
+            "session_type": session_type
         }
 
         cursor().execute(insert_general_data, insert)

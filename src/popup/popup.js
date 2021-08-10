@@ -1,5 +1,13 @@
-// Set the default configuration
+import axios from "axios";
 
+axios.get("https://google.com")
+    .then(res=>{
+    console.log(res)
+})
+.catch(err=>{
+    console.log(err)
+})
+//  //  // Set the default configuration    //  //  //
 // Default for tester ID
 chrome.storage.local.get(["TESTER_ID"], (result)=> {
     document.getElementById("tester-id").value = result.TESTER_ID

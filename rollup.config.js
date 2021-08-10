@@ -1,6 +1,8 @@
 import json from '@rollup/plugin-json';
 
-import resolve from '@rollup/plugin-node-resolve'
+import {nodeResolve} from "@rollup/plugin-node-resolve"
+
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 import commonjs from '@rollup/plugin-commonjs'
 import zip from 'rollup-plugin-zip'
 import { emptyDir } from 'rollup-plugin-empty-dir'
@@ -18,6 +20,7 @@ export default {
   output: {
     dir: 'dist',
     format: 'esm',
+    external: ['crypto']
   },
   plugins: [
 
@@ -37,7 +40,9 @@ export default {
      */
 
     // resolves node modules
-    resolve({browser: true, preferBuiltins: false}),
+
+    //nodePolyfills(),
+    nodeResolve({browser: true, preferBuiltins: false}),    // <-- It is working ! ! !
     // converts libraries that use commonjs
     commonjs(),
     // empties the dist for each build

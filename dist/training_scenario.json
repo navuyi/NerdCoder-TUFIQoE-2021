@@ -2,7 +2,7 @@
   "name": "Training session",
   "schedule":[
     {
-      "timeout_s": 1,
+      "timeout_s": 1999,
       "params": {
         "offline": false,
         "latency": 1,
@@ -11,7 +11,7 @@
       }
     },
     {
-      "timeout_s": 60,
+      "timeout_s": 6990,
       "params": {
         "offline": false,
         "latency": 1,
@@ -20,7 +20,7 @@
       }
     },
     {
-      "timeout_s": 90,
+      "timeout_s": 9990,
       "params": {
         "offline": false,
         "latency": 1,
@@ -29,7 +29,7 @@
       }
     },
     {
-      "timeout_s": 120,
+      "timeout_s": 12990,
       "params": {
         "offline": false,
         "latency": 1,

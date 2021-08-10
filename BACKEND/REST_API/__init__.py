@@ -41,8 +41,8 @@ def create_app(test_config=None):
 
     db_init_app(app)
 
-    # Configure test path
-    @app.route('/test', methods=["GET"])
+    # Configure hash path
+    @app.route('/hash', methods=["GET"])
     def test():
         return {"msg": "OK"}, 200
 

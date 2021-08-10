@@ -1,4 +1,4 @@
-import Ajv from "ajv";
+
 // Create instance of json validator
 /*
 const options = {
@@ -131,7 +131,11 @@ export function ChromeDebugger(){
 
         // Redirect to YouTube main page
         try{
-            chrome.tabs.update(this.currentTabID, {url: "https://youtube.com"})
+            chrome.tabs.update(this.currentTabID, {url: "https://youtube.com"}, ()=>{
+                if(chrome.runtime.lastError){
+                    console.log(`[ChromeDebugger] Error `)
+                }
+            })
         }catch(err){
             console.log(err);
         }

@@ -2,6 +2,8 @@
 import {ChromeDebugger} from "./background_controllers/ChromeDebugger";
 import {AssessmentController} from "./background_controllers/AssessmentController";
 
+
+
 const yt_watch_string = "https://www.youtube.com/watch?v="
 var captured_data = [];
 let current_tabId;
@@ -56,20 +58,19 @@ function submit_captured_data(captured_data, tabId){
                 assessment_data: assessment_data,
                 mousetracker: mousetracker,
                 tester_id: tester_id,
-                video_type: video_type
+                video_type: video_type,
+                experiment_mode: experiment_mode
             });
             console.log(JSON.parse(my_body));
             // Delete sent data from captured_data array
             captured_data.splice(index,1);
 
             // Send data <-- DO NOT SEND DATA IN TRAINING MODE
-            if(experiment_mode === "main"){
-                fetch(my_url, {method: my_method, headers: my_headers, body: my_body})
-                    .then(res => res.json())
-                    .then(re => console.log(re));
-            }else{
-                console.log(`[BackgroundScript] %cTraining mode detected. Data is not submitted.`, "color: #dc3545; font-weight: bold")
-            }
+
+            fetch(my_url, {method: my_method, headers: my_headers, body: my_body})
+                .then(res => res.json())
+                .then(re => console.log(re));
+
         })
     }
     else{
