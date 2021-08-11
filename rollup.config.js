@@ -1,7 +1,7 @@
 import json from '@rollup/plugin-json';
 
 import {nodeResolve} from "@rollup/plugin-node-resolve"
-
+import builtins from "rollup-plugin-node-builtins"
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 import commonjs from '@rollup/plugin-commonjs'
 import zip from 'rollup-plugin-zip'
@@ -39,10 +39,13 @@ export default {
     }),
      */
 
-    // resolves node modules
 
+    builtins(),
     //nodePolyfills(),
-    nodeResolve({browser: true, preferBuiltins: false}),    // <-- It is working ! ! !
+    nodeResolve({
+      browser: true,
+      preferBuiltins: false
+    }),    // <-- It is working ! ! !
     // converts libraries that use commonjs
     commonjs(),
     // empties the dist for each build

@@ -1,12 +1,24 @@
-import axios from "axios";
 
-axios.get("https://google.com")
-    .then(res=>{
-    console.log(res)
+const generateHash = async (plain_text, algorithm) => {
+    const encoder = new TextEncoder()
+    const data = encoder.encode(plain_text)
+
+    const hash = await crypto.subtle.digest(algorithm, data)
+    const hashArray = Array.from(new Uint8Array(hash));                     // convert buffer to byte array
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+
+    return hashHex
+}
+
+document.getElementById("tester-id").addEventListener("input", async (e) => {
+    // Remove whitespaces ! ! ! IMPORTANT
+    e.target.value = e.target.value.replace(/\s/g, "")
+
+    const hashHex = await generateHash(e.target.value, "sha-256")
+    document.getElementById("hash").innerHTML = hashHex
 })
-.catch(err=>{
-    console.log(err)
-})
+
+
 //  //  // Set the default configuration    //  //  //
 // Default for tester ID
 chrome.storage.local.get(["TESTER_ID"], (result)=> {

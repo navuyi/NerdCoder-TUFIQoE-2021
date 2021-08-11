@@ -22,6 +22,7 @@ h1{
     margin-bottom: 0.3em;
     width: 100%;
     align-items: center;
+
 }
 label{
     text-align: center;
@@ -37,6 +38,24 @@ label{
     text-align: center;
     padding: 0.5em 0;
     width: 40%;
+}
+#tester-id{
+    width: 90%;
+}
+#hash{
+    user-select: none;
+    cursor: not-allowed;
+    width: 90%;
+    overflow-wrap: break-word;
+
+    background-color: whitesmoke;
+    color: #222222;
+    border: 1px solid #222222;
+    border-radius: 0.5em;
+    padding: 0.5em 1em;
+    box-sizing: border-box;
+
+    margin: 0.5em 0;
 }
 .mode-container{
     width: 100%;

@@ -19,16 +19,15 @@ else{
 // Activate nerd statistics popup and get the HTML elements
 var [simple, complex] = get_nerd_elements();
 
-
 // Start capturing nerd statistics data
 var running_monitor = setInterval(run_monitor, 500, simple, complex);
-
-
 
 // Start mouse tracker
 var mouse_tracker = new MouseTracker();
 mouse_tracker.init();
 
+
+///     ///     ///     Disable YT hotkeys (numeric keys in particular)     ///     ///     ///
 
 // Remove yt-hotkey-manager - no numeric keys video seeking
 var hk_mng = document.getElementsByTagName("yt-hotkey-manager")[0]
@@ -38,7 +37,7 @@ if(hk_mng != null){
 }else{
     console.log("YouTube HotKey Manager Already Deleted")
 }
-// Disable video player focus - very important, connected to the key listeners in every assessment_panel script
+
 // Necessary for normal display mode
 var primary_inner = document.getElementById("primary-inner");
 var player = primary_inner.children[0];
@@ -65,6 +64,7 @@ video_tag.addEventListener('focus', (e)=>{
     console.log("BLUR3")
 })
 
+///     ///     ///     # # # # # # # # # # # # # #     ///     ///     ///
 
 
 // Listen for tab close, refresh, redirect to different page (different address)
