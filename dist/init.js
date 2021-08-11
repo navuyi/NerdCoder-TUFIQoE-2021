@@ -197,6 +197,32 @@ if(hk_mng != null){
 }else {
     console.log("YouTube HotKey Manager Already Deleted");
 }
+// Disable video player focus - very important, connected to the key listeners in every assessment_panel script
+// Necessary for normal display mode
+var primary_inner = document.getElementById("primary-inner");
+var player = primary_inner.children[0];
+var all = player.getElementsByTagName("*");
+
+console.log(all);
+for(let i=0; i<all.length; i++){
+    all[i].onfocus = (e) =>{
+        e.target.blur();
+        console.log(all[i]);
+        console.log("Blurring");
+    };
+}
+// Disable movie_player and <video> - necessary for theater mode
+var movie_player = document.getElementById("movie_player");
+var video_tag = document.getElementsByTagName("video")[0];
+
+movie_player.addEventListener('focus', (e)=>{
+    e.target.blur();
+    console.log("BLUR2");
+});
+video_tag.addEventListener('focus', (e)=>{
+    e.target.blur();
+    console.log("BLUR3");
+});
 
 
 
@@ -210,7 +236,6 @@ window.onbeforeunload = () => {
 
 // Listen for messages from background script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-
     // Clear interval in case of receiving "stop" message
     if(request.msg === "stop"){
         if(typeof running_monitor !== 'undefined'){

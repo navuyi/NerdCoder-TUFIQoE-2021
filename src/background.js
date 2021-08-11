@@ -16,14 +16,14 @@ const asController = new AssessmentController();
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
         ASSESSMENT_PANEL_OPACITY: 80,                                               // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 20000,                                              // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_INTERVAL_MS: 20000,                                             // Interval for assessment in auto mode in milliseconds
         ASSESSMENT_MODE: "auto",                                                         // Available modes are "remote", "auto" and "manual"
         ASSESSMENT_PANEL_LAYOUT: "middle",                                      // Available for now are "middle", "top", "bottom"
         ASSESSMENT_PAUSE: "disabled",                                                  // Enable/disable playback pausing/resuming on video assessment
         DEVELOPER_MODE: true,                                                               // Enable/disable developer mode - nerd stats visibility, connection check
         ASSESSMENT_RUNNING: false,                                                     // Define whether process of assessment has already begun
         EXPERIMENT_MODE: "training",                                                    // Define whether to use "training" or "main" experiment mode
-        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 20000,              // Interval for assessment in auto mode in ms for training mode
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 180000,              // Interval for assessment in auto mode in ms for training mode
         VIDEOS_TYPE: "own",                                                                    // Gives information about videos type - "imposed" / "own" values are available
         TESTER_ID: 99999999                                                                   // Tester ID
     }
@@ -58,19 +58,17 @@ function submit_captured_data(captured_data, tabId){
                 assessment_data: assessment_data,
                 mousetracker: mousetracker,
                 tester_id: tester_id,
-                video_type: video_type,
-                experiment_mode: experiment_mode
+                video_type: video_type,                         // <-- imposed/own video, information tag
+                experiment_mode: experiment_mode    // <-- data is send regardles of session type, either main or training
             });
             console.log(JSON.parse(my_body));
             // Delete sent data from captured_data array
             captured_data.splice(index,1);
 
-            // Send data <-- DO NOT SEND DATA IN TRAINING MODE
 
             fetch(my_url, {method: my_method, headers: my_headers, body: my_body})
                 .then(res => res.json())
                 .then(re => console.log(re));
-
         })
     }
     else{
@@ -89,27 +87,43 @@ function execute_script(tabId){
                 .then(res=>res.json())
                 .then(data => {
                     if(data.msg === "OK"){
-                        console.log("Connection OK")
-                        chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
-                            // Run controllers
-                            chDebugger.init(tabId);
-                            asController.init(tabId)
+                        // Check if tab exists <-- to prevent uncaught no tab id error
+                        chrome.tabs.get(tabId, (tab) => {
+                            if(!tab){
+                                console.log(`[BackgroundScript] There is no tab with ID of %c${tabId}`, "color: #0d6efd; font-weight: bold")
+                            }
+                            else{
+                                console.log(`[BackgroundScript] Connection %cOK`, "color: #0d6efd; font-weight: bold")
+                                chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
+                                    // Run controllers
+                                    chDebugger.init(tabId)
+                                    asController.init(tabId)
+                                })
+                            }
                         })
                     }
                 })
                 .catch(err => {
                     console.log("API is not reachable")
-                    console.log(err);
+                    //console.log(err);
                     // Inject content script into tab
                     chrome.tabs.executeScript(tabId, {file: "no_connection_screen.js"})
                 });
         }
         else if(dev_mode === true){
-            // Inject content script into tab
-            chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
-                // Run controllers
-                chDebugger.init(tabId);
-                asController.init(tabId)
+            // Check if tab exists <-- to prevent uncaught no tab id error
+            chrome.tabs.get(tabId, (tab) => {
+                if(!tab){
+                    console.log(`[BackgroundScript] There is no tab with ID of %c${tabId}`, "color: #0d6efd; font-weight: bold")
+                }
+                else{
+                    console.log(`[BackgroundScript] Content script injected %cwithout database check`, "color: #dc3545 ; font-weight: bold")
+                    chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
+                        // Run controllers
+                        chDebugger.init(tabId)
+                        asController.init(tabId)
+                    })
+                }
             })
         }
     })
@@ -156,6 +170,17 @@ chrome.webNavigation.onCommitted.addListener((details) => {
 // Listen for tab updates
 chrome.tabs.onUpdated.addListener((tab_id, changeInfo, tab)=>{
 
+    // Prevent from opening more than N tab ! ! ! <-- annoying in development
+    const N = 2
+    chrome.tabs.getAllInWindow(tabs => {
+        if(tabs.length > N ){
+            chrome.storage.local.get(["DEVELOPER_MODE"], res =>{
+                if(res.DEVELOPER_MODE === false){
+                    chrome.tabs.remove(tab_id)
+                }
+            })
+        }
+    })
     // Listen for changing to pages different than youtube page with video player
     if(changeInfo.status == "complete" && !tab.url.includes(yt_watch_string)){
         // Send signal to stop capturing data
