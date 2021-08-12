@@ -9,19 +9,11 @@ const generateHash = async (plain_text, algorithm) => {
     return hashHex
 };
 
-document.getElementById("tester-id").addEventListener("input", async (e) => {
-    // Remove whitespaces ! ! ! IMPORTANT
-    e.target.value = e.target.value.replace(/\s/g, "");
-
-    const hashHex = await generateHash(e.target.value, "sha-256");
-    document.getElementById("hash").innerHTML = hashHex;
-});
-
-
 //  //  // Set the default configuration    //  //  //
 // Default for tester ID
-chrome.storage.local.get(["TESTER_ID"], (result)=> {
+chrome.storage.local.get(["TESTER_ID", "TESTER_ID_HASH"], (result)=> {
     document.getElementById("tester-id").value = result.TESTER_ID;
+    document.getElementById("hash").innerHTML = result.TESTER_ID_HASH;
 });
 
 // Default for assessment panel opacity
@@ -181,6 +173,22 @@ document.getElementById("video-type-own").addEventListener("click", (e) => {
     chrome.storage.local.set({"VIDEOS_TYPE": "own"});
 });
 
+// Tester ID - hash generation
+document.getElementById("tester-id").addEventListener("input", async (e) => {
+    // Remove whitespaces ! ! ! IMPORTANT
+    e.target.value = e.target.value.replace(/\s/g, "");
+
+    // Update frontend
+    const hashHex = await generateHash(e.target.value, "sha-256");
+    document.getElementById("hash").innerHTML = hashHex;
+
+    // Update storage
+    chrome.storage.local.set({
+        TESTER_ID: e.target.value,
+        TESTER_ID_HASH: hashHex,
+    });
+});
+
 
 // Handle configuration save
 document.getElementById("save-button").addEventListener('click', (e)=>{
@@ -209,18 +217,12 @@ document.getElementById("save-button").addEventListener('click', (e)=>{
         document.getElementById("training-interval-input").value = t_interval;
     }
 
-    // Handle tester ID change
-    let testerID = document.getElementById("tester-id").value;
-    if(isNaN(testerID) === true){
-        testerID = "random-"+Math.round(Math.random() * 10000);
-    }
-    document.getElementById("tester-id").value = testerID;
+
 
     const new_config = {
         ASSESSMENT_PANEL_OPACITY: [opacity],
         ASSESSMENT_INTERVAL_MS: [interval],
         TRAINING_MODE_ASSESSMENT_INTERVAL_MS: [t_interval],
-        TESTER_ID: testerID
     };
     // Refresh current page
     chrome.storage.local.set(new_config, ()=>{

@@ -25,7 +25,8 @@ chrome.runtime.onInstalled.addListener( ()=>{
         EXPERIMENT_MODE: "training",                                                    // Define whether to use "training" or "main" experiment mode
         TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 180000,              // Interval for assessment in auto mode in ms for training mode
         VIDEOS_TYPE: "own",                                                                    // Gives information about videos type - "imposed" / "own" values are available
-        TESTER_ID: 99999999                                                                   // Tester ID
+        TESTER_ID: "",                                                                              // Tester ID
+        TESTER_ID_HASH: ""
     };
     chrome.storage.local.set(config, ()=>{
         console.log("Config has been saved: " + config);
@@ -44,8 +45,8 @@ function submit_captured_data(captured_data, tabId){
     const index = captured_data.findIndex(record => record.id === tabId);
     console.log(index);
     if(index !== -1){
-        chrome.storage.local.get(["TESTER_ID", "VIDEOS_TYPE", "EXPERIMENT_MODE"], (res) => {
-            const tester_id = res.TESTER_ID;
+        chrome.storage.local.get(["TESTER_ID_HASH", "VIDEOS_TYPE", "EXPERIMENT_MODE"], (res) => {
+            const tester_id = res.TESTER_ID_HASH;
             const video_type = res.VIDEOS_TYPE;
             const experiment_mode = res.EXPERIMENT_MODE;
 
