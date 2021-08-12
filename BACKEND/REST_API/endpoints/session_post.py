@@ -18,10 +18,10 @@ def post_session():
         data = request.json
         session_data = data["session_data"]
 
-        if "tester_id" in data and "video_type" and "experiment_mode" in data:
+        if "tester_id" in data and "video_type" and "session_type" in data:
             tester_id = data["tester_id"]
             video_type = data["video_type"]
-            session_type = data["experiment_mode"]  # <-- session_type = experiment_mode
+            session_type = data["session_type"]  # <-- session_type = experiment_mode
 
         f_record = session_data[0]
         l_record = session_data[len(session_data)-1]

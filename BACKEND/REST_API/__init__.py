@@ -54,6 +54,13 @@ def create_app(test_config=None):
     from REST_API.endpoints.session_imposed import bp as bp_session_imposed
     from REST_API.endpoints.session_own import bp as bp_session_own
 
+    from REST_API.endpoints.session import bp as bp_new_session
+    from REST_API.endpoints.video import bp as bp_new_video
+    from REST_API.endpoints.assessment import bp as bp_new_assessment
+    app.register_blueprint(bp_new_session)
+    app.register_blueprint(bp_new_video)
+    app.register_blueprint(bp_new_assessment)
+
     app.register_blueprint(bp_post_session)
     app.register_blueprint(bp_get_session)
     app.register_blueprint(bp_connection_check)

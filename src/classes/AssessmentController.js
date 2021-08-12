@@ -145,8 +145,8 @@ export function AssessmentController(mode){
         })
     }
     this.run_timeout = function(){
-        chrome.storage.local.get(["EXPERIMENT_MODE"], res => {
-            const mode = res.EXPERIMENT_MODE
+        chrome.storage.local.get(["SESSION_TYPE"], res => {
+            const mode = res.SESSION_TYPE
             if(mode === "training"){
                 chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS"], res => {
                     console.log("TIMEOUT " + res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS)

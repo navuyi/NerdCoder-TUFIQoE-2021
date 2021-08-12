@@ -2,8 +2,6 @@ import {get_nerd_elements} from "./modules/get_nerd_elements";
 import {run_monitor} from "./modules/monitor";
 
 
-
-
 import {MouseTracker} from "./classes/MouseTracker";
 
 
@@ -23,8 +21,8 @@ var [simple, complex] = get_nerd_elements();
 var running_monitor = setInterval(run_monitor, 500, simple, complex);
 
 // Start mouse tracker
-var mouse_tracker = new MouseTracker();
-mouse_tracker.init();
+//var mouse_tracker = new MouseTracker();
+//mouse_tracker.init();
 
 
 ///     ///     ///     Disable YT hotkeys (numeric keys in particular)     ///     ///     ///

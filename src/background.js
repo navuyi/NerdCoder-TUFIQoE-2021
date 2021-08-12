@@ -2,11 +2,12 @@
 import {ChromeDebugger} from "./background_controllers/ChromeDebugger";
 import {AssessmentController} from "./background_controllers/AssessmentController";
 
+import axios from "axios";
 
 
 const yt_watch_string = "https://www.youtube.com/watch?v="
-var captured_data = [];
-let current_tabId;
+const captured_data = []
+
 
 // Initialize controllers
 const chDebugger = new ChromeDebugger();
@@ -15,18 +16,20 @@ const asController = new AssessmentController();
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
+        SESSION_ID: undefined,                                                                  // Attached to request when submitting captured data
         ASSESSMENT_PANEL_OPACITY: 80,                                               // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 20000,                                             // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_INTERVAL_MS: 5000,                                             // Interval for assessment in auto mode in milliseconds
         ASSESSMENT_MODE: "auto",                                                         // Available modes are "remote", "auto" and "manual"
         ASSESSMENT_PANEL_LAYOUT: "middle",                                      // Available for now are "middle", "top", "bottom"
         ASSESSMENT_PAUSE: "disabled",                                                  // Enable/disable playback pausing/resuming on video assessment
         DEVELOPER_MODE: true,                                                               // Enable/disable developer mode - nerd stats visibility, connection check
         ASSESSMENT_RUNNING: false,                                                     // Define whether process of assessment has already begun
-        EXPERIMENT_MODE: "training",                                                    // Define whether to use "training" or "main" experiment mode
-        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 180000,              // Interval for assessment in auto mode in ms for training mode
+        SESSION_TYPE: "training",                                                    // Define whether to use "training" or "main" experiment mode
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 5000,              // Interval for assessment in auto mode in ms for training mode
         VIDEOS_TYPE: "own",                                                                    // Gives information about videos type - "imposed" / "own" values are available
         TESTER_ID: "",                                                                              // Tester ID
-        TESTER_ID_HASH: ""
+        TESTER_ID_HASH: "",
+        DOWNLOAD_BANDWIDTH: null
     }
     chrome.storage.local.set(config, ()=>{
         console.log("Config has been saved: " + config);
@@ -35,7 +38,7 @@ chrome.runtime.onInstalled.addListener( ()=>{
 
 
 function submit_captured_data(captured_data, tabId){
-    const my_url = "http://127.0.0.1:5000/session/";
+    const my_url = "http://127.0.0.1:5000/video/";
     const my_method = "POST";
     const my_headers = {
         'Accept': 'application/json',
@@ -45,28 +48,21 @@ function submit_captured_data(captured_data, tabId){
     const index = captured_data.findIndex(record => record.id === tabId);
     console.log(index);
     if(index !== -1){
-        chrome.storage.local.get(["TESTER_ID_HASH", "VIDEOS_TYPE", "EXPERIMENT_MODE"], (res) => {
-            const tester_id = res.TESTER_ID_HASH
-            const video_type = res.VIDEOS_TYPE
-            const experiment_mode = res.EXPERIMENT_MODE
-
+        chrome.storage.local.get(["TESTER_ID_HASH", "SESSION_ID"], (res) => {
+            const session_id = res.SESSION_ID
             const session_data = captured_data[index].data;
-            const assessment_data = captured_data[index].assessments;
-            const mousetracker = captured_data[index].mousetracker
+
 
             const my_body = JSON.stringify({
                 session_data: session_data,
-                assessment_data: assessment_data,
-                mousetracker: mousetracker,
-                tester_id: tester_id,
-                video_type: video_type,                         // <-- imposed/own video, information tag
-                experiment_mode: experiment_mode    // <-- data is send regardles of session type, either main or training
+                session_id: session_id
             });
             console.log(JSON.parse(my_body));
+
             // Delete sent data from captured_data array
             captured_data.splice(index,1);
 
-
+            // WORK IN PROGRESS
             fetch(my_url, {method: my_method, headers: my_headers, body: my_body})
                 .then(res => res.json())
                 .then(re => console.log(re));
@@ -97,8 +93,13 @@ function execute_script(tabId){
                                 console.log(`[BackgroundScript] Connection %cOK`, "color: #0d6efd; font-weight: bold")
                                 chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
                                     // Run controllers
-                                    chDebugger.init(tabId)
-                                    asController.init(tabId)
+                                    create_new_session().then(()=>{
+                                        chDebugger.init(tabId)
+                                        asController.init(tabId)
+                                    })
+
+
+                                    //TODO Start mouse tracker controller
                                 })
                             }
                         })
@@ -121,8 +122,11 @@ function execute_script(tabId){
                     console.log(`[BackgroundScript] Content script injected %cwithout database check`, "color: #dc3545 ; font-weight: bold")
                     chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
                         // Run controllers
-                        chDebugger.init(tabId)
-                        asController.init(tabId)
+                        create_new_session().then(()=>{
+                            chDebugger.init(tabId)
+                            asController.init(tabId)
+                        })
+                        //TODO Start mouse tracker controller
                     })
                 }
             })
@@ -164,7 +168,8 @@ chrome.webNavigation.onCommitted.addListener((details) => {
         })
     }
     if(details.frameId === 0 && details.url === "https://www.youtube.com/"){
-        console.log("YOUTUBE MAIN ENTERED")
+        console.log("[BackgroundScript] YouTube main page entered")
+
     }
 });
 
@@ -216,34 +221,27 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
         }
         // Listen for assessment handover
         if(request.msg === "assessment_handover"){
-            const received_assessment = request.data;
-            const tabId = sender.tab.id;
+            chrome.storage.local.get(["SESSION_ID"], (res) => {
+                const session_id = res.SESSION_ID
+                const url = "http://127.0.0.1:5000/assessment/"
+                const data = request.data
 
-            const record = captured_data.find(record => record.id === tabId);
-            if(record !== undefined){
-                if(record.assessments !== undefined){
-                    record.assessments.push(received_assessment);
-                }
-                else{
-                    Object.assign(record, {assessments: [received_assessment]});
-                }
-            }
-            else{
-                // Possible to happen
-                const record = {
-                    id: tabId,
-                    assessments: [received_assessment]
-                }
-                // If there is no record found, don't append the data - causes error when data in submitted on video end
-                // and only assessments are submitted
-                captured_data.push(record);
-            }
+                data.session_id = session_id    // <-- Add information about current session ID
+                axios.post(url, data)
+                    .then(res => {
+                        console.log(res.data)
+                    })
+                    .catch(err => {
+                        console.log(err.response)
+                    })
+            })
+
         }
         //Listen for mouse tracker data
         if(request.msg === "mouse_tracker_data"){
             const data = request.data;
             const tabId = sender.tab.id;
-
+            console.log(data)
             const record = captured_data.find(record => record.id === tabId)
             if(record !== undefined){
                 if(record.mousetracker !== undefined){
@@ -262,6 +260,8 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
         if(request.msg === "RESET"){
             chDebugger.reset()
             asController.reset()
+
+            //TODO Submit entire session mouse tracker data after signal received from finish screen/view
         }
 
         // Listen for onbeforeunload message - tab close, refresh
@@ -274,3 +274,43 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
         }
     }
 );
+
+
+async function create_new_session(){
+    chrome.storage.local.get([
+        "TESTER_ID_HASH",
+        "SESSION_TYPE",
+        "VIDEOS_TYPE",
+        "ASSESSMENT_PANEL_LAYOUT",
+        "ASSESSMENT_PANEL_OPACITY",
+        "ASSESSMENT_INTERVAL_MS",
+        "TRAINING_MODE_ASSESSMENT_INTERVAL_MS"], (res) => {
+
+        const url = "http://127.0.0.1:5000/session/"
+        let assessment_interval_ms
+        if(res.SESSION_TYPE === "main"){
+            assessment_interval_ms = res.ASSESSMENT_INTERVAL_MS
+        }
+        else if(res.SESSION_TYPE === "training"){
+            assessment_interval_ms = res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS
+        }
+        const data = {
+            subject_id: res.TESTER_ID_HASH,
+            session_type: res.SESSION_TYPE,
+            video_type: res.VIDEOS_TYPE,
+            assessment_panel_layout: res.ASSESSMENT_PANEL_LAYOUT,
+            assessment_panel_opacity: res.ASSESSMENT_PANEL_OPACITY,
+            assessment_interval_ms: assessment_interval_ms
+        }
+        console.log(data)
+        // Create new session
+        axios.post(url, data)
+            .then(res => {
+                console.log(res.data)
+                chrome.storage.local.set({SESSION_ID: res.data.session_id})
+            })
+            .catch(err => {
+                console.log(err.response)
+            })
+    })
+}

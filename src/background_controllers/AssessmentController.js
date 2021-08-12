@@ -20,8 +20,8 @@ export function AssessmentController(){
 
 
     this.setTimeout = function(){
-        chrome.storage.local.get(["EXPERIMENT_MODE"], res => {
-            const mode = res.EXPERIMENT_MODE
+        chrome.storage.local.get(["SESSION_TYPE"], res => {
+            const mode = res.SESSION_TYPE
             if(mode === "training"){
                 chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS"], res => {
                     console.log("TIMEOUT " + res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS)
@@ -44,8 +44,8 @@ export function AssessmentController(){
     }
 
     this.setInterval = function(){
-        chrome.storage.local.get(["EXPERIMENT_MODE"], res => {
-            const mode = res.EXPERIMENT_MODE
+        chrome.storage.local.get(["SESSION_TYPE"], res => {
+            const mode = res.SESSION_TYPE
             if(mode === "training"){
                 chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS"], res => {
                     console.log("INTERVAL " + res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS)
@@ -69,6 +69,7 @@ export function AssessmentController(){
 
 
     this.initMessenger = function(){
+        // Listen for messages from assessment panel component
         chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             if(request.msg === "assessment_panel_hidden"){
                 this.setTimeout()
@@ -76,9 +77,6 @@ export function AssessmentController(){
         })
     }
 
-    this.remove_assessment_panel = function(){
-
-    }
 
     this.reset = function(){
         clearInterval(this.interval)

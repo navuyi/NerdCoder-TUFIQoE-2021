@@ -141,31 +141,6 @@ function hand_over_data(data){
     chrome.runtime.sendMessage(message);
 }
 
-function MouseTracker(){
-    this.interval = 10;
-
-
-
-
-    this.init = function(){
-        onmousemove = (e) =>{
-
-
-            const data = {
-                posX: e.pageX,
-                posY: e.pageY,
-                timestamp_utc_ms: Date.now()
-            };
-
-            const message = {
-                msg: "mouse_tracker_data",
-                data: data
-            };
-            chrome.runtime.sendMessage(message);
-        };
-    };
-}
-
 // Clear running_monitor from last session - will not execute on first video playback
 if(typeof running_monitor !== "undefined"){
     console.log("CLEARING");
@@ -182,8 +157,8 @@ var [simple, complex] = get_nerd_elements();
 var running_monitor = setInterval(run_monitor, 500, simple, complex);
 
 // Start mouse tracker
-var mouse_tracker = new MouseTracker();
-mouse_tracker.init();
+//var mouse_tracker = new MouseTracker();
+//mouse_tracker.init();
 
 
 ///     ///     ///     Disable YT hotkeys (numeric keys in particular)     ///     ///     ///

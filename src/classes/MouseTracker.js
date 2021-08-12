@@ -1,11 +1,4 @@
-
-
 export function MouseTracker(){
-    this.interval = 10;
-
-
-
-
     this.init = function(){
         onmousemove = (e) =>{
 

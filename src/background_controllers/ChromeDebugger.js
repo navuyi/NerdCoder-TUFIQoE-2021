@@ -57,8 +57,8 @@ export function ChromeDebugger(){
         this.isAttached = true;
 
         // Load proper network throttling scenario configuration file
-        chrome.storage.local.get(["EXPERIMENT_MODE"], (result) =>{
-            const mode = result.EXPERIMENT_MODE
+        chrome.storage.local.get(["SESSION_TYPE"], (result) =>{
+            const mode = result.SESSION_TYPE
             let scenario_file
             if(mode === "training"){
                 scenario_file = "training_scenario.json"

@@ -42,8 +42,8 @@ chrome.storage.local.get(["DEVELOPER_MODE"], (result)=>{
     dev_mode ? button.innerText="Enabled" : button.innerText="Disabled"
 })
 // Default for experiment mode
-chrome.storage.local.get(["EXPERIMENT_MODE"], (result) => {
-    const mode = result.EXPERIMENT_MODE
+chrome.storage.local.get(["SESSION_TYPE"], (result) => {
+    const mode = result.SESSION_TYPE
     if(mode === "main"){
         document.getElementById("mode-m-btn").setAttribute("active", "true")
     }
@@ -133,7 +133,7 @@ document.getElementById("mode-t-btn").addEventListener("click", (e)=>{
     e.target.setAttribute("active", "true");
 
     // Update storage
-    chrome.storage.local.set({"EXPERIMENT_MODE": "training"})
+    chrome.storage.local.set({"SESSION_TYPE": "training"})
 })
 document.getElementById("mode-m-btn").addEventListener("click", (e)=>{
     // Remove active attribute from the other button
@@ -143,7 +143,7 @@ document.getElementById("mode-m-btn").addEventListener("click", (e)=>{
     e.target.setAttribute("active", "true");
 
     // Update storage
-    chrome.storage.local.set({"EXPERIMENT_MODE": "main"})
+    chrome.storage.local.set({"SESSION_TYPE": "main"})
 })
 
 // Videos type - own/imposed
@@ -212,15 +212,14 @@ document.getElementById("save-button").addEventListener('click', (e)=>{
         document.getElementById("training-interval-input").value = t_interval;
     }
 
-
-
     const new_config = {
-        ASSESSMENT_PANEL_OPACITY: [opacity],
-        ASSESSMENT_INTERVAL_MS: [interval],
-        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: [t_interval],
+        ASSESSMENT_PANEL_OPACITY: opacity,
+        ASSESSMENT_INTERVAL_MS: interval,
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: t_interval,
     }
-    // Refresh current page
+    // Update storage
     chrome.storage.local.set(new_config, ()=>{
+        // Refresh page
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             chrome.tabs.update(tabs[0].id, {url: tabs[0].url});
         });
