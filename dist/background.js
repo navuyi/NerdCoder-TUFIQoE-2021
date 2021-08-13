@@ -1633,7 +1633,7 @@ chrome.webNavigation.onCommitted.addListener((details) => {
 chrome.tabs.onUpdated.addListener((tab_id, changeInfo, tab)=>{
 
     // Prevent from opening more than N tab ! ! ! <-- annoying in development
-    const N = 2;
+    const N = 2; // <-- only one tab available in experiment
     chrome.tabs.getAllInWindow(tabs => {
         if(tabs.length > N ){
             chrome.storage.local.get(["DEVELOPER_MODE"], res =>{
@@ -1713,6 +1713,22 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
         if(request.msg === "RESET"){
             chDebugger.reset();
             asController.reset();
+
+            // Update ended time in session table
+            chrome.storage.local.get(["SESSION_ID"], res => {
+                const url = "http://127.0.0.1:5000/session/";
+                const data = {
+                    session_id: res.SESSION_ID
+                };
+                axios.put(url, data)
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            });
+
 
             //TODO Submit entire session mouse tracker data after signal received from finish screen/view
         }

@@ -48,24 +48,21 @@ def create_app(test_config=None):
 
 
     # Import blueprints ### IMPORTS BELOW ARE CORRECT DESPITE THE RED UNDERLINE ###
-    from REST_API.endpoints.session_post import bp as bp_post_session
-    from REST_API.endpoints.session_get import bp as bp_get_session
-    from REST_API.endpoints.connection import bp as bp_connection_check
-    from REST_API.endpoints.session_imposed import bp as bp_session_imposed
-    from REST_API.endpoints.session_own import bp as bp_session_own
 
+    from REST_API.endpoints.connection import bp as bp_connection_check
     from REST_API.endpoints.session import bp as bp_new_session
     from REST_API.endpoints.video import bp as bp_new_video
     from REST_API.endpoints.assessment import bp as bp_new_assessment
+    from REST_API.endpoints.session_end import bp as bp_session_end
+    from REST_API.endpoints.session_get import bp as bp_session_get
+
+    app.register_blueprint(bp_session_end)
     app.register_blueprint(bp_new_session)
     app.register_blueprint(bp_new_video)
     app.register_blueprint(bp_new_assessment)
-
-    app.register_blueprint(bp_post_session)
-    app.register_blueprint(bp_get_session)
     app.register_blueprint(bp_connection_check)
-    app.register_blueprint(bp_session_imposed)
-    app.register_blueprint(bp_session_own)
+    app.register_blueprint(bp_session_get)
+
 
     # Register blueprints
 

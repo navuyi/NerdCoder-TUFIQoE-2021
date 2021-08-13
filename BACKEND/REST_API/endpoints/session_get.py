@@ -15,51 +15,38 @@ bp = Blueprint("session_get", __name__, url_prefix="/session")
 @bp.route("/", methods=["GET"])
 def get_session():
 
-    # Database operations
-    try:
-        statement = "SELECT * FROM sessions"
+    result = []
 
-        cursor().execute(statement)
-        sessions = cursor().fetchall()
+    cursor().execute("SELECT * FROM session")
+    sessions = cursor().fetchall()
 
+    # Get session's videos
+    for session in sessions:
+        cursor().execute(f"SELECT * FROM video WHERE session_id=?", (session["id"], ))
+        videos = cursor().fetchall()
 
-        # For every session provide its captured data and assessments
-        for session in sessions:
-
-            session_id = session["id"]
-            # Get captured data for the session
-            statement = f"SELECT * FROM session_data WHERE session_id={session_id}"
-            cursor().execute(statement)
+        # Get video's captured data
+        for video in videos:
+            cursor().execute(f"SELECT * FROM video_data WHERE video_id=?", (video["id"], ))
             data = cursor().fetchall()
+            video["records"] = data
+        session["videos"] = videos
 
-            # Assign captured data to the session
-            session["records"] = data
+        # Get assessments
+        cursor().execute("SELECT * FROM assessment WHERE session_id=?", (session["id"], ))
+        assessments = cursor().fetchall()
+        session["assessments"] = assessments if not [] else None
 
-            # Get captured assessments for the session
-            statement = f"SELECT * FROM assessments WHERE session_id={session_id}"
-            cursor().execute(statement)
-            data = cursor().fetchall()
+        for assessment in assessments:
+            cursor().execute(f"SELECT video.id FROM video, assessment "
+                             f"WHERE assessment.timestamp BETWEEN video.start_time_utc_ms AND video.end_time_utc_ms AND assessment.id=? AND video.session_id=? AND assessment.session_id=?",
+                             (assessment["id"], session["id"], session["id"]))
+            try:
+                video_id = cursor().fetchone()["id"]
+            except Exception as e:
+                print(e)
+                video_id = None
+            assessment["video_id"] = video_id
 
-            # Assign captured assessments to the session - null in case there were no assessments captured
-            if len(data) == 0:
-                session["assessments"] = None
-            else:
-                session["assessments"] = data
-
-            # Get mouse tracker data for the session
-            statement = f"SELECT posX, posY, timestamp_utc_ms FROM mousetracker WHERE session_id={session_id}"
-            cursor().execute(statement)
-            data = cursor().fetchall()
-
-            if(len(data) == 0):
-                session["mousetracker"] = None
-            else:
-                session["mousetracker"] = data
-
-
-    except Exception as error:
-        print(error)
-        return {"msg": "Something went bad"}, 500
-
-
-    return jsonify(sessions), 200
+    result = sessions
+    return jsonify(result), 200
