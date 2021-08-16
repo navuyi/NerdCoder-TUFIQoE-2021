@@ -48,5 +48,14 @@ def get_session():
                 video_id = None
             assessment["video_id"] = video_id
 
+        # Get mouse tracking data
+        cursor().execute(f"SELECT * FROM mousemove WHERE session_id=?", (session["id"], ))
+        mousemove = cursor().fetchall()
+        cursor().execute(f"SELECT * FROM mousedown WHERE session_id=?", (session["id"], ))
+        mousedown = cursor().fetchall()
+
+        session["mousedown"] = mousedown
+        session["mousemove"] = mousemove
+
     result = sessions
     return jsonify(result), 200

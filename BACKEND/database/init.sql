@@ -79,6 +79,11 @@ CREATE TABLE IF NOT EXISTS mousedown(
     id INTEGER NOT NULL PRIMARY KEY,
     session_id INTEGER NOT NULL,
     video_id INTEGER DEFAULT NULL,
+    timestamp_utc_ms INTEGER NOT NULL,
+
+    which INTEGER,
+    target_id TEXT,
+    target_nodeName TEXT,
 
     clientX INTEGER DEFAULT NULL,
     clientY INTEGER DEFAULT NULL,
@@ -86,8 +91,10 @@ CREATE TABLE IF NOT EXISTS mousedown(
     pageY INTEGER DEFAULT NULL,
     screenX INTEGER DEFAULT NULL,
     screenY INTEGER DEFAULT NULL,
-
-    type TEXT,
+    movementY INTEGER  DEFAULT NULL,
+    movementX INTEGER DEFAULT NULL,
+    offsetX INTEGER DEFAULT NULL,
+    offsetY INTEGER DEFAULT NULL,
 
     FOREIGN KEY (video_id) REFERENCES video(id),
     FOREIGN KEY (session_id) REFERENCES session(id)
@@ -97,6 +104,22 @@ CREATE TABLE IF NOT EXISTS mousemove(
     id INTEGER NOT NULL PRIMARY KEY,
     session_id INTEGER NOT NULL,
     video_id INTEGER DEFAULT NULL,
+    timestamp_utc_ms INTEGER NOT NULL,
+
+    which INTEGER,
+    target_id TEXT,
+    target_nodeName TEXT,
+
+    clientX INTEGER DEFAULT NULL,
+    clientY INTEGER DEFAULT NULL,
+    pageX INTEGER DEFAULT NULL,
+    pageY INTEGER DEFAULT NULL,
+    screenX INTEGER DEFAULT NULL,
+    screenY INTEGER DEFAULT NULL,
+    movementY INTEGER  DEFAULT NULL,
+    movementX INTEGER DEFAULT NULL,
+    offsetX INTEGER DEFAULT NULL,
+    offsetY INTEGER DEFAULT NULL,
 
     FOREIGN KEY (video_id) REFERENCES video(id),
     FOREIGN KEY (session_id) REFERENCES session(id)

@@ -1495,6 +1495,7 @@ var axios = axios_1;
 
 const yt_watch_string = "https://www.youtube.com/watch?v=";
 const captured_data = [];
+const mousetracker = [];
 
 
 // Initialize controllers
@@ -1528,6 +1529,36 @@ chrome.runtime.onInstalled.addListener( ()=>{
 
 
 function submit_captured_data(captured_data, tabId){
+    // Submit mouse tracker data
+    if(mousetracker.length > 0){
+        chrome.storage.local.get(["SESSION_ID"], res => {
+            const session_id = res.SESSION_ID;
+            const mt_url = "http://127.0.0.1:5000/mousetracker/";
+            const data = {
+                session_id: session_id,
+                mousetracker: mousetracker
+            };
+            axios.post(mt_url, data)
+                .then(res => {
+                    console.log(res);
+                    if(res.status === 201){
+                        console.log("[BackgroundScript] %cMouseTracker data submit successful", "color: #28a745, font-weight: bold");
+                    }
+                    // Clear mousetracker array
+                    mousetracker.splice(0, mousetracker.length);
+                })
+                .catch(err => {
+                    console.log(err);
+                    console.log("[BackgroundScript] %cMouseTracker data submit failed", "color: #dc3545, font-weight: bold");
+                    // Clear mousetracker array
+                    mousetracker.splice(0, mousetracker.length);
+                });
+        });
+    }else {
+        console.log("[BackgroundScript] %cNo MouseTracker data captured yet", "color: #ffc107, font-weight: bold");
+    }
+
+    // Submit nerd statistics data - video data
     console.log("[BackgroundScript] %cSubmitting captured data", "color: #ffc107");
     const my_url = "http://127.0.0.1:5000/video/";
     const my_method = "POST";
@@ -1542,7 +1573,6 @@ function submit_captured_data(captured_data, tabId){
             const session_id = res.SESSION_ID;
             const session_data = captured_data[index].data;
 
-
             const my_body = JSON.stringify({
                 session_data: session_data,
                 session_id: session_id
@@ -1552,14 +1582,13 @@ function submit_captured_data(captured_data, tabId){
             // Delete sent data from captured_data array
             captured_data.splice(index,1);
 
-            // WORK IN PROGRESS
             fetch(my_url, {method: my_method, headers: my_headers, body: my_body})
                 .then(res => res.json())
                 .then(re => console.log(re));
         });
     }
     else {
-        console.log(`[BackgroundScript] No data to submit`, "color: #dc3545; font-weight: bold");
+        console.log(`[BackgroundScript] %cNo data to submit`, "color: #dc3545; font-weight: bold");
     }
 }
 
@@ -1731,9 +1760,11 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
         }
         //Listen for mouse tracker data
         if(request.msg === "mouse_tracker_data"){
-            request.data;
+            const data = request.data;
             sender.tab.id;
-            //TODO handle mouse tracker data
+
+            mousetracker.push(data);
+            console.log(data);
         }
 
         //Listen for controllers reset signal
@@ -1805,7 +1836,6 @@ async function create_new_session(tab_id){
         axios.post(url, data)
             .then(res => {
                 // Start mouse tracking
-                // init_mousetracker(tab_id)
                 mtController.setSessionRunning(true);
                 mtController.startTracking(tab_id);
                 chrome.storage.local.set({SESSION_ID: res.data.session_id});
