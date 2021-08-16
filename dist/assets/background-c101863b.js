@@ -9,6 +9,7 @@
     function captureEvent(event) {
       let isCapturePhase = true;
 
+      // eslint-disable-next-line @typescript-eslint/ban-types
       const callbacks = new Map();
       const eventArgs = new Set();
 

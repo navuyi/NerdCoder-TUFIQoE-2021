@@ -32,7 +32,7 @@
     "cross-env": "^7.0.2",
     "prettier": "^2.1.1",
     "rollup": "^2.52.3",
-    "rollup-plugin-chrome-extension": "^3.5.7",
+    "rollup-plugin-chrome-extension": "^3.6.0-8",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-empty-dir": "^1.0.4",
     "rollup-plugin-javascript-obfuscator": "^1.0.4",

@@ -1,6 +1,7 @@
 // Imports work but files that provide export must be included in manifest.json //
 import {ChromeDebugger} from "./background_controllers/ChromeDebugger";
 import {AssessmentController} from "./background_controllers/AssessmentController";
+import {MouseTrackerController} from "./background_controllers/MouseTrackerController";
 
 import axios from "axios";
 
@@ -12,24 +13,26 @@ const captured_data = []
 // Initialize controllers
 const chDebugger = new ChromeDebugger();
 const asController = new AssessmentController();
+const mtController = new MouseTrackerController()
 
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
         SESSION_ID: undefined,                                                                  // Attached to request when submitting captured data
         ASSESSMENT_PANEL_OPACITY: 80,                                               // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 5000,                                             // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_INTERVAL_MS: 20000,                                             // Interval for assessment in auto mode in milliseconds
         ASSESSMENT_MODE: "auto",                                                         // Available modes are "remote", "auto" and "manual"
         ASSESSMENT_PANEL_LAYOUT: "middle",                                      // Available for now are "middle", "top", "bottom"
         ASSESSMENT_PAUSE: "disabled",                                                  // Enable/disable playback pausing/resuming on video assessment
         DEVELOPER_MODE: true,                                                               // Enable/disable developer mode - nerd stats visibility, connection check
         ASSESSMENT_RUNNING: false,                                                     // Define whether process of assessment has already begun
         SESSION_TYPE: "training",                                                    // Define whether to use "training" or "main" experiment mode
-        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 5000,              // Interval for assessment in auto mode in ms for training mode
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 20000,              // Interval for assessment in auto mode in ms for training mode
         VIDEOS_TYPE: "own",                                                                    // Gives information about videos type - "imposed" / "own" values are available
         TESTER_ID: "",                                                                              // Tester ID
         TESTER_ID_HASH: "",
-        DOWNLOAD_BANDWIDTH: null
+        DOWNLOAD_BANDWIDTH_BYTES: undefined,
+        UPLOAD_BANDWIDTH_BYTES: undefined
     }
     chrome.storage.local.set(config, ()=>{
         console.log("Config has been saved: " + config);
@@ -38,6 +41,7 @@ chrome.runtime.onInstalled.addListener( ()=>{
 
 
 function submit_captured_data(captured_data, tabId){
+    console.log("[BackgroundScript] %cSubmitting captured data", "color: #ffc107")
     const my_url = "http://127.0.0.1:5000/video/";
     const my_method = "POST";
     const my_headers = {
@@ -46,7 +50,6 @@ function submit_captured_data(captured_data, tabId){
     }
 
     const index = captured_data.findIndex(record => record.id === tabId);
-    console.log(index);
     if(index !== -1){
         chrome.storage.local.get(["TESTER_ID_HASH", "SESSION_ID"], (res) => {
             const session_id = res.SESSION_ID
@@ -57,7 +60,7 @@ function submit_captured_data(captured_data, tabId){
                 session_data: session_data,
                 session_id: session_id
             });
-            console.log(JSON.parse(my_body));
+
 
             // Delete sent data from captured_data array
             captured_data.splice(index,1);
@@ -69,7 +72,7 @@ function submit_captured_data(captured_data, tabId){
         })
     }
     else{
-        console.log("No data to submit")
+        console.log(`[BackgroundScript] No data to submit`, "color: #dc3545; font-weight: bold")
     }
 }
 
@@ -93,21 +96,21 @@ function execute_script(tabId){
                                 console.log(`[BackgroundScript] Connection %cOK`, "color: #0d6efd; font-weight: bold")
                                 chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
                                     // Run controllers
-                                    create_new_session().then(()=>{
+                                    create_new_session(tabId).then(()=>{
                                         chDebugger.init(tabId)
                                         asController.init(tabId)
+                                        mtController.startTracking(tabId)
                                     })
 
 
-                                    //TODO Start mouse tracker controller
+
                                 })
                             }
                         })
                     }
                 })
                 .catch(err => {
-                    console.log("API is not reachable")
-                    //console.log(err);
+                    console.log("[BackgroundScript] API is not reachable")
                     // Inject content script into tab
                     chrome.tabs.executeScript(tabId, {file: "no_connection_screen.js"})
                 });
@@ -122,11 +125,12 @@ function execute_script(tabId){
                     console.log(`[BackgroundScript] Content script injected %cwithout database check`, "color: #dc3545 ; font-weight: bold")
                     chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
                         // Run controllers
-                        create_new_session().then(()=>{
+                        create_new_session(tabId).then(()=>{
                             chDebugger.init(tabId)
                             asController.init(tabId)
+                            mtController.startTracking(tabId)
                         })
-                        //TODO Start mouse tracker controller
+
                     })
                 }
             })
@@ -168,8 +172,11 @@ chrome.webNavigation.onCommitted.addListener((details) => {
         })
     }
     if(details.frameId === 0 && details.url === "https://www.youtube.com/"){
-        console.log("[BackgroundScript] YouTube main page entered")
-
+        //console.log("[BackgroundScript] %cYouTube main page entered", "color: #0d6efd")
+    }
+    if(details.frameId === 0 && details.url.includes("https://www.youtube.com/")){
+        console.log("[BackgroundScript] %c Entered page within YouTube domain", "color: #0d6efd")
+        mtController.startTracking(details.tabId)
     }
 });
 
@@ -241,25 +248,15 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
         if(request.msg === "mouse_tracker_data"){
             const data = request.data;
             const tabId = sender.tab.id;
-            console.log(data)
-            const record = captured_data.find(record => record.id === tabId)
-            if(record !== undefined){
-                if(record.mousetracker !== undefined){
-                    record.mousetracker.push(data)
-                }
-                else{
-                    Object.assign(record, {mousetracker: [data]})
-                }
-            }
-            else{
-                // nothing for now
-            }
+            //TODO handle mouse tracker data
         }
 
         //Listen for controllers reset signal
         if(request.msg === "RESET"){
             chDebugger.reset()
             asController.reset()
+            mtController.setSessionRunning(false)
+            mtController.stopTracking()
 
             // Update ended time in session table
             chrome.storage.local.get(["SESSION_ID"], res => {
@@ -282,8 +279,8 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
 
         // Listen for onbeforeunload message - tab close, refresh
         else if(request.msg === "onbeforeunload"){
+            mtController.stopTracking() // <-- Stop mouse tracking process
             submit_captured_data(captured_data, sender.tab.id);
-
             if(request.type === "video_end"){
                 chrome.tabs.sendMessage(sender.tab.id, {msg: "stop"});
             }
@@ -292,7 +289,7 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
 );
 
 
-async function create_new_session(){
+async function create_new_session(tab_id){
     chrome.storage.local.get([
         "TESTER_ID_HASH",
         "SESSION_TYPE",
@@ -322,11 +319,22 @@ async function create_new_session(){
         // Create new session
         axios.post(url, data)
             .then(res => {
-                console.log(res.data)
+                // Start mouse tracking
+                // init_mousetracker(tab_id)
+                mtController.setSessionRunning(true)
+                mtController.startTracking(tab_id)
                 chrome.storage.local.set({SESSION_ID: res.data.session_id})
             })
             .catch(err => {
                 console.log(err.response)
             })
+    })
+}
+
+
+function init_mousetracker(tab_id){
+    console.log("[BackgroundScript] %cStarting mouse tracker", "color: #5bc0de")
+    chrome.tabs.executeScript(tab_id, {
+        file: "mouse_tracker_script.js"
     })
 }

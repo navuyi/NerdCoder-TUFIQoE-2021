@@ -15,13 +15,13 @@
     "notifications",
     "https://*/",
     "webNavigation",
-    "background", "declarativeContent", "storage"
+    "background", "declarativeContent"
   ],
   "browser_action": {
     "default_popup": "popup/popup.html"
   },
   "web_accessible_resources": [
-    "init.js", "no_connection_screen.js", "main_scenario.json", "training_scenario.json" ,"scenarios/*",
+    "init.js", "no_connection_screen.js", "mouse_tracker_script.js", "main_scenario.json", "training_scenario.json" ,"scenarios/*",
     "background_controllers/AssessmentController.js", "background_controllers/AssessmentPanel.js", "background_controllers/ChromeDebugger.js"
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"

@@ -40,7 +40,12 @@ export function run_monitor(simple, complex){
 
 
     // Send data to background script
-    hand_over_data(data);
+    chrome.storage.local.get(["DOWNLOAD_BANDWIDTH_BYTES" , "UPLOAD_BANDWIDTH_BYTES"], res => {
+        data.download_bandwidth_bytes = res.DOWNLOAD_BANDWIDTH_BYTES
+        data.upload_bandwidth_bytes = res.UPLOAD_BANDWIDTH_BYTES
+        hand_over_data(data);
+    })
+
 }
 
 

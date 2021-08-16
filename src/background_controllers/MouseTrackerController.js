@@ -1,37 +1,31 @@
 export function MouseTrackerController(){
 
     this.isRunning = false
+    this.isSessionRunning = false
 
-    this.init = function(){
+    this.startTracking = function(tab_id){
         if(this.isRunning === true){
-            console.log("[MouseTrackerController] Mouse tracking process already running")
+            console.log("[MouseTrackerController] %cMouse tracking process already running", "color: #ffc107")
             return true
         }
-
-
-
-
-        // Init cursor tracking
-        onmousemove = (e) =>{
-            const data = {
-                posX: e.pageX,
-                posY: e.pageY,
-                timestamp_utc_ms: Date.now()
-            }
-
-            const message = {
-                msg: "mouse_tracker_data",
-                data: data
-            }
-            chrome.runtime.sendMessage(message);
-            this.isRunning = true
+        else if(this.isSessionRunning === false){
+            console.log("[MouseTrackerController] %cMouse tracking process can only run when session process is active", "color: #ffc107")
+            return true
         }
+        chrome.tabs.executeScript(tab_id, {
+            file: "mouse_tracker_script.js"
+        })
+        console.log("[MouseTrackerController] %cStarting mouse tracking", "color: #28a745")
+        this.isRunning = true
     }
 
-    this.reset = function(){
-        this.isRunning = false;
-        onmousemove = (e) => {
-            // Empty event handler
-        }
+    this.setSessionRunning = function(state){
+        this.isSessionRunning = state
+    }
+
+    this.stopTracking = function(){
+        //TODO Inject
+        console.log("[MouseTrackerController] %cStopping mouse tracking", "color: #dc3545")
+        this.isRunning = false
     }
 }

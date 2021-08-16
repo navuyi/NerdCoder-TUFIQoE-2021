@@ -96,12 +96,17 @@ function ChromeDebugger(){
 
     this.scheduleNetworkConditions = function(timeout, params, scenarioName, tabId, index){
         params.downloadThroughput = this.bitsToBytes(params.downloadThroughput);
+        params.uploadThroughput = this.bitsToBytes(params.uploadThroughput);
         this.timoutArray.push(
             setTimeout(()=>{
                 chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params, ()=>{
                     if(chrome.runtime.lastError){
                         console.log(`[ChromeDebugger] Tab with ID %c${tabId} is no longer active`, "color: #dc3545; font-weight: bold");
                     }else {
+                        chrome.storage.local.set({
+                            DOWNLOAD_BANDWIDTH_BYTES: params.downloadThroughput,
+                            UPLOAD_BANDWIDTH_BYTES: params.uploadThroughput
+                        });
                         console.log(`[ChromeDebugger] Scenario [${scenarioName}]. Configuration with throughput: ${params.downloadThroughput} B/s started`);
                     }
                 });

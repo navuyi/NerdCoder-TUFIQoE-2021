@@ -51,8 +51,8 @@ CREATE TABLE IF NOT EXISTS video_data(
     mystery_s TEXT,
     mystery_t INTEGER,
 
-    download_bandwidth INTEGER NULLABLE ,
-    upload_bandwidth INTEGER NULLABLE ,
+    download_bandwidth_bytes INTEGER NULLABLE ,
+    upload_bandwidth_bytes INTEGER NULLABLE ,
 
     timestamp TEXT,  --only current time - date is provided in sessions
     timestamp_utc_ms INTEGER,
@@ -70,5 +70,35 @@ CREATE TABLE IF NOT EXISTS assessment(
     time_in_video TEXT,
     timestamp INT NOT NULL,
 
-    FOREIGN KEY (video_id) REFERENCES video(id)
+    FOREIGN KEY (video_id) REFERENCES video(id),
+    FOREIGN KEY (session_id) REFERENCES session(id)
 );
+
+
+CREATE TABLE IF NOT EXISTS mousedown(
+    id INTEGER NOT NULL PRIMARY KEY,
+    session_id INTEGER NOT NULL,
+    video_id INTEGER DEFAULT NULL,
+
+    clientX INTEGER DEFAULT NULL,
+    clientY INTEGER DEFAULT NULL,
+    pageX INTEGER DEFAULT NULL,
+    pageY INTEGER DEFAULT NULL,
+    screenX INTEGER DEFAULT NULL,
+    screenY INTEGER DEFAULT NULL,
+
+    type TEXT,
+
+    FOREIGN KEY (video_id) REFERENCES video(id),
+    FOREIGN KEY (session_id) REFERENCES session(id)
+);
+
+CREATE TABLE IF NOT EXISTS mousemove(
+    id INTEGER NOT NULL PRIMARY KEY,
+    session_id INTEGER NOT NULL,
+    video_id INTEGER DEFAULT NULL,
+
+    FOREIGN KEY (video_id) REFERENCES video(id),
+    FOREIGN KEY (session_id) REFERENCES session(id)
+)
+

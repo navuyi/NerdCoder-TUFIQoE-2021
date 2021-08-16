@@ -94,8 +94,8 @@ def create_video():
             mystery_t = get_mystery_t(record)
             mystery_s = get_mystery_s(record)
 
-            download_bandwidth = record["download_bandwidth"] if "download_bandwidth" in record else None
-            upload_bandwidth = record["upload_bandwidth"] if "upload_bandwidth" in record else None
+            download_bandwidth_bytes = record["download_bandwidth_bytes"] if "download_bandwidth_bytes" in record else None
+            upload_bandwidth_bytes = record["upload_bandwidth_bytes"] if "upload_bandwidth_bytes" in record else None
 
             columns = """ video_id, timestamp, timestamp_utc_ms,
                 viewport, dropped_frames, total_frames,
@@ -103,13 +103,13 @@ def create_video():
                 current_framerate, optimal_framerate,
                 volume, codecs, color, connection_speed,
                 network_activity, buffer_health, mystery_s, mystery_t,
-                download_bandwidth, upload_bandwidth """
+                download_bandwidth_bytes, upload_bandwidth_bytes """
 
             insert_session_data = f"INSERT INTO video_data ({columns}) VALUES" \
                                   f" (:video_id, :timestamp, :timestamp_utc_ms, :viewport, :dropped_frames, :total_frames," \
                                   f":current_resolution, :optimal_resolution, :current_framerate, :optimal_framerate, " \
                                   f":volume, :codecs, :color, :connection_speed, :network_activity, :buffer_health, :mystery_s, :mystery_t," \
-                                  f":download_bandwidth, :upload_bandwidth);"
+                                  f":download_bandwidth_bytes, :upload_bandwidth_bytes);"
             insert = {
                 "video_id": video_id,
                 "timestamp": timestamp,
@@ -129,8 +129,8 @@ def create_video():
                 "buffer_health": buffer_health,
                 "mystery_s": mystery_s,
                 "mystery_t": mystery_t,
-                "download_bandwidth": download_bandwidth,
-                "upload_bandwidth": upload_bandwidth
+                "download_bandwidth_bytes": download_bandwidth_bytes,
+                "upload_bandwidth_bytes": upload_bandwidth_bytes
             }
             cursor().execute(insert_session_data, insert)
 

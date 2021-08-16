@@ -2,12 +2,12 @@
   "manifest_version": 2,
   "name": "NerdCoder",
   "version": "1.0",
-  "description": "DEVELOPMENT build with simple auto-reloader\n[2021-08-13 10:58:25] waiting for changes...",
+  "description": "DEVELOPMENT build with simple auto-reloader\n[2021-08-16 18:08:18] waiting for changes...",
   "background": {
     "persistent": true,
     "scripts": [
-      "assets/background-page-reloader-dfc1111c.js",
-      "assets/background-f2be2f24.js"
+      "assets/background-page-reloader-3c7a4d63.js",
+      "assets/background-c101863b.js"
     ]
   },
   "permissions": [
@@ -27,6 +27,7 @@
   "web_accessible_resources": [
     "init.js",
     "no_connection_screen.js",
+    "mouse_tracker_script.js",
     "main_scenario.json",
     "training_scenario.json",
     "scenarios/*",
