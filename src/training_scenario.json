@@ -2,20 +2,20 @@
   "name": "Training session",
   "schedule":[
     {
-      "timeout_s": 500,
+      "timeout_s": 60,
       "params": {
         "offline": false,
         "latency": 1,
-        "downloadThroughput": 256000,
+        "downloadThroughput": 512000,
         "uploadThroughput": 1000000000
       }
     },
     {
-      "timeout_s": 3600,
+      "timeout_s": 120,
       "params": {
         "offline": false,
         "latency": 1,
-        "downloadThroughput": 1000000000,
+        "downloadThroughput": 254000,
         "uploadThroughput": 1000000000
       }
     }

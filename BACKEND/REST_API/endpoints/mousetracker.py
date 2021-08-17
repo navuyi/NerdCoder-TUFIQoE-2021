@@ -11,7 +11,11 @@ from REST_API.db import cursor, db_get, lastrowid
 
 bp = Blueprint("mousetracker_data", __name__, url_prefix="/mousetracker")
 
-
+def dropInsert(inserts):
+    for insert in inserts:
+        print("Dropping insert")
+        yield insert
+    return
 @bp.route("/", methods=["POST"])
 def get_mousetracker():
     if "session_id" not in request.json or "mousetracker" not in request.json:
@@ -20,9 +24,13 @@ def get_mousetracker():
     session_id = request.json["session_id"]
     data = request.json["mousetracker"]
 
+
+    inserts = []
     for record in data:
         insert = {
             "session_id": session_id,
+            "url": record["url"],
+            "type": record["type"],
             "timestamp_utc_ms": record["timestamp"],
             "which": record["which"],
             "target_id": record["target_id"],
@@ -38,10 +46,14 @@ def get_mousetracker():
             "offsetX": record["offsetX"],
             "offsetY": record["offsetY"]
         }
+        tup = tuple(insert.values())
+        inserts.append(tup)
 
-        statement = f"INSERT INTO {record['type']} (session_id, timestamp_utc_ms, which, target_id, target_nodeName, clientX, clientY, pageX, pageY, screenX, screenY, movementX, movementY, offsetX, offsetY) " \
-                    f"VALUES (:session_id, :timestamp_utc_ms, :which, :target_id, :target_nodeName, :clientX, :clientY, :pageX, :pageY, :screenX, :screenY, :movementX, :movementY, :offsetX, :offsetY );"
-        cursor().execute(statement, insert)
+    print(f"CAPTURED NUMBER OF INSERTS {len(inserts)}")
+    statement = f"INSERT INTO mousetracker (session_id, url, type, timestamp_utc_ms, which, target_id, target_nodeName, clientX, clientY, pageX, pageY, screenX, screenY, movementX, movementY, offsetX, offsetY) " \
+              f"VALUES (:session_id, :url, :type, :timestamp_utc_ms, :which, :target_id, :target_nodeName, :clientX, :clientY, :pageX, :pageY, :screenX, :screenY, :movementX, :movementY, :offsetX, :offsetY );"
+    cursor().executemany(statement, inserts)
+
 
 
     return jsonify(msg="OK"), 201

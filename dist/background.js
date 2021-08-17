@@ -1,38 +1,6 @@
 import { AssessmentController } from './background_controllers/AssessmentController.js';
 import { ChromeDebugger } from './background_controllers/ChromeDebugger.js';
 
-function MouseTrackerController(){
-
-    this.isRunning = false;
-    this.isSessionRunning = false;
-
-    this.startTracking = function(tab_id){
-        if(this.isRunning === true){
-            console.log("[MouseTrackerController] %cMouse tracking process already running", "color: #ffc107");
-            return true
-        }
-        else if(this.isSessionRunning === false){
-            console.log("[MouseTrackerController] %cMouse tracking process can only run when session process is active", "color: #ffc107");
-            return true
-        }
-        chrome.tabs.executeScript(tab_id, {
-            file: "mouse_tracker_script.js"
-        });
-        console.log("[MouseTrackerController] %cStarting mouse tracking", "color: #28a745");
-        this.isRunning = true;
-    };
-
-    this.setSessionRunning = function(state){
-        this.isSessionRunning = state;
-    };
-
-    this.stopTracking = function(){
-        //TODO Inject
-        console.log("[MouseTrackerController] %cStopping mouse tracking", "color: #dc3545");
-        this.isRunning = false;
-    };
-}
-
 var bind = function bind(fn, thisArg) {
   return function wrap() {
     var args = new Array(arguments.length);
@@ -1490,6 +1458,60 @@ axios_1.default = _default;
 
 var axios = axios_1;
 
+function MouseTrackerController(){
+
+    this.isRunning = false;
+    this.isSessionRunning = false;
+
+    this.startTracking = function(tab_id){
+        if(this.isRunning === true){
+            console.log("[MouseTrackerController] %cMouse tracking process already running", "color: #ffc107");
+            return true
+        }
+        else if(this.isSessionRunning === false){
+            console.log("[MouseTrackerController] %cMouse tracking process can only run when session process is active", "color: #ffc107");
+            return true
+        }
+        chrome.tabs.executeScript(tab_id, {
+            file: "mouse_tracker_script.js"
+        });
+        console.log("[MouseTrackerController] %cStarting mouse tracking", "color: #28a745");
+        this.isRunning = true;
+    };
+
+    this.setSessionRunning = function(state){
+        this.isSessionRunning = state;
+    };
+
+    this.stopTracking = function(){
+        //TODO Inject
+        console.log("[MouseTrackerController] %cStopping mouse tracking", "color: #dc3545");
+        this.isRunning = false;
+    };
+
+    this.submit = function(mousetracker){
+        chrome.storage.local.get(["SESSION_ID"], res => {
+            const session_id = res.SESSION_ID;
+            const mt_url = "http://127.0.0.1:5000/mousetracker/";
+            const data = {
+                session_id: session_id,
+                mousetracker: mousetracker
+            };
+            axios.post(mt_url, data)
+                .then(res => {
+                    console.log(res);
+                    if(res.status === 201){
+                        console.log("[BackgroundScript] %cMouseTracker data submit successful", "color: #28a745, font-weight: bold");
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    console.log("[BackgroundScript] %cMouseTracker data submit failed", "color: #dc3545, font-weight: bold");
+                });
+        });
+    };
+}
+
 // Imports work but files that provide export must be included in manifest.json //
 
 
@@ -1508,14 +1530,14 @@ chrome.runtime.onInstalled.addListener( ()=>{
     const config = {
         SESSION_ID: undefined,                                                                  // Attached to request when submitting captured data
         ASSESSMENT_PANEL_OPACITY: 80,                                               // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 20000,                                             // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_INTERVAL_MS: 300000,                                             // Interval for assessment in auto mode in milliseconds
         ASSESSMENT_MODE: "auto",                                                         // Available modes are "remote", "auto" and "manual"
         ASSESSMENT_PANEL_LAYOUT: "middle",                                      // Available for now are "middle", "top", "bottom"
         ASSESSMENT_PAUSE: "disabled",                                                  // Enable/disable playback pausing/resuming on video assessment
         DEVELOPER_MODE: true,                                                               // Enable/disable developer mode - nerd stats visibility, connection check
         ASSESSMENT_RUNNING: false,                                                     // Define whether process of assessment has already begun
         SESSION_TYPE: "training",                                                    // Define whether to use "training" or "main" experiment mode
-        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 20000,              // Interval for assessment in auto mode in ms for training mode
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 60000,              // Interval for assessment in auto mode in ms for training mode
         VIDEOS_TYPE: "own",                                                                    // Gives information about videos type - "imposed" / "own" values are available
         TESTER_ID: "",                                                                              // Tester ID
         TESTER_ID_HASH: "",
@@ -1531,29 +1553,13 @@ chrome.runtime.onInstalled.addListener( ()=>{
 function submit_captured_data(captured_data, tabId){
     // Submit mouse tracker data
     if(mousetracker.length > 0){
-        chrome.storage.local.get(["SESSION_ID"], res => {
-            const session_id = res.SESSION_ID;
-            const mt_url = "http://127.0.0.1:5000/mousetracker/";
-            const data = {
-                session_id: session_id,
-                mousetracker: mousetracker
-            };
-            axios.post(mt_url, data)
-                .then(res => {
-                    console.log(res);
-                    if(res.status === 201){
-                        console.log("[BackgroundScript] %cMouseTracker data submit successful", "color: #28a745, font-weight: bold");
-                    }
-                    // Clear mousetracker array
-                    mousetracker.splice(0, mousetracker.length);
-                })
-                .catch(err => {
-                    console.log(err);
-                    console.log("[BackgroundScript] %cMouseTracker data submit failed", "color: #dc3545, font-weight: bold");
-                    // Clear mousetracker array
-                    mousetracker.splice(0, mousetracker.length);
-                });
+        let tmp_mousetracker = [];
+        mousetracker.map((item) => {
+            tmp_mousetracker.push(item);
         });
+        // Clear mousetracker array
+        mousetracker.splice(0, mousetracker.length);
+        mtController.submit(tmp_mousetracker);
     }else {
         console.log("[BackgroundScript] %cNo MouseTracker data captured yet", "color: #ffc107, font-weight: bold");
     }
@@ -1617,9 +1623,6 @@ function execute_script(tabId){
                                         asController.init(tabId);
                                         mtController.startTracking(tabId);
                                     });
-
-
-
                                 });
                             }
                         });
@@ -1761,10 +1764,17 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
         //Listen for mouse tracker data
         if(request.msg === "mouse_tracker_data"){
             const data = request.data;
-            sender.tab.id;
-
             mousetracker.push(data);
-            console.log(data);
+            // Submit mousetracker data if there is more than 500 records
+            if(mousetracker.length > 500){
+                let tmp_mousetracker = [];
+                mousetracker.map(item => {
+                    tmp_mousetracker.push(item);
+                });
+                mtController.submit(tmp_mousetracker);
+                mousetracker.splice(0, mousetracker.length);
+            }
+            console.log(mousetracker.length);
         }
 
         //Listen for controllers reset signal
@@ -1788,9 +1798,6 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                         console.log(err);
                     });
             });
-
-
-            //TODO Submit entire session mouse tracker data after signal received from finish screen/view
         }
 
         // Listen for onbeforeunload message - tab close, refresh

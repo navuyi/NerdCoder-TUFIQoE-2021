@@ -49,9 +49,9 @@ def get_session():
             assessment["video_id"] = video_id
 
         # Get mouse tracking data
-        cursor().execute(f"SELECT * FROM mousemove WHERE session_id=?", (session["id"], ))
+        cursor().execute(f"SELECT * FROM mousetracker WHERE session_id=? AND type=?", (session["id"], "mousemove"))
         mousemove = cursor().fetchall()
-        cursor().execute(f"SELECT * FROM mousedown WHERE session_id=?", (session["id"], ))
+        cursor().execute(f"SELECT * FROM mousetracker WHERE session_id=? AND type=?", (session["id"], "mousedown"))
         mousedown = cursor().fetchall()
 
         session["mousedown"] = mousedown

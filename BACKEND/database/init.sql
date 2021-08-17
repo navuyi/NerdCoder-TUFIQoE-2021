@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS session;
 DROP TABLE IF EXISTS video;
 DROP TABLE IF EXISTS video_data;
 DROP TABLE IF EXISTS assessment;
+DROP TABLE IF EXISTS mousetracker;
 
 CREATE TABLE IF NOT EXISTS session (                  -- session is created in moment of playing first video
     id INTEGER NOT NULL PRIMARY KEY,
@@ -75,33 +76,10 @@ CREATE TABLE IF NOT EXISTS assessment(
 );
 
 
-CREATE TABLE IF NOT EXISTS mousedown(
+CREATE TABLE IF NOT EXISTS mousetracker(
     id INTEGER NOT NULL PRIMARY KEY,
-    session_id INTEGER NOT NULL,
-    video_id INTEGER DEFAULT NULL,
-    timestamp_utc_ms INTEGER NOT NULL,
-
-    which INTEGER,
-    target_id TEXT,
-    target_nodeName TEXT,
-
-    clientX INTEGER DEFAULT NULL,
-    clientY INTEGER DEFAULT NULL,
-    pageX INTEGER DEFAULT NULL,
-    pageY INTEGER DEFAULT NULL,
-    screenX INTEGER DEFAULT NULL,
-    screenY INTEGER DEFAULT NULL,
-    movementY INTEGER  DEFAULT NULL,
-    movementX INTEGER DEFAULT NULL,
-    offsetX INTEGER DEFAULT NULL,
-    offsetY INTEGER DEFAULT NULL,
-
-    FOREIGN KEY (video_id) REFERENCES video(id),
-    FOREIGN KEY (session_id) REFERENCES session(id)
-);
-
-CREATE TABLE IF NOT EXISTS mousemove(
-    id INTEGER NOT NULL PRIMARY KEY,
+    type TEXT NOT NULL,
+    url TEXT,
     session_id INTEGER NOT NULL,
     video_id INTEGER DEFAULT NULL,
     timestamp_utc_ms INTEGER NOT NULL,

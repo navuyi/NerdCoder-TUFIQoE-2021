@@ -1,8 +1,9 @@
 // Track mouse movement
 onmousemove = (e) =>{
+
     const data = {
         type: e.type,
-        timestamp_utc_ms: Date.now(),
+        url: window.location.href,
         timestamp: Date.now(),
         which: e.which,
         target_id: e.target.id,
@@ -30,9 +31,9 @@ onmousemove = (e) =>{
 
 // Track mouse button press
 onmousedown = (e) => {
-    console.log(e);
     const data = {
         type: e.type,
+        url: window.location.href,
         timestamp: Date.now(),
         which: e.which,
         target_id: e.target.id,

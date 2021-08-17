@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export function MouseTrackerController(){
 
     this.isRunning = false
@@ -27,5 +29,27 @@ export function MouseTrackerController(){
         //TODO Inject
         console.log("[MouseTrackerController] %cStopping mouse tracking", "color: #dc3545")
         this.isRunning = false
+    }
+
+    this.submit = function(mousetracker){
+        chrome.storage.local.get(["SESSION_ID"], res => {
+            const session_id = res.SESSION_ID
+            const mt_url = "http://127.0.0.1:5000/mousetracker/"
+            const data = {
+                session_id: session_id,
+                mousetracker: mousetracker
+            }
+            axios.post(mt_url, data)
+                .then(res => {
+                    console.log(res)
+                    if(res.status === 201){
+                        console.log("[BackgroundScript] %cMouseTracker data submit successful", "color: #28a745, font-weight: bold")
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                    console.log("[BackgroundScript] %cMouseTracker data submit failed", "color: #dc3545, font-weight: bold")
+                })
+        })
     }
 }
