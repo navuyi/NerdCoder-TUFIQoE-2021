@@ -2,11 +2,11 @@
   "manifest_version": 2,
   "name": "NerdCoder",
   "version": "1.0",
-  "description": "DEVELOPMENT build with simple auto-reloader\n[2021-08-17 22:05:30] waiting for changes...",
+  "description": "DEVELOPMENT build with simple auto-reloader\n[2021-08-18 15:57:30] waiting for changes...",
   "background": {
     "persistent": true,
     "scripts": [
-      "assets/background-page-reloader-0572b712.js",
+      "assets/background-page-reloader-54d59337.js",
       "assets/background-c101863b.js"
     ]
   },
@@ -31,6 +31,7 @@
     "main_scenario.json",
     "training_scenario.json",
     "scenarios/*",
+    "extension_pages/session_end.html",
     "background_controllers/AssessmentController.js",
     "background_controllers/AssessmentPanel.js",
     "background_controllers/ChromeDebugger.js"

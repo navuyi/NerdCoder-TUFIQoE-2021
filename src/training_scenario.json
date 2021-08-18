@@ -2,6 +2,7 @@
   "name": "Training session",
   "schedule":[
     {
+      "type": "schedule",
       "timeout_s": 60,
       "params": {
         "offline": false,
@@ -11,6 +12,7 @@
       }
     },
     {
+      "type":  "schedule",
       "timeout_s": 120,
       "params": {
         "offline": false,
@@ -18,6 +20,10 @@
         "downloadThroughput": 254000,
         "uploadThroughput": 1000000000
       }
+    },
+    {
+      "type":  "finish",
+      "timeout_s": 180
     }
   ]
 }

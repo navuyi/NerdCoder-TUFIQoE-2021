@@ -1521,9 +1521,10 @@ const mousetracker = [];
 
 
 // Initialize controllers
-const chDebugger = new ChromeDebugger();
+
 const asController = new AssessmentController();
 const mtController = new MouseTrackerController();
+const chDebugger = new ChromeDebugger(resetSession);
 
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
@@ -1779,25 +1780,8 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
 
         //Listen for controllers reset signal
         if(request.msg === "RESET"){
-            chDebugger.reset();
-            asController.reset();
-            mtController.setSessionRunning(false);
-            mtController.stopTracking();
-
-            // Update ended time in session table
-            chrome.storage.local.get(["SESSION_ID"], res => {
-                const url = "http://127.0.0.1:5000/session/";
-                const data = {
-                    session_id: res.SESSION_ID
-                };
-                axios.put(url, data)
-                    .then(res => {
-                        console.log(res);
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            });
+            // Reset controllers and update session end time
+            resetSession();
         }
 
         // Listen for onbeforeunload message - tab close, refresh
@@ -1811,6 +1795,27 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
     }
 );
 
+function resetSession(){
+    chDebugger.reset();
+    asController.reset();
+    mtController.setSessionRunning(false);
+    mtController.stopTracking();
+
+    // Update session end time in session table
+    chrome.storage.local.get(["SESSION_ID"], res => {
+        const url = "http://127.0.0.1:5000/session/";
+        const data = {
+            session_id: res.SESSION_ID
+        };
+        axios.put(url, data)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    });
+}
 
 async function create_new_session(tab_id){
     chrome.storage.local.get([

@@ -1,34 +1,4 @@
-// Create instance of json validator
-/*
-const options = {
-    strict: false
-}
-const ajv = new Ajv()
-let schema = {
-    "type": "object",
-    "properties": {
-        "name": {"type": "string"},
-        "schedule": {"type": "array"},
-        "items": {
-            "type": "object",
-            "properties": {
-                "timeout_s": {"type": "integer"},
-                "params": {
-                    "type": "object",
-                    "properties": {
-                        "offline": {"type": "boolean"},
-                        "latency": {"type": "string"},
-                        "downloadThroughput": {"type": "integer"},
-                        "uploadThroughput": {"type": "integer"}
-                    }
-                }
-            }
-        }
-    }
-}
- */
-
-function ChromeDebugger(){
+function ChromeDebugger(resetSession){
     this.currentTabID = undefined;
     this.isAttached = false;
     this.timoutArray = [];
@@ -90,7 +60,12 @@ function ChromeDebugger(){
 
         for(let index in scenario.schedule){
             const plan = scenario.schedule[index];
-            this.scheduleNetworkConditions(plan.timeout_s, plan.params, scenario.name, tabId, index);
+            if(plan.type === "schedule"){
+                this.scheduleNetworkConditions(plan.timeout_s, plan.params, scenario.name, tabId, index);
+            }
+            else if(plan.type === "finish"){
+                this.scheduleSessionFinish(plan.timeout_s);
+            }
         }
     };
 
@@ -116,6 +91,13 @@ function ChromeDebugger(){
         console.log(`Scenario [${scenarioName}]. Configuration with throughput: ${params.downloadThroughput} B/s scheduled to be launched in ${timeout} seconds`);
     };
 
+    this.scheduleSessionFinish = function(timeout){
+        console.log(`[ChromeDebugger] Scheduling end of session in %c${timeout} seconds`, "color: #dc3545; font-weight: bold");
+        setTimeout(() => {
+            resetSession();
+        }, Math.round(timeout*1000));
+    };
+
 
     this.reset = function(){
         console.log("[ChromeDebugger] Reseting process...");
@@ -132,10 +114,10 @@ function ChromeDebugger(){
             }
         });
 
-
-        // Redirect to YouTube main page
+        // Redirect to different page YT main or custom ! ! ! ! !
+        const url = chrome.runtime.getURL("extension_pages/session_end.html");
         try{
-            chrome.tabs.update(this.currentTabID, {url: "https://youtube.com"}, ()=>{
+            chrome.tabs.update(tabId, {url: url}, ()=>{
                 if(chrome.runtime.lastError){
                     console.log(`[ChromeDebugger] Error `);
                 }
@@ -143,8 +125,6 @@ function ChromeDebugger(){
         }catch(err){
             console.log(err);
         }
-
-
 
         // Set ASSESSMENT_RUNNING back to false
         chrome.storage.local.set({ASSESSMENT_RUNNING: false}, ()=>{
@@ -158,7 +138,6 @@ function ChromeDebugger(){
 
         // Send stop signal to content script
         chrome.tabs.sendMessage(tabId, {msg: "stop"});
-
     };
 }
 
