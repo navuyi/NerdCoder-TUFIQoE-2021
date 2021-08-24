@@ -1,4 +1,5 @@
 import axios from "axios";
+import {config} from "../config";
 
 export function MouseTrackerController(){
 
@@ -41,14 +42,12 @@ export function MouseTrackerController(){
             }
             axios.post(mt_url, data)
                 .then(res => {
-                    console.log(res)
                     if(res.status === 201){
-                        console.log("[BackgroundScript] %cMouseTracker data submit successful", "color: #28a745, font-weight: bold")
+                        console.log("[MouseTrackerController] %cMouseTracker data submit successful", `color: ${config.SUCCESS};`)
                     }
                 })
                 .catch(err => {
-                    console.log(err)
-                    console.log("[BackgroundScript] %cMouseTracker data submit failed", "color: #dc3545, font-weight: bold")
+                    console.log("[MouseTrackerController] %cMouseTracker data submit failed", `color: ${config.DANGER};`)
                 })
         })
     }

@@ -1,3 +1,5 @@
+import {config} from "../config";
+
 export function AssessmentController(){
     this.isRunning = false
     this.isVisible = false
@@ -7,7 +9,7 @@ export function AssessmentController(){
 
     this.init = function(tabId){
         if(this.isRunning === true){
-            console.log("[AssessmentController] Assessment already running")
+            console.log("[AssessmentController] %cAssessment already running", `color: ${config.DANGER}`)
             return true
         }
 
@@ -24,7 +26,7 @@ export function AssessmentController(){
             const mode = res.SESSION_TYPE
             if(mode === "training"){
                 chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS"], res => {
-                    console.log("TIMEOUT " + res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS)
+                    console.log(`[AssessmentController] %cAssessment panel interval set to ${res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS}`, `color: ${config.INFO};`)
                     clearTimeout(this.timeout);
                     this.timeout = setTimeout(()=>{
                         chrome.tabs.executeScript(this.tabId, {file: "background_controllers/AssessmentPanel.js"})
@@ -32,12 +34,12 @@ export function AssessmentController(){
                 })
             }
             else if (mode === "main"){
-                chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=>{
-                    console.log("TIMEOUT " + result.ASSESSMENT_INTERVAL_MS)
+                chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (res)=>{
+                    console.log(`[AssessmentController] %cAssessment panel interval set to ${res.ASSESSMENT_INTERVAL_MS}`, `color: ${config.INFO};`)
                     clearTimeout(this.timeout);
                     this.timeout = setTimeout(()=>{
                         chrome.tabs.executeScript(this.tabId, {file: "background_controllers/AssessmentPanel.js"})
-                    }, result.ASSESSMENT_INTERVAL_MS);
+                    }, res.ASSESSMENT_INTERVAL_MS);
                 })
             }
         })
@@ -48,7 +50,7 @@ export function AssessmentController(){
             const mode = res.SESSION_TYPE
             if(mode === "training"){
                 chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS"], res => {
-                    console.log("INTERVAL " + res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS)
+                    console.log(`[AssessmentController] %cAssessment panel interval set to ${res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS}`, `color: ${config.INFO};`)
                     //clearTimeout(this.timeout);
                     this.interval = setInterval(()=>{
                         chrome.tabs.executeScript(this.tabId, {file: "background_controllers/AssessmentPanel.js"})
@@ -56,12 +58,12 @@ export function AssessmentController(){
                 })
             }
             else if (mode === "main"){
-                chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (result)=>{
-                    console.log("INTERVAL " + result.ASSESSMENT_INTERVAL_MS)
-                   // clearTimeout(this.timeout);
+                chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (res)=>{
+                    console.log(`[AssessmentController] %cAssessment panel interval set to ${res.ASSESSMENT_INTERVAL_MS}`, `color: ${config.INFO};`)
+                    // clearTimeout(this.timeout);
                     this.interval = setInterval(()=>{
                         chrome.tabs.executeScript(this.tabId, {file: "background_controllers/AssessmentPanel.js"})
-                    }, result.ASSESSMENT_INTERVAL_MS);
+                    }, res.ASSESSMENT_INTERVAL_MS);
                 })
             }
         })

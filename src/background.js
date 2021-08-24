@@ -1,8 +1,8 @@
 // Imports work but files that provide export must be included in manifest.json //
-import {ChromeDebugger} from "./background_controllers/ChromeDebugger";
+import {ScheduleController} from "./background_controllers/ScheduleController";
 import {AssessmentController} from "./background_controllers/AssessmentController";
 import {MouseTrackerController} from "./background_controllers/MouseTrackerController";
-
+import {config} from "./config";
 import axios from "axios";
 
 
@@ -15,11 +15,11 @@ const mousetracker = []
 
 const asController = new AssessmentController();
 const mtController = new MouseTrackerController()
-const chDebugger = new ChromeDebugger(resetSession);
+const shController = new ScheduleController(resetSession);
 
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
-    const config = {
+    const startup_config = {
         SESSION_ID: undefined,                                                                  // Attached to request when submitting captured data
         ASSESSMENT_PANEL_OPACITY: 80,                                               // Opacity of the assessment panel in %
         ASSESSMENT_INTERVAL_MS: 300000,                                             // Interval for assessment in auto mode in milliseconds
@@ -29,15 +29,15 @@ chrome.runtime.onInstalled.addListener( ()=>{
         DEVELOPER_MODE: true,                                                               // Enable/disable developer mode - nerd stats visibility, connection check
         ASSESSMENT_RUNNING: false,                                                     // Define whether process of assessment has already begun
         SESSION_TYPE: "training",                                                    // Define whether to use "training" or "main" experiment mode
-        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 60000,              // Interval for assessment in auto mode in ms for training mode
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 120000,              // Interval for assessment in auto mode in ms for training mode
         VIDEOS_TYPE: "own",                                                                    // Gives information about videos type - "imposed" / "own" values are available
         TESTER_ID: "",                                                                              // Tester ID
         TESTER_ID_HASH: "",
         DOWNLOAD_BANDWIDTH_BYTES: undefined,
         UPLOAD_BANDWIDTH_BYTES: undefined
     }
-    chrome.storage.local.set(config, ()=>{
-        console.log("Config has been saved: " + config);
+    chrome.storage.local.set(startup_config, ()=>{
+        console.log(`[BackgroundScript] %cStartup config has been saved: ${startup_config}`, `color: ${config .SUCCESS}`);
     });
 })
 
@@ -53,16 +53,17 @@ function submit_captured_data(captured_data, tabId){
         mousetracker.splice(0, mousetracker.length)
         mtController.submit(tmp_mousetracker)
     }else{
-        console.log("[BackgroundScript] %cNo MouseTracker data captured yet", "color: #ffc107, font-weight: bold")
+        console.log("[BackgroundScript] %cNo MouseTracker data captured yet", `color: ${config.WARNING}`)
     }
 
     // Submit nerd statistics data - video data
     console.log("[BackgroundScript] %cSubmitting captured data", "color: #ffc107")
     const my_url = "http://127.0.0.1:5000/video/";
-    const my_method = "POST";
-    const my_headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+    const my_config = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
     }
 
     const index = captured_data.findIndex(record => record.id === tabId);
@@ -76,17 +77,21 @@ function submit_captured_data(captured_data, tabId){
                 session_id: session_id
             });
 
-
             // Delete sent data from captured_data array
             captured_data.splice(index,1);
 
-            fetch(my_url, {method: my_method, headers: my_headers, body: my_body})
-                .then(res => res.json())
-                .then(re => console.log(re));
+            // Submit captured video data
+            axios.post(my_url, my_body, my_config)
+                .then(res =>{
+                    console.log(res)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         })
     }
     else{
-        console.log(`[BackgroundScript] %cNo data to submit`, "color: #dc3545; font-weight: bold")
+        console.log(`[BackgroundScript] %cNo data to submit`, `color: ${config.DANGER};`)
     }
 }
 
@@ -104,14 +109,14 @@ function execute_script(tabId){
                         // Check if tab exists <-- to prevent uncaught no tab id error
                         chrome.tabs.get(tabId, (tab) => {
                             if(!tab){
-                                console.log(`[BackgroundScript] There is no tab with ID of %c${tabId}`, "color: #0d6efd; font-weight: bold")
+                                console.log(`[BackgroundScript] %cThere is no tab with ID of ${tabId}`, `color: ${config.DANGER};`)
                             }
                             else{
-                                console.log(`[BackgroundScript] Connection %cOK`, "color: #0d6efd; font-weight: bold")
+                                console.log(`[BackgroundScript] %cConnection OK`, `color: ${config.SUCCESS};`)
                                 chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
                                     // Run controllers
                                     create_new_session(tabId).then(()=>{
-                                        chDebugger.init(tabId)
+                                        shController.init(tabId)
                                         asController.init(tabId)
                                         mtController.startTracking(tabId)
                                     })
@@ -130,14 +135,14 @@ function execute_script(tabId){
             // Check if tab exists <-- to prevent uncaught no tab id error
             chrome.tabs.get(tabId, (tab) => {
                 if(!tab){
-                    console.log(`[BackgroundScript] There is no tab with ID of %c${tabId}`, "color: #0d6efd; font-weight: bold")
+                    console.log(`[BackgroundScript] %cThere is no tab with ID of ${tabId}`, `color: ${config.DANGER};`)
                 }
                 else{
-                    console.log(`[BackgroundScript] Content script injected %cwithout database check`, "color: #dc3545 ; font-weight: bold")
+                    console.log(`[BackgroundScript] %cContent script injected without database check`, `color: ${config.WARNING};`)
                     chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
                         // Run controllers
                         create_new_session(tabId).then(()=>{
-                            chDebugger.init(tabId)
+                            shController.init(tabId)
                             asController.init(tabId)
                             mtController.startTracking(tabId)
                         })
@@ -160,7 +165,7 @@ chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
                     submit_captured_data(captured_data, details.tabId);
                 }
                 else{
-                    console.log("No data captured yet");
+                    console.log("[BackgroundScript] %cNo data captured yet", `color: ${config.DANGER}; font-weight: bold`);
                 }
                 // Inject content script into current page with video player
                 execute_script(tab.id)
@@ -247,10 +252,11 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                 data.session_id = session_id    // <-- Add information about current session ID
                 axios.post(url, data)
                     .then(res => {
-                        console.log(res.data)
+                        //console.log(res.data)
+                        console.log("[BackgroundScript] %cAssessment submitted successfully", `color: ${config.SUCCESS};`)
                     })
                     .catch(err => {
-                        console.log(err.response)
+                        //console.log(err.response)
                     })
             })
 
@@ -268,7 +274,6 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                 mtController.submit(tmp_mousetracker)
                 mousetracker.splice(0, mousetracker.length)
             }
-            console.log(mousetracker.length)
         }
 
         //Listen for controllers reset signal
@@ -289,7 +294,7 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
 );
 
 function resetSession(){
-    chDebugger.reset()
+    shController.reset()
     asController.reset()
     mtController.setSessionRunning(false)
     mtController.stopTracking()
@@ -302,10 +307,12 @@ function resetSession(){
         }
         axios.put(url, data)
             .then(res => {
-                console.log(res)
+                //console.log(res)
+                console.log("[BackgroundScript] %cSession updated successfully", `color: ${config.SUCCESS}; font-weight: bold;`)
             })
             .catch(err => {
-                console.log(err)
+                console.log("[BackgroundScript] %cSession update attempt failed", `color: ${config.DANGER}; font-weight: bold;`)
+
             })
     })
 }
@@ -336,7 +343,7 @@ async function create_new_session(tab_id){
             assessment_panel_opacity: res.ASSESSMENT_PANEL_OPACITY,
             assessment_interval_ms: assessment_interval_ms
         }
-        console.log(data)
+
         // Create new session
         axios.post(url, data)
             .then(res => {
@@ -344,9 +351,15 @@ async function create_new_session(tab_id){
                 mtController.setSessionRunning(true)
                 mtController.startTracking(tab_id)
                 chrome.storage.local.set({SESSION_ID: res.data.session_id})
+                console.log("[BackgroundScript] %cSession created successfully", `color: ${config.SUCCESS}; font-weight:bold;`)
             })
             .catch(err => {
-                console.log(err.response)
+                //console.log(err.response)
+                if(err.response.status === 409){
+                    console.log("[BackgroundScript] %cSession with current parameters already exists", `color: ${config.DANGER}; font-weight:bold;`)
+                    return
+                }
+                console.log("[BackgroundScript] %cSession creation attempt failed", `color: ${config.DANGER}; font-weight:bold;`)
             })
     })
 }

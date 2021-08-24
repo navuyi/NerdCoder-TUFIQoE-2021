@@ -39,13 +39,15 @@ function assessment_handover(e){
     let time_in_video
     // Prevent default
     e.preventDefault();
+    console.log(e)
 
     // Calculate how long the assessment panel was visible
     const assessment_duration = Date.now() - enter_time;
 
     // Get the subject's assessment
     const assessment = form.getAttribute("assessment");
-    console.log(assessment);
+
+
     // Get timestamp data
     const timestamp = Date.now();
 

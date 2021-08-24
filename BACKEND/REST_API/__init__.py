@@ -56,6 +56,7 @@ def create_app(test_config=None):
     from REST_API.endpoints.session_end import bp as bp_session_end
     from REST_API.endpoints.session_get import bp as bp_session_get
     from REST_API.endpoints.mousetracker import bp as bp_mousetracker
+    from REST_API.endpoints.schedule import bp as bp_schedule
 
     app.register_blueprint(bp_session_end)
     app.register_blueprint(bp_new_session)
@@ -64,6 +65,7 @@ def create_app(test_config=None):
     app.register_blueprint(bp_connection_check)
     app.register_blueprint(bp_session_get)
     app.register_blueprint(bp_mousetracker)
+    app.register_blueprint(bp_schedule)
 
 
     # Register blueprints

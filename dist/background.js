@@ -1,6 +1,3 @@
-import { AssessmentController } from './background_controllers/AssessmentController.js';
-import { ChromeDebugger } from './background_controllers/ChromeDebugger.js';
-
 var bind = function bind(fn, thisArg) {
   return function wrap() {
     var args = new Array(arguments.length);
@@ -1458,6 +1455,269 @@ axios_1.default = _default;
 
 var axios = axios_1;
 
+const config = {
+  DANGER: "#dc3545",
+  WARNING: "#ffc107",
+  PRIMARY: "#0d6efd",
+  SECONDARY: "#6c757d",
+  SUCCESS: "#28a745",
+  INFO: "#17a2b8",
+  LIGHT: "#f8f9fa",
+  DARK: "#343a40"
+};
+
+function ScheduleController(resetSession){
+    this.currentTabID = undefined;
+    this.isAttached = false;
+    this.timoutArray = [];
+
+
+    this.init = function(tabId){
+        if(this.isAttached === true){
+            console.log("[ScheduleController] Debugger already attached", `color: ${config.DANGER}`);
+            return -1;
+        }
+
+        // Attach to the tab
+        chrome.debugger.attach({tabId}, "1.3");
+        // Establish ondetach event listener
+        chrome.debugger.onDetach.addListener((source, reason)=>{
+            console.log(`[ScheduleController] %cDebugger detached from tab with ID of: ${source.tabId}`, `color: ${config.SUCCESS}; font-weight: bold`);
+            console.log(`[ScheduleController] %cReason ${reason}`, `color: ${config.SUCCESS}; font-weight: bold`);
+
+            this.isAttached = false; // <-- Changing it back to false
+        });
+        // Enable network
+        chrome.debugger.sendCommand({tabId}, "Network.enable");
+
+        this.currentTabID = tabId;
+        this.isAttached = true;
+
+        // Load proper network throttling scenario configuration file
+        chrome.storage.local.get(["SESSION_TYPE", "VIDEOS_TYPE"], (res) =>{
+            const session_type = res.SESSION_TYPE;
+            const video_type = res.VIDEOS_TYPE;
+            let scenario_file;
+
+            if(session_type === "main" && video_type === "own"){
+                scenario_file = "scenario_main_own.json";
+            }
+            else if(session_type === "main" && video_type === "imposed"){
+                scenario_file = "scenario_main_imposed.json";
+            }
+            else if(session_type === "training"){
+                scenario_file = "scenario_training.json";
+            }
+
+            // Get the throttling scenario data from main_scenario.json
+            const url = chrome.extension.getURL(scenario_file);
+            console.log(`[ScheduleController] %cFetching file: ${scenario_file}`, `color: ${config.SUCCESS}`);
+            axios.get(url).then(res => {
+                this.scheduleThrottling(tabId, res.data);
+                setTimeout(()=>{
+                    this.submitSchedule(res.data);
+                }, 5000);
+            }).catch(err => {console.log(err);});
+
+        });
+    };
+
+    this.bitsToBytes = function(bits){
+        return Math.floor(bits/8);
+    };
+
+    this.scheduleThrottling = function(tabId, data){
+        const scenario = data;
+
+        for(let index in scenario.schedule){
+            const plan = scenario.schedule[index];
+            if(plan.type === "throttling"){
+                this.scheduleNetworkConditions(plan.timeout_s, plan.params, scenario.name, tabId, index);
+            }
+            else if(plan.type === "finish"){
+                this.scheduleSessionFinish(plan.timeout_s);
+            }
+        }
+    };
+
+    this.submitSchedule = function(schedule){
+        chrome.storage.local.get(["SESSION_ID"], res => {
+            const url = "http://127.0.0.1:5000/schedule/";
+            const session_id = res.SESSION_ID;
+            schedule.session_id = session_id;
+            console.log(schedule);
+            axios.post(url, schedule)
+                .then(res => {
+                    if(res && res.status === 201)
+                        console.log("[ScheduleController] %cSchedule data submitted successfully", `color: ${config.SUCCESS}`);
+                })
+                .catch(err => {
+                    if(err.response && err.response.status){
+                        console.log(err.response);
+                    }
+                });
+        });
+    };
+
+    this.scheduleNetworkConditions = function(timeout, params, scenarioName, tabId, index){
+        params.downloadThroughput = this.bitsToBytes(params.downloadThroughput);
+        params.uploadThroughput = this.bitsToBytes(params.uploadThroughput);
+        this.timoutArray.push(
+            setTimeout(()=>{
+                chrome.debugger.sendCommand({tabId}, "Network.emulateNetworkConditions", params, ()=>{
+                    if(chrome.runtime.lastError){
+                    console.log(`[ScheduleController] %cTab with ID ${tabId} is no longer active`, `color: ${config.DANGER}; font-weight: bold`);
+                    }else {
+                        chrome.storage.local.set({
+                            DOWNLOAD_BANDWIDTH_BYTES: params.downloadThroughput,
+                            UPLOAD_BANDWIDTH_BYTES: params.uploadThroughput
+                        });
+                        console.log(`[ScheduleController] %c Scenario [${scenarioName}]. Configuration with throughput: ${params.downloadThroughput} B/s started`, `color: ${config.INFO}`);
+                    }
+                });
+            }, Math.round(timeout*1000))
+        );
+
+        console.log(`[ScheduleController] %cScenario [${scenarioName}]. Configuration with throughput: ${params.downloadThroughput} B/s scheduled to be launched in ${timeout} seconds` , `color: ${config.INFO}`);
+    };
+
+    this.scheduleSessionFinish = function(timeout){
+        console.log(`[ScheduleController] %cScheduling end of session in %c${timeout} seconds`, `color: ${config.INFO}; font-weight: bold`);
+        setTimeout(() => {
+            resetSession();
+        }, Math.round(timeout*1000));
+    };
+
+
+    this.reset = function(){
+        console.log("[ScheduleController] %cReseting process...", `color: ${config.WARNING}`);
+
+        // Detach from current tab  <-- try/catch will not help here - asynchronous API call
+        const tabId = this.currentTabID;
+        chrome.debugger.detach({tabId}, ()=>{
+            if(chrome.runtime.lastError){
+                console.log(`[ScheduleController] %cDebugger was not connected to tab with ID of: ${tabId}`, `color: ${config.DANGER}; font-weight: bold`);
+            }
+            else {
+                console.log(`[ScheduleController] %cDetached from tab with ID of:" ${tabId}`, `color: ${config.WARNING}; font-weight: bold`);
+                this.isAttached = false;
+            }
+        });
+
+        // Redirect to different page YT main or custom ! ! ! ! !
+        const url = chrome.runtime.getURL("extension_pages/session_end.html");
+        try{
+            chrome.tabs.update(tabId, {url: url}, ()=>{
+                if(chrome.runtime.lastError){
+                    console.log(`[ScheduleController] Error `);
+                }
+            });
+        }catch(err){
+            console.log(err);
+        }
+
+        // Set ASSESSMENT_RUNNING back to false
+        chrome.storage.local.set({ASSESSMENT_RUNNING: false}, ()=>{
+            console.log("[ScheduleController] %cASSESSMENT_RUNNING set to false", `color: ${config.SUCCESS}`);
+        });
+
+        // Reset timeouts
+        for(let index in this.timoutArray){
+            clearInterval(this.timoutArray[index]);
+        }
+
+        // Send stop signal to content script
+        chrome.tabs.sendMessage(tabId, {msg: "stop"});
+    };
+}
+
+function AssessmentController(){
+    this.isRunning = false;
+    this.isVisible = false;
+    this.timeout = undefined;
+    this.assessmentPanel = undefined;
+    this.interval = undefined;
+
+    this.init = function(tabId){
+        if(this.isRunning === true){
+            console.log("[AssessmentController] %cAssessment already running", `color: ${config.DANGER}`);
+            return true
+        }
+
+        this.tabId = tabId;
+        this.isRunning = true;
+        this.timeout = undefined;
+        this.initMessenger();
+        this.setInterval();
+    };
+
+
+    this.setTimeout = function(){
+        chrome.storage.local.get(["SESSION_TYPE"], res => {
+            const mode = res.SESSION_TYPE;
+            if(mode === "training"){
+                chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS"], res => {
+                    console.log(`[AssessmentController] %cAssessment panel interval set to ${res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS}`, `color: ${config.INFO};`);
+                    clearTimeout(this.timeout);
+                    this.timeout = setTimeout(()=>{
+                        chrome.tabs.executeScript(this.tabId, {file: "background_controllers/AssessmentPanel.js"});
+                    }, res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS);
+                });
+            }
+            else if (mode === "main"){
+                chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (res)=>{
+                    console.log(`[AssessmentController] %cAssessment panel interval set to ${res.ASSESSMENT_INTERVAL_MS}`, `color: ${config.INFO};`);
+                    clearTimeout(this.timeout);
+                    this.timeout = setTimeout(()=>{
+                        chrome.tabs.executeScript(this.tabId, {file: "background_controllers/AssessmentPanel.js"});
+                    }, res.ASSESSMENT_INTERVAL_MS);
+                });
+            }
+        });
+    };
+
+    this.setInterval = function(){
+        chrome.storage.local.get(["SESSION_TYPE"], res => {
+            const mode = res.SESSION_TYPE;
+            if(mode === "training"){
+                chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS"], res => {
+                    console.log(`[AssessmentController] %cAssessment panel interval set to ${res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS}`, `color: ${config.INFO};`);
+                    //clearTimeout(this.timeout);
+                    this.interval = setInterval(()=>{
+                        chrome.tabs.executeScript(this.tabId, {file: "background_controllers/AssessmentPanel.js"});
+                    }, res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS);
+                });
+            }
+            else if (mode === "main"){
+                chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (res)=>{
+                    console.log(`[AssessmentController] %cAssessment panel interval set to ${res.ASSESSMENT_INTERVAL_MS}`, `color: ${config.INFO};`);
+                    // clearTimeout(this.timeout);
+                    this.interval = setInterval(()=>{
+                        chrome.tabs.executeScript(this.tabId, {file: "background_controllers/AssessmentPanel.js"});
+                    }, res.ASSESSMENT_INTERVAL_MS);
+                });
+            }
+        });
+    };
+
+
+    this.initMessenger = function(){
+        // Listen for messages from assessment panel component
+        chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+            if(request.msg === "assessment_panel_hidden"){
+                this.setTimeout();
+            }
+        });
+    };
+
+
+    this.reset = function(){
+        clearInterval(this.interval);
+        this.isRunning = false;
+    };
+
+}
+
 function MouseTrackerController(){
 
     this.isRunning = false;
@@ -1499,14 +1759,12 @@ function MouseTrackerController(){
             };
             axios.post(mt_url, data)
                 .then(res => {
-                    console.log(res);
                     if(res.status === 201){
-                        console.log("[BackgroundScript] %cMouseTracker data submit successful", "color: #28a745, font-weight: bold");
+                        console.log("[MouseTrackerController] %cMouseTracker data submit successful", `color: ${config.SUCCESS};`);
                     }
                 })
                 .catch(err => {
-                    console.log(err);
-                    console.log("[BackgroundScript] %cMouseTracker data submit failed", "color: #dc3545, font-weight: bold");
+                    console.log("[MouseTrackerController] %cMouseTracker data submit failed", `color: ${config.DANGER};`);
                 });
         });
     };
@@ -1524,11 +1782,11 @@ const mousetracker = [];
 
 const asController = new AssessmentController();
 const mtController = new MouseTrackerController();
-const chDebugger = new ChromeDebugger(resetSession);
+const shController = new ScheduleController(resetSession);
 
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
-    const config = {
+    const startup_config = {
         SESSION_ID: undefined,                                                                  // Attached to request when submitting captured data
         ASSESSMENT_PANEL_OPACITY: 80,                                               // Opacity of the assessment panel in %
         ASSESSMENT_INTERVAL_MS: 300000,                                             // Interval for assessment in auto mode in milliseconds
@@ -1538,15 +1796,15 @@ chrome.runtime.onInstalled.addListener( ()=>{
         DEVELOPER_MODE: true,                                                               // Enable/disable developer mode - nerd stats visibility, connection check
         ASSESSMENT_RUNNING: false,                                                     // Define whether process of assessment has already begun
         SESSION_TYPE: "training",                                                    // Define whether to use "training" or "main" experiment mode
-        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 60000,              // Interval for assessment in auto mode in ms for training mode
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 120000,              // Interval for assessment in auto mode in ms for training mode
         VIDEOS_TYPE: "own",                                                                    // Gives information about videos type - "imposed" / "own" values are available
         TESTER_ID: "",                                                                              // Tester ID
         TESTER_ID_HASH: "",
         DOWNLOAD_BANDWIDTH_BYTES: undefined,
         UPLOAD_BANDWIDTH_BYTES: undefined
     };
-    chrome.storage.local.set(config, ()=>{
-        console.log("Config has been saved: " + config);
+    chrome.storage.local.set(startup_config, ()=>{
+        console.log(`[BackgroundScript] %cStartup config has been saved: ${startup_config}`, `color: ${config .SUCCESS}`);
     });
 });
 
@@ -1562,16 +1820,17 @@ function submit_captured_data(captured_data, tabId){
         mousetracker.splice(0, mousetracker.length);
         mtController.submit(tmp_mousetracker);
     }else {
-        console.log("[BackgroundScript] %cNo MouseTracker data captured yet", "color: #ffc107, font-weight: bold");
+        console.log("[BackgroundScript] %cNo MouseTracker data captured yet", `color: ${config.WARNING}`);
     }
 
     // Submit nerd statistics data - video data
     console.log("[BackgroundScript] %cSubmitting captured data", "color: #ffc107");
     const my_url = "http://127.0.0.1:5000/video/";
-    const my_method = "POST";
-    const my_headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+    const my_config = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
     };
 
     const index = captured_data.findIndex(record => record.id === tabId);
@@ -1585,17 +1844,21 @@ function submit_captured_data(captured_data, tabId){
                 session_id: session_id
             });
 
-
             // Delete sent data from captured_data array
             captured_data.splice(index,1);
 
-            fetch(my_url, {method: my_method, headers: my_headers, body: my_body})
-                .then(res => res.json())
-                .then(re => console.log(re));
+            // Submit captured video data
+            axios.post(my_url, my_body, my_config)
+                .then(res =>{
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         });
     }
     else {
-        console.log(`[BackgroundScript] %cNo data to submit`, "color: #dc3545; font-weight: bold");
+        console.log(`[BackgroundScript] %cNo data to submit`, `color: ${config.DANGER};`);
     }
 }
 
@@ -1613,14 +1876,14 @@ function execute_script(tabId){
                         // Check if tab exists <-- to prevent uncaught no tab id error
                         chrome.tabs.get(tabId, (tab) => {
                             if(!tab){
-                                console.log(`[BackgroundScript] There is no tab with ID of %c${tabId}`, "color: #0d6efd; font-weight: bold");
+                                console.log(`[BackgroundScript] %cThere is no tab with ID of ${tabId}`, `color: ${config.DANGER};`);
                             }
                             else {
-                                console.log(`[BackgroundScript] Connection %cOK`, "color: #0d6efd; font-weight: bold");
+                                console.log(`[BackgroundScript] %cConnection OK`, `color: ${config.SUCCESS};`);
                                 chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
                                     // Run controllers
                                     create_new_session(tabId).then(()=>{
-                                        chDebugger.init(tabId);
+                                        shController.init(tabId);
                                         asController.init(tabId);
                                         mtController.startTracking(tabId);
                                     });
@@ -1639,14 +1902,14 @@ function execute_script(tabId){
             // Check if tab exists <-- to prevent uncaught no tab id error
             chrome.tabs.get(tabId, (tab) => {
                 if(!tab){
-                    console.log(`[BackgroundScript] There is no tab with ID of %c${tabId}`, "color: #0d6efd; font-weight: bold");
+                    console.log(`[BackgroundScript] %cThere is no tab with ID of ${tabId}`, `color: ${config.DANGER};`);
                 }
                 else {
-                    console.log(`[BackgroundScript] Content script injected %cwithout database check`, "color: #dc3545 ; font-weight: bold");
+                    console.log(`[BackgroundScript] %cContent script injected without database check`, `color: ${config.WARNING};`);
                     chrome.tabs.executeScript(tabId, {file: "init.js"}, ()=>{
                         // Run controllers
                         create_new_session(tabId).then(()=>{
-                            chDebugger.init(tabId);
+                            shController.init(tabId);
                             asController.init(tabId);
                             mtController.startTracking(tabId);
                         });
@@ -1669,7 +1932,7 @@ chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
                     submit_captured_data(captured_data, details.tabId);
                 }
                 else {
-                    console.log("No data captured yet");
+                    console.log("[BackgroundScript] %cNo data captured yet", `color: ${config.DANGER}; font-weight: bold`);
                 }
                 // Inject content script into current page with video player
                 execute_script(tab.id);
@@ -1754,10 +2017,11 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                 data.session_id = session_id;    // <-- Add information about current session ID
                 axios.post(url, data)
                     .then(res => {
-                        console.log(res.data);
+                        //console.log(res.data)
+                        console.log("[BackgroundScript] %cAssessment submitted successfully", `color: ${config.SUCCESS};`);
                     })
                     .catch(err => {
-                        console.log(err.response);
+                        //console.log(err.response)
                     });
             });
 
@@ -1775,7 +2039,6 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                 mtController.submit(tmp_mousetracker);
                 mousetracker.splice(0, mousetracker.length);
             }
-            console.log(mousetracker.length);
         }
 
         //Listen for controllers reset signal
@@ -1796,7 +2059,7 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
 );
 
 function resetSession(){
-    chDebugger.reset();
+    shController.reset();
     asController.reset();
     mtController.setSessionRunning(false);
     mtController.stopTracking();
@@ -1809,10 +2072,12 @@ function resetSession(){
         };
         axios.put(url, data)
             .then(res => {
-                console.log(res);
+                //console.log(res)
+                console.log("[BackgroundScript] %cSession updated successfully", `color: ${config.SUCCESS}; font-weight: bold;`);
             })
             .catch(err => {
-                console.log(err);
+                console.log("[BackgroundScript] %cSession update attempt failed", `color: ${config.DANGER}; font-weight: bold;`);
+
             });
     });
 }
@@ -1843,7 +2108,7 @@ async function create_new_session(tab_id){
             assessment_panel_opacity: res.ASSESSMENT_PANEL_OPACITY,
             assessment_interval_ms: assessment_interval_ms
         };
-        console.log(data);
+
         // Create new session
         axios.post(url, data)
             .then(res => {
@@ -1851,9 +2116,15 @@ async function create_new_session(tab_id){
                 mtController.setSessionRunning(true);
                 mtController.startTracking(tab_id);
                 chrome.storage.local.set({SESSION_ID: res.data.session_id});
+                console.log("[BackgroundScript] %cSession created successfully", `color: ${config.SUCCESS}; font-weight:bold;`);
             })
             .catch(err => {
-                console.log(err.response);
+                //console.log(err.response)
+                if(err.response.status === 409){
+                    console.log("[BackgroundScript] %cSession with current parameters already exists", `color: ${config.DANGER}; font-weight:bold;`);
+                    return
+                }
+                console.log("[BackgroundScript] %cSession creation attempt failed", `color: ${config.DANGER}; font-weight:bold;`);
             });
     });
 }

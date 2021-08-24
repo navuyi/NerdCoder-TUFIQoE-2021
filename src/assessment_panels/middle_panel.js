@@ -73,6 +73,7 @@ export default function middle_panel(){
         button.addEventListener("click", (e)=>{
             // Get the selected assessment value
             const assessment = e.target.getAttribute("assessment")
+
             // Assign the selected assessment value to form's ID
             form.setAttribute("assessment", assessment.toString());
         });
@@ -88,7 +89,7 @@ export default function middle_panel(){
         if(visible === "true" && numericKeycodes.has(keyCode)){
             const value = parseInt(name);
             const button = document.getElementById("assessment-button-"+value.toString());
-            console.log(localStorage.getItem("ASSESSMENT_TIME"));
+
             if(localStorage.getItem("ASSESSMENT_TIME") === "true"){
                 button.click();
             }
@@ -107,12 +108,10 @@ export default function middle_panel(){
     const player = primary_inner.children[0];
     const all = player.getElementsByTagName("*");
 
-    console.log(all);
+
     for(let i=0; i<all.length; i++){
         all[i].onfocus = (e) =>{
             e.target.blur();
-            console.log(all[i])
-            console.log("Blurring");
         }
     }
 
@@ -123,11 +122,11 @@ export default function middle_panel(){
 
     movie_player.addEventListener('focus', (e)=>{
         e.target.blur();
-        console.log("BLUR2")
+
     })
     video_tag.addEventListener('focus', (e)=>{
         e.target.blur();
-        console.log("BLUR3")
+
     })
 
 

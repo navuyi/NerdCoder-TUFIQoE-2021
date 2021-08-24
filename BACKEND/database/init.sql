@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS video;
 DROP TABLE IF EXISTS video_data;
 DROP TABLE IF EXISTS assessment;
 DROP TABLE IF EXISTS mousetracker;
+DROP TABLE IF EXISTS schedule;
 
 CREATE TABLE IF NOT EXISTS session (                  -- session is created in moment of playing first video
     id INTEGER NOT NULL PRIMARY KEY,
@@ -101,5 +102,18 @@ CREATE TABLE IF NOT EXISTS mousetracker(
 
     FOREIGN KEY (video_id) REFERENCES video(id),
     FOREIGN KEY (session_id) REFERENCES session(id)
-)
+);
+
+CREATE TABLE IF NOT EXISTS schedule(
+    id INTEGER NOT NULL PRIMARY KEY,
+    session_id INTEGER NOT NULL,
+
+    name TEXT NOT NULL,
+    type TEXT NOT NULL,
+    download_bandwidth_bytes INTEGER,
+    upload_bandwidth_bytes INTEGER,
+    timeout_s INTEGER NOT NULL,
+
+    FOREIGN KEY (session_id) REFERENCES session(id)
+);
 

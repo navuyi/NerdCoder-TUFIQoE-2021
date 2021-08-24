@@ -57,5 +57,11 @@ def get_session():
         session["mousedown"] = mousedown
         session["mousemove"] = mousemove
 
+        # Get schedule data
+        cursor().execute(f"SELECT * FROM schedule WHERE session_id=?", (session["id"], ))
+        schedule_data = cursor().fetchall()
+
+        session["schedule"] = schedule_data
+
     result = sessions
     return jsonify(result), 200
