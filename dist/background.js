@@ -1582,7 +1582,7 @@ function ScheduleController(resetSession){
     };
 
     this.scheduleSessionFinish = function(timeout){
-        console.log(`[ScheduleController] %cScheduling end of session in %c${timeout} seconds`, `color: ${config.INFO}; font-weight: bold`);
+        console.log(`[ScheduleController] %cScheduling end of session in ${timeout} seconds`, `color: ${config.INFO}; font-weight: bold`);
         setTimeout(() => {
             resetSession();
         }, Math.round(timeout*1000));

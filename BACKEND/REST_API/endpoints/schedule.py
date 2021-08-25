@@ -41,7 +41,7 @@ def create_schedule():
                 "timeout_s": item["timeout_s"]
             }
             cursor().execute(f"INSERT INTO schedule (session_id, name, type, timeout_s) VALUES (:session_id, :name, :type, :timeout_s)", insert)
-        print(insert)
+
 
     return jsonify(msg="OK"), 201
 
