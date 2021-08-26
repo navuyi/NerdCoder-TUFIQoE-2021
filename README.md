@@ -185,7 +185,7 @@ end of session. Timeout for this event can be configured freely. By default it s
 ```
 # Session complete - view
 Contains information what part of experiment has just ended. There is timer counting down to redirect to main YT page.
-This view is brought up when RESET button in extension is activated popup or when session has ended.
+This view is brought up when RESET button in extension;s popup is activated popup or when session has ended.
 <br>
 After redirecting back to YouTube page the extension is ready to switch session or video types and start new session.
 ![Image of Yaktocat](images/finish_screen.png)
@@ -198,25 +198,20 @@ Explanation of some key values returned by REST API.
   - 1095x616 for default display,
   - 1179x663 for theater mode,
   - 1835x1032 for fullscreen mode
-<br>
-<br>  
+
 - total_frames - gives information how many video frames were loaded from webserver
-<br>
-<br>
+
 - <span style="color: dodgerblue">current_resolution</span> - gives information on resolution of the video played which strongly depends on network condition
-<br>
-<br>
+
 - <span style="color: dodgerblue">optimal_resolution </span> - gives information what resolution the video should have based on current viewport resolution
   (to maintain pixel density on proper level ?????), examples:
   - 640x360 in mini-player mode,
   - 1280x720 in default mode,
   - 1280x720 in theater mode,
   - 1920x1080 in fullscreen mode
-<br>
-<br>
+
 - mystery_t - gives information on current time in the video
-<br>
-<br>
+
 - mystery_s - is the value extracted from YouTube's mystery text, it gives information on state of the video,
   YouTube gives no official information about the mystery text meaning thus some of the 
   descriptions can be wrong, most important and certain are highlighted
