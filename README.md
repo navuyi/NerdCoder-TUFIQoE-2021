@@ -214,13 +214,13 @@ Explanation of some key values returned by REST API.
 
 - mystery_s - is the value extracted from YouTube's mystery text, it gives information on state of the video,
   YouTube gives no official information about the mystery text meaning thus some of the 
-  descriptions can be wrong, most important and certain are highlighted
-  - <span style="color: #ffc107">4 - video paused </span>
-  - <span style="color: #ffc107">8 - video is playing </span>
-  - <span style="color: #ffc107"> 9 - video buffering during playback </span>
+  descriptions can be wrong
+  - <span style="color: #ffc107">4 - video paused (certain) </span>
+  - <span style="color: #ffc107">8 - video is playing (certain) </span>
+  - <span style="color: #ffc107"> 9 - video buffering during playback (certain) </span>
   - 19 - buffering, most likely after seeking to part of timeline not included in buffer
-  - <span style="color: #ffc107">24 - seeking video, changing current timeline position </span>
+  - <span style="color: #ffc107">24 - seeking video, changing current timeline position (certain) </span>
   - 35 - seeking while video was still buffering
   - 40 - loading the video, appears after video change
   - 49 - first buffering of the video, appears in the beginning after code 40
-  - <span style="color: #ffc107"> e - video has ended </span>
+  - <span style="color: #ffc107"> e - video has ended (certain) </span>
