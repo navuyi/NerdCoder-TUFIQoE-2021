@@ -1,5 +1,5 @@
 {
-  "name": "Training session",
+  "name": "scenario_training",
   "schedule":[
     {
       "type": "throttling",

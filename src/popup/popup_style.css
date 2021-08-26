@@ -99,6 +99,12 @@ label{
     width: 30%;
 }
 
+.scenario-id-container{
+    display: flex;
+}
+.scenario-id-container label{
+    font-size: 1rem;
+}
 
 
 

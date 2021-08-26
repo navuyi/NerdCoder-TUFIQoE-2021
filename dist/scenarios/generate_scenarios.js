@@ -26,7 +26,7 @@ var fs = /*@__PURE__*/getAugmentedNamespace(empty$1);
 
 const filename_prefix = "scenario_main_";
 const filename_ext = ".json";
-const ITERATIONS = 20;
+const ITERATIONS = 100;
 const QUALITY_CHANGES = 7;
 const baskets = ["lower", "upper"];
 

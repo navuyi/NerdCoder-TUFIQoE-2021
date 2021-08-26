@@ -33,8 +33,9 @@ chrome.runtime.onInstalled.addListener( ()=>{
         VIDEOS_TYPE: "own",                                                                    // Gives information about videos type - "imposed" / "own" values are available
         TESTER_ID: "",                                                                              // Tester ID
         TESTER_ID_HASH: "",
-        DOWNLOAD_BANDWIDTH_BYTES: undefined,
-        UPLOAD_BANDWIDTH_BYTES: undefined
+        DOWNLOAD_BANDWIDTH_BYTES: undefined,                            // Used to gather information about current network throttling
+        UPLOAD_BANDWIDTH_BYTES: undefined,                                   // Same as above, but upload bandwidth stays always the same, high value - unlimited bandwidth
+        MAIN_SCENARIO_ID: 1                                                              // Defines which scenario file should be used to schedule throttling, default 1
     }
     chrome.storage.local.set(startup_config, ()=>{
         console.log(`[BackgroundScript] %cStartup config has been saved: ${startup_config}`, `color: ${config .SUCCESS}`);

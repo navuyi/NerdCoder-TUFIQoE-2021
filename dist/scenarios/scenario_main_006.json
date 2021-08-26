@@ -7,7 +7,7 @@
             "params": {
                 "offline": false,
                 "latency": 1,
-                "downloadThroughput": 16384000,
+                "downloadThroughput": 4096000,
                 "uploadThroughput": 1000000000
             }
         },
@@ -17,7 +17,7 @@
             "params": {
                 "offline": false,
                 "latency": 1,
-                "downloadThroughput": 1000000000,
+                "downloadThroughput": 3072000,
                 "uploadThroughput": 1000000000
             }
         },
@@ -27,7 +27,7 @@
             "params": {
                 "offline": false,
                 "latency": 1,
-                "downloadThroughput": 2048000,
+                "downloadThroughput": 768000,
                 "uploadThroughput": 1000000000
             }
         },
@@ -37,7 +37,7 @@
             "params": {
                 "offline": false,
                 "latency": 1,
-                "downloadThroughput": 768000,
+                "downloadThroughput": 2048000,
                 "uploadThroughput": 1000000000
             }
         },
@@ -57,7 +57,7 @@
             "params": {
                 "offline": false,
                 "latency": 1,
-                "downloadThroughput": 3072000,
+                "downloadThroughput": 1000000000,
                 "uploadThroughput": 1000000000
             }
         },
@@ -67,7 +67,7 @@
             "params": {
                 "offline": false,
                 "latency": 1,
-                "downloadThroughput": 4096000,
+                "downloadThroughput": 8192000,
                 "uploadThroughput": 1000000000
             }
         },

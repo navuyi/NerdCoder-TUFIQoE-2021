@@ -6,6 +6,11 @@ export function ScheduleController(resetSession){
     this.isAttached = false;
     this.timoutArray = [];
 
+    this.padLeadingZeros =  function(num, size) {
+        var s = num+"";
+        while (s.length < size) s = "0" + s;
+        return s;
+    }
 
     this.init = function(tabId){
         if(this.isAttached === true){
@@ -29,16 +34,12 @@ export function ScheduleController(resetSession){
         this.isAttached = true;
 
         // Load proper network throttling scenario configuration file
-        chrome.storage.local.get(["SESSION_TYPE", "VIDEOS_TYPE"], (res) =>{
+        chrome.storage.local.get(["SESSION_TYPE", "VIDEOS_TYPE", "MAIN_SCENARIO_ID"], (res) =>{
             const session_type = res.SESSION_TYPE
-            const video_type = res.VIDEOS_TYPE
             let scenario_file
 
-            if(session_type === "main" && video_type === "own"){
-                scenario_file = "scenario_main_own.json"
-            }
-            else if(session_type === "main" && video_type === "imposed"){
-                scenario_file = "scenario_main_imposed.json"
+            if(session_type === "main"){
+                scenario_file = "scenarios/scenario_main_" + this.padLeadingZeros(res.MAIN_SCENARIO_ID, 3) + ".json"
             }
             else if(session_type === "training"){
                 scenario_file = "scenario_training.json"

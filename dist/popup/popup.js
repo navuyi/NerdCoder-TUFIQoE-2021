@@ -10,6 +10,11 @@ const generateHash = async (plain_text, algorithm) => {
 };
 
 //  //  // Set the default configuration    //  //  //
+// Default for main session scenario file ID
+chrome.storage.local.get(["MAIN_SCENARIO_ID"], res =>{
+    document.getElementById("scenario-id").value = res.MAIN_SCENARIO_ID;
+});
+
 // Default for tester ID
 chrome.storage.local.get(["TESTER_ID", "TESTER_ID_HASH"], (result)=> {
     document.getElementById("tester-id").value = result.TESTER_ID;
@@ -187,6 +192,13 @@ document.getElementById("tester-id").addEventListener("input", async (e) => {
         TESTER_ID: e.target.value,
         TESTER_ID_HASH: hashHex,
     });
+});
+
+// Main session scenario file
+document.getElementById("scenario-id").addEventListener("input", (e) => {
+    let value = e.target.value;
+    e.target.value = value;
+    chrome.storage.local.set({MAIN_SCENARIO_ID: value});
 });
 
 

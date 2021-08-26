@@ -32,22 +32,6 @@ the "dist" directory with the "load unpacked" option.
 
 ####To reset database rows one can cd into BACKEND/database and execute ```python init.py```
 
-# Overview
-1. Network throttling and video assessment processes start after user starts first video playback.
-2. Network throttling and video assessment are scheduled independently from each other. For more information go to
-   [network throttling](#throttling_scheduling) section. 
-3. Video assessment panel may become visible when user is not watching any video but currently is searching for videos.
-    In that case submitted assessment will be appended to the last captured session.
-4. To submit assessment user can use mouse or keyboard's numeric keys in range 1-5.
-5. In order to allow using keyboard for video assessment YouTube hotkeys had to be disabled. It means that user cannot use
-    arrow keys to forward/rewind video or F key to enter fullscreen.
-5. Mouse tracking is done only during video playback.
-6. User is allowed to YouTube page, redirect subpages within YouTube domain, search for videos.
-7. User is forbidden from using multiple tabs. One YouTube tab only. 
-
-
-- For now, once started processes (after playing first video) will not stop until extension is reloaded or restarted. 
-  Watch [reset button](#reset_button).
 
 
 ## Extension popup - Settings
@@ -56,14 +40,8 @@ the extension behaviour and some element's layout.
 
 ![Image of Yaktocat](images/popup.png)
 
-
-
-- ### [ N E W ] Tester ID
+Tester ID
   - Used to differentiate data captured from multiple testers
-  - Number should be provided
-  - If provided value is not a number - random sequence is generated (temporar solution)
-  - [ I D E A ] Future idea is to manually provide tester's email address and generate
-  hash value from it to store in database as tester's ID - [ TO BE CONFIRMED ]
 - ### Assessment panel opacity [%]
   - Describes the level of invisibility of the assessment panel
   - Value is percentages
@@ -88,86 +66,166 @@ the extension behaviour and some element's layout.
   - If developer mode is disabled (equals to production/experiment mode), database connection is checked every time user enters new video
   - In case connection fails (most likely reason for that is Flask REST API is not running)
     YouTube player is closed and warning screen is displayed with proper information.
-  - ### It is advised to set developer mode to disabled during the real experiment.
+  - ###  Developer mode must be <span style="color: red;"> disabled </span> during the real experiment.
   
 - ###  <a name="session"> Session </a>
-  - Define mode the extension is running. Training mode should have shorter assessment panel and network throttling intervals.
-  Training mode uses "Training mode assessment time interval [ms]" and "training_scenario.json" configuration file.
-  Main mode uses "Main mode assessment time interval [ms] and main_scenario.json" configuration file.
+  - Define mode the extension is running. Based on that field extension will use different configuration files
+    to schedule network throttling and end of session.
 
 - ### Videos type
   - Gives information about stage of the experiment
   - own - tester is allowed to search and watch videos they like
   - imposed - testers must watch videos imposed by experiment operator, most likely in form of prepared YouTube playlist
 
-- ### [ N E W ] <a name="reset_button"> Reset button </a>
-    - Resets assessment controller and chrome debugger modules
-    - Redirects to the main page of YouTube
-    - If there was ongoing throttling scenario and assessment timer counting down it is now 
-  restarted and ready to begin new one after entering new video
-    - <h3>[ NOTICE ] IT DOES NOT RELOAD THE EXTENSION</h3>
-      <h4>All settings configured in th popup and saved are not
+- ### <a name="reset_button"> Reset button </a>
+    - Resets assessment controller, chrome debugger and all scheduled tasks
+    - Redirects to the session finish screen
+    - After redirect extension is ready to start new session
+    - <h3 style="color: red; margin:0">IT DOES NOT RELOAD THE EXTENSION</h3>
+      <h4 style="margin:0">All settings configured in the popup and saved are not
                affected by this operation. To restore default settings (hardcoded in background script) one needs to reload the extension manually</h4>
-      <h4> In case of modyfing throttling scenarios files extension must be reloaded. Reset button will not load new files. </h4>        
-  ![Image of Yaktocat](images/ext-reload.png)
+
 
 
 # <a name="throttling_scheduling"> Throttling scheduling </a>
-In the dist directory there are "main_scenario.json" and "training_scenario.json" files. In extension's popup there is [Session](#session) section where
-we can choose what experiment mode are we running. Whether it is a main session or training. Training
-session should be shorter than main (shorter assessment and network throttling intervals).
-Extension will use one of these two files to schedule network throttling based on the [Session](#session) setting.
+In the dist directory there is file named scenario_training.json that will be used to schedule throttling if 
+extension is running in training session mode.
+<br>
+In the dist/scenarios directory there are multiple configuration files generated by JS script. Those files will be used if 
+extension is running in main session mode.
+Which file will be used depends on the value provided by the experiment operator in the extension's popup.<br>
+<span style="color: red; font-weight: bold;">[ N O T I C E] </span>To avoid problems many configuration files should be generated in advance so 
+the extension will not reference to file that does not exist.
+<br>
+<span style="color: red; font-weight: bold">[ N O T I C E] </span> Every configuration file have a field that is responsible for scheduling 
+end of session. Timeout for this event can be configured freely. By default it should be 5 minutes after last throttling scheduling. But this value can be larger to let tester submit last video assessment.
 
-In the "scenarios" subdirectory there is separate JSON file for each scenario. To use particular scenario
-one should copy it contents (SINGLE SCENARIO OBJECT) to the "main_scenario.json" or "training_session.json" file which is imported by the
-background script and used to schedule network throttling.
-
-
-
-### After each change in scenarios.json one needs to reload the extension for the changes to take effect.
 
 ### Exemplary scenario file content
 ```
 {
-  "name": "Long scenario",
-  "schedule":[
-    {
-      "timeout_s": 300,
-      "params": {
-        "offline": false,
-        "latency": 1,
-        "downloadThroughput": 1500000,
-        "uploadThroughput": 1000000000
-      }
-    },
-    {
-      "timeout_s": 600,
-      "params": {
-        "offline": false,
-        "latency": 1,
-        "downloadThroughput": 1000000,
-        "uploadThroughput": 1000000000
-      }
-    },
-    {
-      "timeout_s": 900,
-      "params": {
-        "offline": false,
-        "latency": 1,
-        "downloadThroughput": 700000,
-        "uploadThroughput": 1000000000
-      }
-    },
-    {
-      "timeout_s": 1200,
-      "params": {
-        "offline": false,
-        "latency": 1,
-        "downloadThroughput": 300000,
-        "uploadThroughput": 1000000000
-      }
-    }
-  ]
+    "name": "scenario_main_013",
+    "schedule": [
+        {
+            "type": "throttling",
+            "timeout_s": 1,
+            "params": {
+                "offline": false,
+                "latency": 1,
+                "downloadThroughput": 768000,
+                "uploadThroughput": 1000000000
+            }
+        },
+        {
+            "type": "throttling",
+            "timeout_s": 300,
+            "params": {
+                "offline": false,
+                "latency": 1,
+                "downloadThroughput": 8192000,
+                "uploadThroughput": 1000000000
+            }
+        },
+        {
+            "type": "throttling",
+            "timeout_s": 600,
+            "params": {
+                "offline": false,
+                "latency": 1,
+                "downloadThroughput": 4096000,
+                "uploadThroughput": 1000000000
+            }
+        },
+        {
+            "type": "throttling",
+            "timeout_s": 900,
+            "params": {
+                "offline": false,
+                "latency": 1,
+                "downloadThroughput": 2048000,
+                "uploadThroughput": 1000000000
+            }
+        },
+        {
+            "type": "throttling",
+            "timeout_s": 1200,
+            "params": {
+                "offline": false,
+                "latency": 1,
+                "downloadThroughput": 512000,
+                "uploadThroughput": 1000000000
+            }
+        },
+        {
+            "type": "throttling",
+            "timeout_s": 1500,
+            "params": {
+                "offline": false,
+                "latency": 1,
+                "downloadThroughput": 16384000,
+                "uploadThroughput": 1000000000
+            }
+        },
+        {
+            "type": "throttling",
+            "timeout_s": 1800,
+            "params": {
+                "offline": false,
+                "latency": 1,
+                "downloadThroughput": 256000,
+                "uploadThroughput": 1000000000
+            }
+        },
+        {
+            "type": "finish",
+            "timeout_s": 2100
+        }
+    ]
 }
-
 ```
+# Session complete - view
+Contains information what part of experiment has just ended. There is timer counting down to redirect to main YT page.
+This view is brought up when RESET button in extension is activated popup or when session has ended.
+<br>
+After redirecting back to YouTube page the extension is ready to switch session or video types and start new session.
+![Image of Yaktocat](images/finish_screen.png)
+
+# YouTube Nerd Statistics glossary
+Explanation of some key values returned by REST API.
+
+- viewport - gives information about the current size of video player in pixels (video player resolution), examples: (take note that values below
+  can depend on screen resolution or browser window size)
+  - 1095x616 for default display,
+  - 1179x663 for theater mode,
+  - 1835x1032 for fullscreen mode
+<br>
+<br>  
+- total_frames - gives information how many video frames were loaded from webserver
+<br>
+<br>
+- <span style="color: dodgerblue">current_resolution</span> - gives information on resolution of the video played which strongly depends on network condition
+<br>
+<br>
+- <span style="color: dodgerblue">optimal_resolution </span> - gives information what resolution the video should have based on current viewport resolution
+  (to maintain pixel density on proper level ?????), examples:
+  - 640x360 in mini-player mode,
+  - 1280x720 in default mode,
+  - 1280x720 in theater mode,
+  - 1920x1080 in fullscreen mode
+<br>
+<br>
+- mystery_t - gives information on current time in the video
+<br>
+<br>
+- mystery_s - is the value extracted from YouTube's mystery text, it gives information on state of the video,
+  YouTube gives no official information about the mystery text meaning thus some of the 
+  descriptions can be wrong, most important and certain are highlighted
+  - <span style="color: #ffc107">4 - video paused </span>
+  - <span style="color: #ffc107">8 - video is playing </span>
+  - <span style="color: #ffc107"> 9 - video buffering during playback </span>
+  - 19 - buffering, most likely after seeking to part of timeline not included in buffer
+  - <span style="color: #ffc107">24 - seeking video, changing current timeline position </span>
+  - 35 - seeking while video was still buffering
+  - 40 - loading the video, appears after video change
+  - 49 - first buffering of the video, appears in the beginning after code 40
+  - <span style="color: #ffc107"> e - video has ended </span>

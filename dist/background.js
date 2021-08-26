@@ -1471,6 +1471,11 @@ function ScheduleController(resetSession){
     this.isAttached = false;
     this.timoutArray = [];
 
+    this.padLeadingZeros =  function(num, size) {
+        var s = num+"";
+        while (s.length < size) s = "0" + s;
+        return s;
+    };
 
     this.init = function(tabId){
         if(this.isAttached === true){
@@ -1494,16 +1499,12 @@ function ScheduleController(resetSession){
         this.isAttached = true;
 
         // Load proper network throttling scenario configuration file
-        chrome.storage.local.get(["SESSION_TYPE", "VIDEOS_TYPE"], (res) =>{
+        chrome.storage.local.get(["SESSION_TYPE", "VIDEOS_TYPE", "MAIN_SCENARIO_ID"], (res) =>{
             const session_type = res.SESSION_TYPE;
-            const video_type = res.VIDEOS_TYPE;
             let scenario_file;
 
-            if(session_type === "main" && video_type === "own"){
-                scenario_file = "scenario_main_own.json";
-            }
-            else if(session_type === "main" && video_type === "imposed"){
-                scenario_file = "scenario_main_imposed.json";
+            if(session_type === "main"){
+                scenario_file = "scenarios/scenario_main_" + this.padLeadingZeros(res.MAIN_SCENARIO_ID, 3) + ".json";
             }
             else if(session_type === "training"){
                 scenario_file = "scenario_training.json";
@@ -1800,8 +1801,9 @@ chrome.runtime.onInstalled.addListener( ()=>{
         VIDEOS_TYPE: "own",                                                                    // Gives information about videos type - "imposed" / "own" values are available
         TESTER_ID: "",                                                                              // Tester ID
         TESTER_ID_HASH: "",
-        DOWNLOAD_BANDWIDTH_BYTES: undefined,
-        UPLOAD_BANDWIDTH_BYTES: undefined
+        DOWNLOAD_BANDWIDTH_BYTES: undefined,                            // Used to gather information about current network throttling
+        UPLOAD_BANDWIDTH_BYTES: undefined,                                   // Same as above, but upload bandwidth stays always the same, high value - unlimited bandwidth
+        MAIN_SCENARIO_ID: 1                                                              // Defines which scenario file should be used to schedule throttling, default 1
     };
     chrome.storage.local.set(startup_config, ()=>{
         console.log(`[BackgroundScript] %cStartup config has been saved: ${startup_config}`, `color: ${config .SUCCESS}`);
