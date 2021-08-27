@@ -1466,6 +1466,173 @@ const config = {
   DARK: "#343a40"
 };
 
+function _prng_restore(prng, xg, opts) {
+  let state = opts && opts.state;
+  if (state) {
+    if (typeof(state) == 'object') xg.copy(state, xg);
+    prng.state = () => xg.copy(xg, {});
+  }
+}
+
+// A port of an algorithm by Johannes Baagøe <baagoe@baagoe.com>, 2010
+function prng_alea(seed, opts) {
+  let xg = new AleaGen(seed);
+
+  let prng = () => xg.next();
+
+  prng.double = () =>
+    prng() + (prng() * 0x200000 | 0) * 1.1102230246251565e-16; // 2^-53
+
+  prng.int32 = () => (xg.next() * 0x100000000) | 0;
+
+  prng.quick = prng;
+
+  _prng_restore(prng, xg, opts);
+  return prng
+}
+
+class AleaGen {
+  constructor(seed) {
+    if (seed == null) seed = +(new Date);
+
+    let n = 0xefc8249d;
+
+    // Apply the seeding algorithm from Baagoe.
+    this.c = 1;
+    this.s0 = mash(' ');
+    this.s1 = mash(' ');
+    this.s2 = mash(' ');
+    this.s0 -= mash(seed);
+    if (this.s0 < 0) { this.s0 += 1; }
+    this.s1 -= mash(seed);
+    if (this.s1 < 0) { this.s1 += 1; }
+    this.s2 -= mash(seed);
+    if (this.s2 < 0) { this.s2 += 1; }
+
+    function mash(data) {
+      data = String(data);
+      for (let i = 0; i < data.length; i++) {
+        n += data.charCodeAt(i);
+        let h = 0.02519603282416938 * n;
+        n = h >>> 0;
+        h -= n;
+        h *= n;
+        n = h >>> 0;
+        h -= n;
+        n += h * 0x100000000; // 2^32
+      }
+      return (n >>> 0) * 2.3283064365386963e-10; // 2^-32
+    }
+  }
+
+  next() {
+    let {c,s0,s1,s2} = this;
+    let t = 2091639 * s0 + c * 2.3283064365386963e-10; // 2^-32
+    this.s0 = s1;
+    this.s1 = s2;
+    return this.s2 = t - (this.c = t | 0);
+  }
+
+  copy(f, t) {
+    t.c = f.c;
+    t.s0 = f.s0;
+    t.s1 = f.s1;
+    t.s2 = f.s2;
+    return t;
+  }
+}
+
+const QUALITY_CHANGES = 7;
+const baskets = ["lower", "upper"];
+
+const LOWER_BASKET = [256000, 384000, 512000, 768000, 1024000, 1546000];                    // <-- Values in bps
+const UPPER_BASKET = [2048000, 3072000, 4096000, 8192000, 16384000, 1000000000];     // <-- Values in bps
+const TIMEOUTS_S = [1, 300, 600, 900, 1200, 1500, 1800, 2100];
+
+const random_basket_list = (myrng) => {
+    let baskets_random = [];
+
+    for(let i=0; i<QUALITY_CHANGES; i++){
+        const random = baskets[Math.floor(myrng()*baskets.length)];
+        baskets_random.push(random);
+    }
+
+    const all_the_same = baskets_random.every((val, i, arr) => val === arr[0]);
+    if(all_the_same === true){
+        const index = Math.floor(myrng()*baskets_random.length);
+        if(baskets_random[index] === "upper"){
+            baskets_random[index] = "lower";
+        }
+        else if(baskets_random[index] === "lower"){
+            baskets_random[index] = "upper";
+        }
+    }
+
+    return baskets_random
+};
+
+const random_bw_list = (basket_list, lower_basket, upper_basket, myrng) => {
+    const random_bw_list = [];
+    basket_list.forEach((basket) => {
+        if(basket === "lower"){
+            const index = Math.floor(myrng()*lower_basket.length);
+            const bw = lower_basket[index];
+            lower_basket.splice(index, 1);
+            random_bw_list.push(bw);
+        }
+        else if(basket === "upper"){
+            const index = Math.floor(myrng()*upper_basket.length);
+            const bw = upper_basket[index];
+            upper_basket.splice(index, 1);
+            random_bw_list.push(bw);
+        }
+    });
+    return random_bw_list
+};
+
+
+// Program main loop
+const generate_scenario = (tester_id) => {
+
+    const myrng = prng_alea(tester_id.toString());
+
+    const upper_basket = UPPER_BASKET.slice();
+    const lower_basket = LOWER_BASKET.slice();
+
+    const basket_list = random_basket_list(myrng);
+    const bw_list = random_bw_list(basket_list, lower_basket, upper_basket, myrng);
+
+    const scenario = {
+        name: "main_scenario_"+tester_id,
+        schedule: []
+    };
+
+    TIMEOUTS_S.forEach((timeout, index) => {
+        let schedule = {};
+
+        // Configure last position in schedule
+        if(index === TIMEOUTS_S.length-1){
+            schedule.type = "finish",
+                schedule.timeout_s = timeout;
+        }
+        // Configure standard position in schedule
+        else {
+            const params = {
+                offline: false,
+                latency: 1,
+                downloadThroughput: bw_list[index],
+                uploadThroughput: 1000000000
+            };
+            schedule.type = "throttling",
+                schedule.timeout_s = timeout;
+            schedule.params = params;
+        }
+        scenario.schedule.push(schedule);
+    });
+
+    return scenario
+};
+
 function ScheduleController(resetSession){
     this.currentTabID = undefined;
     this.isAttached = false;
@@ -1485,7 +1652,7 @@ function ScheduleController(resetSession){
 
         // Attach to the tab
         chrome.debugger.attach({tabId}, "1.3");
-        // Establish ondetach event listener
+        // Establish on detach event listener
         chrome.debugger.onDetach.addListener((source, reason)=>{
             console.log(`[ScheduleController] %cDebugger detached from tab with ID of: ${source.tabId}`, `color: ${config.SUCCESS}; font-weight: bold`);
             console.log(`[ScheduleController] %cReason ${reason}`, `color: ${config.SUCCESS}; font-weight: bold`);
@@ -1499,26 +1666,34 @@ function ScheduleController(resetSession){
         this.isAttached = true;
 
         // Load proper network throttling scenario configuration file
-        chrome.storage.local.get(["SESSION_TYPE", "VIDEOS_TYPE", "MAIN_SCENARIO_ID"], (res) =>{
+        chrome.storage.local.get(["SESSION_TYPE", "VIDEOS_TYPE", "MAIN_SCENARIO_ID", "TESTER_ID"], (res) =>{
             const session_type = res.SESSION_TYPE;
-            let scenario_file;
 
             if(session_type === "main"){
-                scenario_file = "scenarios/scenario_main_" + this.padLeadingZeros(res.MAIN_SCENARIO_ID, 3) + ".json";
+                //scenario_file = "scenarios/scenario_main_" + this.padLeadingZeros(res.MAIN_SCENARIO_ID, 3) + ".json" // <-- Leaving this just in case
+                // Now generate new scenario using script - random scenario
+                const scenario = generate_scenario(res.TESTER_ID);
+                this.scheduleThrottling(tabId, scenario);
+                // Submit scenario details to database
+                setTimeout(()=>{
+                    this.submitSchedule(scenario);
+                }, 5000);
             }
             else if(session_type === "training"){
-                scenario_file = "scenario_training.json";
+                const scenario_file = "scenario_training.json"; // <-- Training scenario is always the same thus fetched from file
+
+                const url = chrome.extension.getURL(scenario_file);
+                console.log(`[ScheduleController] %cFetching file: ${scenario_file}`, `color: ${config.SUCCESS}`);
+                axios.get(url).then(res => {
+                    this.scheduleThrottling(tabId, res.data);
+                    // Submit scenario details to database
+                    setTimeout(()=>{
+                        this.submitSchedule(res.data);
+                    }, 5000);
+                }).catch(err => {console.log(err);});
             }
 
-            // Get the throttling scenario data from main_scenario.json
-            const url = chrome.extension.getURL(scenario_file);
-            console.log(`[ScheduleController] %cFetching file: ${scenario_file}`, `color: ${config.SUCCESS}`);
-            axios.get(url).then(res => {
-                this.scheduleThrottling(tabId, res.data);
-                setTimeout(()=>{
-                    this.submitSchedule(res.data);
-                }, 5000);
-            }).catch(err => {console.log(err);});
+
 
         });
     };
@@ -1803,7 +1978,7 @@ chrome.runtime.onInstalled.addListener( ()=>{
         TESTER_ID_HASH: "",
         DOWNLOAD_BANDWIDTH_BYTES: undefined,                            // Used to gather information about current network throttling
         UPLOAD_BANDWIDTH_BYTES: undefined,                                   // Same as above, but upload bandwidth stays always the same, high value - unlimited bandwidth
-        MAIN_SCENARIO_ID: 1                                                              // Defines which scenario file should be used to schedule throttling, default 1
+        //MAIN_SCENARIO_ID: 1                                                              // Defines which scenario file should be used to schedule throttling, default 1
     };
     chrome.storage.local.set(startup_config, ()=>{
         console.log(`[BackgroundScript] %cStartup config has been saved: ${startup_config}`, `color: ${config .SUCCESS}`);
@@ -2087,6 +2262,7 @@ function resetSession(){
 async function create_new_session(tab_id){
     chrome.storage.local.get([
         "TESTER_ID_HASH",
+        "TESTER_ID",
         "SESSION_TYPE",
         "VIDEOS_TYPE",
         "ASSESSMENT_PANEL_LAYOUT",
@@ -2103,7 +2279,8 @@ async function create_new_session(tab_id){
             assessment_interval_ms = res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS;
         }
         const data = {
-            subject_id: res.TESTER_ID_HASH,
+            subject_id: res.TESTER_ID,
+            subject_id_hash: res.TESTER_ID_HASH,
             session_type: res.SESSION_TYPE,
             video_type: res.VIDEOS_TYPE,
             assessment_panel_layout: res.ASSESSMENT_PANEL_LAYOUT,

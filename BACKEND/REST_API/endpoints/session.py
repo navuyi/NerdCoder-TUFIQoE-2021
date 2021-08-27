@@ -26,14 +26,15 @@ def create_session():
 
     input = {
         "subject_id": request.json["subject_id"],
+        "subject_id_hash": request.json["subject_id_hash"],
         "session_type": request.json["session_type"],
         "video_type": request.json["video_type"],
         "assessment_panel_layout": request.json["assessment_panel_layout"],
         "assessment_panel_opacity": request.json[ "assessment_panel_opacity"],
         "assessment_interval_ms": request.json["assessment_interval_ms"]
     }
-    cursor().execute(f"INSERT INTO session (subject_id, session_type, video_type, assessment_panel_opacity, assessment_panel_layout, assessment_interval_ms) "
-                     f"VALUES (:subject_id, :session_type, :video_type, :assessment_panel_opacity, :assessment_panel_layout, :assessment_interval_ms)", input)
+    cursor().execute(f"INSERT INTO session (subject_id, subject_id_hash, session_type, video_type, assessment_panel_opacity, assessment_panel_layout, assessment_interval_ms) "
+                     f"VALUES (:subject_id, :subject_id_hash, :session_type, :video_type, :assessment_panel_opacity, :assessment_panel_layout, :assessment_interval_ms)", input)
 
     session_id = lastrowid()
     response = jsonify(msg="New session created", session_id=session_id)

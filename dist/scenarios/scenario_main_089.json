@@ -1,0 +1,79 @@
+{
+    "name": "scenario_main_089",
+    "schedule": [
+        {
+            "type": "throttling",
+            "timeout_s": 1,
+            "params": {
+                "offline": false,
+                "latency": 1,
+                "downloadThroughput": 8192000,
+                "uploadThroughput": 1000000000
+            }
+        },
+        {
+            "type": "throttling",
+            "timeout_s": 300,
+            "params": {
+                "offline": false,
+                "latency": 1,
+                "downloadThroughput": 1546000,
+                "uploadThroughput": 1000000000
+            }
+        },
+        {
+            "type": "throttling",
+            "timeout_s": 600,
+            "params": {
+                "offline": false,
+                "latency": 1,
+                "downloadThroughput": 4096000,
+                "uploadThroughput": 1000000000
+            }
+        },
+        {
+            "type": "throttling",
+            "timeout_s": 900,
+            "params": {
+                "offline": false,
+                "latency": 1,
+                "downloadThroughput": 3072000,
+                "uploadThroughput": 1000000000
+            }
+        },
+        {
+            "type": "throttling",
+            "timeout_s": 1200,
+            "params": {
+                "offline": false,
+                "latency": 1,
+                "downloadThroughput": 1024000,
+                "uploadThroughput": 1000000000
+            }
+        },
+        {
+            "type": "throttling",
+            "timeout_s": 1500,
+            "params": {
+                "offline": false,
+                "latency": 1,
+                "downloadThroughput": 2048000,
+                "uploadThroughput": 1000000000
+            }
+        },
+        {
+            "type": "throttling",
+            "timeout_s": 1800,
+            "params": {
+                "offline": false,
+                "latency": 1,
+                "downloadThroughput": 1000000000,
+                "uploadThroughput": 1000000000
+            }
+        },
+        {
+            "type": "finish",
+            "timeout_s": 2100
+        }
+    ]
+}

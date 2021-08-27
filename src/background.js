@@ -35,7 +35,7 @@ chrome.runtime.onInstalled.addListener( ()=>{
         TESTER_ID_HASH: "",
         DOWNLOAD_BANDWIDTH_BYTES: undefined,                            // Used to gather information about current network throttling
         UPLOAD_BANDWIDTH_BYTES: undefined,                                   // Same as above, but upload bandwidth stays always the same, high value - unlimited bandwidth
-        MAIN_SCENARIO_ID: 1                                                              // Defines which scenario file should be used to schedule throttling, default 1
+        //MAIN_SCENARIO_ID: 1                                                              // Defines which scenario file should be used to schedule throttling, default 1
     }
     chrome.storage.local.set(startup_config, ()=>{
         console.log(`[BackgroundScript] %cStartup config has been saved: ${startup_config}`, `color: ${config .SUCCESS}`);
@@ -321,6 +321,7 @@ function resetSession(){
 async function create_new_session(tab_id){
     chrome.storage.local.get([
         "TESTER_ID_HASH",
+        "TESTER_ID",
         "SESSION_TYPE",
         "VIDEOS_TYPE",
         "ASSESSMENT_PANEL_LAYOUT",
@@ -337,7 +338,8 @@ async function create_new_session(tab_id){
             assessment_interval_ms = res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS
         }
         const data = {
-            subject_id: res.TESTER_ID_HASH,
+            subject_id: res.TESTER_ID,
+            subject_id_hash: res.TESTER_ID_HASH,
             session_type: res.SESSION_TYPE,
             video_type: res.VIDEOS_TYPE,
             assessment_panel_layout: res.ASSESSMENT_PANEL_LAYOUT,

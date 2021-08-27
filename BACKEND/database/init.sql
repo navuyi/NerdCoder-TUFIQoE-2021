@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS schedule;
 CREATE TABLE IF NOT EXISTS session (                  -- session is created in moment of playing first video
     id INTEGER NOT NULL PRIMARY KEY,
     subject_id TEXT NOT NULL,
+    subject_id_hash TEXT NOT NULL,
     session_type TEXT NOT NULL,     -- imposed or own are available values
     video_type TEXT NOT NULL,       -- training or main are available values
     started DATETIME NOT NULL DEFAULT (datetime('now', 'localtime')), -- we can then create ms timestamp form this local datetime

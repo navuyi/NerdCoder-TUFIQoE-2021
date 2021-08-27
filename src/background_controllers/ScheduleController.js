@@ -1,10 +1,12 @@
 import axios from "axios";
 import {config} from "../config";
+import {generate_scenario} from "./generate_scenario";
+
 
 export function ScheduleController(resetSession){
-    this.currentTabID = undefined;
-    this.isAttached = false;
-    this.timoutArray = [];
+    this.currentTabID = undefined
+    this.isAttached = false
+    this.timoutArray = []
 
     this.padLeadingZeros =  function(num, size) {
         var s = num+"";
@@ -20,7 +22,7 @@ export function ScheduleController(resetSession){
 
         // Attach to the tab
         chrome.debugger.attach({tabId}, "1.3")
-        // Establish ondetach event listener
+        // Establish on detach event listener
         chrome.debugger.onDetach.addListener((source, reason)=>{
             console.log(`[ScheduleController] %cDebugger detached from tab with ID of: ${source.tabId}`, `color: ${config.SUCCESS}; font-weight: bold`)
             console.log(`[ScheduleController] %cReason ${reason}`, `color: ${config.SUCCESS}; font-weight: bold`)
@@ -34,26 +36,35 @@ export function ScheduleController(resetSession){
         this.isAttached = true;
 
         // Load proper network throttling scenario configuration file
-        chrome.storage.local.get(["SESSION_TYPE", "VIDEOS_TYPE", "MAIN_SCENARIO_ID"], (res) =>{
+        chrome.storage.local.get(["SESSION_TYPE", "VIDEOS_TYPE", "MAIN_SCENARIO_ID", "TESTER_ID"], (res) =>{
             const session_type = res.SESSION_TYPE
-            let scenario_file
 
             if(session_type === "main"){
-                scenario_file = "scenarios/scenario_main_" + this.padLeadingZeros(res.MAIN_SCENARIO_ID, 3) + ".json"
+                //scenario_file = "scenarios/scenario_main_" + this.padLeadingZeros(res.MAIN_SCENARIO_ID, 3) + ".json" // <-- Leaving this just in case
+
+                // Dynamically create schedule configuration <-- NO FILE WILL BE CREATED, BUT ALL INFORMATION IS SUBMITTED TO DATABASE
+                const scenario = generate_scenario(res.TESTER_ID)
+                this.scheduleThrottling(tabId, scenario)
+                // Submit scenario details to database // <-- running this with delay because it requires subject's ID to submit which may not be present instantaneously
+                setTimeout(()=>{
+                    this.submitSchedule(scenario)
+                }, 5000)
             }
             else if(session_type === "training"){
-                scenario_file = "scenario_training.json"
+                const scenario_file = "scenario_training.json" // <-- Training scenario is always the same thus fetched from file
+
+                const url = chrome.extension.getURL(scenario_file);
+                console.log(`[ScheduleController] %cFetching file: ${scenario_file}`, `color: ${config.SUCCESS}`)
+                axios.get(url).then(res => {
+                    this.scheduleThrottling(tabId, res.data)
+                    // Submit scenario details to database // <-- running this with delay because it requires subject's ID to submit which may not bepresent instantaneously
+                    setTimeout(()=>{
+                        this.submitSchedule(res.data)
+                    }, 5000)
+                }).catch(err => {console.log(err)})
             }
 
-            // Get the throttling scenario data from main_scenario.json
-            const url = chrome.extension.getURL(scenario_file);
-            console.log(`[ScheduleController] %cFetching file: ${scenario_file}`, `color: ${config.SUCCESS}`)
-            axios.get(url).then(res => {
-                this.scheduleThrottling(tabId, res.data)
-                setTimeout(()=>{
-                    this.submitSchedule(res.data)
-                }, 5000)
-            }).catch(err => {console.log(err)})
+
 
         });
     }
