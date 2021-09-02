@@ -1,34 +1,20 @@
-chrome.storage.local.get(["SESSION_TYPE", "VIDEOS_TYPE"], res => {
-    const session_type = res.SESSION_TYPE;
-    const video_type = res.VIDEOS_TYPE;
-    let text;
-    console.log(session_type);
-    console.log(video_type);
-    if(session_type === "main" && video_type === "own"){
-        text = "Sesja główna z dowolnym wyborem wideo zakończona";
-    }
-    else if(session_type === "main" && video_type === "imposed"){
-        text = "Sesja główna z przygotowaną playlistą zakończona";
-    }
-    else if(session_type === "training"){
-        text = "Sesja treningowa zakończona";
-    }
+// TODO Increment session counter
+chrome.storage.local.get(["SESSION_COUNTER, SESSION_TYPE, VIDEOS_TYPE"], res => {
+    const counter = res.SESSION_COUNTER;
+    if(counter >= 3){
+        // TODO Finish experiment
 
-    document.getElementById("header").innerText = text;
+        return // <-- Important return so we do not process further
+    }
+    else {
+     // Incrementing the counter <-- proceeding with experiment, next session
+     chrome.storage.local.set({
+         SESSION_COUNTER: counter+1
+     }, () => {proceed(res.SESSION_TYPE, res.VIDEOS_TYPE);});
+    }
 });
 
-const counter = document.getElementById("counter");
-let seconds = 60;
-counter.innerText = seconds;
+function proceed(session_type, video_type){
 
-setInterval(() => {
-    if(seconds == 1){
-        counter.innerText = " . . . ";
-        window.location.href = "https://youtube.com";
-        return
-    }
 
-    seconds -= 1;
-    counter.innerText = seconds;
-
-}, 1000);
+}

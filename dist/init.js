@@ -182,7 +182,6 @@ var primary_inner = document.getElementById("primary-inner");
 var player = primary_inner.children[0];
 var all = player.getElementsByTagName("*");
 
-console.log(all);
 for(let i=0; i<all.length; i++){
     all[i].onfocus = (e) =>{
         e.target.blur();
@@ -190,6 +189,7 @@ for(let i=0; i<all.length; i++){
         console.log("Blurring");
     };
 }
+
 // Disable movie_player and <video> - necessary for theater mode
 var movie_player = document.getElementById("movie_player");
 var video_tag = document.getElementsByTagName("video")[0];
@@ -224,6 +224,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
 });
 
+/*
 chrome.storage.local.get(["DEVELOPER_MODE"], (res) => {
     const mode = res.DEVELOPER_MODE;
     if(mode === true){
@@ -233,8 +234,8 @@ chrome.storage.local.get(["DEVELOPER_MODE"], (res) => {
         }
         const devmode = document.createElement("div");
 
-        devmode.style.backgroundColor = "rgba(34,34,34,0.8)";
-        devmode.id = "devmode";
+        devmode.style.backgroundColor = "rgba(34,34,34,0.8)"
+        devmode.id = "devmode"
         devmode.style.position = "absolute";
         devmode.style.right = "0px";
         devmode.style.top = "0px";
@@ -245,8 +246,8 @@ chrome.storage.local.get(["DEVELOPER_MODE"], (res) => {
         devmode.style.userSelect = "none";
         devmode.style.display = "flex";
         devmode.style.flexDirection = "column";
-        devmode.style.justifyContent = "center";
-        devmode.style.alignItems = "center";
+        devmode.style.justifyContent = "center"
+        devmode.style.alignItems = "center"
 
         const text = document.createElement("p");
         text.innerText = "NerdCoder is working in developer mode";
@@ -265,4 +266,5 @@ chrome.storage.local.get(["DEVELOPER_MODE"], (res) => {
         document.getElementById("player").appendChild(devmode);
 
     }
-});
+})
+ */

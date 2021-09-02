@@ -1,13 +1,4 @@
-const generateHash = async (plain_text, algorithm) => {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(plain_text);
-
-    const hash = await crypto.subtle.digest(algorithm, data);
-    const hashArray = Array.from(new Uint8Array(hash));                     // convert buffer to byte array
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
-
-    return hashHex
-};
+import { g as generateHash } from '../generate_hash-ed7c6d5f.js';
 
 //  //  // Set the default configuration    //  //  //
 // Default for main session scenario file ID
@@ -260,6 +251,13 @@ document.getElementById("reset-button").onclick = ()=>{
 };
 
 document.getElementById("entry-screen").onclick = () => {
-    chrome.runtime.getURL("extension_pages/entry_screen/entry_screen.html");
-
+    const url = chrome.runtime.getURL("extension_pages/entry_screen/entry_screen.html");
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs)=>{
+        const tabId = tabs[0].id;
+        chrome.tabs.update(tabId, {url: url}, ()=>{
+            if(chrome.runtime.lastError){
+                console.log(`[ScheduleController] Error `);
+            }
+        });
+    });
 };

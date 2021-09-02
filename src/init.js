@@ -41,7 +41,6 @@ var primary_inner = document.getElementById("primary-inner");
 var player = primary_inner.children[0];
 var all = player.getElementsByTagName("*");
 
-console.log(all);
 for(let i=0; i<all.length; i++){
     all[i].onfocus = (e) =>{
         e.target.blur();
@@ -49,6 +48,7 @@ for(let i=0; i<all.length; i++){
         console.log("Blurring");
     }
 }
+
 // Disable movie_player and <video> - necessary for theater mode
 var movie_player = document.getElementById("movie_player");
 var video_tag = document.getElementsByTagName("video")[0];
@@ -83,6 +83,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
 })
 
+/*
 chrome.storage.local.get(["DEVELOPER_MODE"], (res) => {
     const mode = res.DEVELOPER_MODE;
     if(mode === true){
@@ -125,3 +126,4 @@ chrome.storage.local.get(["DEVELOPER_MODE"], (res) => {
 
     }
 })
+ */

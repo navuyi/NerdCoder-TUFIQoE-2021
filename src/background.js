@@ -36,6 +36,7 @@ chrome.runtime.onInstalled.addListener( ()=>{
         DOWNLOAD_BANDWIDTH_BYTES: undefined,                            // Used to gather information about current network throttling
         UPLOAD_BANDWIDTH_BYTES: undefined,                                   // Same as above, but upload bandwidth stays always the same, high value - unlimited bandwidth
         //MAIN_SCENARIO_ID: 1                                                              // Defines which scenario file should be used to schedule throttling, default 1
+        SESSION_COUNTER: 0                                                                 // Keeps track of sessions, after trainign set to 1, after first of main set to 2, after second of main set to 3, then experiment ends
     }
     chrome.storage.local.set(startup_config, ()=>{
         console.log(`[BackgroundScript] %cStartup config has been saved: ${startup_config}`, `color: ${config .SUCCESS}`);

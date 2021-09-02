@@ -255,6 +255,13 @@ document.getElementById("reset-button").onclick = ()=>{
 
 document.getElementById("entry-screen").onclick = () => {
     const url = chrome.runtime.getURL("extension_pages/entry_screen/entry_screen.html")
-
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs)=>{
+        const tabId = tabs[0].id
+        chrome.tabs.update(tabId, {url: url}, ()=>{
+            if(chrome.runtime.lastError){
+                console.log(`[ScheduleController] Error `)
+            }
+        })
+    })
 }
 
