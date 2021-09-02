@@ -21,7 +21,8 @@
     "default_popup": "popup/popup.html"
   },
   "web_accessible_resources": [
-    "init.js", "no_connection_screen.js", "mouse_tracker_script.js","scenarios/*", "extension_pages/session_end.html",
+    "init.js", "no_connection_screen.js", "mouse_tracker_script.js","scenarios/*", "extension_pages/session_end/session_end.html",
+    "extension_pages/entry_screen/entry_screen.html",
     "background_controllers/AssessmentPanel.js",
     "scenario_training.json"
   ],

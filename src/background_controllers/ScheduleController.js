@@ -152,7 +152,7 @@ export function ScheduleController(resetSession){
         });
 
         // Redirect to different page YT main or custom ! ! ! ! !
-        const url = chrome.runtime.getURL("extension_pages/session_end.html")
+        const url = chrome.runtime.getURL("extension_pages/session_end/session_end.html")
         try{
             chrome.tabs.update(tabId, {url: url}, ()=>{
                 if(chrome.runtime.lastError){

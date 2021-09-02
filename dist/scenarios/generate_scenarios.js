@@ -24,6 +24,29 @@ function getAugmentedNamespace(n) {
 
 var fs = /*@__PURE__*/getAugmentedNamespace(empty$1);
 
+/*
+#############################################
+#    I M P O R T A N T                          R E A D M    M E  #
+#############################################
+This script generates scheduling config files. Such file
+is responsible for scheduling network throttling and the end of
+each MAIN session.
+Training session has it's own file and it is the same for all experiments.
+
+This solution will not be used.
+The scenarios for main sessions will be created dynamically
+on each sessions start by a copy of this script that is a part of background_controllers
+package. The modified script does not create files on computer's disc but all the information
+about the scenario is submitted to the database.
+
+#####################################################
+#    LEAVING THIS SCRIPT JUST IN CASE IT WOULD BE NEEDED   #
+#####################################################
+ */
+
+
+
+
 const filename_prefix = "scenario_main_";
 const filename_ext = ".json";
 const ITERATIONS = 100;

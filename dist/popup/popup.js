@@ -258,3 +258,8 @@ document.getElementById("reset-button").onclick = ()=>{
         chrome.runtime.sendMessage({msg: "RESET"});
     }
 };
+
+document.getElementById("entry-screen").onclick = () => {
+    chrome.runtime.getURL("extension_pages/entry_screen/entry_screen.html");
+
+};

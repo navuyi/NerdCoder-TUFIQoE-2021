@@ -1547,7 +1547,7 @@ const baskets = ["lower", "upper"];
 
 const LOWER_BASKET = [256000, 384000, 512000, 768000, 1024000, 1546000];                    // <-- Values in bps
 const UPPER_BASKET = [2048000, 3072000, 4096000, 8192000, 16384000, 1000000000];     // <-- Values in bps
-const TIMEOUTS_S = [1, 300, 600, 900, 1200, 1500, 1800, 2100];
+const TIMEOUTS_S = [1, 300, 600, 900, 1200, 1500, 1800, 2100];                                              // <-- Values in seconds
 
 const random_basket_list = (myrng) => {
     let baskets_random = [];
@@ -1594,6 +1594,7 @@ const random_bw_list = (basket_list, lower_basket, upper_basket, myrng) => {
 // Program main loop
 const generate_scenario = (tester_id) => {
 
+    // myrng function will be used instead of Math.random(), reference will be passed to helper methods
     const myrng = prng_alea(tester_id.toString());
 
     const upper_basket = UPPER_BASKET.slice();
@@ -1610,21 +1611,21 @@ const generate_scenario = (tester_id) => {
     TIMEOUTS_S.forEach((timeout, index) => {
         let schedule = {};
 
-        // Configure last position in schedule
+        // Configure last position in schedule <-- the end of session
         if(index === TIMEOUTS_S.length-1){
             schedule.type = "finish",
-                schedule.timeout_s = timeout;
+            schedule.timeout_s = timeout;
         }
-        // Configure standard position in schedule
+        // Configure standard position in schedule  <-- network throttling
         else {
             const params = {
                 offline: false,
                 latency: 1,
                 downloadThroughput: bw_list[index],
-                uploadThroughput: 1000000000
+                uploadThroughput: 1000000000        // <-- very high value, documentation says that it should be set to -1 to turn off throttling but it did not always work
             };
             schedule.type = "throttling",
-                schedule.timeout_s = timeout;
+            schedule.timeout_s = timeout;
             schedule.params = params;
         }
         scenario.schedule.push(schedule);
@@ -1671,10 +1672,11 @@ function ScheduleController(resetSession){
 
             if(session_type === "main"){
                 //scenario_file = "scenarios/scenario_main_" + this.padLeadingZeros(res.MAIN_SCENARIO_ID, 3) + ".json" // <-- Leaving this just in case
-                // Now generate new scenario using script - random scenario
+
+                // Dynamically create schedule configuration <-- NO FILE WILL BE CREATED, BUT ALL INFORMATION IS SUBMITTED TO DATABASE
                 const scenario = generate_scenario(res.TESTER_ID);
                 this.scheduleThrottling(tabId, scenario);
-                // Submit scenario details to database
+                // Submit scenario details to database // <-- running this with delay because it requires subject's ID to submit which may not be present instantaneously
                 setTimeout(()=>{
                     this.submitSchedule(scenario);
                 }, 5000);
@@ -1686,7 +1688,7 @@ function ScheduleController(resetSession){
                 console.log(`[ScheduleController] %cFetching file: ${scenario_file}`, `color: ${config.SUCCESS}`);
                 axios.get(url).then(res => {
                     this.scheduleThrottling(tabId, res.data);
-                    // Submit scenario details to database
+                    // Submit scenario details to database // <-- running this with delay because it requires subject's ID to submit which may not bepresent instantaneously
                     setTimeout(()=>{
                         this.submitSchedule(res.data);
                     }, 5000);
@@ -1781,7 +1783,7 @@ function ScheduleController(resetSession){
         });
 
         // Redirect to different page YT main or custom ! ! ! ! !
-        const url = chrome.runtime.getURL("extension_pages/session_end.html");
+        const url = chrome.runtime.getURL("extension_pages/session_end/session_end.html");
         try{
             chrome.tabs.update(tabId, {url: url}, ()=>{
                 if(chrome.runtime.lastError){
