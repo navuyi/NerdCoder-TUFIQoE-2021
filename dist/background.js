@@ -1761,9 +1761,11 @@ function ScheduleController(resetSession){
 
     this.scheduleSessionFinish = function(timeout){
         console.log(`[ScheduleController] %cScheduling end of session in ${timeout} seconds`, `color: ${config.INFO}; font-weight: bold`);
-        setTimeout(() => {
-            resetSession();
-        }, Math.round(timeout*1000));
+        this.timoutArray.push(
+            setTimeout(() => {
+                resetSession();
+            }, Math.round(timeout*1000))
+        );
     };
 
 
@@ -1782,7 +1784,7 @@ function ScheduleController(resetSession){
             }
         });
 
-        // Redirect to different page YT main or custom ! ! ! ! !
+        // Redirect to session end page
         const url = chrome.runtime.getURL("extension_pages/session_end/session_end.html");
         try{
             chrome.tabs.update(tabId, {url: url}, ()=>{
