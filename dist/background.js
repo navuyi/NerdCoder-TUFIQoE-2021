@@ -2229,6 +2229,11 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
             resetSession();
         }
 
+        // Listen for YouTube logout signal
+        if(request.msg === "yt_logout"){
+            yt_logout();
+        }
+
         // Listen for onbeforeunload message - tab close, refresh
         else if(request.msg === "onbeforeunload"){
             mtController.stopTracking(); // <-- Stop mouse tracking process
@@ -2259,7 +2264,6 @@ function resetSession(){
             })
             .catch(err => {
                 console.log("[BackgroundScript] %cSession update attempt failed", `color: ${config.DANGER}; font-weight: bold;`);
-
             });
     });
 }
@@ -2311,4 +2315,17 @@ async function create_new_session(tab_id){
                 console.log("[BackgroundScript] %cSession creation attempt failed", `color: ${config.DANGER}; font-weight:bold;`);
             });
     });
+}
+
+
+
+function yt_logout(){
+    setTimeout(()=>{
+        chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+            const tabId = tabs[0].id;
+            chrome.tabs.executeScript(tabId, {file: "yt_logout.js"}, ()=> {
+                console.log(`[BackgroundScript] Logged out` );
+            });
+        });
+    }, 2000);
 }

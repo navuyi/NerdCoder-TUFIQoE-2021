@@ -5,9 +5,15 @@ chrome.storage.local.get(["SESSION_COUNTER", "SESSION_TYPE", "VIDEOS_TYPE"], res
         const awaitsHeader = document.getElementById("awaits");
         doneHeader.innerText = "Eksperyment zakończony";
         awaitsHeader.innerText = "Dziękujemy";
-        document.getElementById("counter-box").style.display = "none";
+        document.getElementById("counter").style.display = "none";
+        document.getElementById("counter-text").innerText = "Wylogowanie nastąpi automatycznie";
         chrome.storage.local.set({
-            "SESSION_COUNTER": 0
+            "SESSION_COUNTER": 10 //TODO SET THIS TO 0
+        }, ()=>{
+            setTimeout(() => {
+                chrome.runtime.sendMessage({msg: "yt_logout"});
+                window.location.href="https://youtube.com";
+            }, 3000);
         });
         return // <-- Important return so we do not process further
     }

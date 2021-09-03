@@ -179,15 +179,17 @@ if(hk_mng != null){
 
 // Necessary for normal display mode
 var primary_inner = document.getElementById("primary-inner");
-var player = primary_inner.children[0];
-var all = player.getElementsByTagName("*");
+if(primary_inner){
+    var player = primary_inner.children[0];
+    var all = player.getElementsByTagName("*");
 
-for(let i=0; i<all.length; i++){
-    all[i].onfocus = (e) =>{
-        e.target.blur();
-        console.log(all[i]);
-        console.log("Blurring");
-    };
+    for(let i=0; i<all.length; i++){
+        all[i].onfocus = (e) =>{
+            e.target.blur();
+            console.log(all[i]);
+            console.log("Blurring");
+        };
+    }
 }
 
 // Disable movie_player and <video> - necessary for theater mode

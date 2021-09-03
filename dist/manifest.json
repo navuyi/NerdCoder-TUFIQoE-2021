@@ -2,11 +2,11 @@
   "manifest_version": 2,
   "name": "NerdCoder",
   "version": "1.0",
-  "description": "DEVELOPMENT build with simple auto-reloader\n[2021-09-02 19:09:25] waiting for changes...",
+  "description": "DEVELOPMENT build with simple auto-reloader\n[2021-09-03 14:18:38] waiting for changes...",
   "background": {
     "persistent": true,
     "scripts": [
-      "assets/background-page-reloader-5a8981d3.js",
+      "assets/background-page-reloader-79df94b1.js",
       "assets/background-c101863b.js"
     ]
   },
@@ -30,6 +30,7 @@
     "mouse_tracker_script.js",
     "scenarios/*",
     "extension_pages/session_end/session_end.html",
+    "yt_logout.js",
     "extension_pages/entry_screen/entry_screen.html",
     "background_controllers/AssessmentPanel.js",
     "scenario_training.json"
