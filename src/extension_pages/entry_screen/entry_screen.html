@@ -2,9 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Session end view </title>
+
+    <link rel="stylesheet" href="entry_screen.css">
 </head>
 <body>
-
+<img src="youtube.svg" width="200" />
+    <h1>Eksperyment Your YouTube Our Lab</h1>
+    <form id="form">
+        <h2> Proszę wprowadzić numer telefonu </h2>
+        <input
+            type="tel"
+            required
+            id="phone-input"
+        />
+        <button type="submit" id="submit-btn"> Rozpocznij </button>
+    </form>
+    <div id="counter-box" style="display: none">
+        <h2> Sesja treningowa rozpocznie się za: </h2>
+        <p id="counter" >10</p>
+    </div>
 </body>
+
+<script src="entry_screen.js"></script>
+
 </html>

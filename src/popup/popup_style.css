@@ -157,3 +157,23 @@ label{
     background-color: #343a40;
 }
 
+<<<<<<< HEAD
+=======
+#entry-screen{
+    font-size: 1.2rem;
+    font-weight: 300;
+    padding: 0.5em 0;
+    background-color: #f7f7f7;
+    border: none;
+    border-radius: 0.5em;
+    outline: none;
+    color: rgb(34,34,34);
+    width: 100%;
+    margin: 1em 0;
+    cursor: pointer;
+}
+#entry-screen:hover{
+    background-color: #ffc107;
+    color:whitesmoke;
+}
+>>>>>>> fullcycle

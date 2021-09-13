@@ -36,6 +36,7 @@ chrome.runtime.onInstalled.addListener( ()=>{
         DOWNLOAD_BANDWIDTH_BYTES: undefined,                            // Used to gather information about current network throttling
         UPLOAD_BANDWIDTH_BYTES: undefined,                                   // Same as above, but upload bandwidth stays always the same, high value - unlimited bandwidth
         //MAIN_SCENARIO_ID: 1                                                              // Defines which scenario file should be used to schedule throttling, default 1
+        SESSION_COUNTER: 0                                                                 // Keeps track of sessions, after trainign set to 1, after first of main set to 2, after second of main set to 3, then experiment ends
     }
     chrome.storage.local.set(startup_config, ()=>{
         console.log(`[BackgroundScript] %cStartup config has been saved: ${startup_config}`, `color: ${config .SUCCESS}`);
@@ -283,6 +284,11 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
             resetSession()
         }
 
+        // Listen for YouTube logout signal
+        if(request.msg === "yt_logout"){
+            yt_logout()
+        }
+
         // Listen for onbeforeunload message - tab close, refresh
         else if(request.msg === "onbeforeunload"){
             mtController.stopTracking() // <-- Stop mouse tracking process
@@ -313,7 +319,6 @@ function resetSession(){
             })
             .catch(err => {
                 console.log("[BackgroundScript] %cSession update attempt failed", `color: ${config.DANGER}; font-weight: bold;`)
-
             })
     })
 }
@@ -366,5 +371,20 @@ async function create_new_session(tab_id){
             })
     })
 }
+
+
+
+function yt_logout(){
+    setTimeout(()=>{
+        chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+            const tabId = tabs[0].id
+            chrome.tabs.executeScript(tabId, {file: "yt_logout.js"}, ()=> {
+                console.log(`[BackgroundScript] Logged out` )
+            })
+        })
+    }, 2000)
+}
+
+
 
 
