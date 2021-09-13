@@ -168,7 +168,9 @@ label{
     color: rgb(34,34,34);
     width: 100%;
     margin: 1em 0;
+    cursor: pointer;
 }
 #entry-screen:hover{
-    background-color: dodgerblue;
+    background-color: #ffc107;
+    color:whitesmoke;
 }
