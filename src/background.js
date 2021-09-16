@@ -286,7 +286,7 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
 
         // Listen for YouTube logout signal
         if(request.msg === "yt_logout"){
-            yt_logout()
+            // yt_logout()  //IMPORTANT Disabled for now. Subject is not asked to log in into his/her YT account thus logging out is not required
         }
 
         // Listen for onbeforeunload message - tab close, refresh
