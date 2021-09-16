@@ -22,7 +22,7 @@ chrome.runtime.onInstalled.addListener( ()=>{
     const startup_config = {
         SESSION_ID: undefined,                                                                  // Attached to request when submitting captured data
         ASSESSMENT_PANEL_OPACITY: 80,                                               // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 300000,                                             // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_INTERVAL_MS: 150000,                                             // Interval for assessment in auto mode in milliseconds
         ASSESSMENT_MODE: "auto",                                                         // Available modes are "remote", "auto" and "manual"
         ASSESSMENT_PANEL_LAYOUT: "middle",                                      // Available for now are "middle", "top", "bottom"
         ASSESSMENT_PAUSE: "disabled",                                                  // Enable/disable playback pausing/resuming on video assessment
@@ -286,7 +286,7 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
 
         // Listen for YouTube logout signal
         if(request.msg === "yt_logout"){
-            // yt_logout()  //IMPORTANT Disabled for now. Subject is not asked to log in into his/her YT account thus logging out is not required
+            // yt_logout()                                       //IMPORTANT Disabled for now. Subject is not asked to log in into his/her YT account thus logging out is not required
         }
 
         // Listen for onbeforeunload message - tab close, refresh
