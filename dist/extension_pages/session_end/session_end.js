@@ -6,7 +6,7 @@ chrome.storage.local.get(["SESSION_COUNTER", "SESSION_TYPE", "VIDEOS_TYPE"], res
         doneHeader.innerText = "Eksperyment zakończony";
         awaitsHeader.innerText = "Dziękujemy";
         document.getElementById("counter").style.display = "none";
-        document.getElementById("counter-text").innerText = "Wylogowanie nastąpi automatycznie";
+        document.getElementById("counter-text").innerText = "";
         chrome.storage.local.set({
             "SESSION_COUNTER": 0
         }, ()=>{

@@ -1545,42 +1545,61 @@ class AleaGen {
 const QUALITY_CHANGES = 7;
 const baskets = ["lower", "upper"];
 
-const LOWER_BASKET = [256000, 384000, 512000, 768000, 1024000, 1546000];                    // <-- Values in bps
-const UPPER_BASKET = [2048000, 3072000, 4096000, 8192000, 16384000, 1000000000];     // <-- Values in bps
-const TIMEOUTS_S = [1, 300, 600, 900, 1200, 1500, 1800, 2100];                                              // <-- Values in seconds
+//const LOWER_BASKET = [256000, 384000, 512000, 768000, 1024000, 1546000]                    //IMPORTANT These are the old values
+//const UPPER_BASKET = [2048000, 3072000, 4096000, 8192000, 16384000, 1000000000]     //IMPORTANT These are the old values
+
+const LOWER_BASKET = [256000, 384000, 512000, 768000];
+const UPPER_BASKET = [1024000, 1536000, 2048000, 3072000, 4096000, 8192000, 16384000, 1000000000];
+
+const TIMEOUTS_S = [1, 300, 600, 900, 1200, 1500, 1800, 2100];                                              // <-- Values in seconds, last one is for scheduling end of session
 
 const random_basket_list = (myrng) => {
     let baskets_random = [];
-
+    /*
     for(let i=0; i<QUALITY_CHANGES; i++){
-        const random = baskets[Math.floor(myrng()*baskets.length)];
-        baskets_random.push(random);
+        const random = baskets[Math.floor(myrng()*baskets.length)]
+        baskets_random.push(random)
     }
 
-    const all_the_same = baskets_random.every((val, i, arr) => val === arr[0]);
+    const all_the_same = baskets_random.every((val, i, arr) => val === arr[0])
     if(all_the_same === true){
-        const index = Math.floor(myrng()*baskets_random.length);
+        const index = Math.floor(myrng()*baskets_random.length)
         if(baskets_random[index] === "upper"){
-            baskets_random[index] = "lower";
+            baskets_random[index] = "lower"
         }
         else if(baskets_random[index] === "lower"){
-            baskets_random[index] = "upper";
+            baskets_random[index] = "upper"
         }
     }
+     */
 
+    // Get the initial basket
+    const initial = baskets[Math.floor(myrng()*baskets.length)]; // <-- random initial basket (lower or upper)
+    baskets_random.push(initial);
+    // Get rest of the baskets max 3 upper baskets and max 3 lower baskets
+    const list = ["lower", "upper", "lower", "upper", "lower", "upper"]; // <-- list of 6 baskets to be put in random order
+    for(let x=0; x<QUALITY_CHANGES-1; x++){
+        const index = Math.floor(myrng()*list.length);
+        const random = list[index];
+        baskets_random.push(random);
+        list.splice(index, 1); // delete basket from list
+    }
+    console.log(baskets_random);
     return baskets_random
 };
 
 const random_bw_list = (basket_list, lower_basket, upper_basket, myrng) => {
     const random_bw_list = [];
     basket_list.forEach((basket) => {
-        if(basket === "lower"){
+
+
+        if(basket === "lower" && lower_basket.length > 0){
             const index = Math.floor(myrng()*lower_basket.length);
             const bw = lower_basket[index];
             lower_basket.splice(index, 1);
             random_bw_list.push(bw);
         }
-        else if(basket === "upper"){
+        else if(basket === "upper" && upper_basket.length > 0){
             const index = Math.floor(myrng()*upper_basket.length);
             const bw = upper_basket[index];
             upper_basket.splice(index, 1);
@@ -1630,7 +1649,8 @@ const generate_scenario = (tester_id) => {
         }
         scenario.schedule.push(schedule);
     });
-
+    console.log(bw_list);
+    console.log(scenario);
     return scenario
 };
 
@@ -1969,11 +1989,11 @@ chrome.runtime.onInstalled.addListener( ()=>{
     const startup_config = {
         SESSION_ID: undefined,                                                                  // Attached to request when submitting captured data
         ASSESSMENT_PANEL_OPACITY: 80,                                               // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 300000,                                             // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_INTERVAL_MS: 150000,                                             // Interval for assessment in auto mode in milliseconds
         ASSESSMENT_MODE: "auto",                                                         // Available modes are "remote", "auto" and "manual"
         ASSESSMENT_PANEL_LAYOUT: "middle",                                      // Available for now are "middle", "top", "bottom"
         ASSESSMENT_PAUSE: "disabled",                                                  // Enable/disable playback pausing/resuming on video assessment
-        DEVELOPER_MODE: true,                                                               // Enable/disable developer mode - nerd stats visibility, connection check
+        DEVELOPER_MODE: false,                                                               // Enable/disable developer mode - nerd stats visibility, connection check
         ASSESSMENT_RUNNING: false,                                                     // Define whether process of assessment has already begun
         SESSION_TYPE: "training",                                                    // Define whether to use "training" or "main" experiment mode
         TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 120000,              // Interval for assessment in auto mode in ms for training mode
@@ -2230,9 +2250,7 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
         }
 
         // Listen for YouTube logout signal
-        if(request.msg === "yt_logout"){
-            yt_logout();
-        }
+        if(request.msg === "yt_logout");
 
         // Listen for onbeforeunload message - tab close, refresh
         else if(request.msg === "onbeforeunload"){
@@ -2315,17 +2333,4 @@ async function create_new_session(tab_id){
                 console.log("[BackgroundScript] %cSession creation attempt failed", `color: ${config.DANGER}; font-weight:bold;`);
             });
     });
-}
-
-
-
-function yt_logout(){
-    setTimeout(()=>{
-        chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-            const tabId = tabs[0].id;
-            chrome.tabs.executeScript(tabId, {file: "yt_logout.js"}, ()=> {
-                console.log(`[BackgroundScript] Logged out` );
-            });
-        });
-    }, 2000);
 }
