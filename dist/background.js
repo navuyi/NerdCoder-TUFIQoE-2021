@@ -1576,6 +1576,7 @@ const random_basket_list = (myrng) => {
     // Get the initial basket
     const initial = baskets[Math.floor(myrng()*baskets.length)]; // <-- random initial basket (lower or upper)
     baskets_random.push(initial);
+
     // Get rest of the baskets max 3 upper baskets and max 3 lower baskets
     const list = ["lower", "upper", "lower", "upper", "lower", "upper"]; // <-- list of 6 baskets to be put in random order
     for(let x=0; x<QUALITY_CHANGES-1; x++){
@@ -1591,8 +1592,6 @@ const random_basket_list = (myrng) => {
 const random_bw_list = (basket_list, lower_basket, upper_basket, myrng) => {
     const random_bw_list = [];
     basket_list.forEach((basket) => {
-
-
         if(basket === "lower" && lower_basket.length > 0){
             const index = Math.floor(myrng()*lower_basket.length);
             const bw = lower_basket[index];
