@@ -40,12 +40,12 @@ def create_video():
         sCPN = None
 
     url = l_record["url"]  # URL got from browser's URL not from nerd stats video ID - nerd stats may be misleading
-    timestamp_start_s = (int(f_record["timestamp"]) / 1000) + 2 * 3600  # timestamp in seconds + 2h
-    timestamp_end_s = (int(l_record["timestamp"]) / 1000) + 2 * 3600  # timestamp in seconds + 2h
-    start_date = datetime.utcfromtimestamp(timestamp_start_s).strftime("%Y-%m-%d")
-    start_time = datetime.utcfromtimestamp(timestamp_start_s).strftime("%H:%M:%S")
+    timestamp_start_s = int(f_record["timestamp"]) / 1000
+    timestamp_end_s = int(l_record["timestamp"]) / 1000
+    start_date = datetime.fromtimestamp(timestamp_start_s).strftime("%Y-%m-%d")
+    start_time = datetime.fromtimestamp(timestamp_start_s).strftime("%H:%M:%S")
     start_time_utc_ms = f_record["timestamp"]
-    end_time = datetime.utcfromtimestamp(timestamp_end_s).strftime("%H:%M:%S")
+    end_time = datetime.fromtimestamp(timestamp_end_s).strftime("%H:%M:%S")
     end_time_utc_ms = l_record["timestamp"]
     monitoring_duration_ms = int(l_record["timestamp"]) - int(f_record["timestamp"])
 
@@ -74,8 +74,9 @@ def create_video():
         video_id = lastrowid()
         for record in video_data:
             timestamp_utc_ms = record["timestamp"]
-            timestamp_local_ms = record["timestamp"] + 2 * 3600 * 1000
-            timestamp = re.search(",\s(.+$)", str(timedelta(milliseconds=timestamp_local_ms))).group(1)
+            timestamp_local_ms = datetime.fromtimestamp(record["timestamp"]/1000)
+            #timestamp = re.search(",\s(.+$)", str(timedelta(milliseconds=timestamp_local_ms))).group(1)
+            timestamp = datetime.fromtimestamp(int(timestamp_utc_ms)/1000).strftime("%H:%M:%S.%f")
 
             [dropped_frames, total_frames] = get_frames(record)
             [current_resolution, optimal_resolution] = get_resolution(record)
@@ -97,7 +98,7 @@ def create_video():
             download_bandwidth_bytes = record["download_bandwidth_bytes"] if "download_bandwidth_bytes" in record else None
             upload_bandwidth_bytes = record["upload_bandwidth_bytes"] if "upload_bandwidth_bytes" in record else None
 
-            columns = """ video_id, timestamp, timestamp_utc_ms,
+            columns = """ video_id, scrollY, timestamp, timestamp_utc_ms,
                 viewport, dropped_frames, total_frames,
                 current_resolution, optimal_resolution,
                 current_framerate, optimal_framerate,
@@ -106,12 +107,13 @@ def create_video():
                 download_bandwidth_bytes, upload_bandwidth_bytes """
 
             insert_session_data = f"INSERT INTO video_data ({columns}) VALUES" \
-                                  f" (:video_id, :timestamp, :timestamp_utc_ms, :viewport, :dropped_frames, :total_frames," \
+                                  f" (:video_id, :scrollY, :timestamp, :timestamp_utc_ms, :viewport, :dropped_frames, :total_frames," \
                                   f":current_resolution, :optimal_resolution, :current_framerate, :optimal_framerate, " \
                                   f":volume, :codecs, :color, :connection_speed, :network_activity, :buffer_health, :mystery_s, :mystery_t," \
                                   f":download_bandwidth_bytes, :upload_bandwidth_bytes);"
             insert = {
                 "video_id": video_id,
+                "scrollY": record["scrollY"],
                 "timestamp": timestamp,
                 "timestamp_utc_ms": timestamp_utc_ms,
                 "viewport": viewport,

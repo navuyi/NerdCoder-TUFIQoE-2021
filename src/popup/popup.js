@@ -68,6 +68,23 @@ chrome.storage.local.get(["VIDEOS_TYPE"], result => {
         document.getElementById("video-type-imposed").setAttribute("active", "true")
     }
 })
+// Default for assessment interval delta
+chrome.storage.local.get(["ASSESSMENT_INTERVAL_DELTA_MS"], res => {
+    const delta_ms = res.ASSESSMENT_INTERVAL_DELTA_MS
+    const delta_input = document.getElementById("interval-delta-input")
+
+    delta_input.value = delta_ms
+})
+// Default for experiment type - acr or discord
+chrome.storage.local.get(["EXPERIMENT_TYPE"], res => {
+    const mode = res.EXPERIMENT_TYPE
+    if(mode === "acr"){
+        document.getElementById("experiment-acr").setAttribute("active", "true")
+    }
+    else if(mode === "discord"){
+        document.getElementById("experiment-discord").setAttribute("active", "true")
+    }
+})
 
 
 // Assessment mode - buttons configuration
@@ -190,6 +207,39 @@ document.getElementById("tester-id").addEventListener("input", async (e) => {
         TESTER_ID_HASH: hashHex,
     })
 })
+
+// Assessment interval delta
+document.getElementById("interval-delta-input").addEventListener("input", async (e) => {
+    const delta_input = e.target.value
+
+    // Update storage
+    chrome.storage.local.set({
+        ASSESSMENT_INTERVAL_DELTA_MS: delta_input
+    })
+})
+// Experiment type
+document.getElementById("experiment-acr").addEventListener("click", async (e) => {
+    // Update view
+    e.target.setAttribute("active", "true")
+    document.getElementById("experiment-discord").removeAttribute("active")
+
+    // Update storage
+    chrome.storage.local.set({
+        "EXPERIMENT_TYPE": "acr"
+    })
+})
+document.getElementById("experiment-discord").addEventListener("click", async (e) => {
+    // Update view
+    e.target.setAttribute("active", "true")
+    document.getElementById("experiment-acr").removeAttribute("active")
+
+    // Update storage
+    chrome.storage.local.set({
+        "EXPERIMENT_TYPE": "discord"
+    })
+})
+
+
 
 /*
 // Main session scenario file

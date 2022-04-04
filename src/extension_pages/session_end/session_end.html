@@ -7,17 +7,31 @@
     <link rel="stylesheet" href="session_end.css">
 </head>
 <body>
+    <div class="counter-indicator">  </div>
     <img src="verified-symbol.svg" />
 
 
     <div id="text-box">
         <h1 id="done"> </h1>
         <p id="awaits">  </p>
+        <p id="session-duration"></p>
     </div>
 
     <div id="counter-box">
         <h2 id="counter-text"> Do rozpoczęcia pozostało: </h2>
-        <h3 id="counter">10</h3>
+        <h3 id="counter"></h3>
+    </div>
+    <div id="supervisor-call-box">
+        <h1 id="supervisor-call-header"> Proszę zawiadomić osobę prowadzącą eksperyment!</h1>
+    </div>
+    <div id="resume-box">
+        <h2> Aby kontynuować proszę podać hasło.</h2>
+        <input
+            type="password"
+            id="password-input"
+        />
+        <!-- <button id="resume-button"> Kontynuuj </button> -->
+
     </div>
 </body>
 

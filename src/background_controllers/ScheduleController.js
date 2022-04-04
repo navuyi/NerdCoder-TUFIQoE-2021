@@ -1,7 +1,7 @@
 import axios from "axios";
 import {config} from "../config";
 import {generate_scenario} from "./generate_scenario";
-
+import {generate_scenario_v2} from "./generate_scenario_v2";
 
 export function ScheduleController(resetSession){
     this.currentTabID = undefined
@@ -21,51 +21,63 @@ export function ScheduleController(resetSession){
         }
 
         // Attach to the tab
-        chrome.debugger.attach({tabId}, "1.3")
-        // Establish on detach event listener
-        chrome.debugger.onDetach.addListener((source, reason)=>{
-            console.log(`[ScheduleController] %cDebugger detached from tab with ID of: ${source.tabId}`, `color: ${config.SUCCESS}; font-weight: bold`)
-            console.log(`[ScheduleController] %cReason ${reason}`, `color: ${config.SUCCESS}; font-weight: bold`)
+        chrome.debugger.attach({tabId}, "1.3", () => {
+            this.currentTabID = tabId;
+            this.isAttached = true;
+            // Establish on detach event listener
+            chrome.debugger.onDetach.addListener((source, reason)=>{
+                console.log(`[ScheduleController] %cDebugger detached from tab with ID of: ${source.tabId}`, `color: ${config.SUCCESS}; font-weight: bold`)
+                console.log(`[ScheduleController] %cReason ${reason}`, `color: ${config.SUCCESS}; font-weight: bold`)
 
-            this.isAttached = false; // <-- Changing it back to false
+                this.isAttached = false; // <-- Changing it back to false
+            })
+            // Enable network
+            chrome.debugger.sendCommand({tabId}, "Network.enable");
         })
-        // Enable network
-        chrome.debugger.sendCommand({tabId}, "Network.enable");
-
-        this.currentTabID = tabId;
-        this.isAttached = true;
 
         // Load proper network throttling scenario configuration file
-        chrome.storage.local.get(["SESSION_TYPE", "VIDEOS_TYPE", "MAIN_SCENARIO_ID", "TESTER_ID"], (res) =>{
+        chrome.storage.local.get(["SESSION_TYPE", "VIDEOS_TYPE", "MAIN_SCENARIO_ID", "TESTER_ID", "SESSION_COUNTER"], (res) =>{
             const session_type = res.SESSION_TYPE
 
             if(session_type === "main"){
                 //scenario_file = "scenarios/scenario_main_" + this.padLeadingZeros(res.MAIN_SCENARIO_ID, 3) + ".json" // <-- Leaving this just in case
 
                 // Dynamically create schedule configuration <-- NO FILE WILL BE CREATED, BUT ALL INFORMATION IS SUBMITTED TO DATABASE
-                const scenario = generate_scenario(res.TESTER_ID)
+                console.log(res.SESSION_COUNTER)
+                let scenario = undefined
+                if(parseInt(res.SESSION_COUNTER) === 0){
+                    //scenario = generate_scenario(res.TESTER_ID, 9)  // 8th quality change is replaced by session end 9 -->40 minutes
+                    scenario = generate_scenario_v2(true, res.TESTER_ID)
+                }
+                else if(parseInt(res.SESSION_COUNTER ) === 1){
+                    //scenario = generate_scenario(res.TESTER_ID, 8) // 7th quality change is replaced by session end 10 --> 35 minutes
+                    scenario = generate_scenario_v2(false, res.TESTER_ID)
+                }
                 this.scheduleThrottling(tabId, scenario)
                 // Submit scenario details to database // <-- running this with delay because it requires subject's ID to submit which may not be present instantaneously
                 setTimeout(()=>{
                     this.submitSchedule(scenario)
                 }, 5000)
             }
+            /*
             else if(session_type === "training"){
-                const scenario_file = "scenario_training.json" // <-- Training scenario is always the same thus fetched from file
-
-                const url = chrome.extension.getURL(scenario_file);
-                console.log(`[ScheduleController] %cFetching file: ${scenario_file}`, `color: ${config.SUCCESS}`)
-                axios.get(url).then(res => {
-                    this.scheduleThrottling(tabId, res.data)
-                    // Submit scenario details to database // <-- running this with delay because it requires subject's ID to submit which may not bepresent instantaneously
-                    setTimeout(()=>{
-                        this.submitSchedule(res.data)
-                    }, 5000)
-                }).catch(err => {console.log(err)})
+                let scenario_file
+                chrome.storage.local.get(["SESSION_COUNTER"], res => {
+                    const counter = parseInt(res.SESSION_COUNTER)
+                    // Load longer scenario file in case of the first training session
+                    counter === 0 ?  scenario_file = "scenario_training_longer.json" :  scenario_file = "scenario_training.json"
+                    const url = chrome.extension.getURL(scenario_file);
+                    console.log(`[ScheduleController] %cFetching file: ${scenario_file}`, `color: ${config.SUCCESS}`)
+                    axios.get(url).then(res => {
+                        this.scheduleThrottling(tabId, res.data)
+                        // Submit scenario details to database // <-- running this with delay because it requires subject's ID to submit which may not be present instantaneously
+                        setTimeout(()=>{
+                            this.submitSchedule(res.data)
+                        }, 5000)
+                    }).catch(err => {console.log(err)})
+                })
             }
-
-
-
+            */
         });
     }
 
@@ -92,6 +104,7 @@ export function ScheduleController(resetSession){
             const url = "http://127.0.0.1:5000/schedule/"
             const session_id = res.SESSION_ID
             schedule.session_id = session_id
+            console.log("OTO SCHEDULE")
             console.log(schedule)
             axios.post(url, schedule)
                 .then(res => {

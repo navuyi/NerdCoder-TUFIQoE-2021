@@ -2,6 +2,14 @@
 Chrome extension (and more) for recording YouTube activity and gathering "nerd statistics" 
 and video assessments
 
+## Branches explained
+v2 - version with ACR and Discord session - fixed and final should work fine <br>
+v3 - work in progress, the goal is to provide two assessment panels:
+  - one for assessing interest in displayed content
+  - second for assessing quality of the audio-video
+  
+v4 - ACR only version of the software, there are 3 sessions, one training and two long ACR sessions. 
+
 ## Content
 This repository contains the Chrome extension and tools that are necessary or optional for it 
 to work properly.

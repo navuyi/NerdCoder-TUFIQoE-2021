@@ -5,7 +5,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-
+BACKEND/database/nerdcoder_data.db
+./BACKEND/database/nerdcoder_data.db
 ./BACKEND/venv_nerdcoder/*
 ./BACKEND/venv_nerdcoder/
 ./BACKEND/venv_nerdcoder

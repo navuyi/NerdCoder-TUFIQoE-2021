@@ -48,6 +48,25 @@ def get_session():
                 video_id = None
             assessment["video_id"] = video_id
 
+        # Get interest assessments
+        try:
+            cursor().execute("SELECT * FROM interest WHERE session_id=?", (session["id"], ))
+            interests = cursor().fetchall()
+            session["interest"] = interests if not [] else None
+
+            for interest in interests:
+                cursor().execute(f"SELECT video.id FROM video, interest "
+                                 f"WHERE interest.timestamp BETWEEN video.start_time_utc_ms AND video.end_time_utc_ms AND interest.id=? AND video.session_id=? AND interest.session_id=?",
+                                 (interest["id"], session["id"], session["id"]))
+                try:
+                    video_id = cursor().fetchone()["id"]
+                except Exception as e:
+                    print(e)
+                    video_id = None
+                interest["video_id"] = video_id
+        except:
+            pass
+
         # Get mouse tracking data
         cursor().execute(f"SELECT * FROM mousetracker WHERE session_id=? AND type=?", (session["id"], "mousemove"))
         mousemove = cursor().fetchall()

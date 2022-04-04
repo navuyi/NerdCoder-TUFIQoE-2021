@@ -39,10 +39,14 @@ export function run_monitor(simple, complex){
     Object.assign(data, {url: url.href})
 
 
+    // Get current scroll height
+    data.scrollY = Math.round(window.scrollY)
+
     // Send data to background script
-    chrome.storage.local.get(["DOWNLOAD_BANDWIDTH_BYTES" , "UPLOAD_BANDWIDTH_BYTES"], res => {
+    chrome.storage.local.get(["DOWNLOAD_BANDWIDTH_BYTES" , "UPLOAD_BANDWIDTH_BYTES", "CURRENT_DISPLAY_MODE"], res => {
         data.download_bandwidth_bytes = res.DOWNLOAD_BANDWIDTH_BYTES
         data.upload_bandwidth_bytes = res.UPLOAD_BANDWIDTH_BYTES
+        data.display_mode = res.CURRENT_DISPLAY_MODE
         hand_over_data(data);
     })
 

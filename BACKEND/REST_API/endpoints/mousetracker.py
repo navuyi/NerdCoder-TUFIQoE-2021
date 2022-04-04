@@ -44,14 +44,16 @@ def get_mousetracker():
             "movementX": record["movementX"],
             "movementY": record["movementY"],
             "offsetX": record["offsetX"],
-            "offsetY": record["offsetY"]
+            "offsetY": record["offsetY"],
+            "innerText": record["innerText"],
+            "class_list": record["class_list"]
         }
         tup = tuple(insert.values())
         inserts.append(tup)
 
     print(f"CAPTURED NUMBER OF INSERTS {len(inserts)}")
-    statement = f"INSERT INTO mousetracker (session_id, url, type, timestamp_utc_ms, which, target_id, target_nodeName, clientX, clientY, pageX, pageY, screenX, screenY, movementX, movementY, offsetX, offsetY) " \
-              f"VALUES (:session_id, :url, :type, :timestamp_utc_ms, :which, :target_id, :target_nodeName, :clientX, :clientY, :pageX, :pageY, :screenX, :screenY, :movementX, :movementY, :offsetX, :offsetY );"
+    statement = f"INSERT INTO mousetracker (session_id, url, type, timestamp_utc_ms, which, target_id, target_nodeName, clientX, clientY, pageX, pageY, screenX, screenY, movementX, movementY, offsetX, offsetY, innerText, class_list) " \
+              f"VALUES (:session_id, :url, :type, :timestamp_utc_ms, :which, :target_id, :target_nodeName, :clientX, :clientY, :pageX, :pageY, :screenX, :screenY, :movementX, :movementY, :offsetX, :offsetY, :innerText, :class_list);"
     cursor().executemany(statement, inserts)
 
 

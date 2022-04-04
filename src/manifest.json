@@ -25,7 +25,7 @@
     "yt_logout.js",
     "extension_pages/entry_screen/entry_screen.html",
     "background_controllers/AssessmentPanel.js",
-    "scenario_training.json"
+    "scenario_training.json", "scenario_training_longer.json"
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

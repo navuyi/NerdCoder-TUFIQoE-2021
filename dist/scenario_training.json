@@ -7,7 +7,7 @@
       "params": {
         "offline": false,
         "latency": 1,
-        "downloadThroughput": 256000,
+        "downloadThroughput": 1024000,
         "uploadThroughput": 1000000000
       }
     },
@@ -23,7 +23,7 @@
     },
     {
       "type":  "finish",
-      "timeout_s": 600
+      "timeout_s": 300
     }
   ]
 }

@@ -1,0 +1,29 @@
+{
+  "name": "scenario_training_longer",
+  "schedule":[
+    {
+      "type": "throttling",
+      "timeout_s": 60,
+      "params": {
+        "offline": false,
+        "latency": 1,
+        "downloadThroughput": 8192000,
+        "uploadThroughput": 1000000000
+      }
+    },
+    {
+      "type":  "throttling",
+      "timeout_s": 360,
+      "params": {
+        "offline": false,
+        "latency": 1,
+        "downloadThroughput": 8192000,
+        "uploadThroughput": 1000000000
+      }
+    },
+    {
+      "type":  "finish",
+      "timeout_s": 480
+    }
+  ]
+}

@@ -1,7 +1,6 @@
 
 // Track mouse movement
 onmousemove = (e) =>{
-
     const data = {
         type: e.type,
         url: window.location.href,
@@ -9,6 +8,9 @@ onmousemove = (e) =>{
         which: e.which,
         target_id: e.target.id,
         target_nodeName: e.target.nodeName,
+
+        class_list: e.target.classList.value,
+        innerText: e.target.innerText ?? null,
 
         clientX: e.clientX,
         clientY: e.clientY,
@@ -32,6 +34,7 @@ onmousemove = (e) =>{
 
 // Track mouse button press
 onmousedown = (e) => {
+
     const data = {
         type: e.type,
         url: window.location.href,
@@ -39,6 +42,9 @@ onmousedown = (e) => {
         which: e.which,
         target_id: e.target.id,
         target_nodeName: e.target.nodeName,
+
+        class_list: e.target.classList.value,
+        innerText: e.target.innerText ?? null,
 
         clientX: e.clientX,
         clientY: e.clientY,
@@ -51,6 +57,7 @@ onmousedown = (e) => {
         screenX: e.screenX,
         screenY: e.screenY
     }
+    //handleDisplayChange(e.target.classList.value)
 
     // Send data to background script
     const message = {
@@ -59,3 +66,28 @@ onmousedown = (e) => {
     }
     chrome.runtime.sendMessage(message);
 }
+
+
+
+/*
+function handleDisplayChange(class_list){
+    if(class_list === "ytp-size-button ytp-button"){
+        chrome.storage.local.get(["CURRENT_DISPLAY_MODE"], res => {
+            const current_mode = res.CURRENT_DISPLAY_MODE
+            if(current_mode === "default"){
+                chrome.storage.local.set({
+                    CURRENT_DISPLAY_MODE: "theater",
+                    PREVIOUS_DISPLAY_MODE: current_mode
+                })
+            }
+            else if(current_mode === "theater"){
+                chrome.storage.local.set({
+                    CURRENT_DISPLAY_MODE: "default",
+                    PREVIOUS_DISPLAY_MODE: current_mode
+                })
+            }
+        })
+    }
+}
+ */
+

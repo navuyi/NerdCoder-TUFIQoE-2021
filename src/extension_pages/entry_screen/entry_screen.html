@@ -7,10 +7,36 @@
     <link rel="stylesheet" href="entry_screen.css">
 </head>
 <body>
+<div class="counter-indicator"> 0 </div>
 <img src="youtube.svg" width="200" />
-    <h1>Eksperyment Your YouTube Our Lab</h1>
+    <h1>Your YouTube Our Lab</h1>
     <form id="form">
-        <h2> Proszę wprowadzić numer telefonu </h2>
+        <label> Test wzroku</label>
+        <input
+                required
+                type="number"
+                id="eyesight-input"
+                step="0.01"
+                min="0"
+        />
+        <label> Wiek </label>
+        <input
+                required
+                type="number"
+                min="1"
+                max="120"
+                id="age-input"
+                step="0.01"
+        />
+        <label> Płeć </label>
+        <select
+                required
+                id="sex-select">
+            <option value="female" selected="selected">Kobieta</option>
+            <option value="male"> Mężczyzna </option>
+            <option value="not_provided"> Wolę nie podawać </option>
+        </select>
+        <label> Numer telefonu </label>
         <input
             type="tel"
             required
@@ -18,9 +44,9 @@
         />
         <button type="submit" id="submit-btn"> Rozpocznij </button>
     </form>
-    <div id="counter-box" style="display: none">
-        <h2> Sesja treningowa rozpocznie się za: </h2>
-        <p id="counter" >10</p>
+    <div id="counter-box" style="display: unset">
+        <h2 id="title"> </h2>
+        <p id="counter" ></p>
     </div>
 </body>
 

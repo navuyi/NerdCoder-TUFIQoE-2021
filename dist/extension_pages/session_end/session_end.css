@@ -16,7 +16,7 @@ img{
 h1{
     width: 100%;
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 2rem;
 
     margin: 0;
     padding: 0;
@@ -26,9 +26,18 @@ h1{
 p{
     margin: 0;
     padding: 0;
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: bold;
-    color: #dc3545;
+    color: #ffc107;
+    text-align: center;
+}
+#session-duration{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
     text-align: center;
 }
 h2{
@@ -49,7 +58,6 @@ h3 {
     font-size: 4rem;
     font-weight: normal;
 }
-
 #counter-box{
     display: flex;
     flex-direction: column;
@@ -58,4 +66,40 @@ h3 {
 }
 #text-box{
     width: 70%;
+}
+
+#resume-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+#password-input{
+    font-size: 1.3rem;
+    padding: 0.2em 1em;
+    width: 50%;
+}
+#resume-button{
+    padding: 0.2em 1em;
+    font-size: 1.3rem;
+    background-image: linear-gradient(15deg, #28a745, #27fa58);
+    outline: none;
+    border-radius: 5px;
+    border: none;
+    color: whitesmoke;
+    width: 50%;
+}
+#supervisor-call-box{
+    display: none;
+}
+#supervisor-call-header{
+    color: #ffc107;
+}
+.counter-indicator{
+    font-size: 2rem;
+    color: whitesmoke;
+    position: absolute;
+    left: 10px;
+    top: 10px;
 }

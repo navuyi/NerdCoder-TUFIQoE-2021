@@ -1,8 +1,6 @@
 export function MouseTracker(){
     this.init = function(){
         onmousemove = (e) =>{
-
-
             const data = {
                 posX: e.pageX,
                 posY: e.pageY,

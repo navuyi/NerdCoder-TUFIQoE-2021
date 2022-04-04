@@ -71,7 +71,6 @@ export function get_nerd_elements(){
         }
     })
 
-    // TAKE NOTE THAT mysteryText is first element in the array
     const nerd_elements_simple = {
         mysteryText: mysteryText,
         videoId_sCPN: videoId_sCPN,

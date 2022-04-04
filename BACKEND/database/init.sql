@@ -2,20 +2,28 @@ DROP TABLE IF EXISTS session;
 DROP TABLE IF EXISTS video;
 DROP TABLE IF EXISTS video_data;
 DROP TABLE IF EXISTS assessment;
+DROP TABLE IF EXISTS interest;
 DROP TABLE IF EXISTS mousetracker;
 DROP TABLE IF EXISTS schedule;
+
 
 CREATE TABLE IF NOT EXISTS session (                  -- session is created in moment of playing first video
     id INTEGER NOT NULL PRIMARY KEY,
     subject_id TEXT NOT NULL,
     subject_id_hash TEXT NOT NULL,
-    session_type TEXT NOT NULL,     -- imposed or own are available values
-    video_type TEXT NOT NULL,       -- training or main are available values
+    subject_age INTEGER NOT NULL,
+    subject_sex TEXT NOT NULL,
+    subject_eyesight_test_result INTEGER NOT NULL,
+    session_type TEXT NOT NULL,              -- training or main are available values
+    video_type TEXT NOT NULL,                -- always own in this version of NerdCoder
+    experiment_type TEXT NOT NULL,       -- acr or discord are available values
+    session_counter INTEGER NOT NULL,
     started DATETIME NOT NULL DEFAULT (datetime('now', 'localtime')), -- we can then create ms timestamp form this local datetime
     ended DATETIME DEFAULT NULL,
     assessment_panel_layout TEXT,
     assessment_panel_opacity INTEGER,
-    assessment_interval_ms INTEGER
+    assessment_interval_ms INTEGER,
+    assessment_interval_delta_ms INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS video (
@@ -38,6 +46,7 @@ CREATE TABLE IF NOT EXISTS video_data(
     id INTEGER NOT NULL PRIMARY KEY,
     video_id INTEGER NOT NULL,
 
+    scrollY INTEGER,
     viewport TEXT,
     dropped_frames INTEGER,
     total_frames INTEGER,
@@ -77,6 +86,21 @@ CREATE TABLE IF NOT EXISTS assessment(
     FOREIGN KEY (session_id) REFERENCES session(id)
 );
 
+CREATE TABLE IF NOT EXISTS interest(
+    id INTEGER NOT NULL PRIMARY KEY,
+    session_id INTEGER NOT NULL,
+    video_id INTEGER DEFAULT NULL,
+
+    value INTEGER NOT NULL,
+    description TEXT DEFAULT NULL,
+    duration INTEGER NOT NULL,
+    time_in_video TEXT,
+    timestamp INTEGER NOT NULL,
+
+    FOREIGN KEY (video_id) REFERENCES video(id),
+    FOREIGN KEY (session_id) REFERENCES session(id)
+);
+
 
 CREATE TABLE IF NOT EXISTS mousetracker(
     id INTEGER NOT NULL PRIMARY KEY,
@@ -89,6 +113,9 @@ CREATE TABLE IF NOT EXISTS mousetracker(
     which INTEGER,
     target_id TEXT,
     target_nodeName TEXT,
+
+    class_list TEXT DEFAULT NULL,
+    innerText TEXT DEFAULT NULL,
 
     clientX INTEGER DEFAULT NULL,
     clientY INTEGER DEFAULT NULL,

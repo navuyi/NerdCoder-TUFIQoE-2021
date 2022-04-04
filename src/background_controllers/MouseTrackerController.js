@@ -17,6 +17,8 @@ export function MouseTrackerController(){
         }
         chrome.tabs.executeScript(tab_id, {
             file: "mouse_tracker_script.js"
+        }, () =>{
+            console.log("INJECTED MOUSE TRACKER SCRIPT ! ! ! ! !")
         })
         console.log("[MouseTrackerController] %cStarting mouse tracking", "color: #28a745")
         this.isRunning = true

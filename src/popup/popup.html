@@ -25,10 +25,18 @@
     -->
     <div class="option-container">
         <label>Tester ID</label>
-        <div type="text"  id="hash">59ccf4c280307107b3a40da07f6ba4b72247339466433fff6e02332c524f1352</div>
+        <div type="text"  id="hash"></div>
         <input
                 id="tester-id"
         />
+    </div>
+
+    <div class="option-container" >
+        <label> <span class="md-span">Experiment type</span> acr/discord </label>
+        <div class="mode-container">
+            <button id="experiment-acr" > ACR </button>
+            <button id="experiment-discord" > Discord </button>
+        </div>
     </div>
 
     <div class="separator"></div>
@@ -53,6 +61,12 @@
         <label> <span class="md-span">Training mode</span> assessment time interval [ms]</label>
         <input
                 id="training-interval-input"
+        />
+    </div>
+    <div class="option-container">
+        <label> Assessment interval  delta [ms]</label>
+        <input
+                id="interval-delta-input"
         />
     </div>
 
@@ -93,7 +107,7 @@
     <div class="option-container">
         <label>Videos type</label>
         <div class="mode-container">
-            <button id="video-type-imposed" > Imposed </button>
+            <button id="video-type-imposed" disabled> Imposed </button>
             <button id="video-type-own" > Own </button>
         </div>
     </div>

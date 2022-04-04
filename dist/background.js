@@ -1466,190 +1466,97 @@ const config = {
   DARK: "#343a40"
 };
 
-function _prng_restore(prng, xg, opts) {
-  let state = opts && opts.state;
-  if (state) {
-    if (typeof(state) == 'object') xg.copy(state, xg);
-    prng.state = () => xg.copy(xg, {});
-  }
-}
+//const util = require('util') // only in Node
 
-// A port of an algorithm by Johannes Baagøe <baagoe@baagoe.com>, 2010
-function prng_alea(seed, opts) {
-  let xg = new AleaGen(seed);
+const generate_scenario_v2 = (first_clean=false, tester_id) => {
+    let LOWER_BASKET = [256000, 384000, 512000, 768000];
+    let UPPER_BASKET = [1024000, 1536000, 2048000, 3072000, 4096000, 8192000, 16384000, 1000000000];
 
-  let prng = () => xg.next();
+    let random_bw = [];
 
-  prng.double = () =>
-    prng() + (prng() * 0x200000 | 0) * 1.1102230246251565e-16; // 2^-53
+    for(let i=0; i<3; i++){
+        const index_lower = Math.floor(Math.random()*LOWER_BASKET.length);
+        const index_upper = Math.floor(Math.random()*UPPER_BASKET.length);
 
-  prng.int32 = () => (xg.next() * 0x100000000) | 0;
+        random_bw.push(LOWER_BASKET[index_lower]);
+        random_bw.push(UPPER_BASKET[index_upper]);
 
-  prng.quick = prng;
+        LOWER_BASKET.splice(index_lower,1);
+        UPPER_BASKET.splice(index_upper,1);
 
-  _prng_restore(prng, xg, opts);
-  return prng
-}
 
-class AleaGen {
-  constructor(seed) {
-    if (seed == null) seed = +(new Date);
 
-    let n = 0xefc8249d;
 
-    // Apply the seeding algorithm from Baagoe.
-    this.c = 1;
-    this.s0 = mash(' ');
-    this.s1 = mash(' ');
-    this.s2 = mash(' ');
-    this.s0 -= mash(seed);
-    if (this.s0 < 0) { this.s0 += 1; }
-    this.s1 -= mash(seed);
-    if (this.s1 < 0) { this.s1 += 1; }
-    this.s2 -= mash(seed);
-    if (this.s2 < 0) { this.s2 += 1; }
-
-    function mash(data) {
-      data = String(data);
-      for (let i = 0; i < data.length; i++) {
-        n += data.charCodeAt(i);
-        let h = 0.02519603282416938 * n;
-        n = h >>> 0;
-        h -= n;
-        h *= n;
-        n = h >>> 0;
-        h -= n;
-        n += h * 0x100000000; // 2^32
-      }
-      return (n >>> 0) * 2.3283064365386963e-10; // 2^-32
     }
-  }
-
-  next() {
-    let {c,s0,s1,s2} = this;
-    let t = 2091639 * s0 + c * 2.3283064365386963e-10; // 2^-32
-    this.s0 = s1;
-    this.s1 = s2;
-    return this.s2 = t - (this.c = t | 0);
-  }
-
-  copy(f, t) {
-    t.c = f.c;
-    t.s0 = f.s0;
-    t.s1 = f.s1;
-    t.s2 = f.s2;
-    return t;
-  }
-}
-
-const QUALITY_CHANGES = 7;
-const baskets = ["lower", "upper"];
-
-//const LOWER_BASKET = [256000, 384000, 512000, 768000, 1024000, 1546000]                    //IMPORTANT These are the old values
-//const UPPER_BASKET = [2048000, 3072000, 4096000, 8192000, 16384000, 1000000000]     //IMPORTANT These are the old values
-
-const LOWER_BASKET = [256000, 384000, 512000, 768000];
-const UPPER_BASKET = [1024000, 1536000, 2048000, 3072000, 4096000, 8192000, 16384000, 1000000000];
-
-const TIMEOUTS_S = [1, 300, 600, 900, 1200, 1500, 1800, 2100];                                              // <-- Values in seconds, last one is for scheduling end of session
-
-const random_basket_list = (myrng) => {
-    let baskets_random = [];
-    /*
-    for(let i=0; i<QUALITY_CHANGES; i++){
-        const random = baskets[Math.floor(myrng()*baskets.length)]
-        baskets_random.push(random)
+    const upper_or_lower = ["lower", "upper"][Math.floor(Math.random()*["lower", "upper"].length)];
+    if(upper_or_lower === "lower"){
+        random_bw.push(LOWER_BASKET[Math.floor(Math.random()*LOWER_BASKET.length)]);
+    }
+    else if(upper_or_lower === "upper"){
+        random_bw.push(UPPER_BASKET[Math.floor(Math.random()*UPPER_BASKET.length)]);
     }
 
-    const all_the_same = baskets_random.every((val, i, arr) => val === arr[0])
-    if(all_the_same === true){
-        const index = Math.floor(myrng()*baskets_random.length)
-        if(baskets_random[index] === "upper"){
-            baskets_random[index] = "lower"
-        }
-        else if(baskets_random[index] === "lower"){
-            baskets_random[index] = "upper"
-        }
-    }
-     */
-
-    // Get the initial basket
-    const initial = baskets[Math.floor(myrng()*baskets.length)]; // <-- random initial basket (lower or upper)
-    baskets_random.push(initial);
-
-    // Get rest of the baskets max 3 upper baskets and max 3 lower baskets
-    const list = ["lower", "upper", "lower", "upper", "lower", "upper"]; // <-- list of 6 baskets to be put in random order
-    for(let x=0; x<QUALITY_CHANGES-1; x++){
-        const index = Math.floor(myrng()*list.length);
-        const random = list[index];
-        baskets_random.push(random);
-        list.splice(index, 1); // delete basket from list
-    }
-    console.log(baskets_random);
-    return baskets_random
-};
-
-const random_bw_list = (basket_list, lower_basket, upper_basket, myrng) => {
-    const random_bw_list = [];
-    basket_list.forEach((basket) => {
-        if(basket === "lower" && lower_basket.length > 0){
-            const index = Math.floor(myrng()*lower_basket.length);
-            const bw = lower_basket[index];
-            lower_basket.splice(index, 1);
-            random_bw_list.push(bw);
-        }
-        else if(basket === "upper" && upper_basket.length > 0){
-            const index = Math.floor(myrng()*upper_basket.length);
-            const bw = upper_basket[index];
-            upper_basket.splice(index, 1);
-            random_bw_list.push(bw);
-        }
-    });
-    return random_bw_list
-};
-
-
-// Program main loop
-const generate_scenario = (tester_id) => {
-
-    // myrng function will be used instead of Math.random(), reference will be passed to helper methods
-    const myrng = prng_alea(tester_id.toString());
-
-    const upper_basket = UPPER_BASKET.slice();
-    const lower_basket = LOWER_BASKET.slice();
-
-    const basket_list = random_basket_list(myrng);
-    const bw_list = random_bw_list(basket_list, lower_basket, upper_basket, myrng);
-
+    // Generate final scenario
     const scenario = {
-        name: "main_scenario_"+tester_id,
+        name: "acr_scenario_"+tester_id,
         schedule: []
     };
 
-    TIMEOUTS_S.forEach((timeout, index) => {
-        let schedule = {};
 
-        // Configure last position in schedule <-- the end of session
-        if(index === TIMEOUTS_S.length-1){
-            schedule.type = "finish",
-            schedule.timeout_s = timeout;
+    if(first_clean === true){
+        // Generate 40 minutes scenario with first 5 minutes clean
+        for(let trigger=301; trigger<=2401; trigger+=300){
+            const index = Math.floor(Math.random()*random_bw.length);
+            if(trigger === 2401){
+                const schedule = {
+                    type: "finish",
+                    timeout_s: trigger
+                };
+                scenario.schedule.push(schedule);
+            }
+            else {
+                const schedule = {
+                    type:"throttling",
+                    timeout_s: trigger,
+                    params: {
+                        offline: false,
+                        latency: 1,
+                        downloadThroughput: random_bw[index],
+                        uploadThroughput: 1000000000        // <-- very high value, documentation says that it should be set to -1 to turn off throttling but it did not always work
+                    }
+                };
+                scenario.schedule.push(schedule);
+            }
+            random_bw.splice(index,1);
         }
-        // Configure standard position in schedule  <-- network throttling
-        else {
-            const params = {
-                offline: false,
-                latency: 1,
-                downloadThroughput: bw_list[index],
-                uploadThroughput: 1000000000        // <-- very high value, documentation says that it should be set to -1 to turn off throttling but it did not always work
-            };
-            schedule.type = "throttling",
-            schedule.timeout_s = timeout;
-            schedule.params = params;
+    }
+    else {
+        // Generate 35 minutes scenario with throttling since beginning (1 second)
+        for (let trigger = 1; trigger <= 2101; trigger += 300) {
+            const index = Math.floor(Math.random() * random_bw.length);
+            if (trigger === 2101) {
+                const schedule = {
+                    type: "finish",
+                    timeout_s: trigger
+                };
+                scenario.schedule.push(schedule);
+            } else {
+                const schedule = {
+                    type: "throttling",
+                    timeout_s: trigger,
+                    params: {
+                        offline: false,
+                        latency: 1,
+                        downloadThroughput: random_bw[index],
+                        uploadThroughput: 1000000000        // <-- very high value, documentation says that it should be set to -1 to turn off throttling but it did not always work
+                    }
+                };
+                scenario.schedule.push(schedule);
+            }
+            random_bw.splice(index, 1);
         }
-        scenario.schedule.push(schedule);
-    });
-    console.log(bw_list);
-    console.log(scenario);
+    }
+    //console.log(util.inspect(scenario, {showHidden: false, depth: null, colors: true}))
     return scenario
 };
 
@@ -1671,51 +1578,63 @@ function ScheduleController(resetSession){
         }
 
         // Attach to the tab
-        chrome.debugger.attach({tabId}, "1.3");
-        // Establish on detach event listener
-        chrome.debugger.onDetach.addListener((source, reason)=>{
-            console.log(`[ScheduleController] %cDebugger detached from tab with ID of: ${source.tabId}`, `color: ${config.SUCCESS}; font-weight: bold`);
-            console.log(`[ScheduleController] %cReason ${reason}`, `color: ${config.SUCCESS}; font-weight: bold`);
+        chrome.debugger.attach({tabId}, "1.3", () => {
+            this.currentTabID = tabId;
+            this.isAttached = true;
+            // Establish on detach event listener
+            chrome.debugger.onDetach.addListener((source, reason)=>{
+                console.log(`[ScheduleController] %cDebugger detached from tab with ID of: ${source.tabId}`, `color: ${config.SUCCESS}; font-weight: bold`);
+                console.log(`[ScheduleController] %cReason ${reason}`, `color: ${config.SUCCESS}; font-weight: bold`);
 
-            this.isAttached = false; // <-- Changing it back to false
+                this.isAttached = false; // <-- Changing it back to false
+            });
+            // Enable network
+            chrome.debugger.sendCommand({tabId}, "Network.enable");
         });
-        // Enable network
-        chrome.debugger.sendCommand({tabId}, "Network.enable");
-
-        this.currentTabID = tabId;
-        this.isAttached = true;
 
         // Load proper network throttling scenario configuration file
-        chrome.storage.local.get(["SESSION_TYPE", "VIDEOS_TYPE", "MAIN_SCENARIO_ID", "TESTER_ID"], (res) =>{
+        chrome.storage.local.get(["SESSION_TYPE", "VIDEOS_TYPE", "MAIN_SCENARIO_ID", "TESTER_ID", "SESSION_COUNTER"], (res) =>{
             const session_type = res.SESSION_TYPE;
 
             if(session_type === "main"){
                 //scenario_file = "scenarios/scenario_main_" + this.padLeadingZeros(res.MAIN_SCENARIO_ID, 3) + ".json" // <-- Leaving this just in case
 
                 // Dynamically create schedule configuration <-- NO FILE WILL BE CREATED, BUT ALL INFORMATION IS SUBMITTED TO DATABASE
-                const scenario = generate_scenario(res.TESTER_ID);
+                console.log(res.SESSION_COUNTER);
+                let scenario = undefined;
+                if(parseInt(res.SESSION_COUNTER) === 0){
+                    //scenario = generate_scenario(res.TESTER_ID, 9)  // 8th quality change is replaced by session end 9 -->40 minutes
+                    scenario = generate_scenario_v2(true, res.TESTER_ID);
+                }
+                else if(parseInt(res.SESSION_COUNTER ) === 1){
+                    //scenario = generate_scenario(res.TESTER_ID, 8) // 7th quality change is replaced by session end 10 --> 35 minutes
+                    scenario = generate_scenario_v2(false, res.TESTER_ID);
+                }
                 this.scheduleThrottling(tabId, scenario);
                 // Submit scenario details to database // <-- running this with delay because it requires subject's ID to submit which may not be present instantaneously
                 setTimeout(()=>{
                     this.submitSchedule(scenario);
                 }, 5000);
             }
+            /*
             else if(session_type === "training"){
-                const scenario_file = "scenario_training.json"; // <-- Training scenario is always the same thus fetched from file
-
-                const url = chrome.extension.getURL(scenario_file);
-                console.log(`[ScheduleController] %cFetching file: ${scenario_file}`, `color: ${config.SUCCESS}`);
-                axios.get(url).then(res => {
-                    this.scheduleThrottling(tabId, res.data);
-                    // Submit scenario details to database // <-- running this with delay because it requires subject's ID to submit which may not bepresent instantaneously
-                    setTimeout(()=>{
-                        this.submitSchedule(res.data);
-                    }, 5000);
-                }).catch(err => {console.log(err);});
+                let scenario_file
+                chrome.storage.local.get(["SESSION_COUNTER"], res => {
+                    const counter = parseInt(res.SESSION_COUNTER)
+                    // Load longer scenario file in case of the first training session
+                    counter === 0 ?  scenario_file = "scenario_training_longer.json" :  scenario_file = "scenario_training.json"
+                    const url = chrome.extension.getURL(scenario_file);
+                    console.log(`[ScheduleController] %cFetching file: ${scenario_file}`, `color: ${config.SUCCESS}`)
+                    axios.get(url).then(res => {
+                        this.scheduleThrottling(tabId, res.data)
+                        // Submit scenario details to database // <-- running this with delay because it requires subject's ID to submit which may not be present instantaneously
+                        setTimeout(()=>{
+                            this.submitSchedule(res.data)
+                        }, 5000)
+                    }).catch(err => {console.log(err)})
+                })
             }
-
-
-
+            */
         });
     };
 
@@ -1742,6 +1661,7 @@ function ScheduleController(resetSession){
             const url = "http://127.0.0.1:5000/schedule/";
             const session_id = res.SESSION_ID;
             schedule.session_id = session_id;
+            console.log("OTO SCHEDULE");
             console.log(schedule);
             axios.post(url, schedule)
                 .then(res => {
@@ -1847,7 +1767,33 @@ function AssessmentController(){
         this.isRunning = true;
         this.timeout = undefined;
         this.initMessenger();
-        this.setInterval();
+        //this.setInterval()    <-- //IMPORTANT using setTimeout in order to apply interval delta
+
+        // Checking for experiment type <-- there is no assessment panel in discord mode
+        chrome.storage.local.get(["EXPERIMENT_TYPE"], res => {
+            const type = res.EXPERIMENT_TYPE;
+            if(type === "discord");
+            else if(type === "acr"){
+                chrome.storage.local.get(["SESSION_COUNTER", "SESSION_TYPE"], res => {
+                    const counter = parseInt(res.SESSION_COUNTER);
+                    const session_type = res.SESSION_TYPE;
+                    if(counter === 0 && session_type === "training"){
+                        const timer_ms = 4 * 60 * 1000;  // Different timer than usual
+                        chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS", "ASSESSMENT_INTERVAL_DELTA_MS"], res => {
+                            console.log(`[AssessmentController] %cAssessment panel interval set to ${timer_ms}. First assessment in first training session (only ACR)`, `color: ${config.INFO};`);
+                            clearTimeout(this.timeout);
+                            this.timeout = setTimeout(()=>{
+                                chrome.tabs.executeScript(this.tabId, {file: "background_controllers/AssessmentPanel.js"});
+                            }, timer_ms);  // <-- Set to 4 minutes: 4*60*1000
+                        });
+                    }
+                    else {
+                        // Proceed with default setTimeout
+                        this.setTimeout();
+                    }
+                });
+            }
+        });
     };
 
 
@@ -1855,21 +1801,21 @@ function AssessmentController(){
         chrome.storage.local.get(["SESSION_TYPE"], res => {
             const mode = res.SESSION_TYPE;
             if(mode === "training"){
-                chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS"], res => {
+                chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS", "ASSESSMENT_INTERVAL_DELTA_MS"], res => {
                     console.log(`[AssessmentController] %cAssessment panel interval set to ${res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS}`, `color: ${config.INFO};`);
                     clearTimeout(this.timeout);
                     this.timeout = setTimeout(()=>{
                         chrome.tabs.executeScript(this.tabId, {file: "background_controllers/AssessmentPanel.js"});
-                    }, res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS);
+                    }, this.applyDelta(res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS, res.ASSESSMENT_INTERVAL_DELTA_MS));
                 });
             }
             else if (mode === "main"){
-                chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (res)=>{
+                chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS", "ASSESSMENT_INTERVAL_DELTA_MS"], (res)=>{
                     console.log(`[AssessmentController] %cAssessment panel interval set to ${res.ASSESSMENT_INTERVAL_MS}`, `color: ${config.INFO};`);
                     clearTimeout(this.timeout);
                     this.timeout = setTimeout(()=>{
                         chrome.tabs.executeScript(this.tabId, {file: "background_controllers/AssessmentPanel.js"});
-                    }, res.ASSESSMENT_INTERVAL_MS);
+                    }, this.applyDelta(res.ASSESSMENT_INTERVAL_MS, res.ASSESSMENT_INTERVAL_DELTA_MS));
                 });
             }
         });
@@ -1879,7 +1825,7 @@ function AssessmentController(){
         chrome.storage.local.get(["SESSION_TYPE"], res => {
             const mode = res.SESSION_TYPE;
             if(mode === "training"){
-                chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS"], res => {
+                chrome.storage.local.get(["TRAINING_MODE_ASSESSMENT_INTERVAL_MS", "ASSESSMENT_INTERVAL_DELTA_MS"], res => {
                     console.log(`[AssessmentController] %cAssessment panel interval set to ${res.TRAINING_MODE_ASSESSMENT_INTERVAL_MS}`, `color: ${config.INFO};`);
                     //clearTimeout(this.timeout);
                     this.interval = setInterval(()=>{
@@ -1888,7 +1834,7 @@ function AssessmentController(){
                 });
             }
             else if (mode === "main"){
-                chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS"], (res)=>{
+                chrome.storage.local.get(["ASSESSMENT_INTERVAL_MS", "ASSESSMENT_INTERVAL_DELTA_MS"], (res)=>{
                     console.log(`[AssessmentController] %cAssessment panel interval set to ${res.ASSESSMENT_INTERVAL_MS}`, `color: ${config.INFO};`);
                     // clearTimeout(this.timeout);
                     this.interval = setInterval(()=>{
@@ -1899,6 +1845,12 @@ function AssessmentController(){
         });
     };
 
+    this.applyDelta = function(interval, delta){
+        const plus_minus = Math.random() < 0.5 ? -1 : 1;
+        const val = parseInt(interval)  + parseInt(plus_minus*parseInt(delta));
+        console.log(val);
+        return val
+    };
 
     this.initMessenger = function(){
         // Listen for messages from assessment panel component
@@ -1912,6 +1864,7 @@ function AssessmentController(){
 
     this.reset = function(){
         clearInterval(this.interval);
+        clearTimeout(this.timeout);
         this.isRunning = false;
     };
 
@@ -1933,6 +1886,8 @@ function MouseTrackerController(){
         }
         chrome.tabs.executeScript(tab_id, {
             file: "mouse_tracker_script.js"
+        }, () =>{
+            console.log("INJECTED MOUSE TRACKER SCRIPT ! ! ! ! !");
         });
         console.log("[MouseTrackerController] %cStarting mouse tracking", "color: #28a745");
         this.isRunning = true;
@@ -1983,26 +1938,36 @@ const asController = new AssessmentController();
 const mtController = new MouseTrackerController();
 const shController = new ScheduleController(resetSession);
 
+
+
 // Initialize config values when extension is first installed to browser
 chrome.runtime.onInstalled.addListener( ()=>{
     const startup_config = {
         SESSION_ID: undefined,                                                                  // Attached to request when submitting captured data
         ASSESSMENT_PANEL_OPACITY: 80,                                               // Opacity of the assessment panel in %
-        ASSESSMENT_INTERVAL_MS: 150000,                                             // Interval for assessment in auto mode in milliseconds
+        ASSESSMENT_INTERVAL_MS: 150000, //TODO <-- 150000                                     // Interval for assessment in auto mode in milliseconds
         ASSESSMENT_MODE: "auto",                                                         // Available modes are "remote", "auto" and "manual"
         ASSESSMENT_PANEL_LAYOUT: "middle",                                      // Available for now are "middle", "top", "bottom"
         ASSESSMENT_PAUSE: "disabled",                                                  // Enable/disable playback pausing/resuming on video assessment
-        DEVELOPER_MODE: false,                                                               // Enable/disable developer mode - nerd stats visibility, connection check
+        DEVELOPER_MODE: false,  //TODO <-- false                                                               // Enable/disable developer mode - nerd stats visibility, connection check
         ASSESSMENT_RUNNING: false,                                                     // Define whether process of assessment has already begun
-        SESSION_TYPE: "training",                                                    // Define whether to use "training" or "main" experiment mode
-        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 120000,              // Interval for assessment in auto mode in ms for training mode
-        VIDEOS_TYPE: "own",                                                                    // Gives information about videos type - "imposed" / "own" values are available
-        TESTER_ID: "",                                                                              // Tester ID
+        SESSION_TYPE: "training",                                                             // Define whether to use "training" or "main" experiment mode
+        TRAINING_MODE_ASSESSMENT_INTERVAL_MS: 120000, //TODO <-- 120000             // Interval for assessment in auto mode in ms for training mode
+        VIDEOS_TYPE: "own",                                                                    //IMPORTANT Gives information about videos type - "own" is the only correct value, imposed session was rejected
+        TESTER_ID: "",                                                                              // Tester ID - tester phone number
         TESTER_ID_HASH: "",
+        TESTER_EYESIGHT_TEST_RESULT: null,                                           // Subjest's eyesight test result
+        TESTER_SEX: "",                                                                            // Subject's sex either "male", "female" or "not_provided" values are correct
+        TESTER_AGE: null,                                                                           // Subject's age - number in range from 1-100
         DOWNLOAD_BANDWIDTH_BYTES: undefined,                            // Used to gather information about current network throttling
         UPLOAD_BANDWIDTH_BYTES: undefined,                                   // Same as above, but upload bandwidth stays always the same, high value - unlimited bandwidth
-        //MAIN_SCENARIO_ID: 1                                                              // Defines which scenario file should be used to schedule throttling, default 1
-        SESSION_COUNTER: 0                                                                 // Keeps track of sessions, after trainign set to 1, after first of main set to 2, after second of main set to 3, then experiment ends
+        SESSION_COUNTER: 0,                                                                 // Keeps track of sessions, after trainign set to 1, after first of main set to 2, after second of main set to 3, then experiment ends
+        EXPERIMENT_TYPE: "acr",                                                          // Defines experiment type proper values are "acr" or "discord", discord <-- because of using Discord for calling the tester
+        ASSESSMENT_INTERVAL_DELTA_MS: 13000, //TODO <-- 13000                            // Delta of assessment interval +- this value will be added (substracted) to proper interval value
+        LAST_WATCHED_URL: "",
+
+        CURRENT_DISPLAY_MODE: "default",
+        PREVIOUS_DISPLAY_MODE: "default"
     };
     chrome.storage.local.set(startup_config, ()=>{
         console.log(`[BackgroundScript] %cStartup config has been saved: ${startup_config}`, `color: ${config .SUCCESS}`);
@@ -2063,10 +2028,14 @@ function submit_captured_data(captured_data, tabId){
     }
 }
 
-function execute_script(tabId){
+function execute_script(tabId, url){
     chrome.storage.local.get(["DEVELOPER_MODE"], res => {
         const dev_mode = res.DEVELOPER_MODE;
 
+        // Update last watched video url
+        chrome.storage.local.set({
+            "LAST_WATCHED_URL": url
+        });
         if(dev_mode === false){
             // Check connection with database before executing script
             const url = "http://127.0.0.1:5000/connection/check";
@@ -2136,7 +2105,7 @@ chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
                     console.log("[BackgroundScript] %cNo data captured yet", `color: ${config.DANGER}; font-weight: bold`);
                 }
                 // Inject content script into current page with video player
-                execute_script(tab.id);
+                execute_script(tab.id, tab.url);
             }
         });
     }
@@ -2150,12 +2119,18 @@ chrome.webNavigation.onCommitted.addListener((details) => {
             if(tab.url === details.url){
                 if (["reload", "typed", "link"].includes(details.transitionType) && details.url.includes(yt_watch_string)){
                     // Inject content script into current page with video player
-                    execute_script(details.tabId);
+                    execute_script(details.tabId, tab.url);
                 }
             }
         });
     }
-    if(details.frameId === 0 && details.url === "https://www.youtube.com/");
+    if(details.frameId === 0 && details.url === "https://www.youtube.com/"){
+        console.log("[BackgroundScript] %cYouTube main page entered", "color: #0d6efd");
+        // Update last watched video url
+        chrome.storage.local.set({
+            "LAST_WATCHED_URL": "https://www.youtube.com/"
+        });
+    }
     if(details.frameId === 0 && details.url.includes("https://www.youtube.com/")){
         console.log("[BackgroundScript] %c Entered page within YouTube domain", "color: #0d6efd");
         mtController.startTracking(details.tabId);
@@ -2215,6 +2190,8 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                 const url = "http://127.0.0.1:5000/assessment/";
                 const data = request.data;
 
+                console.log(data);
+
                 data.session_id = session_id;    // <-- Add information about current session ID
                 axios.post(url, data)
                     .then(res => {
@@ -2225,7 +2202,28 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                         //console.log(err.response)
                     });
             });
+        }
+        // Listen for interest assessment handover
+        if(request.msg === "interest_handover"){
+            chrome.storage.local.get(["SESSION_ID"], (res) => {
+                const session_id = res.SESSION_ID;
+                const url = "http://127.0.0.1:5000/interest/";
+                const data = request.data;
+                console.log(data);
+                data.session_id = session_id;    // <-- Add information about current session ID
 
+                axios.post(url, data)
+                    .then(res => {
+                        //console.log(res.data)
+                        console.log("[BackgroundScript] %cAssessment submitted successfully", `color: ${config.SUCCESS};`);
+                    })
+                    .catch(err => {
+                        //console.log(err.response)
+                });
+
+
+                //TODO Continue HERE
+            });
         }
         //Listen for mouse tracker data
         if(request.msg === "mouse_tracker_data"){
@@ -2241,6 +2239,15 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
                 mousetracker.splice(0, mousetracker.length);
             }
         }
+        if(request.msg === "reset_history"){
+            const timeout = 2000;
+            console.log(`[BackgroundScript] Clearing history stack in ${timeout/1000} seconds`);
+            setTimeout(() => {
+                chrome.history.deleteAll(() => {
+                   console.log(`[BackgroundScript] History stack cleared`);
+                });
+            }, timeout);
+        }
 
         //Listen for controllers reset signal
         if(request.msg === "RESET"){
@@ -2249,7 +2256,15 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
         }
 
         // Listen for YouTube logout signal
-        if(request.msg === "yt_logout");
+        if(request.msg === "browser-clear"){
+            // yt_logout()                                       //IMPORTANT Disabled for now. Subject is not asked to log in into his/her YT account thus logging out is not required
+            // Attach chrome debugger and reset browser cache and cookies then detach
+            chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+                const tab = tabs[0];
+                const tab_id = tab.id;
+                browserClear(tab_id);
+            });
+        }
 
         // Listen for onbeforeunload message - tab close, refresh
         else if(request.msg === "onbeforeunload"){
@@ -2287,10 +2302,16 @@ function resetSession(){
 
 async function create_new_session(tab_id){
     chrome.storage.local.get([
+        "TESTER_EYESIGHT_TEST_RESULT",
+        "TESTER_AGE",
+        "TESTER_SEX",
         "TESTER_ID_HASH",
         "TESTER_ID",
         "SESSION_TYPE",
         "VIDEOS_TYPE",
+        "EXPERIMENT_TYPE",
+        "SESSION_COUNTER",
+        "ASSESSMENT_INTERVAL_DELTA_MS",
         "ASSESSMENT_PANEL_LAYOUT",
         "ASSESSMENT_PANEL_OPACITY",
         "ASSESSMENT_INTERVAL_MS",
@@ -2306,12 +2327,18 @@ async function create_new_session(tab_id){
         }
         const data = {
             subject_id: res.TESTER_ID,
+            subject_eyesight_test_result: res.TESTER_EYESIGHT_TEST_RESULT,
+            subject_age: res.TESTER_AGE,
+            subject_sex: res.TESTER_SEX,
             subject_id_hash: res.TESTER_ID_HASH,
             session_type: res.SESSION_TYPE,
             video_type: res.VIDEOS_TYPE,
             assessment_panel_layout: res.ASSESSMENT_PANEL_LAYOUT,
             assessment_panel_opacity: res.ASSESSMENT_PANEL_OPACITY,
-            assessment_interval_ms: assessment_interval_ms
+            assessment_interval_ms: assessment_interval_ms,
+            experiment_type: res.EXPERIMENT_TYPE,
+            session_counter: res.SESSION_COUNTER,
+            assessment_interval_delta_ms: res.ASSESSMENT_INTERVAL_DELTA_MS
         };
 
         // Create new session
@@ -2331,5 +2358,25 @@ async function create_new_session(tab_id){
                 }
                 console.log("[BackgroundScript] %cSession creation attempt failed", `color: ${config.DANGER}; font-weight:bold;`);
             });
+    });
+}
+
+async function browserClear(tab_id){
+    // Cannot use async/await here because promises are returned only in MV3 (according to the docs, also checked did not work)
+    // So I have to use these nested callbacks
+    await chrome.debugger.attach({tabId: tab_id}, "1.3", () => {
+        console.log("[BackgroundScript] Debugger attached");
+        chrome.debugger.sendCommand({tabId: tab_id}, "Network.enable", {}, () => {
+            console.log("[BackgroundScript] Network enabled");
+            chrome.debugger.sendCommand({tabId: tab_id}, "Network.clearBrowserCache", {}, () => {
+                console.log("[BackgroundScript] Browser cache cleared.");
+                chrome.debugger.sendCommand({tabId: tab_id}, "Network.clearBrowserCookies", {}, () => {
+                    console.log("[BackgroundScript] Browser cookies deleted.");
+                    chrome.debugger.detach({tabId: tab_id}, () => {
+                        console.log("[BackgroundScript] Debugger detached.");
+                    });
+                });
+            } );
+        });
     });
 }

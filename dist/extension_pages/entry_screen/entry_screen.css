@@ -21,16 +21,19 @@ form{
     align-items: center;
     justify-content: center;
 }
-h2{
+label{
     color: whitesmoke;
     font-size: 1.3rem;
-    margin-top: 5em;
+    margin-top: 1em;
+    margin-bottom: 0.2em;
+    text-align: left;
+    width:100%;
 }
-input{
+input, select{
     font-size: 1.1rem;
     padding: 0.2em 1em;
     text-align: center;
-    width: 75%;
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -54,10 +57,24 @@ button:hover{
 button:active{
     background-color: #FF0000;
 }
-
+#counter-box{
+    margin-top: 5em;
+}
 #counter{
     width: 100%;
     text-align: center;
     font-size: 3rem;
     color: whitesmoke;
+}
+
+#title{
+    color: #ffc107;
+    font-size: 2rem;
+}
+.counter-indicator{
+    font-size: 2rem;
+    color: whitesmoke;
+    position: absolute;
+    left: 10px;
+    top: 10px;
 }
