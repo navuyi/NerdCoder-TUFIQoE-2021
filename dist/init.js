@@ -96,6 +96,7 @@ function run_monitor(simple, complex){
     // Extract useful data from simple elements
     for(const [key, val] of Object.entries(simple)){
         const value = val.querySelector("span").innerText;
+        console.log(`the value is:${value}`);
         let mode;
         // Check if the video has ended by extracting and checking e value from mystery text
         if(key === "mysteryText"){
@@ -137,7 +138,6 @@ function run_monitor(simple, complex){
         data.display_mode = res.CURRENT_DISPLAY_MODE;
         hand_over_data(data);
     });
-
 }
 
 

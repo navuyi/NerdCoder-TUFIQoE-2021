@@ -49,7 +49,6 @@ export function run_monitor(simple, complex){
         data.display_mode = res.CURRENT_DISPLAY_MODE
         hand_over_data(data);
     })
-
 }
 
 
