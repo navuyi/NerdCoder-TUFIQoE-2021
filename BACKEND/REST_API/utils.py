@@ -9,7 +9,7 @@ def dict_factory(cursor, row):
 
 def get_viewport(record):
     try:
-        viewport = re.search("^([0-9]+)x([0-9]+)", record["viewport_frames"]).group(0)
+        viewport = re.search("([0-9]+)x([0-9]+)", record["viewport_frames"]).group(0)
     except:
         viewport = None
     return viewport
@@ -45,7 +45,7 @@ def get_framerate(record):
 
 def get_volume(record):
     try:
-        volume = re.search("^([0-9]{1,3})%", record["volume_normalized"]).group(1)
+        volume = re.search("([0-9]{1,3})%", record["volume_normalized"]).group(1)
     except:
         volume = None
     return volume
