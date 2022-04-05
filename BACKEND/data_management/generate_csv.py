@@ -153,3 +153,6 @@ for session in sessions:
     # Write JSON file with general session data
     with open(os.path.join(directory_name, "general.json"), mode='w') as json_file:
         json_file.write(json.dumps(session, indent=4))
+
+
+    # Analyze
