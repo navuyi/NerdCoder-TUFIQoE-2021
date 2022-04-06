@@ -31,6 +31,7 @@ def analyze(session):
 
 
     subject_id = session["subject_id"] or None
+    print(subject_id)
     assessments = session["assessments"] or None
     duration_mean = calc_asmnt_dur_mean(assessments)
 

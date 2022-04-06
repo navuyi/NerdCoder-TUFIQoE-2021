@@ -1,7 +1,7 @@
 import csv
 import json
 import os
-
+import datetime
 from utils import get_sessions
 
 
@@ -54,6 +54,9 @@ for session in sessions:
                     "bandwidth": record["download_bandwidth_bytes"],
                     "dropped_frames": record["dropped_frames"],
                     "total_frames": record["total_frames"],
+
+                    "bandwidth": record["download_bandwidth_bytes"],
+
                     "current_framerate": record["current_framerate"],
                     "optimal_framerate": record["optimal_framerate"],
                     "connection_speed": record["connection_speed"],
@@ -71,7 +74,7 @@ for session in sessions:
     assessments = session["assessments"]
     assessments_filename = f"assessments.csv"
     with open(os.path.join(directory_name, assessments_filename), mode='w', newline='') as csv_file:
-        fieldnames = ["timestamp", "duration", "value"]
+        fieldnames = ["timestamp", "duration", "value", "datetime"]
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
 
@@ -79,14 +82,15 @@ for session in sessions:
             writer.writerow({
                 "timestamp": assessment["timestamp"],
                 "duration": assessment["duration"],
-                "value": assessment["value"]
+                "value": assessment["value"],
+                "datetime": datetime.datetime.fromtimestamp(int(assessment["timestamp"])/1000)
         })
 
     # Write CSV with interest
     interest = session["interest"]
     interest_filename = "interest.csv"
     with open(os.path.join(directory_name, interest_filename), mode='w', newline='') as csv_file:
-        fieldnames = ["timestamp", "duration", "value"]
+        fieldnames = ["timestamp", "duration", "value", "datetime"]
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
 
@@ -94,7 +98,8 @@ for session in sessions:
             writer.writerow({
                 "timestamp": _int["timestamp"],
                 "duration": _int["duration"],
-                "value": _int["value"]
+                "value": _int["value"],
+                "datetime": datetime.datetime.fromtimestamp(int(_int["timestamp"])/1000)
             })
 
 
