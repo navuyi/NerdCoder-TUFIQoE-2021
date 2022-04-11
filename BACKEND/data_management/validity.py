@@ -3,6 +3,8 @@ import json
 import datetime
 import pandas as pd
 
+pd.options.display.max_colwidth = 75
+
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 def match_session_dir(path):
@@ -24,16 +26,27 @@ def calc_asmnt_dur_mean(assessments):
 
     return value/len(assessments)
 
+def calc_asmnt_interval(assessments):
+    intervals = []
+    for x in range(len(assessments)):
+        if(x == 0):
+            pass
+        else:
+            intervals.append(int(assessments[x]["timestamp"] - assessments[x-1]["timestamp"])/1000)
 
+    print(intervals)
+    return intervals
 
+def calc_schedule_length(schedule):
+    return len(schedule)
 
 def analyze(session):
-
-
     subject_id = session["subject_id"] or None
     print(subject_id)
     assessments = session["assessments"] or None
+    schedule = session["schedule"]
     duration_mean = calc_asmnt_dur_mean(assessments)
+    intervals = calc_asmnt_interval(assessments)
 
     try:
         started = datetime.datetime.strptime(session["started"], DATE_FORMAT) or None
@@ -51,7 +64,9 @@ def analyze(session):
         ended=ended,
         duration=duration,
         assessments=len(assessments),
-        duration_mean=duration_mean
+        duration_mean=duration_mean,
+        intervals=intervals,
+        sch_length=len(schedule)
     )
 
 
@@ -66,7 +81,9 @@ def main():
         ended=[],
         duration=[],
         assessments=[],
-        duration_mean=[]
+        duration_mean=[],
+        sch_length=[],
+        intervals=[]
     )
 
     for index, path in enumerate(dirs):
@@ -82,6 +99,9 @@ def main():
         results["duration"].append(res["duration"])
         results["assessments"].append(res["assessments"])
         results["duration_mean"].append(res["duration_mean"])
+        results["sch_length"].append(res["sch_length"])
+        results["intervals"].append(res["intervals"])
+
 
     df = pd.DataFrame(results)
     print(df)
