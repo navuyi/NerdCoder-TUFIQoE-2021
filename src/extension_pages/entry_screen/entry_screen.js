@@ -2,6 +2,7 @@ import generateHash from "../../popup/generate_hash";
 
 
 
+
 // Setting counter to 0 just in case
 chrome.storage.local.set({"SESSION_COUNTER": 0}) //IMPORTANT
 chrome.runtime.sendMessage({msg: "browser-clear"})

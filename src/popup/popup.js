@@ -312,6 +312,9 @@ document.getElementById("entry-screen").onclick = () => {
             if(chrome.runtime.lastError){
                 console.log(`[ScheduleController] Error `)
             }
+            chrome.windows.getCurrent(window => {
+                chrome.windows.update(window.id, {state: "fullscreen"})
+            })
         })
     })
 }

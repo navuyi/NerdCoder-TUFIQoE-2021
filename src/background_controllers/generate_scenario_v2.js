@@ -15,10 +15,6 @@ export const generate_scenario_v2 = (first_clean=false, tester_id) => {
 
         LOWER_BASKET.splice(index_lower,1)
         UPPER_BASKET.splice(index_upper,1)
-
-
-
-
     }
     const upper_or_lower = ["lower", "upper"][Math.floor(Math.random()*["lower", "upper"].length)]
     if(upper_or_lower === "lower"){
