@@ -4,6 +4,7 @@ and video assessments
 
 # General
 More detailed technical documentation is written in Overleaf.<br>
+Development notes and decisions stored in Dropbox papers.<br>
 Contact `figlusrafal@gmail.com` or `rfiglus@agh.edu.pl` to get more information.
 
 ## Content
