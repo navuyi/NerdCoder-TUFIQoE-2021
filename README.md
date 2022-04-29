@@ -2,6 +2,10 @@
 Chrome extension (and more) for recording YouTube activity and gathering "nerd statistics" 
 and video assessments
 
+# General
+More detailed technical documentation is written in Overleaf.<br>
+Contact `figlusrafal@gmail.com` or `rfiglus@agh.edu.pl` to get more information.
+
 ## Content
 This repository contains the Chrome extension and tools that are necessary or optional for it 
 to work properly.
